@@ -7,6 +7,15 @@ class Header extends React.Component {
         this.onLogout = this.onLogout.bind(this);
     }
 
+    contextTypes: {
+        router: React.PropTypes.func.isRequired
+    }
+
+    propTypes: {
+        loggedIn: React.PropTypes.bool.isRequired,
+        username: React.PropTypes.string.isRequired
+    }
+
     onLogout(e) {
         e.preventDefault();
         $.ajax({
@@ -57,8 +66,4 @@ class Header extends React.Component {
     }
 }
 
-Header.propTypes = {
-    loggedIn: React.PropTypes.bool.isRequired,
-    username: React.PropTypes.string.isRequired,
-};
 export default Header

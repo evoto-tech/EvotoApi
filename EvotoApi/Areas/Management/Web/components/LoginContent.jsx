@@ -1,14 +1,15 @@
 import React from 'react';
-import {IndexLink, browserHistory} from 'react-router';
+import {IndexLink, withRouter} from 'react-router';
 
 class LoginContent extends React.Component {
     constructor(props) {
         super(props)
+        console.log('hey')
         this.loginUser = this.loginUser.bind(this);
     }
 
     componentDidMount() {
-        console.log(this.props);
+        console.log(this.props.router);
     }
 
     loginUser(e) {
@@ -25,11 +26,11 @@ class LoginContent extends React.Component {
             data: JSON.stringify(user),
             success: (resp) => {
                 console.log(resp);
-                browserHistory.push("/");
+                this.props.router.push("/");
             }
         });
         setTimeout(() => {
-            browserHistory.push("/");
+            this.props.router.push("/");
         }, 1000);
     }
 
@@ -91,4 +92,4 @@ class LoginContent extends React.Component {
     }
 }
 
-export default LoginContent
+export default withRouter(LoginContent)
