@@ -1,7 +1,7 @@
 {
-  "name": "csgo-server-manager",
+  "name": "evoto-manager",
   "version": "0.1.0",
-  "description": "CS:GO Server Manager UI",
+  "description": "evoto Management UI",
   "main": "index.jsx",
   "scripts": {
     "build": "SET NODE_ENV=production & .\\node_modules\\.bin\\webpack --progress --profile --colors",

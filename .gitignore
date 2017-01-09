@@ -76,3 +76,5 @@ _[Ss]cripts
 *.dot[Cc]over
 node_modules/
 .vs/
+
+EvotoApi/Scripts/react.js
