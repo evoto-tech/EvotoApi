@@ -1,0 +1,77 @@
+﻿import React from "react";
+import {browserHistory} from "react-router";
+import Header from "./components/Header.jsx";
+import Sidebar from './components/Sidebar.jsx';
+import Footer from "./components/Footer.jsx";
+
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.checkLogin = this.checkLogin.bind(this);
+        this.state = {
+            loggedIn: true,
+            username: "Alan"
+        };
+    }
+
+    componentDidMount() {
+        this.checkLogin();
+    }
+
+    checkLogin() {
+        $.ajax({
+            url: "/api/user/status",
+            dataType: "json",
+            success: (data) => {
+                if (data.success === true) {
+                    this.setState({
+                        loggedIn: true,
+                        username: data.data.Username
+                    });
+                } else {
+                    browserHistory.push("/management/login");
+                }
+            }
+        });
+    }
+
+    render() {
+        // render main application, 
+        // if logged in show application
+        // if not logged in show Not logged in message
+        var resp;
+        if (this.state.loggedIn) {
+            var resp =
+            (<div>
+                 <Header
+                     username={this.state.username}
+                     loggedIn={this.state.loggedIn}
+                     messages={this.state.messages}/>
+
+                    <Sidebar 
+                        username={this.state.username}
+                    />
+
+                 { // Render react-router components and pass in props
+        React.cloneElement(
+                        this.props.children,
+                        { username: this.state.username }
+        )}
+
+                 <Footer/>
+             </div>);
+        } else {
+            var resp = <div>
+                           <p>Not Logged in</p>
+                       </div>;
+        }
+
+        return(
+            <div className="wrapper">
+                {resp}
+            </div>
+        );
+    }
+}
+
+export default App
