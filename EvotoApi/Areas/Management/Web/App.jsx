@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import {browserHistory} from "react-router";
+import { withRouter } from "react-router";
 import Header from "./components/Header.jsx";
 import Sidebar from './components/Sidebar.jsx';
 import Footer from "./components/Footer.jsx";
@@ -12,6 +12,10 @@ class App extends React.Component {
             loggedIn: true,
             username: "Alan"
         };
+    }
+
+    contextTypes: {
+        router: React.PropTypes.func.isRequired
     }
 
     componentDidMount() {
@@ -29,7 +33,7 @@ class App extends React.Component {
                         username: data.data.Username
                     });
                 } else {
-                    browserHistory.push("/management/login");
+                    this.props.router.push("/manage/login");
                 }
             }
         });
@@ -74,4 +78,4 @@ class App extends React.Component {
     }
 }
 
-export default App
+export default withRouter(App)
