@@ -405,7 +405,7 @@
     <Error Condition="!Exists('..\packages\JavaScriptEngineSwitcher.V8.2.0.0\build\JavaScriptEngineSwitcher.V8.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JavaScriptEngineSwitcher.V8.2.0.0\build\JavaScriptEngineSwitcher.V8.props'))" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>cd $(ProjectDir)\Areas\Management\Web &amp;&amp; npm run build</PreBuildEvent>
+    <PreBuildEvent>cd $(ProjectDir)Areas\Management\Web &amp;&amp; npm run build</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
