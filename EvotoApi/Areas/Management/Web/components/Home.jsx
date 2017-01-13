@@ -4,7 +4,6 @@ import {IndexLink} from "react-router";
 class Home extends React.Component {
     constructor(props) {
         super(props);
-
     }
 
     render() {
@@ -23,9 +22,6 @@ class Home extends React.Component {
                 </section>
 
                 <section className="content">
-
-
-
                 </section>
             </div>
         );
