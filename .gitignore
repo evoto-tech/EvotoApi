@@ -78,3 +78,6 @@ node_modules/
 .vs/
 
 EvotoApi/Scripts/react.js
+EvotoApi/Web.Michael.config
+EvotoApi/Web.Matt.config
+EvotoApi/Web.Dhanesh.config

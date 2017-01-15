@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+  <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Migrate">
+      <PropertyGroup>
+          <DatabaseProvider></DatabaseProvider>
+          <ConnectionStringConfigPath></ConnectionStringConfigPath>
+          <ConnectionStringName></ConnectionStringName>
+          <DataMigrationProjectName>Management.Database</DataMigrationProjectName>
+          <DataMigrationProjectRootPath>$(MSBuildProjectDirectory)</DataMigrationProjectRootPath>
+          <MigratorTasksDirectory></MigratorTasksDirectory>
+
+          <DataMigrationProjectBuildDLL>$(DataMigrationProjectRootPath)\bin\Release\$(DataMigrationProjectName).dll</DataMigrationProjectBuildDLL>
+          <DataMigrationProjectCsproj>$(DataMigrationProjectRootPath)\$(DataMigrationProjectName).csproj</DataMigrationProjectCsproj>
+      </PropertyGroup>
+
+      <UsingTask TaskName="FluentMigrator.MSBuild.Migrate" AssemblyFile="$(MigratorTasksDirectory)FluentMigrator.MSBuild.dll"/>
+
+      <Target Name="Build">
+          <MSBuild Projects="$(DataMigrationProjectCsproj)" Properties="Configuration=Debug"/>
+      </Target>
+
+      <Target Name="Migrate" DependsOnTargets="Build">
+          <Message Text="Starting FluentMigrator Migration"/>
+          <Migrate Database="$(DatabaseProvider)"
+                   Connection="$(ConnectionStringName)"
+                   ConnectionStringConfigPath="$(ConnectionStringConfigPath)"
+                   Target="$(DataMigrationProjectBuildDLL)"
+                   Output="True"
+                   Verbose="True">
+          </Migrate>
+      </Target>
+
+      <Target Name="MigratePreview" DependsOnTargets="Build">
+          <Message Text="Previewing FluentMigrator Migration"/>
+          <Migrate Database="$(DatabaseProvider)"
+                   Connection="$(ConnectionStringName)"
+                   ConnectionStringConfigPath="$(ConnectionStringConfigPath)"
+                   Target="$(DataMigrationProjectBuildDLL)"
+                   Output="True"
+                   Verbose="True"
+                   PreviewOnly="True">
+          </Migrate>
+      </Target>
+  </Project>
