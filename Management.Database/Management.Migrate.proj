@@ -24,7 +24,6 @@
                    Connection="$(ConnectionStringName)"
                    ConnectionStringConfigPath="$(ConnectionStringConfigPath)"
                    Target="$(DataMigrationProjectBuildDLL)"
-                   Output="True"
                    Verbose="True">
           </Migrate>
       </Target>
