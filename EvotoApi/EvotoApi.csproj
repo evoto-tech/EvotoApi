@@ -258,7 +258,9 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Areas\Management\Controllers\ReactController.cs" />
     <Compile Include="Areas\Management\ManagementAreaRegistration.cs" />
-    <Compile Include="Areas\RegistrarApi\Controllers\RegistrarController.cs" />
+    <Compile Include="Areas\RegistrarApi\Controllers\AccountController.cs" />
+    <Compile Include="Areas\RegistrarApi\Models\WebCreateRegiUser.cs" />
+    <Compile Include="Areas\RegistrarApi\Models\WebLoginRegiUser.cs" />
     <Compile Include="Areas\RegistrarApi\RegistrarApiAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -374,7 +376,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Management\Models\" />
-    <Folder Include="Areas\RegistrarApi\Models\" />
+    <Folder Include="Areas\RegistrarApi\Views\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
