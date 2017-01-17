@@ -15,7 +15,7 @@ namespace EvotoApi.Areas.RegistrarApi
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
-                "RegistrarApi_default",
+                "RegistrarApi_Default",
                 "regi/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );

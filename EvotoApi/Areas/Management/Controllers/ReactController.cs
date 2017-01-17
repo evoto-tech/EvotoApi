@@ -2,7 +2,6 @@
 
 namespace EvotoApi.Areas.Management.Controllers
 {
-    [RouteArea("Management")]
     public class ReactController : Controller
     {
         [Route(Name = "reactIndex")]
