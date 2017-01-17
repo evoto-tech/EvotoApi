@@ -17,12 +17,12 @@ namespace Registrar.Database.Models
             if (model == null)
                 throw new ArgumentException(nameof(model));
 
-            Id = (uint) model.Id;
+            Id = model.Id;
             Email = model.Email;
             PasswordHash = model.PasswordHash;
         }
 
-        public uint Id { get; }
+        public int Id { get; }
         public string Email { get; }
         public string PasswordHash { get; }
 
