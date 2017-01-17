@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using Common;
 using Registrar.Models;
 
-namespace EvotoApi.Areas.RegistrarApi.Models
+namespace EvotoApi.Areas.RegistrarApi.Models.Request
 {
     [Serializable]
     public class WebCreateRegiUser

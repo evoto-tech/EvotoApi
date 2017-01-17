@@ -4,6 +4,8 @@ using System.Web.Http;
 using Common;
 using Common.Exceptions;
 using EvotoApi.Areas.RegistrarApi.Models;
+using EvotoApi.Areas.RegistrarApi.Models.Request;
+using EvotoApi.Areas.RegistrarApi.Models.Response;
 using Registrar.Database.Interfaces;
 
 namespace EvotoApi.Areas.RegistrarApi.Controllers
@@ -25,7 +27,8 @@ namespace EvotoApi.Areas.RegistrarApi.Controllers
             try
             {
                 var user = await _store.GetUserById(userId);
-                return Json(user);
+                var response = new SingleRegiUserResponse(user);
+                return Json(response);
             }
             catch (RecordNotFoundException)
             {
