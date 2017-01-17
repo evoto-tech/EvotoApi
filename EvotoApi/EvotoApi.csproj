@@ -267,8 +267,9 @@
     <Compile Include="Areas\Management\Controllers\ReactController.cs" />
     <Compile Include="Areas\Management\ManagementAreaRegistration.cs" />
     <Compile Include="Areas\RegistrarApi\Controllers\RegiAccountController.cs" />
-    <Compile Include="Areas\RegistrarApi\Models\WebCreateRegiUser.cs" />
-    <Compile Include="Areas\RegistrarApi\Models\WebLoginRegiUser.cs" />
+    <Compile Include="Areas\RegistrarApi\Models\Request\WebCreateRegiUser.cs" />
+    <Compile Include="Areas\RegistrarApi\Models\Request\WebLoginRegiUser.cs" />
+    <Compile Include="Areas\RegistrarApi\Models\Response\SingleRegiUserResponse.cs" />
     <Compile Include="Areas\RegistrarApi\RegistrarApiAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

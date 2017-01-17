@@ -1,12 +1,11 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Common;
 using Registrar.Models;
 
-namespace EvotoApi.Areas.RegistrarApi.Models
+namespace EvotoApi.Areas.RegistrarApi.Models.Request
 {
-    [Serializable]
+    [DataContract]
     public class WebCreateRegiUser
     {
         [DataMember(Name = "firstName")]
