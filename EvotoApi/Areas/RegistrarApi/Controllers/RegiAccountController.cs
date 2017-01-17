@@ -8,28 +8,38 @@ using Registrar.Database.Interfaces;
 
 namespace EvotoApi.Areas.RegistrarApi.Controllers
 {
-    public class AccountController : ApiController
+    [RoutePrefix("regi")]
+    public class RegiAccountController : ApiController
     {
         private readonly IRegiUserStore _store;
 
-        public AccountController(IRegiUserStore userStore)
+        public RegiAccountController(IRegiUserStore userStore)
         {
             _store = userStore;
         }
 
-        [Route("details")]
-        public IHttpActionResult Details(int id)
+        [Route("details/{userId:int}")]
+        [HttpGet]
+        public async Task<IHttpActionResult> Details(int userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await _store.GetUserById(userId);
+                return Json(user);
+            }
+            catch (RecordNotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         /// <summary>
-        /// Register new account
+        ///     Register new account
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("register", Name="RegisterAccount")]
+        [Route("register", Name = "RegisterAccount")]
         public async Task<IHttpActionResult> Register(WebCreateRegiUser model)
         {
             if (!ModelState.IsValid)
@@ -52,7 +62,7 @@ namespace EvotoApi.Areas.RegistrarApi.Controllers
         }
 
         /// <summary>
-        /// Login account using email and password
+        ///     Login account using email and password
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -68,9 +78,7 @@ namespace EvotoApi.Areas.RegistrarApi.Controllers
                 var userDetails = await _store.GetUserByEmail(model.Email);
 
                 if (Passwords.VerifyPassword(model.Password, userDetails.PasswordHash))
-                {
                     return Ok();
-                }
                 return Unauthorized();
             }
             catch (RecordNotFoundException)

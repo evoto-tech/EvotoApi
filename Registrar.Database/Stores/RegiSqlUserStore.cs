@@ -22,7 +22,7 @@ namespace Registrar.Database.Stores
             {
                 using (var connection = await GetConnectionAsync())
                 {
-                    var result = await connection.QueryAsync(RegistrarQueries.UserDeleteById, new {Id = id});
+                    var result = await connection.QueryAsync(RegistrarQueries.UserGetById, new {Id = id});
 
                     if (!result.Any())
                         throw new RecordNotFoundException();
@@ -31,11 +31,13 @@ namespace Registrar.Database.Stores
                     return model.ToUser();
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
 #if DEBUG
                 throw;
 #endif
+                if (e is RecordNotFoundException)
+                    throw;
                 throw new Exception("Could not get Regi User");
             }
         }
@@ -46,7 +48,7 @@ namespace Registrar.Database.Stores
             {
                 using (var connection = await GetConnectionAsync())
                 {
-                    var result = await connection.QueryAsync(RegistrarQueries.UserDeleteById, new {Email = email});
+                    var result = await connection.QueryAsync(RegistrarQueries.UserGetByEmail, new {Email = email});
 
                     if (!result.Any())
                         throw new RecordNotFoundException();
@@ -55,11 +57,13 @@ namespace Registrar.Database.Stores
                     return model.ToUser();
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
 #if DEBUG
                 throw;
 #endif
+                if (e is RecordNotFoundException)
+                    throw;
                 throw new Exception("Could not get Regi User");
             }
         }
@@ -71,16 +75,18 @@ namespace Registrar.Database.Stores
                 using (var connection = await GetConnectionAsync())
                 {
                     var dbModel = new RegiDbUser(user);
-                    await connection.ExecuteAsync(RegistrarQueries.UserDeleteById, dbModel);
+                    await connection.ExecuteAsync(RegistrarQueries.UserCreate, dbModel);
 
                     return user;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
 #if DEBUG
                 throw;
 #endif
+                if (e is RecordNotFoundException)
+                    throw;
                 throw new Exception("Could not get create Regi User");
             }
         }
@@ -94,11 +100,13 @@ namespace Registrar.Database.Stores
                     await connection.ExecuteAsync(RegistrarQueries.UserDeleteById, new {Id = id});
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
 #if DEBUG
                 throw;
 #endif
+                if (e is RecordNotFoundException)
+                    throw;
                 throw new Exception("Could not delete Regi User");
             }
         }

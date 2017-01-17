@@ -92,6 +92,14 @@
       <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ninject.Web.WebApi, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.WebApi.3.2.4.0\lib\net45-full\Ninject.Web.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.WebApi.WebHost, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.WebApi.WebHost.3.2.4.0\lib\net45-full\Ninject.Web.WebApi.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -247,7 +255,7 @@
     <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterAnnotation.cs" />
     <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterDescription.cs" />
     <Compile Include="Areas\HelpPage\ModelDescriptions\SimpleTypeModelDescription.cs" />
-    <Compile Include="Areas\HelpPage\Models\HelpPageApiModel.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\Models\HelpPageApiModel.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleGenerator.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleKey.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\ImageSample.cs" />
@@ -258,7 +266,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Areas\Management\Controllers\ReactController.cs" />
     <Compile Include="Areas\Management\ManagementAreaRegistration.cs" />
-    <Compile Include="Areas\RegistrarApi\Controllers\AccountController.cs" />
+    <Compile Include="Areas\RegistrarApi\Controllers\RegiAccountController.cs" />
     <Compile Include="Areas\RegistrarApi\Models\WebCreateRegiUser.cs" />
     <Compile Include="Areas\RegistrarApi\Models\WebLoginRegiUser.cs" />
     <Compile Include="Areas\RegistrarApi\RegistrarApiAreaRegistration.cs" />
@@ -369,20 +377,18 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <None Include="Web.Michael.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Management\Models\" />
-    <Folder Include="Areas\RegistrarApi\Views\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>

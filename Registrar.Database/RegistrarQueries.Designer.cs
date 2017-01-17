@@ -61,7 +61,7 @@ namespace Registrar.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INSERT INTO Users (Id, Email, PasswordHash) VALUES (@Id, @Email, @PasswordHash).
+        ///   Looks up a localized string similar to INSERT INTO Users (Email, PasswordHash) VALUES (@Email, @PasswordHash).
         /// </summary>
         internal static string UserCreate {
             get {

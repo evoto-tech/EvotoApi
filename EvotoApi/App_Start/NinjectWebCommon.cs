@@ -1,5 +1,6 @@
 using System;
 using System.Configuration;
+using System.Reflection;
 using System.Web;
 using EvotoApi;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
@@ -64,12 +65,10 @@ namespace EvotoApi
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IBindingRoot kernel)
         {
-            var m = ConfigurationManager.ConnectionStrings["RegistrarConnectionString"];
-            var r = ConfigurationManager.ConnectionStrings["ManagementConnectionString"];
+            var m = ConfigurationManager.ConnectionStrings["ManagementConnectionString"].ConnectionString;
+            var r = ConfigurationManager.ConnectionStrings["RegistrarConnectionString"].ConnectionString;
 
-            kernel.Bind<IRegiUserStore>().To<RegiSqlUserStore>().WithConstructorArgument(r);
-
-
+            kernel.Bind<IRegiUserStore>().To<RegiSqlUserStore>().WithConstructorArgument("connectionString", r);
         }        
     }
 }
