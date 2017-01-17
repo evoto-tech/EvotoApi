@@ -20,8 +20,11 @@ namespace EvotoApi.Areas.RegistrarApi.Controllers
             _store = userStore;
         }
 
-        [Route("details/{userId:int}")]
+        /// <summary>
+        /// Get details for an account by userId. Used for testing right now.
+        /// </summary>
         [HttpGet]
+        [Route("details/{userId:int}")]
         public async Task<IHttpActionResult> Details(int userId)
         {
             try
@@ -37,10 +40,8 @@ namespace EvotoApi.Areas.RegistrarApi.Controllers
         }
 
         /// <summary>
-        ///     Register new account
+        /// Register new account
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
         [HttpPost]
         [Route("register", Name = "RegisterAccount")]
         public async Task<IHttpActionResult> Register(WebCreateRegiUser model)
@@ -52,8 +53,9 @@ namespace EvotoApi.Areas.RegistrarApi.Controllers
 
             try
             {
-                await _store.CreateUser(siteModel);
-                return Ok();
+                var user = await _store.CreateUser(siteModel);
+                var response = new SingleRegiUserResponse(user);
+                return Json(response);
             }
             catch (Exception)
             {
@@ -80,9 +82,11 @@ namespace EvotoApi.Areas.RegistrarApi.Controllers
             {
                 var userDetails = await _store.GetUserByEmail(model.Email);
 
-                if (Passwords.VerifyPassword(model.Password, userDetails.PasswordHash))
-                    return Ok();
-                return Unauthorized();
+                if (!Passwords.VerifyPassword(model.Password, userDetails.PasswordHash))
+                    return Unauthorized();
+
+                var response = new SingleRegiUserResponse(userDetails);
+                return Json(response);
             }
             catch (RecordNotFoundException)
             {
@@ -104,6 +108,7 @@ namespace EvotoApi.Areas.RegistrarApi.Controllers
             throw new NotImplementedException();
         }
 
+        [HttpDelete]
         [Route("delete")]
         public IHttpActionResult Delete(int id)
         {
