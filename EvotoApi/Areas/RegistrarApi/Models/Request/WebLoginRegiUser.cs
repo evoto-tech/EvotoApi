@@ -1,10 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace EvotoApi.Areas.RegistrarApi.Models.Request
 {
-    [Serializable]
+    [DataContract]
     public class WebLoginRegiUser
     {
         [DataMember(Name = "email")]

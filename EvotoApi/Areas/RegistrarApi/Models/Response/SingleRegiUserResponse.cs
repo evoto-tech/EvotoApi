@@ -1,10 +1,9 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using Registrar.Models;
 
 namespace EvotoApi.Areas.RegistrarApi.Models.Response
 {
-    [Serializable]
+    [DataContract]
     public class SingleRegiUserResponse
     {
         public SingleRegiUserResponse(RegiUser user)
