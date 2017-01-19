@@ -26,17 +26,16 @@ namespace Common
 
         public static bool VerifyPassword(string password, string hash)
         {
-            if (hash.Length != SALT_SIZE_IN_BYTES + HASH_SIZE_IN_BYTES)
-            {
-                throw new NotSupportedException($"Invalid Hash size: {HASH_SIZE_IN_BYTES+SALT_SIZE_IN_BYTES}");
+            var hashBytes = Convert.FromBase64String(hash);
+            if (hashBytes.Length != SALT_SIZE_IN_BYTES + HASH_SIZE_IN_BYTES) {
+                throw new NotSupportedException($"Invalid Hash size: {HASH_SIZE_IN_BYTES + SALT_SIZE_IN_BYTES}");
             }
 
-            var hashBytes = Convert.FromBase64String(hash);
 
             var salt = hashBytes.Take(SALT_SIZE_IN_BYTES).ToArray();
             var hashedPasswordBytes = new Rfc2898DeriveBytes(password, salt, PASSWORD_DIFFICULTY).GetBytes(HASH_SIZE_IN_BYTES);
 
-            return hashedPasswordBytes.SequenceEqual(hashBytes);
+            return hashedPasswordBytes.SequenceEqual(hashBytes.Skip(SALT_SIZE_IN_BYTES));
         }
 
         public static byte[] GenerateRandomBytes(int size)
