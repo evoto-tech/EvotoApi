@@ -45,9 +45,9 @@ namespace Management.Database.Models
         {
             return new ManaVote
             {
-                Id = (int) Id,
-                OrgId = (int) OrgId,
-                CreatedBy = (int) CreatedBy,
+                Id = Id,
+                OrgId = OrgId,
+                CreatedBy = CreatedBy,
                 Name = Name,
                 CreationDate = CreationDate,
                 ExpiryDate = ExpiryDate,
