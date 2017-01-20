@@ -1,14 +1,11 @@
 using System;
 using System.Configuration;
-using System.Reflection;
 using System.Web;
 using EvotoApi;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Syntax;
 using Ninject.Web.Common;
-using Registrar.Database.Interfaces;
-using Registrar.Database.Stores;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
@@ -67,8 +64,6 @@ namespace EvotoApi
         {
             var m = ConfigurationManager.ConnectionStrings["ManagementConnectionString"].ConnectionString;
             var r = ConfigurationManager.ConnectionStrings["RegistrarConnectionString"].ConnectionString;
-
-            kernel.Bind<IRegiUserStore>().To<RegiSqlUserStore>().WithConstructorArgument("connectionString", r);
         }        
     }
 }

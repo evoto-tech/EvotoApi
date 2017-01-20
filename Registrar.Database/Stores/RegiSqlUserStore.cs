@@ -110,5 +110,10 @@ namespace Registrar.Database.Stores
                 throw new Exception("Could not delete Regi User");
             }
         }
+
+        public Task UpdateUser(RegiUser user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

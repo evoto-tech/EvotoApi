@@ -85,7 +85,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.Web.Common.3.2.0.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+      <HintPath>..\packages\Ninject.Web.Common.3.2.3.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject.Web.Mvc, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
@@ -266,11 +266,6 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Areas\Management\Controllers\ReactController.cs" />
     <Compile Include="Areas\Management\ManagementAreaRegistration.cs" />
-    <Compile Include="Areas\RegistrarApi\Controllers\RegiAccountController.cs" />
-    <Compile Include="Areas\RegistrarApi\Models\Request\WebCreateRegiUser.cs" />
-    <Compile Include="Areas\RegistrarApi\Models\Request\WebLoginRegiUser.cs" />
-    <Compile Include="Areas\RegistrarApi\Models\Response\SingleRegiUserResponse.cs" />
-    <Compile Include="Areas\RegistrarApi\RegistrarApiAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -391,7 +386,6 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
@@ -406,14 +400,6 @@
     <ProjectReference Include="..\Management.Models\Management.Models.csproj">
       <Project>{fb39716f-ee20-4d7c-91c5-d93a67001920}</Project>
       <Name>Management.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Registrar.Database\Registrar.Database.csproj">
-      <Project>{e1aa49e6-a743-4ce5-859f-eeaac0b716f2}</Project>
-      <Name>Registrar.Database</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Registrar.Models\Registrar.Models.csproj">
-      <Project>{15222185-51fc-49ca-b2a3-b301eb608fac}</Project>
-      <Name>Registrar.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
