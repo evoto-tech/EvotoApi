@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -11,6 +12,7 @@ using Registrar.Api.Models.Response;
 
 namespace Registrar.Api.Controllers
 {
+    [System.Web.Http.RoutePrefix("account")]
     public class AccountController : ApiController
     {
         private RegiSignInManager _signInManager;
@@ -38,8 +40,8 @@ namespace Registrar.Api.Controllers
             private set { _userManager = value; }
         }
 
-        // POST: /Account/Login
-        [HttpPost]
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("login")]
         public async Task<IHttpActionResult> Login(LoginRegiUser model, string returnUrl)
         {
             if (!ModelState.IsValid)
@@ -63,7 +65,7 @@ namespace Registrar.Api.Controllers
         }
 
         // POST: /Account/VerifyCode
-        [HttpPost]
+        [System.Web.Http.HttpPost]
         public async Task<IHttpActionResult> VerifyCode(VerifyCodeViewModel model)
         {
             if (!ModelState.IsValid)
@@ -89,7 +91,7 @@ namespace Registrar.Api.Controllers
         }
 
         // POST: /Account/Register
-        [HttpPost]
+        [System.Web.Http.HttpPost]
         public async Task<IHttpActionResult> Register(CreateRegiUser model)
         {
             if (!ModelState.IsValid)
@@ -126,7 +128,7 @@ namespace Registrar.Api.Controllers
 
 
         // POST: /Account/ForgotPassword
-        [HttpPost]
+        [System.Web.Http.HttpPost]
         public async Task<IHttpActionResult> ForgotPassword(ForgotRegiPassword model)
         {
             if (!ModelState.IsValid)
@@ -148,7 +150,7 @@ namespace Registrar.Api.Controllers
         }
 
         // POST: /Account/ResetPassword
-        [HttpPost]
+        [System.Web.Http.HttpPost]
         public async Task<IHttpActionResult> ResetPassword(ResetRegiPassword model)
         {
             if (!ModelState.IsValid)
@@ -163,7 +165,7 @@ namespace Registrar.Api.Controllers
             AddErrors(result);
             return BadRequest();
         }
-        
+
         // GET: /Account/SendCode
         public async Task<IHttpActionResult> SendCode(string returnUrl, bool rememberMe)
         {
@@ -172,13 +174,18 @@ namespace Registrar.Api.Controllers
                 return Unauthorized();
             var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
             var factorOptions =
-                userFactors.Select(purpose => new System.Web.Mvc.SelectListItem {Text = purpose, Value = purpose}).ToList();
+                userFactors.Select(purpose => new SelectListItem {Text = purpose, Value = purpose}).ToList();
             return
-                Ok(new SingleRegiCodeResponse {Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe});
+                Ok(new SingleRegiCodeResponse
+                {
+                    Providers = factorOptions,
+                    ReturnUrl = returnUrl,
+                    RememberMe = rememberMe
+                });
         }
 
         // POST: /Account/SendCode
-        [HttpPost]
+        [System.Web.Http.HttpPost]
         public async Task<IHttpActionResult> SendCode(RegiCode model)
         {
             if (!ModelState.IsValid)
@@ -191,8 +198,8 @@ namespace Registrar.Api.Controllers
         }
 
         // POST: /Account/LogOff
-        [HttpPost]
-        [Authorize]
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Authorize]
         public IHttpActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
@@ -224,7 +231,8 @@ namespace Registrar.Api.Controllers
         // Used for XSRF protection when adding external logins
         private const string XSRF_KEY = "XsrfId";
 
-        private static IAuthenticationManager AuthenticationManager => HttpContext.Current.GetOwinContext().Authentication;
+        private static IAuthenticationManager AuthenticationManager
+            => HttpContext.Current.GetOwinContext().Authentication;
 
         private void AddErrors(IdentityResult result)
         {
@@ -232,7 +240,7 @@ namespace Registrar.Api.Controllers
                 ModelState.AddModelError("", error);
         }
 
-        internal class ChallengeResult : System.Web.Mvc.HttpUnauthorizedResult
+        internal class ChallengeResult : HttpUnauthorizedResult
         {
             public ChallengeResult(string provider, string redirectUri)
                 : this(provider, redirectUri, null)
@@ -250,7 +258,7 @@ namespace Registrar.Api.Controllers
             public string RedirectUri { get; set; }
             public string UserId { get; set; }
 
-            public override void ExecuteResult(System.Web.Mvc.ControllerContext context)
+            public override void ExecuteResult(ControllerContext context)
             {
                 var properties = new AuthenticationProperties {RedirectUri = RedirectUri};
                 if (UserId != null)

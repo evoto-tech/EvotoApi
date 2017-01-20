@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -18,8 +19,8 @@ namespace Registrar.Api.Auth
         public static RegiUserManager Create(IdentityFactoryOptions<RegiUserManager> options,
             IOwinContext context)
         {
-            // TODO
-            var store = new RegiAuthUserStore(new RegiSqlUserStore(ConfigurationManager.ConnectionStrings["somet"].ConnectionString));
+            var userStore = (IRegiUserStore) DependencyResolver.Current.GetService(typeof(IRegiUserStore));
+            var store = new RegiAuthUserStore(userStore);
             var manager = new RegiUserManager(store);
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<RegiAuthUser>(manager)
