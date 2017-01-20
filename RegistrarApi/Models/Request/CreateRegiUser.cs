@@ -33,7 +33,7 @@ namespace Registrar.Api.Models.Request
 
         [DataMember(Name = "confirmPassword")]
         [DataType(DataType.Password)]
-        [Compare("Password")]
+        [Compare("Password", ErrorMessage ="Entered Passwords do not match")]
         public string ComparePassword { get; private set; }
 
         public RegiUser ToModel()

@@ -111,9 +111,24 @@ namespace Registrar.Database.Stores
             }
         }
 
-        public Task UpdateUser(RegiUser user)
+        public async Task UpdateUser(RegiUser user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (var connection = await GetConnectionAsync())
+                {
+                    await connection.ExecuteAsync(RegistrarQueries.UserUpdate, user);
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                throw;
+#endif
+                if (e is RecordNotFoundException)
+                    throw;
+                throw new Exception("Could not delete Regi User");
+            }
         }
     }
 }

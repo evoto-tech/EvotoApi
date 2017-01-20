@@ -129,4 +129,7 @@
   <data name="UserGetById" xml:space="preserve">
     <value>SELECT * FROM Users WHERE Id = @Id</value>
   </data>
+  <data name="UserUpdate" xml:space="preserve">
+    <value>UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash WHERE Id = @Id</value>
+  </data>
 </root>

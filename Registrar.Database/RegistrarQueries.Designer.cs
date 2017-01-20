@@ -95,5 +95,14 @@ namespace Registrar.Database {
                 return ResourceManager.GetString("UserGetById", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash WHERE Id = @Id.
+        /// </summary>
+        internal static string UserUpdate {
+            get {
+                return ResourceManager.GetString("UserUpdate", resourceCulture);
+            }
+        }
     }
 }
