@@ -59,5 +59,59 @@ namespace Management.Database {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO Votes(OrgId, CreatedBy, Name, State) VALUES (@OrgId, @CreatedBy, @Name, @State).
+        /// </summary>
+        internal static string VoteCreate {
+            get {
+                return ResourceManager.GetString("VoteCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE Id = @Id.
+        /// </summary>
+        internal static string VoteGetById {
+            get {
+                return ResourceManager.GetString("VoteGetById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE OrgId = @OrgId.
+        /// </summary>
+        internal static string VotesGetByOrg {
+            get {
+                return ResourceManager.GetString("VotesGetByOrg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE OrgId = @OrgId AND State = @State.
+        /// </summary>
+        internal static string VotesGetByOrgAndState {
+            get {
+                return ResourceManager.GetString("VotesGetByOrgAndState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId.
+        /// </summary>
+        internal static string VotesGetByUser {
+            get {
+                return ResourceManager.GetString("VotesGetByUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId AND State = @State.
+        /// </summary>
+        internal static string VotesGetByUserAndState {
+            get {
+                return ResourceManager.GetString("VotesGetByUserAndState", resourceCulture);
+            }
+        }
     }
 }
