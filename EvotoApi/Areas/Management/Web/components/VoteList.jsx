@@ -31,7 +31,7 @@ class VoteList extends React.Component {
       })
     ) : (
       <tr>
-        <td colspan="5">No votes!</td>
+        <td colSpan="5">No votes!</td>
       </tr>
     )
   }
