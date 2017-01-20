@@ -6,7 +6,8 @@ using Registrar.Database.Interfaces;
 
 namespace Registrar.Api.Auth
 {
-    public class RegiAuthUserStore : IUserStore<RegiAuthUser>, IUserPasswordStore<RegiAuthUser>, IUserEmailStore<RegiAuthUser>
+    public class RegiAuthUserStore : IUserStore<RegiAuthUser, int>, IUserPasswordStore<RegiAuthUser, int>,
+        IUserEmailStore<RegiAuthUser, int>, IUserLockoutStore<RegiAuthUser, int>
     {
         private readonly IRegiUserStore _store;
 
@@ -34,11 +35,11 @@ namespace Registrar.Api.Auth
             await _store.DeleteUser(Convert.ToInt32(user.Id));
         }
 
-        public async Task<RegiAuthUser> FindByIdAsync(string userId)
+        public async Task<RegiAuthUser> FindByIdAsync(int userId)
         {
             try
             {
-                var user = await _store.GetUserById(Convert.ToInt32(userId));
+                var user = await _store.GetUserById(userId);
                 return new RegiAuthUser(user);
             }
             catch (RecordNotFoundException)
@@ -102,6 +103,41 @@ namespace Registrar.Api.Auth
         public async Task<RegiAuthUser> FindByEmailAsync(string email)
         {
             return await FindByNameAsync(email);
+        }
+
+        public Task<DateTimeOffset> GetLockoutEndDateAsync(RegiAuthUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetLockoutEndDateAsync(RegiAuthUser user, DateTimeOffset lockoutEnd)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> IncrementAccessFailedCountAsync(RegiAuthUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ResetAccessFailedCountAsync(RegiAuthUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetAccessFailedCountAsync(RegiAuthUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> GetLockoutEnabledAsync(RegiAuthUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetLockoutEnabledAsync(RegiAuthUser user, bool enabled)
+        {
+            throw new NotImplementedException();
         }
     }
 }

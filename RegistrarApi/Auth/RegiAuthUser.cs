@@ -7,7 +7,7 @@ namespace Registrar.Api.Auth
 {
     public class RegiAuthUser : RegiUser
     {
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<RegiAuthUser> manager)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<RegiAuthUser, int> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);

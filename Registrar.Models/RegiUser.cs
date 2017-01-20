@@ -1,20 +1,13 @@
-﻿using System;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 
 namespace Registrar.Models
 {
-    public class RegiUser : IUser<string>
+    public class RegiUser : IUser<int>
     {
-        private int _id;
-
         public string Email { get; set; }
         public string PasswordHash { get; set; }
 
-        public string Id
-        {
-            get { return Convert.ToString(_id); }
-            set { _id = Convert.ToInt32(value); }
-        }
+        public int Id { get; set; }
 
         public string UserName
         {

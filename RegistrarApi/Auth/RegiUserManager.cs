@@ -9,9 +9,9 @@ using Registrar.Database.Stores;
 
 namespace Registrar.Api.Auth
 {
-    public class RegiUserManager : UserManager<RegiAuthUser>
+    public class RegiUserManager : UserManager<RegiAuthUser, int>
     {
-        public RegiUserManager(IUserStore<RegiAuthUser> store)
+        public RegiUserManager(IUserStore<RegiAuthUser, int> store)
             : base(store)
         {
         }
@@ -23,7 +23,7 @@ namespace Registrar.Api.Auth
             var store = new RegiAuthUserStore(userStore);
             var manager = new RegiUserManager(store);
             // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<RegiAuthUser>(manager)
+            manager.UserValidator = new UserValidator<RegiAuthUser, int>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
@@ -44,7 +44,7 @@ namespace Registrar.Api.Auth
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
             manager.MaxFailedAccessAttemptsBeforeLockout = 5;
 
-            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<RegiAuthUser>
+            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<RegiAuthUser, int>
             {
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
@@ -53,7 +53,7 @@ namespace Registrar.Api.Auth
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
                 manager.UserTokenProvider =
-                    new DataProtectorTokenProvider<RegiAuthUser>(dataProtectionProvider.Create("ASP.NET Evoto Registrar Identity"));
+                    new DataProtectorTokenProvider<RegiAuthUser, int>(dataProtectionProvider.Create("ASP.NET Evoto Registrar Identity"));
             return manager;
         }
     }

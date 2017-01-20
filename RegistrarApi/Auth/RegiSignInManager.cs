@@ -6,7 +6,7 @@ using Microsoft.Owin.Security;
 
 namespace Registrar.Api.Auth
 {
-    public class RegiSignInManager : SignInManager<RegiAuthUser, string>
+    public class RegiSignInManager : SignInManager<RegiAuthUser, int>
     {
         public RegiSignInManager(RegiUserManager userManager, IAuthenticationManager authenticationManager)
             : base(userManager, authenticationManager)
