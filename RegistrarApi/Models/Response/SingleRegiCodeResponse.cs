@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Web.Mvc;
 
 namespace Registrar.Api.Models.Response
 {
+    [DataContract]
     public class SingleRegiCodeResponse
     {
-        public string SelectedProvider { get; set; }
-        public ICollection<SelectListItem> Providers { get; set; }
-        public string ReturnUrl { get; set; }
-        public bool RememberMe { get; set; }
+        [DataMember(Name = "selectedProvider")]
+        public string SelectedProvider { get; private set; }
+
+        [DataMember(Name = "providers")]
+        public ICollection<SelectListItem> Providers { get; private set; }
     }
 }

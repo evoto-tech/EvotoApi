@@ -1,20 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace Registrar.Api.Models.Request
 {
+    [DataContract]
     public class VerifyRegiUser
     {
+        [DataMember(Name = "provider")]
         [Required]
-        public string Provider { get; set; }
+        public string Provider { get; private set; }
 
+        [DataMember(Name = "code")]
         [Required]
-        public string Code { get; set; }
-
-        public string ReturnUrl { get; set; }
-
-        [Display(Name = "Remember this browser?")]
-        public bool RememberBrowser { get; set; }
-
-        public bool RememberMe { get; set; }
+        public string Code { get; private set; }
     }
 }

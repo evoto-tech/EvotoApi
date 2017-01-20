@@ -8,16 +8,16 @@ namespace Registrar.Api.Models.Request
     {
         [Required]
         [DataMember(Name = "provider")]
-        public string Provider { get; set; }
+        public string Provider { get; private set; }
 
         [Required]
         [DataMember(Name = "code")]
-        public string Code { get; set; }
+        public string Code { get; private set; }
 
         [DataMember(Name = "returnUrl")]
-        public string ReturnUrl { get; set; }
+        public string ReturnUrl { get; private set; }
 
         [DataMember(Name = "rememberMe")]
-        public bool RememberMe { get; set; }
+        public bool RememberMe { get; private set; }
     }
 }

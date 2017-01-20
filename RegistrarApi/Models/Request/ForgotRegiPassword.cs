@@ -9,6 +9,6 @@ namespace Registrar.Api.Models.Request
         [Required]
         [EmailAddress]
         [DataMember(Name = "Email")]
-        public string Email { get; set; }
+        public string Email { get; private set; }
     }
 }

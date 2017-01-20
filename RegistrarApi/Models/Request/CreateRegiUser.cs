@@ -12,29 +12,29 @@ namespace Registrar.Api.Models.Request
         [MinLength(2)]
         [MaxLength(100)]
         [Required]
-        public string FirstName { get; }
+        public string FirstName { get; private set; }
 
         [DataMember(Name = "lastName")]
         [MinLength(2)]
         [MaxLength(100)]
         [Required]
-        public string LastName { get; }
+        public string LastName { get; private set; }
 
         [DataMember(Name = "email")]
         [EmailAddress]
         [Required]
-        public string Email { get; }
+        public string Email { get; private set; }
 
         [DataMember(Name = "password")]
         [DataType(DataType.Password)]
         [Required]
 
-        public string Password { get; }
+        public string Password { get; private set; }
 
         [DataMember(Name = "confirmPassword")]
         [DataType(DataType.Password)]
         [Compare("Password")]
-        public string ComparePassword { get; }
+        public string ComparePassword { get; private set; }
 
         public RegiUser ToModel()
         {
