@@ -173,7 +173,7 @@ namespace Registrar.Api.Controllers
         // GET: /Account/SendCode
         [System.Web.Http.HttpGet]
         [System.Web.Http.Route("sendCode")]
-        public async Task<IHttpActionResult> SendCode(string returnUrl, bool rememberMe)
+        public async Task<IHttpActionResult> SendCode()
         {
             var userId = await SignInManager.GetVerifiedUserIdAsync();
             if (userId == null)
@@ -184,9 +184,7 @@ namespace Registrar.Api.Controllers
             return
                 Ok(new SingleRegiCodeResponse
                 {
-                    Providers = factorOptions,
-                    ReturnUrl = returnUrl,
-                    RememberMe = rememberMe
+                    Providers = factorOptions
                 });
         }
 
@@ -201,7 +199,7 @@ namespace Registrar.Api.Controllers
             // Generate the token and send it
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
                 return Unauthorized();
-            return Ok(new {Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe});
+            return Ok(new {Provider = model.SelectedProvider});
         }
 
         // POST: /Account/LogOff

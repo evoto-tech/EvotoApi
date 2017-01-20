@@ -8,9 +8,9 @@ namespace Registrar.Api.Models.Response
     public class SingleRegiCodeResponse
     {
         [DataMember(Name = "selectedProvider")]
-        public string SelectedProvider { get; private set; }
+        public string SelectedProvider { get; set; }
 
         [DataMember(Name = "providers")]
-        public ICollection<SelectListItem> Providers { get; private set; }
+        public ICollection<SelectListItem> Providers { get; set; }
     }
 }
