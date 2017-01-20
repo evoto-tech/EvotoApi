@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IRegiUserStore.cs" />
+    <Compile Include="Migrations\M001CreateLockoutTable.cs" />
     <Compile Include="Migrations\M000CreateUserTable.cs" />
     <Compile Include="Models\RegiDbUser.cs" />
     <Compile Include="RegistrarQueries.Designer.cs">

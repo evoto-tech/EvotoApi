@@ -130,14 +130,17 @@ namespace Registrar.Api.Auth
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Whether or not the user can be locked out
+        /// </summary>
         public Task<bool> GetLockoutEnabledAsync(RegiAuthUser user)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(true);
         }
 
         public Task SetLockoutEnabledAsync(RegiAuthUser user, bool enabled)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }
