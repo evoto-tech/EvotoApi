@@ -20,7 +20,9 @@ namespace Registrar.Api.Auth
             IOwinContext context)
         {
             var userStore = (IRegiUserStore) DependencyResolver.Current.GetService(typeof(IRegiUserStore));
-            var store = new RegiAuthUserStore(userStore);
+            var lockoutStore =
+                (IRegiUserLockoutStore) DependencyResolver.Current.GetService(typeof(IRegiUserLockoutStore));
+            var store = new RegiAuthUserStore(userStore, lockoutStore);
             var manager = new RegiUserManager(store);
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<RegiAuthUser, int>(manager)

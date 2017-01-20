@@ -17,7 +17,7 @@ namespace Registrar.Database.Models
             if (model == null)
                 throw new ArgumentException(nameof(model));
 
-            Id = Convert.ToInt32(model.Id);
+            Id = model.Id;
             Email = model.Email;
             PasswordHash = model.PasswordHash;
         }
@@ -30,7 +30,7 @@ namespace Registrar.Database.Models
         {
             return new RegiUser
             {
-                Id = Convert.ToString(Id),
+                Id = Id,
                 Email = Email,
                 PasswordHash = PasswordHash
             };

@@ -3,81 +3,27 @@ using System.Threading.Tasks;
 using Common.Exceptions;
 using Microsoft.AspNet.Identity;
 using Registrar.Database.Interfaces;
+using Registrar.Models;
 
 namespace Registrar.Api.Auth
 {
-    public class RegiAuthUserStore : IUserStore<RegiAuthUser, int>, IUserPasswordStore<RegiAuthUser, int>,
+    public class RegiAuthUserStore : IUserPasswordStore<RegiAuthUser, int>,
         IUserEmailStore<RegiAuthUser, int>, IUserLockoutStore<RegiAuthUser, int>
     {
+        private readonly IRegiUserLockoutStore _lockoutStore;
         private readonly IRegiUserStore _store;
 
-        public RegiAuthUserStore(IRegiUserStore store)
+        public RegiAuthUserStore(IRegiUserStore store, IRegiUserLockoutStore lockoutStore)
         {
             _store = store;
+            _lockoutStore = lockoutStore;
         }
 
         public void Dispose()
         {
         }
 
-        public async Task CreateAsync(RegiAuthUser user)
-        {
-            await _store.CreateUser(user);
-        }
-
-        public async Task UpdateAsync(RegiAuthUser user)
-        {
-            await _store.UpdateUser(user);
-        }
-
-        public async Task DeleteAsync(RegiAuthUser user)
-        {
-            await _store.DeleteUser(Convert.ToInt32(user.Id));
-        }
-
-        public async Task<RegiAuthUser> FindByIdAsync(int userId)
-        {
-            try
-            {
-                var user = await _store.GetUserById(userId);
-                return new RegiAuthUser(user);
-            }
-            catch (RecordNotFoundException)
-            {
-                return null;
-            }
-            
-        }
-
-        public async Task<RegiAuthUser> FindByNameAsync(string userName)
-        {
-            try
-            {
-                var user = await _store.GetUserByEmail(userName);
-                return new RegiAuthUser(user);
-            }
-            catch (RecordNotFoundException)
-            {
-                return null;
-            }
-        }
-
-        public async Task SetPasswordHashAsync(RegiAuthUser user, string passwordHash)
-        {
-            user.PasswordHash = passwordHash;
-            await UpdateAsync(user);
-        }
-
-        public async Task<string> GetPasswordHashAsync(RegiAuthUser user)
-        {
-            var model = await FindByIdAsync(user.Id);
-            return model?.PasswordHash;
-        }
-
-        public Task<bool> HasPasswordAsync(RegiAuthUser user)
-        {
-            return Task.FromResult(true);
-        }
+        #region Emails
 
         public async Task SetEmailAsync(RegiAuthUser user, string email)
         {
@@ -105,33 +51,79 @@ namespace Registrar.Api.Auth
             return await FindByNameAsync(email);
         }
 
-        public Task<DateTimeOffset> GetLockoutEndDateAsync(RegiAuthUser user)
+        #endregion
+
+        #region Lockout
+
+        public async Task<DateTimeOffset> GetLockoutEndDateAsync(RegiAuthUser user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var info = await _lockoutStore.GetUserInfo(user.Id);
+                return info.LockEnd;
+            }
+            catch (RecordNotFoundException)
+            {
+                return DateTimeOffset.MinValue;
+            }
         }
 
-        public Task SetLockoutEndDateAsync(RegiAuthUser user, DateTimeOffset lockoutEnd)
+        public async Task SetLockoutEndDateAsync(RegiAuthUser user, DateTimeOffset lockoutEnd)
         {
-            throw new NotImplementedException();
+            var info = new RegiUserLockout {LockEnd = lockoutEnd.DateTime, UserId = user.Id};
+            await _lockoutStore.UpdateUserTime(info);
         }
 
-        public Task<int> IncrementAccessFailedCountAsync(RegiAuthUser user)
+        public async Task<int> IncrementAccessFailedCountAsync(RegiAuthUser user)
         {
-            throw new NotImplementedException();
+            RegiUserLockout info;
+            try
+            {
+                info = await _lockoutStore.GetUserInfo(user.Id);
+                info.Attempts++;
+            }
+            catch (RecordNotFoundException)
+            {
+                info = new RegiUserLockout
+                {
+                    UserId = user.Id,
+                    Attempts = 1
+                };
+            }
+            await _lockoutStore.UpdateUserAttempts(info);
+
+            return info.Attempts;
         }
 
-        public Task ResetAccessFailedCountAsync(RegiAuthUser user)
+        public async Task ResetAccessFailedCountAsync(RegiAuthUser user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var info = await _lockoutStore.GetUserInfo(user.Id);
+                info.Attempts = 0;
+                await _lockoutStore.UpdateUserAttempts(info);
+            }
+            catch (RecordNotFoundException)
+            {
+                // No info stored on user, nothing to do here
+            }
         }
 
-        public Task<int> GetAccessFailedCountAsync(RegiAuthUser user)
+        public async Task<int> GetAccessFailedCountAsync(RegiAuthUser user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var info = await _lockoutStore.GetUserInfo(user.Id);
+                return info.Attempts;
+            }
+            catch (RecordNotFoundException)
+            {
+                return 0;
+            }
         }
 
         /// <summary>
-        /// Whether or not the user can be locked out
+        ///     Whether or not the user can be locked out
         /// </summary>
         public Task<bool> GetLockoutEnabledAsync(RegiAuthUser user)
         {
@@ -142,5 +134,73 @@ namespace Registrar.Api.Auth
         {
             return Task.CompletedTask;
         }
+
+        #endregion
+
+        #region Passwords
+
+        public async Task SetPasswordHashAsync(RegiAuthUser user, string passwordHash)
+        {
+            user.PasswordHash = passwordHash;
+            await UpdateAsync(user);
+        }
+
+        public async Task<string> GetPasswordHashAsync(RegiAuthUser user)
+        {
+            var model = await FindByIdAsync(user.Id);
+            return model?.PasswordHash;
+        }
+
+        public Task<bool> HasPasswordAsync(RegiAuthUser user)
+        {
+            return Task.FromResult(true);
+        }
+
+        #endregion
+
+        #region Users
+
+        public async Task CreateAsync(RegiAuthUser user)
+        {
+            await _store.CreateUser(user);
+        }
+
+        public async Task UpdateAsync(RegiAuthUser user)
+        {
+            await _store.UpdateUser(user);
+        }
+
+        public async Task DeleteAsync(RegiAuthUser user)
+        {
+            await _store.DeleteUser(Convert.ToInt32(user.Id));
+        }
+
+        public async Task<RegiAuthUser> FindByIdAsync(int userId)
+        {
+            try
+            {
+                var user = await _store.GetUserById(userId);
+                return new RegiAuthUser(user);
+            }
+            catch (RecordNotFoundException)
+            {
+                return null;
+            }
+        }
+
+        public async Task<RegiAuthUser> FindByNameAsync(string userName)
+        {
+            try
+            {
+                var user = await _store.GetUserByEmail(userName);
+                return new RegiAuthUser(user);
+            }
+            catch (RecordNotFoundException)
+            {
+                return null;
+            }
+        }
+
+        #endregion
     }
 }

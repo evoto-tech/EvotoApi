@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LockoutGetByUserId" xml:space="preserve">
+    <value>SELECT * FROM Users_Lockout WHERE UserId = @UserId</value>
+  </data>
+  <data name="LockoutInsertUpdateAttempts" xml:space="preserve">
+    <value>INSERT INTO Users_Lockout (UserId, Attempts) VALUES (@UserId, @Attempts) ON DUPLICATE KEY UPDATE Attempts = @Attempts</value>
+  </data>
+  <data name="LockoutInsertUpdateTime" xml:space="preserve">
+    <value>INSERT INTO Users_Lockout (UserId, LockEnd) VALUES (@UserId, @LockEnd) ON DUPLICATE KEY UPDATE LockEnd = @LockEnd</value>
+  </data>
   <data name="UserCreate" xml:space="preserve">
     <value>INSERT INTO Users (Email, PasswordHash) VALUES (@Email, @PasswordHash)</value>
   </data>

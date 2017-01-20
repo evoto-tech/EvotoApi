@@ -1,5 +1,4 @@
 ﻿using FluentMigrator;
-using FluentMigrator.Runner.Extensions;
 
 namespace Registrar.Database.Migrations
 {
@@ -9,10 +8,11 @@ namespace Registrar.Database.Migrations
         public override void Up()
         {
             Create.Table("Users_Locked")
-                .WithColumn("UserId").AsInt32().ForeignKey("Users", "Id")
-                    .NotNullable().PrimaryKey("PK_Users_Locked")
-                .WithColumn("Attempts").AsInt32().NotNullable()
+                .WithColumn("UserId").AsInt32().NotNullable().ForeignKey("Users", "Id")
+                .WithColumn("Attempts").AsInt32()
                 .WithColumn("LockEnd").AsDateTime().Nullable();
+
+            Create.PrimaryKey("PK_Users_Locked").OnTable("Users_Locked").Column("UserId");
         }
 
         public override void Down()

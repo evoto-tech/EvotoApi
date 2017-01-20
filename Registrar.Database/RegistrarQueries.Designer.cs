@@ -61,6 +61,33 @@ namespace Registrar.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Users_Lockout WHERE UserId = @UserId.
+        /// </summary>
+        internal static string LockoutGetByUserId {
+            get {
+                return ResourceManager.GetString("LockoutGetByUserId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO Users_Lockout (UserId, Attempts) VALUES (@UserId, @Attempts) ON DUPLICATE KEY UPDATE Attempts = @Attempts.
+        /// </summary>
+        internal static string LockoutInsertUpdateAttempts {
+            get {
+                return ResourceManager.GetString("LockoutInsertUpdateAttempts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO Users_Lockout (UserId, LockEnd) VALUES (@UserId, @LockEnd) ON DUPLICATE KEY UPDATE LockEnd = @LockEnd.
+        /// </summary>
+        internal static string LockoutInsertUpdateTime {
+            get {
+                return ResourceManager.GetString("LockoutInsertUpdateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to INSERT INTO Users (Email, PasswordHash) VALUES (@Email, @PasswordHash).
         /// </summary>
         internal static string UserCreate {

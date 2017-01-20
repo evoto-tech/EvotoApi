@@ -59,6 +59,7 @@
     <Compile Include="Interfaces\IRegiUserStore.cs" />
     <Compile Include="Migrations\M001CreateLockoutTable.cs" />
     <Compile Include="Migrations\M000CreateUserTable.cs" />
+    <Compile Include="Models\RegiDbUserLockout.cs" />
     <Compile Include="Models\RegiDbUser.cs" />
     <Compile Include="RegistrarQueries.Designer.cs">
       <DependentUpon>RegistrarQueries.resx</DependentUpon>
@@ -66,6 +67,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Interfaces\IRegiUserLockoutStore.cs" />
+    <Compile Include="Stores\RegiUserLockoutStore.cs" />
     <Compile Include="Stores\RegiSqlUserStore.cs" />
   </ItemGroup>
   <ItemGroup />

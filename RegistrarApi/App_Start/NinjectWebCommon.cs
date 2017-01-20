@@ -8,36 +8,37 @@ using Ninject.Web.Common;
 using Registrar.Api;
 using Registrar.Database.Interfaces;
 using Registrar.Database.Stores;
+using WebActivatorEx;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
+[assembly: ApplicationShutdownMethod(typeof(NinjectWebCommon), "Stop")]
 
 namespace Registrar.Api
 {
-    public static class NinjectWebCommon 
+    public static class NinjectWebCommon
     {
         private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
 
         /// <summary>
-        /// Starts the application
+        ///     Starts the application
         /// </summary>
-        public static void Start() 
+        public static void Start()
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
             Bootstrapper.Initialize(CreateKernel);
         }
-        
+
         /// <summary>
-        /// Stops the application.
+        ///     Stops the application.
         /// </summary>
         public static void Stop()
         {
             Bootstrapper.ShutDown();
         }
-        
+
         /// <summary>
-        /// Creates the kernel that will manage your application.
+        ///     Creates the kernel that will manage your application.
         /// </summary>
         /// <returns>The created kernel.</returns>
         private static IKernel CreateKernel()
@@ -59,7 +60,7 @@ namespace Registrar.Api
         }
 
         /// <summary>
-        /// Load your modules or register your services here!
+        ///     Load your modules or register your services here!
         /// </summary>
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IBindingRoot kernel)
@@ -67,7 +68,10 @@ namespace Registrar.Api
             var m = ConfigurationManager.ConnectionStrings["ManagementConnectionString"].ConnectionString;
             var r = ConfigurationManager.ConnectionStrings["RegistrarConnectionString"].ConnectionString;
 
-            kernel.Bind<IRegiUserStore>().To<RegiSqlUserStore>().WithConstructorArgument("connectionString", r);
-        }        
+            kernel.Bind<IRegiUserStore>()
+                .To<RegiSqlUserStore>().WithConstructorArgument("connectionString", r);
+            kernel.Bind<IRegiUserLockoutStore>()
+                .To<RegiUserLockoutStore>().WithConstructorArgument("connectionString", r);
+        }
     }
 }
