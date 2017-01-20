@@ -42,7 +42,7 @@ namespace Registrar.Api.Controllers
 
         [System.Web.Http.HttpPost]
         [System.Web.Http.Route("login")]
-        public async Task<IHttpActionResult> Login(LoginRegiUser model, string returnUrl)
+        public async Task<IHttpActionResult> Login(LoginRegiUser model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -66,6 +66,7 @@ namespace Registrar.Api.Controllers
 
         // POST: /Account/VerifyCode
         [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("verifyCode")]
         public async Task<IHttpActionResult> VerifyCode(VerifyCodeViewModel model)
         {
             if (!ModelState.IsValid)
@@ -92,6 +93,7 @@ namespace Registrar.Api.Controllers
 
         // POST: /Account/Register
         [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("register")]
         public async Task<IHttpActionResult> Register(CreateRegiUser model)
         {
             if (!ModelState.IsValid)
@@ -129,6 +131,7 @@ namespace Registrar.Api.Controllers
 
         // POST: /Account/ForgotPassword
         [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("forgotPassword")]
         public async Task<IHttpActionResult> ForgotPassword(ForgotRegiPassword model)
         {
             if (!ModelState.IsValid)
@@ -151,6 +154,7 @@ namespace Registrar.Api.Controllers
 
         // POST: /Account/ResetPassword
         [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("resetPassword")]
         public async Task<IHttpActionResult> ResetPassword(ResetRegiPassword model)
         {
             if (!ModelState.IsValid)
@@ -167,6 +171,8 @@ namespace Registrar.Api.Controllers
         }
 
         // GET: /Account/SendCode
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("sendCode")]
         public async Task<IHttpActionResult> SendCode(string returnUrl, bool rememberMe)
         {
             var userId = await SignInManager.GetVerifiedUserIdAsync();
@@ -186,6 +192,7 @@ namespace Registrar.Api.Controllers
 
         // POST: /Account/SendCode
         [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("sendCode")]
         public async Task<IHttpActionResult> SendCode(RegiCode model)
         {
             if (!ModelState.IsValid)
@@ -200,6 +207,7 @@ namespace Registrar.Api.Controllers
         // POST: /Account/LogOff
         [System.Web.Http.HttpPost]
         [System.Web.Http.Authorize]
+        [System.Web.Http.Route("logOff")]
         public IHttpActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);

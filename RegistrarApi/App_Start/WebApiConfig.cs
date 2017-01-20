@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using Common;
 
 namespace Registrar.Api
 {
@@ -7,6 +8,9 @@ namespace Registrar.Api
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+
+
+            FormatterConfig.Configure(config);
 
             // Web API routes
             config.MapHttpAttributeRoutes();

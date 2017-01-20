@@ -9,12 +9,11 @@ namespace Registrar.Api.Models.Request
         [DataMember(Name = "email")]
         [Required]
         [EmailAddress]
-        public string Email { get; }
+        public string Email { get; private set; }
 
         [DataMember(Name = "password")]
         [Required]
         [DataType(DataType.Password)]
-        public string Password { get; }
-
+        public string Password { get; private set; }
     }
 }
