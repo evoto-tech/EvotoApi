@@ -29,7 +29,7 @@ namespace Management.Database.Stores
                     if (!result.Any())
                         throw new RecordNotFoundException();
 
-                    return result.Select((v) => new ManaDbVote(v)).Select((v) => v.ToVote());
+                    return result.Select((v) => new ManaDbVote(v).ToVote());
                 }
             }
             catch (Exception e)
