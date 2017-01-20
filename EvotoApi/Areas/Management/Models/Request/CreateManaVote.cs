@@ -10,27 +10,25 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
     {
         [DataMember(Name = "orgId")]
         [Required]
-        public int OrgId { get; }
+        public int OrgId { get; private set; }
 
         [DataMember(Name = "createdBy")]
         [Required]
-        public int CreatedBy { get; }
+        public int CreatedBy { get; private set; }
 
         [DataMember(Name = "name")]
         [MinLength(2)]
         [MaxLength(100)]
         [Required]
-        public string Name { get; }
+        public string Name { get; private set; }
 
         [DataMember(Name = "state")]
         [Required]
-        public string State { get; }
+        public string State { get; private set; }
 
         [DataMember(Name = "chainString")]
         [Required]
-        public string ChainString { get; }
-
-        public string Password { get; }
+        public string ChainString { get; private set; }
 
         public ManaVote ToModel()
         {
