@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 
 class VoteList extends React.Component {
   constructor (props) {
@@ -25,12 +26,13 @@ class VoteList extends React.Component {
             <td>{vote.creationDate}</td>
             <td>{vote.expiryDate}</td>
             <td><span className={'badge ' + (vote.state === 'published' ? 'bg-green' : 'bg-red')}>{vote.state}</span></td>
+            <td>{vote.state !== 'published' ? <Link to={`/vote/${vote.id}/edit`}><i className='fa fa-edit' /></Link> : ''}</td>
           </tr>
         )
       })
     ) : (
       <tr>
-        <td colSpan='5'>No votes!</td>
+        <td colSpan='6'>No votes!</td>
       </tr>
     )
   }
@@ -55,6 +57,7 @@ class VoteList extends React.Component {
               <th style={{width: '200px'}}>Created on</th>
               <th style={{width: '200px'}}>Expires on</th>
               <th style={{width: '40px'}}>State</th>
+              <th style={{width: '20px'}}></th>
             </tr>
               {this.createVoteRows()}
             </tbody></table>
