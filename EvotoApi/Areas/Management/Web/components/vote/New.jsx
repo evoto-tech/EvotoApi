@@ -103,8 +103,7 @@ class NewVote extends React.Component {
           'Content-Type': 'application/json'
         }
       })
-      .then((res) => {
-        console.log('res', res)
+      .then(() => {
         this.props.router.push('/')
       })
       .catch((err) => {

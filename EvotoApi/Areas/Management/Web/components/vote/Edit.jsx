@@ -26,8 +26,7 @@ class EditVote extends React.Component {
           'Content-Type': 'application/json'
         }
       })
-      .then((res) => {
-        console.log('res', res)
+      .then(() => {
         this.props.router.push('/')
       })
       .catch((err) => {
@@ -36,7 +35,6 @@ class EditVote extends React.Component {
   }
 
   render () {
-    console.log('state', this.state)
     return (
       <div>
         <NewVote
