@@ -68,7 +68,6 @@ namespace EvotoApi
             var r = ConfigurationManager.ConnectionStrings["RegistrarConnectionString"].ConnectionString;
 
             kernel.Bind<IManaVoteStore>().To<ManaSqlVoteStore>().WithConstructorArgument("connectionString", m);
-            kernel.Bind<IRegiUserStore>().To<RegiSqlUserStore>().WithConstructorArgument("connectionString", r);
         }        
     }
 }
