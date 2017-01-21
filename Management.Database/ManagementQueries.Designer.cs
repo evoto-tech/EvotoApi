@@ -70,6 +70,15 @@ namespace Management.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM Votes WHERE Id=@Id.
+        /// </summary>
+        internal static string VoteDelete {
+            get {
+                return ResourceManager.GetString("VoteDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM Votes WHERE Id = @Id.
         /// </summary>
         internal static string VoteGetById {

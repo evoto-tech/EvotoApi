@@ -110,5 +110,26 @@ namespace Management.Database.Stores
                 throw new Exception("Could not get create Mana Vote");
             }
         }
+
+        public async Task<int> DeleteVote(int voteId)
+        {
+            try
+            {
+                using (var connection = await GetConnectionAsync())
+                {
+                    var result = await connection.ExecuteAsync(ManagementQueries.VoteDelete, new { Id = voteId });
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                throw;
+#endif
+                if (e is RecordNotFoundException)
+                    throw;
+                throw new Exception("Could not get create Mana Vote");
+            }
+        }
     }
 }

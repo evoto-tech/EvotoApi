@@ -1,6 +1,6 @@
 import React from 'react'
 import {IndexLink} from 'react-router'
-import VoteList from './VoteList.jsx'
+import VoteList from './vote/List.jsx'
 
 class Home extends React.Component {
   render () {

@@ -1,19 +1,52 @@
 import React from 'react'
 import { Link } from 'react-router'
+import WarningModal from './WarningModal.jsx'
 
 class VoteList extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { votes: [], loaded: false }
+    this.state = { votes: [], loaded: false, toDelete: {} }
   }
 
   componentDidMount () {
+    this.fetchVotes()
+  }
+
+  fetchVotes () {
     fetch('/mana/vote/list/user')
       .then((res) => res.json())
       .then((data) => {
         this.setState({ votes: data, loaded: true })
       })
       .catch(console.error)
+  }
+
+  handleDelete (vote) {
+    this.setState({ toDelete: vote }, () => {
+      this.refs.deleteModal.show()
+    })
+  }
+
+  confirmDelete () {
+    this.setState({ loaded: false }, () => {
+      this.performDelete()
+    })
+  }
+
+  performDelete () {
+    fetch(`/mana/vote/${this.state.toDelete.id}/delete`
+      , { method: 'DELETE' })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data === 1) {
+            this.setState({ toDelete: {} }, () => {
+              this.fetchVotes()
+            })
+          } else {
+            console.error('Unexpected number of votes deleted', data)
+          }
+        })
+        .catch(console.error)
   }
 
   createVoteRows () {
@@ -27,12 +60,13 @@ class VoteList extends React.Component {
             <td>{vote.expiryDate}</td>
             <td><span className={'badge ' + (vote.state === 'published' ? 'bg-green' : 'bg-red')}>{vote.state}</span></td>
             <td>{vote.state !== 'published' ? <Link to={`/vote/${vote.id}/edit`}><i className='fa fa-edit' /></Link> : ''}</td>
+            <td>{vote.state !== 'published' ? <div onClick={this.handleDelete.bind(this, vote)}><i className='fa fa-trash' /></div> : ''}</td>
           </tr>
         )
       })
     ) : (
       <tr>
-        <td colSpan='6'>No votes!</td>
+        <td colSpan='7'>No votes!</td>
       </tr>
     )
   }
@@ -40,6 +74,11 @@ class VoteList extends React.Component {
   render () {
     return (
       <div className='box'>
+        <WarningModal
+          title={`Are you sure you want to delete '${this.state.toDelete.name}'? This cannot be undone.`}
+          name='warningModal'
+          ref='deleteModal'
+          confirm={this.confirmDelete.bind(this)} />
         { !this.state.loaded ? (
           <div className='overlay'>
             <i className='fa fa-refresh fa-spin' />
@@ -57,6 +96,7 @@ class VoteList extends React.Component {
               <th style={{width: '200px'}}>Created on</th>
               <th style={{width: '200px'}}>Expires on</th>
               <th style={{width: '40px'}}>State</th>
+              <th style={{width: '20px'}} />
               <th style={{width: '20px'}} />
             </tr>
               {this.createVoteRows()}

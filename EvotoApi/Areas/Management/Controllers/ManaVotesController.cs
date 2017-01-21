@@ -119,5 +119,30 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
                 return InternalServerError();
             }
         }
+
+        /// <summary>
+        /// Delete a vote, needs authorize to be added
+        /// </summary>
+        [HttpDelete]
+        [Route("{voteId:int}/delete")]
+        public async Task<IHttpActionResult> VoteDelete(int voteId)
+        {
+            try
+            {
+                var affectedRows = await _store.DeleteVote(voteId);
+                return Json(affectedRows);
+            }
+            catch (RecordNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                throw;
+#endif
+                return InternalServerError();
+            }
+        }
     }
 }
