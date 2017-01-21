@@ -52,19 +52,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IManaVoteStore.cs" />
     <Compile Include="ManagementQueries.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ManagementQueries.resx</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\M000CreateVoteTable.cs" />
+    <Compile Include="Models\ManaDbVote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stores\ManaSqlVoteStore.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Migrations\" />
-    <Folder Include="Models\" />
-    <Folder Include="Stores\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="ManagementQueries.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -72,6 +71,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{9666f7cf-1941-4d24-8870-395bdd99e607}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Management.Models\Management.Models.csproj">
       <Project>{fb39716f-ee20-4d7c-91c5-d93a67001920}</Project>
       <Name>Management.Models</Name>

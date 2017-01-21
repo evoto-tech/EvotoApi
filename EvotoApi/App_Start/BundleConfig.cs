@@ -16,7 +16,9 @@ namespace EvotoApi
                 "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                "~/Scripts/moment.js",
                 "~/Scripts/bootstrap.js",
+                "~/Scripts/bootstrap-datetimepicker.js",
                 "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -26,6 +28,7 @@ namespace EvotoApi
             // Management CSS Bundle
             bundles.Add(new StyleBundle("~/Content/management").Include(
                 "~/Content/bootstrap.css",
+                "~/Content/bootstrap-datetimepicker.css",
                 "~/Content/AdminLTE.css",
                 "~/Content/skins/skin-green-light.css",
                 "~/Content/management.css"));
