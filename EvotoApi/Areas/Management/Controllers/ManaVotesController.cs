@@ -82,7 +82,6 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
 #if DEBUG
                 throw;
 #endif
