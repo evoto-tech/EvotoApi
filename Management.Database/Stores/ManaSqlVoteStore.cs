@@ -63,21 +63,6 @@ namespace Management.Database.Stores
             return vote;
         }
 
-        public async Task<IEnumerable<ManaVote>> GetOrgVotes(int orgId, string state = "all")
-        {
-            dynamic vote;
-            if (state == "all")
-            {
-                vote = await GetVoteByQuery(ManagementQueries.VotesGetByOrg, new { OrgId = orgId });
-            }
-            else
-            {
-                vote = await GetVoteByQuery(ManagementQueries.VotesGetByOrgAndState, new { OrgId = orgId, State = state });
-
-            }
-            return vote;
-        }
-
         public async Task<ManaVote> CreateVote(ManaVote vote)
         {
             try
