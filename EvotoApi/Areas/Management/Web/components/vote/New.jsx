@@ -138,31 +138,13 @@ class NewVote extends React.Component {
     const title = this.props.title || 'New Vote'
     const description = this.props.description || 'Create a new vote'
     return (
-      <div className='content-wrapper' style={{ height: '100%' }}>
+      <div>
         <WarningModal
           title='Are you sure you want to publish? This cannot be undone.'
           name='warningModal'
           ref='publishModal'
           confirm={this.confirmPublish.bind(this)} />
-        <section className='content-header' style={{ height: '100%' }}>
-          <h1>{title}<small>{description}</small></h1>
-          <ol className='breadcrumb'>
-            <li>
-              <Link to='/vote/new'><i className='fa fa-plus' />New Vote</Link>
-            </li>
-          </ol>
-        </section>
-        <section className='content'>
-          <div className='box box-primary'>
-            { !this.state.loaded ? (
-              <div className='overlay'>
-                <i className='fa fa-refresh fa-spin' />
-              </div>
-              ) : ''
-            }
-            <div className='box-header with-border'>
-              <h3 className='box-title'>{title} Details</h3>
-            </div>
+        
             <form role='form'>
               <div className='box-body'>
                 <div className={this.state.errors.name ? 'form-group has-error' : 'form-group'}>
@@ -191,9 +173,7 @@ class NewVote extends React.Component {
                 </div>
               </div>
             </form>
-          </div>
-        </section>
-      </div>
+            </div>
     )
   }
 }

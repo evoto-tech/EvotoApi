@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 import WarningModal from './WarningModal.jsx'
+import New from './New.jsx'
 
 class VoteList extends React.Component {
   constructor (props) {
@@ -74,8 +75,16 @@ class VoteList extends React.Component {
   }
 
   render () {
-    return (
-      <div className='box'>
+    return (<div>
+    <div className="box box-success collapsed-box">
+        <button type="button" className="btn btn-box-tool" data-widget="collapse">
+            <div className="box-header with-border">
+                <i className="fa fa-plus fa-fw" /><h4 className="box-title">Create Vote</h4>
+            </div>
+        </button>
+        <div className="box-body" style={{display: "none"}}>
+            <New />
+        </div>
         <WarningModal
           title={`Are you sure you want to delete '${this.state.toDelete.name}'? This cannot be undone.`}
           name='warningModal'
@@ -87,6 +96,8 @@ class VoteList extends React.Component {
           </div>
           ) : ''
         }
+    </div>
+    <div className="box" >
         <div className='box-header with-border'>
           <h3 className='box-title'>Votes</h3>
         </div>
@@ -104,7 +115,7 @@ class VoteList extends React.Component {
               {this.createVoteRows()}
             </tbody></table>
         </div>
-      </div>
+      </div></div>
     )
   }
 }
