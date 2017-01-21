@@ -70,20 +70,38 @@ namespace Registrar.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INSERT INTO Users_Lockout (UserId, Attempts) VALUES (@UserId, @Attempts) ON DUPLICATE KEY UPDATE Attempts = @Attempts.
+        ///   Looks up a localized string similar to INSERT INTO Users_Lockout (UserId, Attempts) VALUES (@UserId, @Attempts).
         /// </summary>
-        internal static string LockoutInsertUpdateAttempts {
+        internal static string LockoutInsertAttempts {
             get {
-                return ResourceManager.GetString("LockoutInsertUpdateAttempts", resourceCulture);
+                return ResourceManager.GetString("LockoutInsertAttempts", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INSERT INTO Users_Lockout (UserId, LockEnd) VALUES (@UserId, @LockEnd) ON DUPLICATE KEY UPDATE LockEnd = @LockEnd.
+        ///   Looks up a localized string similar to INSERT INTO Users_Lockout (UserId, LockEnd) VALUES (@UserId, @LockEnd).
         /// </summary>
-        internal static string LockoutInsertUpdateTime {
+        internal static string LockoutInsertTime {
             get {
-                return ResourceManager.GetString("LockoutInsertUpdateTime", resourceCulture);
+                return ResourceManager.GetString("LockoutInsertTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE Users_Lockout SET Attempts = @Attempts WHERE UserId = @UserId.
+        /// </summary>
+        internal static string LockoutUpdateAttempts {
+            get {
+                return ResourceManager.GetString("LockoutUpdateAttempts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE Users_Lockout SET LockEnd = @LockEnd WHERE UserId = @UserId.
+        /// </summary>
+        internal static string LockoutUpdateTime {
+            get {
+                return ResourceManager.GetString("LockoutUpdateTime", resourceCulture);
             }
         }
         

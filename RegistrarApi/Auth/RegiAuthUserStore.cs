@@ -8,7 +8,7 @@ using Registrar.Models;
 namespace Registrar.Api.Auth
 {
     public class RegiAuthUserStore : IUserPasswordStore<RegiAuthUser, int>,
-        IUserEmailStore<RegiAuthUser, int>, IUserLockoutStore<RegiAuthUser, int>
+        IUserEmailStore<RegiAuthUser, int>, IUserLockoutStore<RegiAuthUser, int>, IUserTwoFactorStore<RegiAuthUser, int>
     {
         private readonly IRegiUserLockoutStore _lockoutStore;
         private readonly IRegiUserStore _store;
@@ -71,7 +71,14 @@ namespace Registrar.Api.Auth
         public async Task SetLockoutEndDateAsync(RegiAuthUser user, DateTimeOffset lockoutEnd)
         {
             var info = new RegiUserLockout {LockEnd = lockoutEnd.DateTime, UserId = user.Id};
-            await _lockoutStore.UpdateUserTime(info);
+            try
+            {
+                await _lockoutStore.UpdateUserTime(info);
+            }
+            catch (RecordNotFoundException)
+            {
+                await _lockoutStore.InsertUserTime(info);
+            }
         }
 
         public async Task<int> IncrementAccessFailedCountAsync(RegiAuthUser user)
@@ -81,6 +88,7 @@ namespace Registrar.Api.Auth
             {
                 info = await _lockoutStore.GetUserInfo(user.Id);
                 info.Attempts++;
+                await _lockoutStore.UpdateUserAttempts(info);
             }
             catch (RecordNotFoundException)
             {
@@ -89,8 +97,8 @@ namespace Registrar.Api.Auth
                     UserId = user.Id,
                     Attempts = 1
                 };
+                await _lockoutStore.InsertUserAttempts(info);
             }
-            await _lockoutStore.UpdateUserAttempts(info);
 
             return info.Attempts;
         }
@@ -199,6 +207,20 @@ namespace Registrar.Api.Auth
             {
                 return null;
             }
+        }
+
+        #endregion
+
+        #region 2FA
+
+        public Task SetTwoFactorEnabledAsync(RegiAuthUser user, bool enabled)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task<bool> GetTwoFactorEnabledAsync(RegiAuthUser user)
+        {
+            return Task.FromResult(false);
         }
 
         #endregion

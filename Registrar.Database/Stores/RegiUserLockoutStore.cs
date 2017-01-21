@@ -48,7 +48,9 @@ namespace Registrar.Database.Stores
             {
                 using (var connection = await GetConnectionAsync())
                 {
-                    await connection.ExecuteAsync(RegistrarQueries.LockoutInsertUpdateTime, userInfo);
+                    var rows = await connection.ExecuteAsync(RegistrarQueries.LockoutUpdateTime, userInfo);
+                    if (rows == 0)
+                        throw new RecordNotFoundException();
                 }
             }
             catch (Exception e)
@@ -68,7 +70,49 @@ namespace Registrar.Database.Stores
             {
                 using (var connection = await GetConnectionAsync())
                 {
-                    await connection.ExecuteAsync(RegistrarQueries.LockoutInsertUpdateAttempts, userInfo);
+                    var rows = await connection.ExecuteAsync(RegistrarQueries.LockoutUpdateAttempts, userInfo);
+                    if (rows == 0)
+                        throw new RecordNotFoundException();
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                throw;
+#endif
+                if (e is RecordNotFoundException)
+                    throw;
+                throw new Exception("Could not delete Regi User");
+            }
+        }
+
+        public async Task InsertUserTime(RegiUserLockout userInfo)
+        {
+            try
+            {
+                using (var connection = await GetConnectionAsync())
+                {
+                    await connection.ExecuteAsync(RegistrarQueries.LockoutInsertTime, userInfo);
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                throw;
+#endif
+                if (e is RecordNotFoundException)
+                    throw;
+                throw new Exception("Could not delete Regi User");
+            }
+        }
+
+        public async Task InsertUserAttempts(RegiUserLockout userInfo)
+        {
+            try
+            {
+                using (var connection = await GetConnectionAsync())
+                {
+                    await connection.ExecuteAsync(RegistrarQueries.LockoutInsertAttempts, userInfo);
                 }
             }
             catch (Exception e)

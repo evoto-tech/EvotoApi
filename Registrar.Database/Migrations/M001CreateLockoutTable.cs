@@ -7,12 +7,12 @@ namespace Registrar.Database.Migrations
     {
         public override void Up()
         {
-            Create.Table("Users_Locked")
+            Create.Table("Users_Lockout")
                 .WithColumn("UserId").AsInt32().NotNullable().ForeignKey("Users", "Id")
                 .WithColumn("Attempts").AsInt32()
                 .WithColumn("LockEnd").AsDateTime().Nullable();
 
-            Create.PrimaryKey("PK_Users_Locked").OnTable("Users_Locked").Column("UserId");
+            Create.PrimaryKey("PK_Users_Locked").OnTable("Users_Lockout").Column("UserId");
         }
 
         public override void Down()

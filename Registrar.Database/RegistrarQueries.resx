@@ -120,11 +120,17 @@
   <data name="LockoutGetByUserId" xml:space="preserve">
     <value>SELECT * FROM Users_Lockout WHERE UserId = @UserId</value>
   </data>
-  <data name="LockoutInsertUpdateAttempts" xml:space="preserve">
-    <value>INSERT INTO Users_Lockout (UserId, Attempts) VALUES (@UserId, @Attempts) ON DUPLICATE KEY UPDATE Attempts = @Attempts</value>
+  <data name="LockoutInsertAttempts" xml:space="preserve">
+    <value>INSERT INTO Users_Lockout (UserId, Attempts) VALUES (@UserId, @Attempts)</value>
   </data>
-  <data name="LockoutInsertUpdateTime" xml:space="preserve">
-    <value>INSERT INTO Users_Lockout (UserId, LockEnd) VALUES (@UserId, @LockEnd) ON DUPLICATE KEY UPDATE LockEnd = @LockEnd</value>
+  <data name="LockoutInsertTime" xml:space="preserve">
+    <value>INSERT INTO Users_Lockout (UserId, LockEnd) VALUES (@UserId, @LockEnd)</value>
+  </data>
+  <data name="LockoutUpdateAttempts" xml:space="preserve">
+    <value>UPDATE Users_Lockout SET Attempts = @Attempts WHERE UserId = @UserId</value>
+  </data>
+  <data name="LockoutUpdateTime" xml:space="preserve">
+    <value>UPDATE Users_Lockout SET LockEnd = @LockEnd WHERE UserId = @UserId</value>
   </data>
   <data name="UserCreate" xml:space="preserve">
     <value>INSERT INTO Users (Email, PasswordHash) VALUES (@Email, @PasswordHash)</value>

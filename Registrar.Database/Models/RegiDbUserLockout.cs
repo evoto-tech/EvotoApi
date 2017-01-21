@@ -9,7 +9,8 @@ namespace Registrar.Database.Models
         {
             UserId = record.UserId;
             Attempts = record.Attempts;
-            LockEnd = record.LockEnd;
+            if (record.LockEnd != null)
+                LockEnd = record.LockEnd;
         }
 
         public RegiDbUserLockout(RegiUserLockout model)
