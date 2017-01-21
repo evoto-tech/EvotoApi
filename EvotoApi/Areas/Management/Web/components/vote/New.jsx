@@ -1,5 +1,5 @@
 import React from 'react'
-import {IndexLink} from 'react-router'
+import { Link } from 'react-router'
 import WarningModal from './WarningModal.jsx'
 
 class VoteList extends React.Component {
@@ -43,7 +43,7 @@ class VoteList extends React.Component {
     const vote = this.makeVote()
     const expectedKeys = [ 'createdBy', 'expiryDate', 'name' ]
     return expectedKeys.every((k) => {
-      return vote.hasOwnProperty(k) && vote[k] != ''
+      return vote.hasOwnProperty(k) && vote[k] !== ''
     })
   }
 
@@ -59,18 +59,20 @@ class VoteList extends React.Component {
     const vote = this.makeVote()
     fetch('/mana/vote/create'
       , { method: 'POST',
-          body: JSON.stringify(vote),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        })
-        .then((res) => {
-          console.log('res', res)
-          return res.json()
-        })
-        .then((data) => console.log)
-        .catch((err) => console.error)
+        body: JSON.stringify(vote),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((res) => {
+        console.log('res', res)
+        return res.json()
+      })
+      .then((data) => console.log)
+      .catch((err) => {
+        console.error(err)
+      })
   }
 
   checkValid (action) {
@@ -115,43 +117,43 @@ class VoteList extends React.Component {
           <h1>New Vote<small>Create a new vote for your organisation</small></h1>
           <ol className='breadcrumb'>
             <li>
-              <IndexLink to='/vote/new'><i className='fa fa-plus' />New Vote</IndexLink>
+              <Link to='/vote/new'><i className='fa fa-plus' />New Vote</Link>
             </li>
           </ol>
         </section>
         <section className='content'>
-          <div className="box box-primary">
-            <div className="box-header with-border">
-              <h3 className="box-title">New Vote Details</h3>
+          <div className='box box-primary'>
+            <div className='box-header with-border'>
+              <h3 className='box-title'>New Vote Details</h3>
             </div>
-            <form role="form">
-              <div className="box-body">
-                <div className="form-group">
-                  <label htmlFor="voteName">Name</label>
-                  <input type="text" className="form-control" id="voteName" placeholder="Enter vote name" value={this.state.name} onChange={this.handleNameChange.bind(this)} />
+            <form role='form'>
+              <div className='box-body'>
+                <div className='form-group'>
+                  <label htmlFor='voteName'>Name</label>
+                  <input type='text' className='form-control' id='voteName' placeholder='Enter vote name' value={this.state.name} onChange={this.handleNameChange.bind(this)} />
                 </div>
-                <div className="form-group">
+                <div className='form-group'>
                   <label>End Date</label>
-                  <div style={{ overflow: "hidden" }}>
-                    <div className="form-group">
-                      <div className="row">
-                        <div className="col-md-4">
-                          <div id="expiryDate"></div>
+                  <div style={{ overflow: 'hidden' }}>
+                    <div className='form-group'>
+                      <div className='row'>
+                        <div className='col-md-4'>
+                          <div id='expiryDate' />
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="checkbox">
+                <div className='checkbox'>
                   <label>
-                    <input type="checkbox" /> Check me out
+                    <input type='checkbox' /> Check me out
                   </label>
                 </div>
               </div>
-              <div className="box-footer">
-                <div className="btn-group">
-                  <button type="button" className="btn" onClick={this.saveDraft.bind(this)}>Save as a Draft</button>
-                  <button type="button" className="btn btn-success" onClick={this.savePublish.bind(this)}>Save and Publish</button>
+              <div className='box-footer'>
+                <div className='btn-group'>
+                  <button type='button' className='btn' onClick={this.saveDraft.bind(this)}>Save as a Draft</button>
+                  <button type='button' className='btn btn-success' onClick={this.savePublish.bind(this)}>Save and Publish</button>
                 </div>
               </div>
             </form>

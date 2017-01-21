@@ -1,5 +1,4 @@
 import React from 'react'
-import {IndexLink} from 'react-router'
 
 class VoteList extends React.Component {
   propTypes: {
@@ -58,22 +57,25 @@ class VoteList extends React.Component {
 
   render () {
     const confirmButton = this.props.confirm ? (
-      <button type="button" className="btn btn-primary" onClick={this.handleConfirm.bind(this)}>{this.props.cancelText || 'Confirm'}</button>
+      <button type='button' className='btn btn-primary' onClick={this.handleConfirm.bind(this)}>{this.props.cancelText || 'Confirm'}</button>
     ) : ''
     const modalContent = this.props.content ? (
-      <div className="modal-content"></div>
+      <div className='modal-content'>
+        {this.props.content}
+      </div>
     ) : ''
     return (
-      <div className="modal fade" id={this.props.name} tabIndex="-1" role="dialog">
-        <div className="modal-dialog modal-sm" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 className="modal-title">{this.props.title}</h4>
+      <div className='modal fade' id={this.props.name} tabIndex='-1' role='dialog'>
+        <div className='modal-dialog modal-sm' role='document'>
+          <div className='modal-content'>
+            <div className='modal-header'>
+              <button type='button' className='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+              <h4 className='modal-title'>{this.props.title}</h4>
             </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.handleCancel.bind(this)}>{this.props.cancelText || 'Cancel'}</button>
-
+            {modalContent}
+            <div className='modal-footer'>
+              <button type='button' className='btn btn-default' data-dismiss='modal' onClick={this.handleCancel.bind(this)}>{this.props.cancelText || 'Cancel'}</button>
+              {confirmButton}
             </div>
           </div>
         </div>
