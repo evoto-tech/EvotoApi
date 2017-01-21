@@ -1,10 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Infrastructure;
 using Microsoft.Owin.Security;
 using Registrar.Api.Auth;
 using Registrar.Api.Models.Request;
@@ -49,13 +53,17 @@ namespace Registrar.Api.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, true);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, true, true);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return Ok();
+
+                    var user = await _userManager.FindByNameAsync(model.Email);
+                    var token = Startup.GenerateToken(user);
+                    return Ok(token);
+
                 case SignInStatus.LockedOut:
-                    return Unauthorized();
+                    return StatusCode(HttpStatusCode.Forbidden);
                 //case SignInStatus.RequiresVerification:
                 //    return RedirectToAction("SendCode", new {ReturnUrl = returnUrl, model.RememberMe});
                 default:
@@ -84,7 +92,7 @@ namespace Registrar.Api.Controllers
                 case SignInStatus.Success:
                     return Ok();
                 case SignInStatus.LockedOut:
-                    return Unauthorized();
+                    return StatusCode(HttpStatusCode.Forbidden);
                 default:
                     ModelState.AddModelError("", "Invalid code.");
                     return BadRequest(ModelState);
@@ -162,7 +170,7 @@ namespace Registrar.Api.Controllers
 
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user == null)
-                return Unauthorized();
+                return StatusCode(HttpStatusCode.Forbidden);
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
                 return Ok();
@@ -177,7 +185,7 @@ namespace Registrar.Api.Controllers
         {
             var userId = await SignInManager.GetVerifiedUserIdAsync();
             if (userId == null)
-                return Unauthorized();
+                return StatusCode(HttpStatusCode.Forbidden);
             var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
             var factorOptions =
                 userFactors.Select(purpose => new SelectListItem {Text = purpose, Value = purpose}).ToList();
@@ -198,7 +206,7 @@ namespace Registrar.Api.Controllers
 
             // Generate the token and send it
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
-                return Unauthorized();
+                return StatusCode(HttpStatusCode.Forbidden);
             return Ok(new {Provider = model.SelectedProvider});
         }
 

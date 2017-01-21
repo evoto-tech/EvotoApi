@@ -15,6 +15,9 @@ namespace Registrar.Api
             // Web API routes
             config.MapHttpAttributeRoutes();
 
+            config.SuppressDefaultHostAuthentication();
+            config.Filters.Add(new HostAuthenticationFilter("Bearer"));
+
             config.Routes.MapHttpRoute(
                 "DefaultApi",
                 "api/{controller}/{id}",

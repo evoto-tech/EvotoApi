@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Security.Claims;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin;
-using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Infrastructure;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.OAuth;
 using Owin;
 using Registrar.Api.Auth;
 
@@ -10,6 +11,8 @@ namespace Registrar.Api
 {
     public partial class Startup
     {
+        public static OAuthBearerAuthenticationOptions OAuthBearerOptions { get; private set; }
+
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
@@ -17,25 +20,12 @@ namespace Registrar.Api
             app.CreatePerOwinContext<RegiUserManager>(RegiUserManager.Create);
             app.CreatePerOwinContext<RegiSignInManager>(RegiSignInManager.Create);
 
-            // Enable the application to use a cookie to store information for the signed in user
-            // and to use a cookie to temporarily store information about a user logging in with a third party login provider
-            // Configure the sign in cookie
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/Account/Login"),
-                Provider = new CookieAuthenticationProvider
+            OAuthBearerOptions =
+                new OAuthBearerAuthenticationOptions
                 {
-                    // Enables the application to validate the security stamp when the user logs in.
-                    // This is a security feature which is used when you change a password or add an external login to your account.  
-                    OnValidateIdentity =
-                        SecurityStampValidator.OnValidateIdentity<RegiUserManager, RegiAuthUser, int>(
-                            TimeSpan.FromMinutes(30),
-                            (manager, user) => user.GenerateUserIdentityAsync(manager),
-                            (identity) => Convert.ToInt32(identity.GetUserId()))
-                }
-            });
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+                    Provider = new RegiOAuthProvider()
+                };
+            app.UseOAuthBearerAuthentication(OAuthBearerOptions);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
             app.UseTwoFactorSignInCookie(DefaultAuthenticationTypes.TwoFactorCookie, TimeSpan.FromMinutes(5));
@@ -43,7 +33,20 @@ namespace Registrar.Api
             // Enables the application to remember the second login verification factor such as phone or email.
             // Once you check this option, your second step of verification during the login process will be remembered on the device where you logged in from.
             // This is similar to the RememberMe option when you log in.
-            app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
+            //app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
+        }
+
+        public static string GenerateToken(RegiAuthUser user)
+        {
+            var identity = new ClaimsIdentity(OAuthBearerOptions.AuthenticationType);
+            identity.AddClaim(new Claim(ClaimTypes.Name, user.Email));
+            identity.AddClaim(new Claim(RegiClaims.Id, Convert.ToString(user.Id)));
+
+            var ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
+            var currentUtc = new SystemClock().UtcNow;
+            ticket.Properties.IssuedUtc = currentUtc;
+            ticket.Properties.ExpiresUtc = currentUtc.Add(TimeSpan.FromMinutes(30));
+            return OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
         }
     }
 }
