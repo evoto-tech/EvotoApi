@@ -51,7 +51,7 @@ class NewVote extends React.Component {
         inline: true,
         sideBySide: true
       })
-      if (expiryDate) $('#expiryDate').data("DateTimePicker").date(moment(expiryDate))
+      if (expiryDate) $('#expiryDate').data('DateTimePicker').date(moment(expiryDate))
     })
   }
 

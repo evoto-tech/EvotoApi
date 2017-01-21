@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter, Link } from 'react-router'
+import { withRouter } from 'react-router'
 import NewVote from './New.jsx'
 
 class EditVote extends React.Component {

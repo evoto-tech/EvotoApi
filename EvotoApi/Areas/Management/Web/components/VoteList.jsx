@@ -57,7 +57,7 @@ class VoteList extends React.Component {
               <th style={{width: '200px'}}>Created on</th>
               <th style={{width: '200px'}}>Expires on</th>
               <th style={{width: '40px'}}>State</th>
-              <th style={{width: '20px'}}></th>
+              <th style={{width: '20px'}} />
             </tr>
               {this.createVoteRows()}
             </tbody></table>

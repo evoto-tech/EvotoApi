@@ -32,7 +32,8 @@
   "standard": {
     "globals": [
       "$",
-      "fetch"
+      "fetch",
+      "moment"
     ],
     "parser": "babel-eslint"
   }
