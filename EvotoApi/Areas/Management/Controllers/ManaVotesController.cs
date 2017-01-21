@@ -62,26 +62,6 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         }
 
         /// <summary>
-        /// Get list of votes for organisation, needs authorize to be added
-        /// </summary>
-        [HttpGet]
-        [Route("list/org/{state?}")]
-        public async Task<IHttpActionResult> OrgList(string state = "all")
-        {
-            if (state != "all" && state != "draft" && state != "published") state = "all";
-            try
-            {
-                var votes = await _store.GetOrgVotes(2, state);
-                var response = votes.Select((v) => new ManaVoteResponse(v)).ToList();
-                return Json(response);
-            }
-            catch (RecordNotFoundException)
-            {
-                return Json(new object[] {});
-            }
-        }
-
-        /// <summary>
         /// Create a vote for an organisation, needs authorize to be added
         /// </summary>
         [HttpPost]

@@ -8,10 +8,6 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
     [DataContract]
     public class CreateManaVote
     {
-        [DataMember(Name = "orgId")]
-        [Required]
-        public int OrgId { get; private set; }
-
         [DataMember(Name = "createdBy")]
         [Required]
         public int CreatedBy { get; private set; }
@@ -34,7 +30,6 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
         {
             return new ManaVote()
             {
-                OrgId = OrgId,
                 CreatedBy = CreatedBy,
                 Name = Name,
                 State = State,

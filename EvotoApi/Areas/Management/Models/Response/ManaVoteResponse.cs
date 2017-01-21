@@ -10,7 +10,6 @@ namespace EvotoApi.Areas.ManagementApi.Models.Response
         public ManaVoteResponse(ManaVote vote)
         {
             Id = vote.Id;
-            OrgId = vote.OrgId;
             CreatedBy = vote.CreatedBy;
             Name = vote.Name;
             CreationDate = vote.CreationDate;
@@ -21,9 +20,6 @@ namespace EvotoApi.Areas.ManagementApi.Models.Response
 
         [DataMember(Name = "id")]
         public int Id { get; }
-
-        [DataMember(Name = "orgId")]
-        public int OrgId { get; }
 
         [DataMember(Name = "createdBy")]
         public int CreatedBy { get; }

@@ -8,7 +8,6 @@ namespace Management.Database.Models
         public ManaDbVote(dynamic record)
         {
             Id = record.Id;
-            OrgId = record.OrgId;
             CreatedBy = record.CreatedBy;
             Name = record.Name;
             CreationDate = record.CreationDate;
@@ -23,7 +22,6 @@ namespace Management.Database.Models
                 throw new ArgumentException(nameof(model));
 
             Id = model.Id;
-            OrgId = model.OrgId;
             CreatedBy = model.CreatedBy;
             Name = model.Name;
             CreationDate = model.CreationDate;
@@ -33,7 +31,6 @@ namespace Management.Database.Models
         }
 
         public int Id { get; }
-        public int OrgId { get; }
         public int CreatedBy { get; }
         public string Name { get; }
         public DateTime CreationDate { get; }
@@ -46,7 +43,6 @@ namespace Management.Database.Models
             return new ManaVote
             {
                 Id = Id,
-                OrgId = OrgId,
                 CreatedBy = CreatedBy,
                 Name = Name,
                 CreationDate = CreationDate,

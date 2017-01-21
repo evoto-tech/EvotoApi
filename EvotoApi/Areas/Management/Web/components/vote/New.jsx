@@ -7,7 +7,6 @@ class VoteList extends React.Component {
     super(props)
     this.state = {
       user: { id: 2 },
-      org: { id: 2 },
       name: '',
       expiryDate: '',
       state: 'draft'
@@ -42,7 +41,7 @@ class VoteList extends React.Component {
 
   isValid () {
     const vote = this.makeVote()
-    const expectedKeys = [ 'createdBy', 'expiryDate', 'name', 'orgId' ]
+    const expectedKeys = [ 'createdBy', 'expiryDate', 'name' ]
     return expectedKeys.every((k) => {
       return vote.hasOwnProperty(k) && vote[k] != ''
     })
@@ -50,7 +49,6 @@ class VoteList extends React.Component {
 
   makeVote () {
     return ({
-      orgId: this.state.org.id,
       createdBy: this.state.user.id,
       name: this.state.name,
       expiryDate: this.state.expiryDate

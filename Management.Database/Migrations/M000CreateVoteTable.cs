@@ -10,7 +10,6 @@ namespace Management.Database.Migrations
         {
             Create.Table("Votes")
                 .WithColumn("Id").AsInt32().Identity().NotNullable()
-                .WithColumn("OrgId").AsInt32().NotNullable()
                 .WithColumn("CreatedBy").AsInt32().NotNullable()
                 .WithColumn("Name").AsString(255).NotNullable()
                 .WithColumn("CreationDate").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentDateTime)

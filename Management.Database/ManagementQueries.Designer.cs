@@ -79,24 +79,6 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE OrgId = @OrgId.
-        /// </summary>
-        internal static string VotesGetByOrg {
-            get {
-                return ResourceManager.GetString("VotesGetByOrg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE OrgId = @OrgId AND State = @State.
-        /// </summary>
-        internal static string VotesGetByOrgAndState {
-            get {
-                return ResourceManager.GetString("VotesGetByOrgAndState", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId.
         /// </summary>
         internal static string VotesGetByUser {
