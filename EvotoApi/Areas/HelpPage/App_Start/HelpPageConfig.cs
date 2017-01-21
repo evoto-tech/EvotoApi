@@ -31,7 +31,7 @@ namespace EvotoApi.Areas.HelpPage
         public static void Register(HttpConfiguration config)
         {
             //// Uncomment the following to use the documentation from XML documentation file.
-            if (File.Exists("~/App_Data/XmlDocument.xml"))
+            if (File.Exists(System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "/App_Data/XmlDocument.xml"))
                 config.SetDocumentationProvider(
                     new XmlDocumentationProvider(HttpContext.Current.Server.MapPath("~/App_Data/XmlDocument.xml")));
 
