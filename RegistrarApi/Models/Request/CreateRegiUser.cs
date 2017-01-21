@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using Common;
-using Registrar.Models;
 
 namespace Registrar.Api.Models.Request
 {
@@ -35,14 +33,5 @@ namespace Registrar.Api.Models.Request
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage ="Entered Passwords do not match")]
         public string ComparePassword { get; private set; }
-
-        public RegiUser ToModel()
-        {
-            return new RegiUser
-            {
-                Email = Email,
-                //PasswordHash = Passwords.HashPassword(Password)
-            };
-        }
     }
 }
