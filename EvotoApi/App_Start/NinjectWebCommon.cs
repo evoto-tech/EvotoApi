@@ -3,6 +3,8 @@ using System.Configuration;
 using System.Reflection;
 using System.Web;
 using EvotoApi;
+using Management.Database.Interfaces;
+using Management.Database.Stores;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Syntax;
@@ -68,6 +70,7 @@ namespace EvotoApi
             var m = ConfigurationManager.ConnectionStrings["ManagementConnectionString"].ConnectionString;
             var r = ConfigurationManager.ConnectionStrings["RegistrarConnectionString"].ConnectionString;
 
+            kernel.Bind<IManaVoteStore>().To<ManaSqlVoteStore>().WithConstructorArgument("connectionString", m);
             kernel.Bind<IRegiUserStore>().To<RegiSqlUserStore>().WithConstructorArgument("connectionString", r);
         }        
     }

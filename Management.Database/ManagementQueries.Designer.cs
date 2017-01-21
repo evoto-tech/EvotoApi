@@ -59,5 +59,59 @@ namespace Management.Database {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO Votes (CreatedBy, Name, State, ExpiryDate, ChainString) VALUES (@CreatedBy, @Name, @State, @ExpiryDate, @ChainString).
+        /// </summary>
+        internal static string VoteCreate {
+            get {
+                return ResourceManager.GetString("VoteCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM Votes WHERE Id=@Id.
+        /// </summary>
+        internal static string VoteDelete {
+            get {
+                return ResourceManager.GetString("VoteDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE Id = @Id.
+        /// </summary>
+        internal static string VoteGetById {
+            get {
+                return ResourceManager.GetString("VoteGetById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId.
+        /// </summary>
+        internal static string VotesGetByUser {
+            get {
+                return ResourceManager.GetString("VotesGetByUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId AND State = @State.
+        /// </summary>
+        internal static string VotesGetByUserAndState {
+            get {
+                return ResourceManager.GetString("VotesGetByUserAndState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE Votes SET Name=@Name, State=@State, ExpiryDate=@ExpiryDate WHERE Id=@Id.
+        /// </summary>
+        internal static string VoteUpdate {
+            get {
+                return ResourceManager.GetString("VoteUpdate", resourceCulture);
+            }
+        }
     }
 }

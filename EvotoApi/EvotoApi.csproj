@@ -265,7 +265,11 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Areas\Management\Controllers\ReactController.cs" />
+    <Compile Include="Areas\Management\Controllers\ManaVotesController.cs" />
     <Compile Include="Areas\Management\ManagementAreaRegistration.cs" />
+    <Compile Include="Areas\Management\ManagementApiAreaRegistration.cs" />
+    <Compile Include="Areas\Management\Models\Request\CreateManaVote.cs" />
+    <Compile Include="Areas\Management\Models\Response\ManaVoteResponse.cs" />
     <Compile Include="Areas\RegistrarApi\Controllers\RegiAccountController.cs" />
     <Compile Include="Areas\RegistrarApi\Models\Request\WebCreateRegiUser.cs" />
     <Compile Include="Areas\RegistrarApi\Models\Request\WebLoginRegiUser.cs" />
@@ -289,6 +293,10 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Areas\Management\Web\webpack.config.js" />
     <Content Include="Content\AdminLTE.css" />
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\management.css" />
@@ -302,6 +310,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\adminlte.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -332,6 +342,8 @@
     <Content Include="Areas\Management\Web\components\Home.jsx" />
     <Content Include="Areas\Management\Web\components\LoginContent.jsx" />
     <Content Include="Areas\Management\Web\package.json" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -341,6 +353,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\react.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -362,7 +379,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Management\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

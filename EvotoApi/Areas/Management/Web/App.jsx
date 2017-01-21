@@ -33,7 +33,7 @@ class App extends React.Component {
             username: data.data.Username
           })
         } else {
-          this.props.router.push('/manage/login')
+          this.props.router.push('/login')
         }
       }
     })
