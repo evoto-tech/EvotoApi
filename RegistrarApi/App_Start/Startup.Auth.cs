@@ -29,7 +29,7 @@ namespace Registrar.Api
             {
                 AuthenticationType = DefaultAuthenticationTypes.ExternalBearer,
                 TokenEndpointPath = new PathString("/Token"),
-                Provider = new RegiOAuthProvider("EvotoApi"),
+                Provider = new RegiOAuthProvider("EvotoClient"),
                 AuthorizeEndpointPath = new PathString("/external/login"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(5),
                 AllowInsecureHttp = true,
