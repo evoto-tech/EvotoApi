@@ -1,17 +1,38 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { withRouter, Link } from 'react-router'
 import WarningModal from './WarningModal.jsx'
 
-class VoteList extends React.Component {
+class NewVote extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      user: { id: 2 },
-      name: '',
-      expiryDate: '',
-      state: 'draft',
-      errors: {}
+    this.state = Object.assign({}, this.stateFromProps(props), { errors: {} })
+  }
+
+  propTypes: {
+    vote: React.PropTypes.object,
+    loaded: React.PropTypes.bool,
+    title: React.PropTypes.string,
+    description: React.PropTypes.string,
+    save: React.PropTypes.func
+  }
+
+  contextTypes: {
+    router: React.PropTypes.object
+  }
+
+  stateFromProps (props) {
+    const nonEmptyVote = props.vote && (Object.keys(props.vote).length > 0)
+    return {
+      user: nonEmptyVote ? { id: props.vote.createdBy } : { id: 2 },
+      name: nonEmptyVote ? props.vote.name : '',
+      expiryDate: nonEmptyVote ? props.vote.expiryDate : '',
+      state: nonEmptyVote ? props.vote.state : 'draft',
+      loaded: props.hasOwnProperty('loaded') ? props.loaded : true
     }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.setState(this.stateFromProps(nextProps))
   }
 
   componentDidMount () {
@@ -24,11 +45,13 @@ class VoteList extends React.Component {
   }
 
   loadExpiryDateTimePicker () {
+    const expiryDate = this.state.expiryDate
     $(function () {
       $('#expiryDate').datetimepicker({
         inline: true,
         sideBySide: true
       })
+      if (expiryDate) $('#expiryDate').data("DateTimePicker").date(moment(expiryDate))
     })
   }
 
@@ -68,6 +91,10 @@ class VoteList extends React.Component {
 
   saveVote () {
     const vote = this.makeVote()
+    this.props.save ? this.props.save(vote) : this.save(vote)
+  }
+
+  save (vote) {
     fetch('/mana/vote/create'
       , { method: 'POST',
         body: JSON.stringify(vote),
@@ -78,9 +105,8 @@ class VoteList extends React.Component {
       })
       .then((res) => {
         console.log('res', res)
-        return res.json()
+        this.props.router.push('/')
       })
-      .then((data) => console.log)
       .catch((err) => {
         console.error(err)
       })
@@ -110,6 +136,8 @@ class VoteList extends React.Component {
   }
 
   render () {
+    const title = this.props.title || 'New Vote'
+    const description = this.props.description || 'Create a new vote'
     return (
       <div className='content-wrapper' style={{ height: '100%' }}>
         <WarningModal
@@ -118,7 +146,7 @@ class VoteList extends React.Component {
           ref='publishModal'
           confirm={this.confirmPublish.bind(this)} />
         <section className='content-header' style={{ height: '100%' }}>
-          <h1>New Vote<small>Create a new vote for your organisation</small></h1>
+          <h1>{title}<small>{description}</small></h1>
           <ol className='breadcrumb'>
             <li>
               <Link to='/vote/new'><i className='fa fa-plus' />New Vote</Link>
@@ -127,8 +155,14 @@ class VoteList extends React.Component {
         </section>
         <section className='content'>
           <div className='box box-primary'>
+            { !this.state.loaded ? (
+              <div className='overlay'>
+                <i className='fa fa-refresh fa-spin' />
+              </div>
+              ) : ''
+            }
             <div className='box-header with-border'>
-              <h3 className='box-title'>New Vote Details</h3>
+              <h3 className='box-title'>{title} Details</h3>
             </div>
             <form role='form'>
               <div className='box-body'>
@@ -165,4 +199,4 @@ class VoteList extends React.Component {
   }
 }
 
-export default VoteList
+export default withRouter(NewVote)
