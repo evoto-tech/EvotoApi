@@ -8,14 +8,14 @@
           <DataMigrationProjectRootPath>$(MSBuildProjectDirectory)</DataMigrationProjectRootPath>
           <MigratorTasksDirectory></MigratorTasksDirectory>
 
-          <DataMigrationProjectBuildDLL>$(DataMigrationProjectRootPath)\bin\Release\$(DataMigrationProjectName).dll</DataMigrationProjectBuildDLL>
+          <DataMigrationProjectBuildDLL>$(DataMigrationProjectRootPath)\bin\$(Configuration)\$(DataMigrationProjectName).dll</DataMigrationProjectBuildDLL>
           <DataMigrationProjectCsproj>$(DataMigrationProjectRootPath)\$(DataMigrationProjectName).csproj</DataMigrationProjectCsproj>
       </PropertyGroup>
 
       <UsingTask TaskName="FluentMigrator.MSBuild.Migrate" AssemblyFile="$(MigratorTasksDirectory)FluentMigrator.MSBuild.dll"/>
 
       <Target Name="Build">
-          <MSBuild Projects="$(DataMigrationProjectCsproj)" Properties="Configuration=Debug"/>
+          <MSBuild Projects="$(DataMigrationProjectCsproj)" Properties="Configuration=$(Configuration)"/>
       </Target>
 
       <Target Name="Migrate" DependsOnTargets="Build">

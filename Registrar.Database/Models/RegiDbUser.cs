@@ -30,7 +30,7 @@ namespace Registrar.Database.Models
         {
             return new RegiUser
             {
-                Id = (int) Id,
+                Id = Id,
                 Email = Email,
                 PasswordHash = PasswordHash
             };

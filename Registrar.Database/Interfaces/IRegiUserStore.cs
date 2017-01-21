@@ -9,5 +9,6 @@ namespace Registrar.Database.Interfaces
         Task<RegiUser> GetUserByEmail(string email);
         Task<RegiUser> CreateUser(RegiUser user);
         Task DeleteUser(int id);
+        Task UpdateUser(RegiUser user);
     }
 }

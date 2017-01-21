@@ -117,6 +117,36 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LockoutGetByUserId" xml:space="preserve">
+    <value>SELECT * FROM Users_Lockout WHERE UserId = @UserId</value>
+  </data>
+  <data name="LockoutInsertAttempts" xml:space="preserve">
+    <value>INSERT INTO Users_Lockout (UserId, Attempts) VALUES (@UserId, @Attempts)</value>
+  </data>
+  <data name="LockoutInsertTime" xml:space="preserve">
+    <value>INSERT INTO Users_Lockout (UserId, LockEnd) VALUES (@UserId, @LockEnd)</value>
+  </data>
+  <data name="LockoutUpdateAttempts" xml:space="preserve">
+    <value>UPDATE Users_Lockout SET Attempts = @Attempts WHERE UserId = @UserId</value>
+  </data>
+  <data name="LockoutUpdateTime" xml:space="preserve">
+    <value>UPDATE Users_Lockout SET LockEnd = @LockEnd WHERE UserId = @UserId</value>
+  </data>
+  <data name="RefreshTokenCreate" xml:space="preserve">
+    <value>INSERT INTO RefreshTokens (UserId, Token, Ticket, Issued, Expires) VALUES (@UserId, @Token, @Ticket, @Issued, @Expires)</value>
+  </data>
+  <data name="RefreshTokenDelete" xml:space="preserve">
+    <value>DELETE FROM RefreshTokens WHERE Token = @Token</value>
+  </data>
+  <data name="RefreshTokenSelect" xml:space="preserve">
+    <value>SELECT * FROM RefreshTokens WHERE Token = @Token</value>
+  </data>
+  <data name="RefreshTokenSelectForUser" xml:space="preserve">
+    <value>SELECT * FROM RefreshTokens WHERE UserId = @UserId</value>
+  </data>
+  <data name="RefreshTokenUpdate" xml:space="preserve">
+    <value>UPDATE RefreshTokens SET Token = @Token, Ticket = @Ticket, Issued = @Issued, Expires = @Expires WHERE UserId = @UserId</value>
+  </data>
   <data name="UserCreate" xml:space="preserve">
     <value>INSERT INTO Users (Email, PasswordHash) VALUES (@Email, @PasswordHash)</value>
   </data>
@@ -128,5 +158,8 @@
   </data>
   <data name="UserGetById" xml:space="preserve">
     <value>SELECT * FROM Users WHERE Id = @Id</value>
+  </data>
+  <data name="UserUpdate" xml:space="preserve">
+    <value>UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash WHERE Id = @Id</value>
   </data>
 </root>
