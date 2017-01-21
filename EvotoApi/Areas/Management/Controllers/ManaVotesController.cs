@@ -129,8 +129,17 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         {
             try
             {
-                var affectedRows = await _store.DeleteVote(voteId);
-                return Json(affectedRows);
+                var affectedVote = await _store.GetVoteById(voteId);
+                if (affectedVote.State != "published")
+                {
+                    var affectedRows = await _store.DeleteVote(voteId);
+                    return Json(affectedRows);
+                }
+                else
+                {
+                    return new System.Web.Http.Results.BadRequestErrorMessageResult(
+                        "Published votes cannot be deleted", this);
+                }
             }
             catch (RecordNotFoundException)
             {

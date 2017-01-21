@@ -43,7 +43,9 @@ class VoteList extends React.Component {
               this.fetchVotes()
             })
           } else {
-            console.error('Unexpected number of votes deleted', data)
+            this.setState({ toDelete: {}, loaded: true }, () => {
+              console.error('Unexpected result', data)
+            })
           }
         })
         .catch(console.error)
