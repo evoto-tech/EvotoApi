@@ -87,5 +87,28 @@ namespace Management.Database.Stores
                 throw new Exception("Could not get create Mana Vote");
             }
         }
+
+        public async Task<ManaVote> UpdateVote(ManaVote vote)
+        {
+            try
+            {
+                using (var connection = await GetConnectionAsync())
+                {
+                    var dbModel = new ManaDbVote(vote);
+                    await connection.ExecuteAsync(ManagementQueries.VoteUpdate, dbModel);
+
+                    return vote;
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                throw;
+#endif
+                if (e is RecordNotFoundException)
+                    throw;
+                throw new Exception("Could not get create Mana Vote");
+            }
+        }
     }
 }

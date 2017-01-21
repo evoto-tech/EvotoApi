@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="VoteCreate" xml:space="preserve">
-    <value>INSERT INTO Votes (CreatedBy, Name, State, ChainString) VALUES (@CreatedBy, @Name, @State, @ChainString)</value>
+    <value>INSERT INTO Votes (CreatedBy, Name, State, ExpiryDate, ChainString) VALUES (@CreatedBy, @Name, @State, @ExpiryDate, @ChainString)</value>
   </data>
   <data name="VoteGetById" xml:space="preserve">
     <value>SELECT * FROM Votes WHERE Id = @Id</value>
@@ -128,5 +128,8 @@
   </data>
   <data name="VotesGetByUserAndState" xml:space="preserve">
     <value>SELECT * FROM Votes WHERE CreatedBy = @UserId AND State = @State</value>
+  </data>
+  <data name="VoteUpdate" xml:space="preserve">
+    <value>UPDATE Votes SET Name=@Name, State=@State, ExpiryDate=@ExpiryDate WHERE Id=@Id</value>
   </data>
 </root>

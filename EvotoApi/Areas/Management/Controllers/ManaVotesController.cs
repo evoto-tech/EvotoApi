@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -27,7 +28,7 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         /// </summary>
         [HttpGet]
         [Route("{voteId:int}")]
-        public async Task<IHttpActionResult> UserList(int voteId)
+        public async Task<IHttpActionResult> VoteDetails(int voteId)
         {
             try
             {
@@ -62,11 +63,11 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         }
 
         /// <summary>
-        /// Create a vote for an organisation, needs authorize to be added
+        /// Create a vote, needs authorize to be added
         /// </summary>
         [HttpPost]
         [Route("create")]
-        public async Task<IHttpActionResult> OrgList(CreateManaVote model)
+        public async Task<IHttpActionResult> VoteCreate(CreateManaVote model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -79,7 +80,39 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
                 var response = new ManaVoteResponse(vote);
                 return Json(response);
             }
-            catch (Exception)
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+#if DEBUG
+                throw;
+#endif
+                return InternalServerError();
+            }
+        }
+
+        /// <summary>
+        /// Edit a vote, needs authorize to be added
+        /// </summary>
+        [HttpPatch]
+        [Route("{voteId:int}/edit")]
+        public async Task<IHttpActionResult> VoteEdit(int voteId, CreateManaVote model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var voteModel = model.ToModel();
+            voteModel.Id = voteId;
+            try
+            {
+                var updatedVote = await _store.UpdateVote(voteModel);
+                var response = new ManaVoteResponse(updatedVote);
+                return Json(response);
+            }
+            catch (RecordNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception e)
             {
 #if DEBUG
                 throw;

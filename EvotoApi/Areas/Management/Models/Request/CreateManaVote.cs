@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Common;
 using Management.Models;
@@ -22,6 +23,10 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
         [Required]
         public string State { get; private set; }
 
+        [DataMember(Name = "expiryDate")]
+        [Required]
+        public DateTime ExpiryDate { get; private set; }
+
         [DataMember(Name = "chainString")]
         public string ChainString { get; private set; }
 
@@ -31,6 +36,7 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
             {
                 CreatedBy = CreatedBy,
                 Name = Name,
+                ExpiryDate = ExpiryDate,
                 State = State,
                 ChainString = ChainString
             };

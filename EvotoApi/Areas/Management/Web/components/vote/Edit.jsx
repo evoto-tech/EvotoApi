@@ -18,9 +18,8 @@ class EditVote extends React.Component {
   }
 
   save (vote) {
-    console.log('editing!', vote)
-    fetch('/mana/vote/edit'
-      , { method: 'PUT',
+    fetch(`/mana/vote/${this.state.vote.id}/edit`
+      , { method: 'PATCH',
         body: JSON.stringify(vote),
         headers: {
           'Accept': 'application/json',
@@ -34,7 +33,6 @@ class EditVote extends React.Component {
       .catch((err) => {
         console.error(err)
       })
-    this.props.router.push('/')
   }
 
   render () {

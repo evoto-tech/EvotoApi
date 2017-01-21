@@ -9,5 +9,6 @@ namespace Management.Database.Interfaces
         Task<ManaVote> GetVoteById(int id);
         Task<IEnumerable<ManaVote>> GetUserVotes(int userId, string state);
         Task<ManaVote> CreateVote(ManaVote vote);
+        Task<ManaVote> UpdateVote(ManaVote vote);
     }
 }

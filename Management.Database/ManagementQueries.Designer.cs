@@ -61,7 +61,7 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INSERT INTO Votes (CreatedBy, Name, State, ChainString) VALUES (@CreatedBy, @Name, @State, @ChainString).
+        ///   Looks up a localized string similar to INSERT INTO Votes (CreatedBy, Name, State, ExpiryDate, ChainString) VALUES (@CreatedBy, @Name, @State, @ExpiryDate, @ChainString).
         /// </summary>
         internal static string VoteCreate {
             get {
@@ -93,6 +93,15 @@ namespace Management.Database {
         internal static string VotesGetByUserAndState {
             get {
                 return ResourceManager.GetString("VotesGetByUserAndState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE Votes SET Name=@Name, State=@State, ExpiryDate=@ExpiryDate WHERE Id=@Id.
+        /// </summary>
+        internal static string VoteUpdate {
+            get {
+                return ResourceManager.GetString("VoteUpdate", resourceCulture);
             }
         }
     }
