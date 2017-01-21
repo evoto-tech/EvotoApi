@@ -23,7 +23,6 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
         public string State { get; private set; }
 
         [DataMember(Name = "chainString")]
-        [Required]
         public string ChainString { get; private set; }
 
         public ManaVote ToModel()

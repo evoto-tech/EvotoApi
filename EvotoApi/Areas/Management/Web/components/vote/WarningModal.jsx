@@ -29,7 +29,6 @@ class VoteList extends React.Component {
   }
 
   show () {
-    console.log('showing', this.props.name)
     const name = this.props.name
     $(function () {
       $(`#${name}`).modal('show')

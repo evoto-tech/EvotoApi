@@ -7,7 +7,7 @@ class VoteList extends React.Component {
   }
 
   componentDidMount () {
-    fetch('/mana/vote/list/org')
+    fetch('/mana/vote/list/user')
       .then((res) => res.json())
       .then((data) => {
         this.setState({ votes: data, loaded: true })
@@ -24,7 +24,7 @@ class VoteList extends React.Component {
             <td>{vote.name}</td>
             <td>{vote.creationDate}</td>
             <td>{vote.expiryDate}</td>
-            <td><span className='badge bg-red'>{vote.state}</span></td>
+            <td><span className={'badge ' + (vote.state === 'published' ? 'bg-green' : 'bg-red')}>{vote.state}</span></td>
           </tr>
         )
       })

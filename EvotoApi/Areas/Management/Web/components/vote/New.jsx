@@ -9,7 +9,8 @@ class VoteList extends React.Component {
       user: { id: 2 },
       name: '',
       expiryDate: '',
-      state: 'draft'
+      state: 'draft',
+      errors: {}
     }
   }
 
@@ -42,16 +43,26 @@ class VoteList extends React.Component {
   isValid () {
     const vote = this.makeVote()
     const expectedKeys = [ 'createdBy', 'expiryDate', 'name' ]
-    return expectedKeys.every((k) => {
-      return vote.hasOwnProperty(k) && vote[k] !== ''
+    let errors = {}
+    const valid = expectedKeys.every((k) => {
+      let propValid = vote.hasOwnProperty(k) && vote[k] !== ''
+      if (!propValid) errors[k] = (`This is required!`)
+      return propValid
     })
+    this.setState({ errors })
+    return valid
+  }
+
+  clearErrors () {
+    this.setState({ errors: {} })
   }
 
   makeVote () {
     return ({
       createdBy: this.state.user.id,
       name: this.state.name,
-      expiryDate: this.state.expiryDate
+      expiryDate: this.state.expiryDate,
+      state: this.state.state
     })
   }
 
@@ -76,21 +87,20 @@ class VoteList extends React.Component {
   }
 
   checkValid (action) {
+    this.clearErrors()
     if (this.isValid()) {
       action()
-    } else {
-      this.refs.errorModal.show()
     }
   }
 
   saveDraft () {
     this.setState({ state: 'draft' }, () => {
-      this.checkValid(this.save)
+      this.checkValid(this.saveVote.bind(this))
     })
   }
 
   savePublish () {
-    this.checkValid(this.refs.publishModal.show)
+    this.checkValid(this.refs.publishModal.show.bind(this.refs.publishModal))
   }
 
   confirmPublish () {
@@ -107,12 +117,6 @@ class VoteList extends React.Component {
           name='warningModal'
           ref='publishModal'
           confirm={this.confirmPublish.bind(this)} />
-        <WarningModal
-          title='Sorry! There seems to have been some errors with saving the vote!'
-          name='errorModal'
-          context='Something!'
-          cancelText='Close'
-          ref='errorModal' />
         <section className='content-header' style={{ height: '100%' }}>
           <h1>New Vote<small>Create a new vote for your organisation</small></h1>
           <ol className='breadcrumb'>
@@ -128,11 +132,12 @@ class VoteList extends React.Component {
             </div>
             <form role='form'>
               <div className='box-body'>
-                <div className='form-group'>
+                <div className={this.state.errors.name ? 'form-group has-error' : 'form-group'}>
                   <label htmlFor='voteName'>Name</label>
                   <input type='text' className='form-control' id='voteName' placeholder='Enter vote name' value={this.state.name} onChange={this.handleNameChange.bind(this)} />
+                  <span className='help-block'>{this.state.errors.name}</span>
                 </div>
-                <div className='form-group'>
+                <div className={this.state.errors.expiryDate ? 'form-group has-error' : 'form-group'}>
                   <label>End Date</label>
                   <div style={{ overflow: 'hidden' }}>
                     <div className='form-group'>
@@ -143,11 +148,7 @@ class VoteList extends React.Component {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className='checkbox'>
-                  <label>
-                    <input type='checkbox' /> Check me out
-                  </label>
+                  <span className='help-block'>{this.state.errors.expiryDate}</span>
                 </div>
               </div>
               <div className='box-footer'>
