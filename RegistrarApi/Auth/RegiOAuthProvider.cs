@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
@@ -35,6 +36,12 @@ namespace Registrar.Api.Auth
         {
             get { return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<RegiUserManager>(); }
             private set { _userManager = value; }
+        }
+
+        public override Task TokenEndpointResponse(OAuthTokenEndpointResponseContext context)
+        {
+            context.AdditionalResponseParameters.Add("userId", context.Identity.GetUserId());
+            return base.TokenEndpointResponse(context);
         }
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)

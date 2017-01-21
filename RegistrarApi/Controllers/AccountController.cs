@@ -1,19 +1,16 @@
-﻿using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using Registrar.Api.Auth;
 using Registrar.Api.Models.Request;
 using Registrar.Api.Models.Response;
 
 namespace Registrar.Api.Controllers
 {
-    [System.Web.Http.RoutePrefix("account")]
+    [RoutePrefix("account")]
     public class AccountController : ApiController
     {
         private RegiSignInManager _signInManager;
@@ -41,37 +38,22 @@ namespace Registrar.Api.Controllers
             private set { _userManager = value; }
         }
 
-        //[System.Web.Http.HttpPost]
-        //[System.Web.Http.Route("login")]
-        //public async Task<IHttpActionResult> Login(LoginRegiUser model)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest(ModelState);
+        [HttpGet]
+        [Route("details")]
+        [Authorize]
+        public async Task<IHttpActionResult> Details(int userId)
+        {
+            if (User.Identity.GetUserId<int>() != userId)
+                return Unauthorized();
 
-        //    // This doesn't count login failures towards account lockout
-        //    // To enable password failures to trigger account lockout, change to shouldLockout: true
-        //    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, true, true);
-        //    switch (result)
-        //    {
-        //        case SignInStatus.Success:
-
-        //            var user = await UserManager.FindByNameAsync(model.Email);
-        //            var token = Startup.GenerateToken(user);
-        //            return Ok(token);
-
-        //        case SignInStatus.LockedOut:
-        //            return StatusCode(HttpStatusCode.Forbidden);
-        //        //case SignInStatus.RequiresVerification:
-        //        //    return RedirectToAction("SendCode", new {ReturnUrl = returnUrl, model.RememberMe});
-        //        default:
-        //            ModelState.AddModelError("", "Invalid login attempt.");
-        //            return BadRequest(ModelState);
-        //    }
-        //}
+            var details = await UserManager.FindByIdAsync(userId);
+            var res = new SingleRegiUserResponse(details);
+            return Ok(res);
+        }
 
         // POST: /Account/VerifyCode
-        [System.Web.Http.HttpPost]
-        [System.Web.Http.Route("verifyCode")]
+        [HttpPost]
+        [Route("verifyCode")]
         public async Task<IHttpActionResult> VerifyCode(VerifyCodeViewModel model)
         {
             if (!ModelState.IsValid)
@@ -97,8 +79,8 @@ namespace Registrar.Api.Controllers
         }
 
         // POST: /Account/Register
-        [System.Web.Http.HttpPost]
-        [System.Web.Http.Route("register")]
+        [HttpPost]
+        [Route("register")]
         public async Task<IHttpActionResult> Register(CreateRegiUser model)
         {
             if (!ModelState.IsValid)
@@ -124,19 +106,20 @@ namespace Registrar.Api.Controllers
             return BadRequest(ModelState);
         }
 
-        //// GET: /Account/ConfirmEmail
-        //public async Task<IHttpActionResult> ConfirmEmail(string userId, string code)
-        //{
-        //    if ((userId == null) || (code == null))
-        //        return View("Error");
-        //    var result = await UserManager.ConfirmEmailAsync(userId, code);
-        //    return View(result.Succeeded ? "ConfirmEmail" : "Error");
-        //}
+        // GET: /Account/ConfirmEmail
+        public async Task<IHttpActionResult> ConfirmEmail(int userId, string code)
+        {
+            var result = await UserManager.ConfirmEmailAsync(userId, code);
+            if (result.Succeeded)
+                return BadRequest();
+
+            return Ok();
+        }
 
 
         // POST: /Account/ForgotPassword
-        [System.Web.Http.HttpPost]
-        [System.Web.Http.Route("forgotPassword")]
+        [HttpPost]
+        [Route("forgotPassword")]
         public async Task<IHttpActionResult> ForgotPassword(ForgotRegiPassword model)
         {
             if (!ModelState.IsValid)
@@ -158,8 +141,8 @@ namespace Registrar.Api.Controllers
         }
 
         // POST: /Account/ResetPassword
-        [System.Web.Http.HttpPost]
-        [System.Web.Http.Route("resetPassword")]
+        [HttpPost]
+        [Route("resetPassword")]
         public async Task<IHttpActionResult> ResetPassword(ResetRegiPassword model)
         {
             if (!ModelState.IsValid)
@@ -175,27 +158,27 @@ namespace Registrar.Api.Controllers
             return BadRequest();
         }
 
-        // GET: /Account/SendCode
-        [System.Web.Http.HttpGet]
-        [System.Web.Http.Route("sendCode")]
-        public async Task<IHttpActionResult> SendCode()
-        {
-            var userId = await SignInManager.GetVerifiedUserIdAsync();
-            if (userId == null)
-                return StatusCode(HttpStatusCode.Forbidden);
-            var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
-            var factorOptions =
-                userFactors.Select(purpose => new SelectListItem {Text = purpose, Value = purpose}).ToList();
-            return
-                Ok(new SingleRegiCodeResponse
-                {
-                    Providers = factorOptions
-                });
-        }
+        //// GET: /Account/SendCode
+        //[System.Web.Http.HttpGet]
+        //[System.Web.Http.Route("sendCode")]
+        //public async Task<IHttpActionResult> SendCode()
+        //{
+        //    var userId = await SignInManager.GetVerifiedUserIdAsync();
+        //    if (userId == null)
+        //        return StatusCode(HttpStatusCode.Forbidden);
+        //    var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
+        //    var factorOptions =
+        //        userFactors.Select(purpose => new System.Web.Mvc.SelectListItem {Text = purpose, Value = purpose}).ToList();
+        //    return
+        //        Ok(new SingleRegiCodeResponse
+        //        {
+        //            Providers = factorOptions
+        //        });
+        //}
 
         // POST: /Account/SendCode
-        [System.Web.Http.HttpPost]
-        [System.Web.Http.Route("sendCode")]
+        [HttpPost]
+        [Route("sendCode")]
         public async Task<IHttpActionResult> SendCode(RegiCode model)
         {
             if (!ModelState.IsValid)
@@ -205,16 +188,6 @@ namespace Registrar.Api.Controllers
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
                 return StatusCode(HttpStatusCode.Forbidden);
             return Ok(new {Provider = model.SelectedProvider});
-        }
-
-        // POST: /Account/LogOff
-        [System.Web.Http.HttpPost]
-        [System.Web.Http.Authorize]
-        [System.Web.Http.Route("logOff")]
-        public IHttpActionResult LogOff()
-        {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return Ok();
         }
 
         protected override void Dispose(bool disposing)
@@ -239,43 +212,10 @@ namespace Registrar.Api.Controllers
 
         #region Helpers
 
-        // Used for XSRF protection when adding external logins
-        private const string XSRF_KEY = "XsrfId";
-
-        private static IAuthenticationManager AuthenticationManager
-            => HttpContext.Current.GetOwinContext().Authentication;
-
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
                 ModelState.AddModelError("", error);
-        }
-
-        internal class ChallengeResult : HttpUnauthorizedResult
-        {
-            public ChallengeResult(string provider, string redirectUri)
-                : this(provider, redirectUri, null)
-            {
-            }
-
-            public ChallengeResult(string provider, string redirectUri, string userId)
-            {
-                LoginProvider = provider;
-                RedirectUri = redirectUri;
-                UserId = userId;
-            }
-
-            public string LoginProvider { get; set; }
-            public string RedirectUri { get; set; }
-            public string UserId { get; set; }
-
-            public override void ExecuteResult(ControllerContext context)
-            {
-                var properties = new AuthenticationProperties {RedirectUri = RedirectUri};
-                if (UserId != null)
-                    properties.Dictionary[XSRF_KEY] = UserId;
-                context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
-            }
         }
 
         #endregion

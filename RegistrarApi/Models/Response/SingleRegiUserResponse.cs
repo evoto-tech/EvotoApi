@@ -9,7 +9,7 @@ namespace Registrar.Api.Models.Response
     {
         public SingleRegiUserResponse(RegiUser user)
         {
-            Id = Convert.ToInt32(user.Id);
+            Id = user.Id;
             Email = user.Email;
         }
 
