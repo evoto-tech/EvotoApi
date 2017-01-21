@@ -15,7 +15,7 @@ namespace Management.Database.Migrations
                 .WithColumn("CreationDate").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentDateTime)
                 .WithColumn("ExpiryDate").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentDateTime)
                 .WithColumn("State").AsString(255).NotNullable()
-                .WithColumn("ChainString").AsString(255);
+                .WithColumn("ChainString").AsString(255).Nullable();
 
             Create.PrimaryKey("PK_Votes").OnTable("Votes")
                 .Columns("Id").Clustered();
