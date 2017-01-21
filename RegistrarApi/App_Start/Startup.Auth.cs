@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Security.Claims;
 using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Infrastructure;
-using Microsoft.Owin.Security;
+using Microsoft.Owin;
+using Microsoft.Owin.Security.Infrastructure;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using Registrar.Api.Auth;
@@ -21,11 +20,19 @@ namespace Registrar.Api
             app.CreatePerOwinContext<RegiSignInManager>(RegiSignInManager.Create);
 
             OAuthBearerOptions =
-                new OAuthBearerAuthenticationOptions
-                {
-                    Provider = new RegiOAuthProvider()
-                };
+                new OAuthBearerAuthenticationOptions();
             app.UseOAuthBearerAuthentication(OAuthBearerOptions);
+
+            app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
+            {
+                AuthenticationType = DefaultAuthenticationTypes.ExternalBearer,
+                TokenEndpointPath = new PathString("/Token"),
+                Provider = new RegiOAuthProvider("EvotoApi"),
+                AuthorizeEndpointPath = new PathString("/external/login"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(5),
+                AllowInsecureHttp = true,
+                RefreshTokenProvider = new AuthenticationTokenProvider()
+            });
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
             app.UseTwoFactorSignInCookie(DefaultAuthenticationTypes.TwoFactorCookie, TimeSpan.FromMinutes(5));
@@ -34,19 +41,6 @@ namespace Registrar.Api
             // Once you check this option, your second step of verification during the login process will be remembered on the device where you logged in from.
             // This is similar to the RememberMe option when you log in.
             //app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
-        }
-
-        public static string GenerateToken(RegiAuthUser user)
-        {
-            var identity = new ClaimsIdentity(OAuthBearerOptions.AuthenticationType);
-            identity.AddClaim(new Claim(ClaimTypes.Name, user.Email));
-            identity.AddClaim(new Claim(RegiClaims.Id, Convert.ToString(user.Id)));
-
-            var ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
-            var currentUtc = new SystemClock().UtcNow;
-            ticket.Properties.IssuedUtc = currentUtc;
-            ticket.Properties.ExpiresUtc = currentUtc.Add(TimeSpan.FromMinutes(30));
-            return OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
         }
     }
 }

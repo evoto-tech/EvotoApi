@@ -1,8 +1,115 @@
-﻿using Microsoft.Owin.Security.OAuth;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OAuth;
 
 namespace Registrar.Api.Auth
 {
-    public class RegiOAuthProvider : OAuthBearerAuthenticationProvider
+    public class RegiOAuthProvider : OAuthAuthorizationServerProvider
     {
+        private readonly string _publicClientId;
+
+        private RegiSignInManager _signInManager;
+        private RegiUserManager _userManager;
+
+        public RegiOAuthProvider(string publicClientId)
+        {
+            if (publicClientId == null)
+                throw new ArgumentNullException(nameof(publicClientId));
+
+            _publicClientId = publicClientId;
+        }
+
+        public RegiSignInManager SignInManager
+        {
+            get { return _signInManager ?? HttpContext.Current.GetOwinContext().Get<RegiSignInManager>(); }
+            private set { _signInManager = value; }
+        }
+
+        public RegiUserManager UserManager
+        {
+            get { return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<RegiUserManager>(); }
+            private set { _userManager = value; }
+        }
+
+        public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
+        {
+            var result = await SignInManager.PasswordSignInAsync(context.UserName, context.Password, false, true);
+
+            switch (result)
+            {
+                case SignInStatus.Success:
+
+                    var user = await UserManager.FindByNameAsync(context.UserName);
+
+                    var oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                        OAuthDefaults.AuthenticationType);
+                    var cookiesIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                        CookieAuthenticationDefaults.AuthenticationType);
+
+                    var properties = CreateProperties(user.UserName);
+                    var ticket = new AuthenticationTicket(oAuthIdentity, properties);
+                    context.Validated(ticket);
+                    context.Request.Context.Authentication.SignIn(cookiesIdentity);
+
+                    break;
+                case SignInStatus.LockedOut:
+                    context.SetError("invalid_grant", "Too many incorrect attempts.");
+                    return;
+                //case SignInStatus.RequiresVerification:
+                //    return RedirectToAction("SendCode", new {ReturnUrl = returnUrl, model.RememberMe});
+                default:
+                    context.SetError("invalid_grant", "The user name or password is incorrect.");
+                    return;
+            }
+        }
+
+        public override Task TokenEndpoint(OAuthTokenEndpointContext context)
+        {
+            foreach (var property in context.Properties.Dictionary)
+                context.AdditionalResponseParameters.Add(property.Key, property.Value);
+
+            return Task.FromResult<object>(null);
+        }
+
+        public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
+        {
+            // Resource owner password credentials does not provide a client ID.
+            if (context.ClientId == null)
+                context.Validated();
+
+            return Task.FromResult<object>(null);
+        }
+
+        public override Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
+        {
+            if (context.ClientId == _publicClientId)
+                context.Validated();
+
+            return Task.FromResult<object>(null);
+        }
+
+        public override Task ValidateAuthorizeRequest(OAuthValidateAuthorizeRequestContext context)
+        {
+            return base.ValidateAuthorizeRequest(context);
+        }
+
+        public override Task ValidateTokenRequest(OAuthValidateTokenRequestContext context)
+        {
+            return base.ValidateTokenRequest(context);
+        }
+
+        public static AuthenticationProperties CreateProperties(string userName)
+        {
+            IDictionary<string, string> data = new Dictionary<string, string>
+            {
+                {"userName", userName}
+            };
+            return new AuthenticationProperties(data);
+        }
     }
 }

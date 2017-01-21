@@ -44,33 +44,33 @@ namespace Registrar.Api.Controllers
             private set { _userManager = value; }
         }
 
-        [System.Web.Http.HttpPost]
-        [System.Web.Http.Route("login")]
-        public async Task<IHttpActionResult> Login(LoginRegiUser model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+        //[System.Web.Http.HttpPost]
+        //[System.Web.Http.Route("login")]
+        //public async Task<IHttpActionResult> Login(LoginRegiUser model)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest(ModelState);
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, true, true);
-            switch (result)
-            {
-                case SignInStatus.Success:
+        //    // This doesn't count login failures towards account lockout
+        //    // To enable password failures to trigger account lockout, change to shouldLockout: true
+        //    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, true, true);
+        //    switch (result)
+        //    {
+        //        case SignInStatus.Success:
 
-                    var user = await _userManager.FindByNameAsync(model.Email);
-                    var token = Startup.GenerateToken(user);
-                    return Ok(token);
+        //            var user = await UserManager.FindByNameAsync(model.Email);
+        //            var token = Startup.GenerateToken(user);
+        //            return Ok(token);
 
-                case SignInStatus.LockedOut:
-                    return StatusCode(HttpStatusCode.Forbidden);
-                //case SignInStatus.RequiresVerification:
-                //    return RedirectToAction("SendCode", new {ReturnUrl = returnUrl, model.RememberMe});
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return BadRequest(ModelState);
-            }
-        }
+        //        case SignInStatus.LockedOut:
+        //            return StatusCode(HttpStatusCode.Forbidden);
+        //        //case SignInStatus.RequiresVerification:
+        //        //    return RedirectToAction("SendCode", new {ReturnUrl = returnUrl, model.RememberMe});
+        //        default:
+        //            ModelState.AddModelError("", "Invalid login attempt.");
+        //            return BadRequest(ModelState);
+        //    }
+        //}
 
         // POST: /Account/VerifyCode
         [System.Web.Http.HttpPost]
