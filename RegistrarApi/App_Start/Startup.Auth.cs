@@ -11,6 +11,8 @@ namespace Registrar.Api
     public partial class Startup
     {
         public static OAuthBearerAuthenticationOptions OAuthBearerOptions { get; private set; }
+        // In minutes
+        public static int RefreshTokenTime => 30;
 
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
@@ -31,7 +33,7 @@ namespace Registrar.Api
                 AuthorizeEndpointPath = new PathString("/external/login"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(5),
                 AllowInsecureHttp = true,
-                RefreshTokenProvider = new AuthenticationTokenProvider()
+                RefreshTokenProvider = new RegiRefreshTokenProvider()
             });
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.

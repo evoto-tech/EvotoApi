@@ -196,6 +196,7 @@
     <Compile Include="Auth\RegiClaims.cs" />
     <Compile Include="Auth\RegiEmailService.cs" />
     <Compile Include="Auth\RegiOAuthProvider.cs" />
+    <Compile Include="Auth\RegiRefreshTokenProvider.cs" />
     <Compile Include="Auth\RegiSignInManager.cs" />
     <Compile Include="Auth\RegiUserManager.cs" />
     <Compile Include="Controllers\AccountController.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.Identity.Owin;
@@ -93,14 +94,14 @@ namespace Registrar.Api.Auth
             return Task.FromResult<object>(null);
         }
 
-        public override Task ValidateAuthorizeRequest(OAuthValidateAuthorizeRequestContext context)
+        public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
         {
-            return base.ValidateAuthorizeRequest(context);
-        }
+            var newIdentity = new ClaimsIdentity(context.Ticket.Identity);
 
-        public override Task ValidateTokenRequest(OAuthValidateTokenRequestContext context)
-        {
-            return base.ValidateTokenRequest(context);
+            var newTicket = new AuthenticationTicket(newIdentity, context.Ticket.Properties);
+            context.Validated(newTicket);
+
+            return Task.FromResult<object>(null);
         }
 
         public static AuthenticationProperties CreateProperties(string userName)

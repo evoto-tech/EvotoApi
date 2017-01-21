@@ -69,9 +69,14 @@ namespace Registrar.Api
             var r = ConfigurationManager.ConnectionStrings["RegistrarConnectionString"].ConnectionString;
 
             kernel.Bind<IRegiUserStore>()
-                .To<RegiSqlUserStore>().WithConstructorArgument("connectionString", r);
+                .To<RegiSqlUserStore>()
+                .WithConstructorArgument("connectionString", r);
             kernel.Bind<IRegiUserLockoutStore>()
-                .To<RegiUserLockoutStore>().WithConstructorArgument("connectionString", r);
+                .To<RegiUserLockoutStore>()
+                .WithConstructorArgument("connectionString", r);
+            kernel.Bind<IRegiRefreshTokenStore>()
+                .To<RegiSqlRefreshTokenStore>()
+                .WithConstructorArgument("connectionString", r);
         }
     }
 }

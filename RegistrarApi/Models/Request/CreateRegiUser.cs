@@ -41,7 +41,7 @@ namespace Registrar.Api.Models.Request
             return new RegiUser
             {
                 Email = Email,
-                PasswordHash = Passwords.HashPassword(Password)
+                //PasswordHash = Passwords.HashPassword(Password)
             };
         }
     }

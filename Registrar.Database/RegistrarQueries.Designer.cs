@@ -106,6 +106,51 @@ namespace Registrar.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO RefreshTokens (UserId, Token, Ticket, Issued, Expires) VALUES (@UserId, @Token, @Ticket, @Issued, @Expires).
+        /// </summary>
+        internal static string RefreshTokenCreate {
+            get {
+                return ResourceManager.GetString("RefreshTokenCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM RefreshTokens WHERE Token = @Token.
+        /// </summary>
+        internal static string RefreshTokenDelete {
+            get {
+                return ResourceManager.GetString("RefreshTokenDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM RefreshTokens WHERE Token = @Token.
+        /// </summary>
+        internal static string RefreshTokenSelect {
+            get {
+                return ResourceManager.GetString("RefreshTokenSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM RefreshTokens WHERE UserId = @UserId.
+        /// </summary>
+        internal static string RefreshTokenSelectForUser {
+            get {
+                return ResourceManager.GetString("RefreshTokenSelectForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE RefreshTokens SET Token = @Token, Ticket = @Ticket, Issued = @Issued, Expires = @Expires WHERE UserId = @UserId.
+        /// </summary>
+        internal static string RefreshTokenUpdate {
+            get {
+                return ResourceManager.GetString("RefreshTokenUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to INSERT INTO Users (Email, PasswordHash) VALUES (@Email, @PasswordHash).
         /// </summary>
         internal static string UserCreate {

@@ -65,41 +65,6 @@ namespace Registrar.Api.Controllers
             }
         }
 
-        /// <summary>
-        ///     Login account using email and password
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [Route("login")]
-        public async Task<IHttpActionResult> Login(LoginRegiUser model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            try
-            {
-                var userDetails = await _store.GetUserByEmail(model.Email);
-
-                if (!Passwords.VerifyPassword(model.Password, userDetails.PasswordHash))
-                    return Unauthorized();
-
-                var response = new SingleRegiUserResponse(userDetails);
-                return Json(response);
-            }
-            catch (RecordNotFoundException)
-            {
-                return Unauthorized();
-            }
-            catch (Exception)
-            {
-#if DEBUG
-                throw;
-#endif
-                return InternalServerError();
-            }
-        }
-
         [HttpPost]
         [Route("edit")]
         public IHttpActionResult Edit(int id)

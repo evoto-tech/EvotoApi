@@ -67,7 +67,8 @@
   <ItemGroup>
     <Compile Include="Exceptions\RecordNotFoundException.cs" />
     <Compile Include="FormatterConfig.cs" />
-    <Compile Include="Passwords.cs" />
+    <Compile Include="Models\DbRefreshToken.cs" />
+    <Compile Include="Models\RefreshToken.cs" />
     <Compile Include="SqlStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
