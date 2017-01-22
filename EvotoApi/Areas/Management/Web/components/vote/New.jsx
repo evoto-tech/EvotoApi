@@ -25,7 +25,7 @@ class NewVote extends React.Component {
       user: nonEmptyVote ? { id: props.vote.createdBy } : { id: 2 },
       name: nonEmptyVote ? props.vote.name : '',
       expiryDate: nonEmptyVote ? props.vote.expiryDate : '',
-      state: nonEmptyVote ? props.vote.state : 'draft',
+      published: nonEmptyVote ? props.vote.published : false,
       loaded: props.hasOwnProperty('loaded') ? props.loaded : true
     }
   }
@@ -84,7 +84,7 @@ class NewVote extends React.Component {
       createdBy: this.state.user.id,
       name: this.state.name,
       expiryDate: this.state.expiryDate,
-      state: this.state.state
+      published: this.state.published
     })
   }
 
@@ -111,7 +111,7 @@ class NewVote extends React.Component {
   }
 
   postSave () {
-    if (this.state.state === 'published') swal('Vote successfully published!')
+    if (this.state.published) swal('Vote successfully published!')
     this.props.router.push('/')
   }
 
@@ -123,7 +123,7 @@ class NewVote extends React.Component {
   }
 
   saveDraft () {
-    this.setState({ state: 'draft' }, () => {
+    this.setState({ published: false }, () => {
       this.checkValid(this.saveVote.bind(this))
     })
   }
@@ -133,7 +133,7 @@ class NewVote extends React.Component {
   }
 
   confirmPublish () {
-    this.setState({ state: 'published' }, () => {
+    this.setState({ published: true }, () => {
       this.saveVote()
     })
   }

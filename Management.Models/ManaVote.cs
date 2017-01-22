@@ -9,7 +9,7 @@ namespace Management.Models
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime ExpiryDate { get; set; }
-        public string State { get; set; }
+        public bool Published { get; set; }
         public string ChainString { get; set; }
     }
 }

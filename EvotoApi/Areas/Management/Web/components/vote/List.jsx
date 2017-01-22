@@ -12,7 +12,7 @@ class VoteList extends React.Component {
   }
 
   fetchVotes () {
-    fetch('/mana/vote/list/user')
+    fetch('/mana/vote/list/user/2')
       .then((res) => res.json())
       .then((data) => {
         this.setState({ votes: data, loaded: true })
@@ -77,9 +77,9 @@ class VoteList extends React.Component {
             <td>{vote.name}</td>
             <td>{vote.creationDate}</td>
             <td>{vote.expiryDate}</td>
-            <td><span className={'badge ' + (vote.state === 'published' ? 'bg-green' : 'bg-red')}>{vote.state}</span></td>
-            <td>{vote.state !== 'published' ? <Link to={`/vote/${vote.id}/edit`}><i className='fa fa-edit' /></Link> : ''}</td>
-            <td>{vote.state !== 'published' ? <div onClick={this.handleDelete.bind(this, vote)}><i className='fa fa-trash' /></div> : ''}</td>
+            <td><span className={'badge ' + (vote.published ? 'bg-green' : 'bg-red')}>{vote.published}</span></td>
+            <td>{!vote.published ? <Link to={`/vote/${vote.id}/edit`}><i className='fa fa-edit' /></Link> : ''}</td>
+            <td>{!vote.published ? <div onClick={this.handleDelete.bind(this, vote)}><i className='fa fa-trash' /></div> : ''}</td>
           </tr>
         )
       })
