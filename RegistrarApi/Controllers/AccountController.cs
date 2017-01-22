@@ -39,7 +39,7 @@ namespace Registrar.Api.Controllers
         }
 
         [HttpGet]
-        [Route("details")]
+        [Route("details/{userId:int}")]
         [Authorize]
         public async Task<IHttpActionResult> Details(int userId)
         {
