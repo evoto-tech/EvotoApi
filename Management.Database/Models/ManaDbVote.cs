@@ -12,7 +12,7 @@ namespace Management.Database.Models
             Name = record.Name;
             CreationDate = record.CreationDate;
             ExpiryDate = record.ExpiryDate;
-            State = record.State;
+            Published = record.Published;
             ChainString = record.ChainString;
         }
 
@@ -26,7 +26,7 @@ namespace Management.Database.Models
             Name = model.Name;
             CreationDate = model.CreationDate;
             ExpiryDate = model.ExpiryDate;
-            State = model.State;
+            Published = model.Published;
             ChainString = model.ChainString;
         }
 
@@ -35,7 +35,7 @@ namespace Management.Database.Models
         public string Name { get; }
         public DateTime CreationDate { get; }
         public DateTime ExpiryDate { get; }
-        public string State { get; }
+        public bool Published { get; }
         public string ChainString { get; }
 
         public ManaVote ToVote()
@@ -47,7 +47,7 @@ namespace Management.Database.Models
                 Name = Name,
                 CreationDate = CreationDate,
                 ExpiryDate = ExpiryDate,
-                State = State,
+                Published = Published,
                 ChainString = ChainString
             };
         }

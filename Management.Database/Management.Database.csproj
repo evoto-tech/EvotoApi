@@ -58,6 +58,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ManagementQueries.resx</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\M001ChangeVoteTableStateFieldToPublished.cs" />
     <Compile Include="Migrations\M000CreateVoteTable.cs" />
     <Compile Include="Models\ManaDbVote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

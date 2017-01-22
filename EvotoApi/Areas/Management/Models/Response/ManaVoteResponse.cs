@@ -14,7 +14,7 @@ namespace EvotoApi.Areas.ManagementApi.Models.Response
             Name = vote.Name;
             CreationDate = vote.CreationDate;
             ExpiryDate = vote.ExpiryDate;
-            State = vote.State;
+            Published = vote.Published;
             ChainString = vote.ChainString;
         }
 
@@ -33,8 +33,8 @@ namespace EvotoApi.Areas.ManagementApi.Models.Response
         [DataMember(Name = "expiryDate")]
         public DateTime ExpiryDate { get; }
 
-        [DataMember(Name = "state")]
-        public string State { get; }
+        [DataMember(Name = "published")]
+        public bool Published { get; }
 
         [DataMember(Name = "chainString")]
         public string ChainString { get; }

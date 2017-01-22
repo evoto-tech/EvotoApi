@@ -19,6 +19,7 @@ namespace EvotoApi
                 "~/Scripts/moment.js",
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/bootstrap-datetimepicker.js",
+                "~/Scripts/sweetalert-dev.js",
                 "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -31,7 +32,8 @@ namespace EvotoApi
                 "~/Content/bootstrap-datetimepicker.css",
                 "~/Content/AdminLTE.css",
                 "~/Content/skins/skin-green-light.css",
-                "~/Content/management.css"));
+                "~/Content/sweetalert.css",
+                "~/Content/management-site.css"));
 
             // Admin LTE
             bundles.Add(new ScriptBundle("~/bundles/adminlte").Include("~/Scripts/adminlte.js"));

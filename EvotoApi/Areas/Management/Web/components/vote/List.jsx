@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-import WarningModal from './WarningModal.jsx'
+import formatDateString from '../../lib/format-date-string'
 
 class VoteList extends React.Component {
   constructor (props) {
@@ -13,7 +13,7 @@ class VoteList extends React.Component {
   }
 
   fetchVotes () {
-    fetch('/mana/vote/list/user')
+    fetch('/mana/vote/list/user/2')
       .then((res) => res.json())
       .then((data) => {
         this.setState({ votes: data, loaded: true })
@@ -23,24 +23,42 @@ class VoteList extends React.Component {
 
   handleDelete (vote) {
     this.setState({ toDelete: vote }, () => {
-      this.refs.deleteModal.show()
+      this.swalDeleteAlert(vote)
     })
   }
 
-  confirmDelete () {
+  swalDeleteAlert (vote) {
+    swal({
+      title: 'Are you sure?',
+      text: `'${vote.name}' will be deleted permanently. This cannot be undone.`,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#DD6B55',
+      confirmButtonText: 'Delete',
+      closeOnConfirm: false,
+      allowOutsideClick: true,
+      showLoaderOnConfirm: true
+    },
+    () => {
+      this.confirmDelete(vote)
+    })
+  }
+
+  confirmDelete (vote) {
     this.setState({ loaded: false }, () => {
-      this.performDelete()
+      this.performDelete(vote)
     })
   }
 
-  performDelete () {
-    fetch(`/mana/vote/${this.state.toDelete.id}/delete`
+  performDelete (vote) {
+    fetch(`/mana/vote/${vote.id}/delete`
       , { method: 'DELETE' })
         .then((res) => res.json())
         .then((data) => {
           if (data === 1) {
             this.setState({ toDelete: {} }, () => {
               this.fetchVotes()
+              swal(`${vote.name} has been deleted.`)
             })
           } else {
             this.setState({ toDelete: {}, loaded: true }, () => {
@@ -58,11 +76,11 @@ class VoteList extends React.Component {
           <tr key={i}>
             <td>{i + 1}.</td>
             <td>{vote.name}</td>
-            <td>{vote.creationDate}</td>
-            <td>{vote.expiryDate}</td>
-            <td><span className={'badge ' + (vote.state === 'published' ? 'bg-green' : 'bg-red')}>{vote.state}</span></td>
-            <td>{vote.state !== 'published' ? <Link to={`/vote/${vote.id}/edit`}><i className='fa fa-edit' /></Link> : ''}</td>
-            <td>{vote.state !== 'published' ? <div onClick={this.handleDelete.bind(this, vote)}><i className='fa fa-trash' /></div> : ''}</td>
+            <td>{formatDateString(vote.creationDate)}</td>
+            <td>{formatDateString(vote.expiryDate)}</td>
+            <td><span className={'badge ' + (vote.published ? 'bg-green' : 'bg-red')}>{vote.published ? 'Published' : 'Draft'}</span></td>
+            <td>{!vote.published ? <Link to={`/vote/${vote.id}/edit`}><i className='fa fa-edit' /></Link> : ''}</td>
+            <td>{!vote.published ? <div onClick={this.handleDelete.bind(this, vote)}><i className='fa fa-trash' /></div> : ''}</td>
           </tr>
         )
       })
@@ -76,11 +94,6 @@ class VoteList extends React.Component {
   render () {
     return (
       <div className='box'>
-        <WarningModal
-          title={`Are you sure you want to delete '${this.state.toDelete.name}'? This cannot be undone.`}
-          name='warningModal'
-          ref='deleteModal'
-          confirm={this.confirmDelete.bind(this)} />
         { !this.state.loaded ? (
           <div className='overlay'>
             <i className='fa fa-refresh fa-spin' />
@@ -94,7 +107,7 @@ class VoteList extends React.Component {
           <table className='table table-bordered'>
             <tbody><tr>
               <th style={{width: '10px'}}>#</th>
-              <th>Task</th>
+              <th>Vote Name</th>
               <th style={{width: '200px'}}>Created on</th>
               <th style={{width: '200px'}}>Expires on</th>
               <th style={{width: '40px'}}>State</th>

@@ -61,7 +61,7 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INSERT INTO Votes (CreatedBy, Name, State, ExpiryDate, ChainString) VALUES (@CreatedBy, @Name, @State, @ExpiryDate, @ChainString).
+        ///   Looks up a localized string similar to INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString).
         /// </summary>
         internal static string VoteCreate {
             get {
@@ -97,16 +97,16 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId AND State = @State.
+        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId AND Published = @Published.
         /// </summary>
-        internal static string VotesGetByUserAndState {
+        internal static string VotesGetByUserAndPublished {
             get {
-                return ResourceManager.GetString("VotesGetByUserAndState", resourceCulture);
+                return ResourceManager.GetString("VotesGetByUserAndPublished", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UPDATE Votes SET Name=@Name, State=@State, ExpiryDate=@ExpiryDate WHERE Id=@Id.
+        ///   Looks up a localized string similar to UPDATE Votes SET Name=@Name, Published=@Published, ExpiryDate=@ExpiryDate WHERE Id=@Id.
         /// </summary>
         internal static string VoteUpdate {
             get {

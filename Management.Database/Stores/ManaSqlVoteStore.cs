@@ -51,17 +51,15 @@ namespace Management.Database.Stores
             return vote.First();
         }
 
-        public async Task<IEnumerable<ManaVote>> GetUserVotes(int userId, string state = "all")
+        public async Task<IEnumerable<ManaVote>> GetAllUserVotes(int userId)
         {
-            dynamic vote;
-            if (state == "all")
-            {
-                vote = await GetVoteByQuery(ManagementQueries.VotesGetByUser, new {UserId = userId});
-            }
-            else
-            {
-                vote = await GetVoteByQuery(ManagementQueries.VotesGetByUserAndState, new { UserId = userId, State = state });
-            }
+            var vote = await GetVoteByQuery(ManagementQueries.VotesGetByUser, new { UserId = userId });
+            return vote;
+        }
+
+        public async Task<IEnumerable<ManaVote>> GetUserVotes(int userId, bool published)
+        {
+            var vote = await GetVoteByQuery(ManagementQueries.VotesGetByUserAndPublished, new { UserId = userId, Published = published });
             return vote;
         }
 
