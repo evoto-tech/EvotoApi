@@ -1,0 +1,8 @@
+﻿/* Placeholder content */
+.placeholder__user-picture {
+    width: 45px;
+}
+
+.sidebar-collapse .placeholder__user-picture {
+    width: 100%;
+}

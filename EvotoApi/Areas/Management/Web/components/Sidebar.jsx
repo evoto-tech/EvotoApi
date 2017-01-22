@@ -2,16 +2,28 @@ import React from 'react'
 import {Link, IndexLink} from 'react-router'
 
 class Sidebar extends React.Component {
+  propTypes: {
+    user: React.PropTypes.object
+  }
+
   render () {
+    const userImage = this.props.user && this.props.user.picture ? (
+      <div className='pull-left image'>
+        <img className='img-circle' alt='User Image' src='{this.props.user.picture}' />
+      </div>
+    ) : (
+      <div className='pull-left placeholder__user-picture'>
+        <div style={{ width: '100%', textAlign: 'center' }}><div><i className='fa fa-user' /></div></div>
+      </div>
+    )
+
     return (
       <aside className='main-sidebar'>
 
         <section className='sidebar' style={{height: '100%'}}>
 
           <div className='user-panel'>
-            <div className='pull-left image'>
-              <img alt='User Image' />
-            </div>
+            {userImage}
             <div className='pull-left info'>
               <p>Administrator</p>
             </div>

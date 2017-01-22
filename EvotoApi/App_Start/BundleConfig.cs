@@ -33,7 +33,7 @@ namespace EvotoApi
                 "~/Content/AdminLTE.css",
                 "~/Content/skins/skin-green-light.css",
                 "~/Content/sweetalert.css",
-                "~/Content/management.css"));
+                "~/Content/management-site.css"));
 
             // Admin LTE
             bundles.Add(new ScriptBundle("~/bundles/adminlte").Include("~/Scripts/adminlte.js"));
