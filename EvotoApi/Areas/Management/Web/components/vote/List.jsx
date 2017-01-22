@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router'
-import WarningModal from './WarningModal.jsx'
 
 class VoteList extends React.Component {
   constructor (props) {
@@ -23,24 +22,42 @@ class VoteList extends React.Component {
 
   handleDelete (vote) {
     this.setState({ toDelete: vote }, () => {
-      this.refs.deleteModal.show()
+      this.swalDeleteAlert(vote)
     })
   }
 
-  confirmDelete () {
+  swalDeleteAlert (vote) {
+    swal({
+      title: 'Are you sure?',
+      text: `'${vote.name}' will be deleted permanently. This cannot be undone.`,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#DD6B55',
+      confirmButtonText: 'Delete',
+      closeOnConfirm: false,
+      allowOutsideClick: true,
+      showLoaderOnConfirm: true
+    },
+    () => {
+      this.confirmDelete(vote)
+    })
+  }
+
+  confirmDelete (vote) {
     this.setState({ loaded: false }, () => {
-      this.performDelete()
+      this.performDelete(vote)
     })
   }
 
-  performDelete () {
-    fetch(`/mana/vote/${this.state.toDelete.id}/delete`
+  performDelete (vote) {
+    fetch(`/mana/vote/${vote.id}/delete`
       , { method: 'DELETE' })
         .then((res) => res.json())
         .then((data) => {
           if (data === 1) {
             this.setState({ toDelete: {} }, () => {
               this.fetchVotes()
+              swal(`${vote.name} has been deleted.`)
             })
           } else {
             this.setState({ toDelete: {}, loaded: true }, () => {
@@ -76,11 +93,6 @@ class VoteList extends React.Component {
   render () {
     return (
       <div className='box'>
-        <WarningModal
-          title={`Are you sure you want to delete '${this.state.toDelete.name}'? This cannot be undone.`}
-          name='warningModal'
-          ref='deleteModal'
-          confirm={this.confirmDelete.bind(this)} />
         { !this.state.loaded ? (
           <div className='overlay'>
             <i className='fa fa-refresh fa-spin' />

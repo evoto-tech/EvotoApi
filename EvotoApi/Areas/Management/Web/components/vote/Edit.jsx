@@ -17,7 +17,7 @@ class EditVote extends React.Component {
       .catch(console.error)
   }
 
-  save (vote) {
+  save (vote, postSave) {
     fetch(`/mana/vote/${this.state.vote.id}/edit`
       , { method: 'PATCH',
         body: JSON.stringify(vote),
@@ -26,9 +26,7 @@ class EditVote extends React.Component {
           'Content-Type': 'application/json'
         }
       })
-      .then(() => {
-        this.props.router.push('/')
-      })
+      .then(postSave)
       .catch((err) => {
         console.error(err)
       })
