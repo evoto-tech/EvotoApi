@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
+import formatDateString from '../../lib/format-date-string'
 
 class VoteList extends React.Component {
   constructor (props) {
@@ -75,9 +76,9 @@ class VoteList extends React.Component {
           <tr key={i}>
             <td>{i + 1}.</td>
             <td>{vote.name}</td>
-            <td>{vote.creationDate}</td>
-            <td>{vote.expiryDate}</td>
-            <td><span className={'badge ' + (vote.published ? 'bg-green' : 'bg-red')}>{vote.published}</span></td>
+            <td>{formatDateString(vote.creationDate)}</td>
+            <td>{formatDateString(vote.expiryDate)}</td>
+            <td><span className={'badge ' + (vote.published ? 'bg-green' : 'bg-red')}>{vote.published ? 'Published' : 'Draft'}</span></td>
             <td>{!vote.published ? <Link to={`/vote/${vote.id}/edit`}><i className='fa fa-edit' /></Link> : ''}</td>
             <td>{!vote.published ? <div onClick={this.handleDelete.bind(this, vote)}><i className='fa fa-trash' /></div> : ''}</td>
           </tr>
@@ -106,7 +107,7 @@ class VoteList extends React.Component {
           <table className='table table-bordered'>
             <tbody><tr>
               <th style={{width: '10px'}}>#</th>
-              <th>Task</th>
+              <th>Vote Name</th>
               <th style={{width: '200px'}}>Created on</th>
               <th style={{width: '200px'}}>Expires on</th>
               <th style={{width: '40px'}}>State</th>
