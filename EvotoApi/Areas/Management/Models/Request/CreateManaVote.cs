@@ -19,9 +19,9 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
         [Required]
         public string Name { get; private set; }
 
-        [DataMember(Name = "state")]
+        [DataMember(Name = "published")]
         [Required]
-        public string State { get; private set; }
+        public bool Published { get; private set; }
 
         [DataMember(Name = "expiryDate")]
         [Required]
@@ -37,7 +37,7 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
                 CreatedBy = CreatedBy,
                 Name = Name,
                 ExpiryDate = ExpiryDate,
-                State = State,
+                Published = Published,
                 ChainString = ChainString
             };
         }

@@ -1,6 +1,5 @@
 import React from 'react'
 import { withRouter, Link } from 'react-router'
-import WarningModal from './WarningModal.jsx'
 
 class NewVote extends React.Component {
   constructor (props) {
@@ -26,7 +25,7 @@ class NewVote extends React.Component {
       user: nonEmptyVote ? { id: props.vote.createdBy } : { id: 2 },
       name: nonEmptyVote ? props.vote.name : '',
       expiryDate: nonEmptyVote ? props.vote.expiryDate : '',
-      state: nonEmptyVote ? props.vote.state : 'draft',
+      published: nonEmptyVote ? props.vote.published : false,
       loaded: props.hasOwnProperty('loaded') ? props.loaded : true
     }
   }
@@ -85,16 +84,18 @@ class NewVote extends React.Component {
       createdBy: this.state.user.id,
       name: this.state.name,
       expiryDate: this.state.expiryDate,
-      state: this.state.state
+      published: this.state.published
     })
   }
 
   saveVote () {
     const vote = this.makeVote()
-    this.props.save ? this.props.save(vote) : this.save(vote)
+    this.props.save
+      ? this.props.save(vote, this.postSave.bind(this))
+      : this.save(vote, this.postSave.bind(this))
   }
 
-  save (vote) {
+  save (vote, postSave) {
     fetch('/mana/vote/create'
       , { method: 'POST',
         body: JSON.stringify(vote),
@@ -103,12 +104,15 @@ class NewVote extends React.Component {
           'Content-Type': 'application/json'
         }
       })
-      .then(() => {
-        this.props.router.push('/')
-      })
+      .then(postSave)
       .catch((err) => {
         console.error(err)
       })
+  }
+
+  postSave () {
+    if (this.state.published) swal('Vote successfully published!')
+    this.props.router.push('/')
   }
 
   checkValid (action) {
@@ -119,18 +123,35 @@ class NewVote extends React.Component {
   }
 
   saveDraft () {
-    this.setState({ state: 'draft' }, () => {
+    this.setState({ published: false }, () => {
       this.checkValid(this.saveVote.bind(this))
     })
   }
 
   savePublish () {
-    this.checkValid(this.refs.publishModal.show.bind(this.refs.publishModal))
+    this.checkValid(this.swalPublishAlert.bind(this))
   }
 
   confirmPublish () {
-    this.setState({ state: 'published' }, () => {
+    this.setState({ published: true }, () => {
       this.saveVote()
+    })
+  }
+
+  swalPublishAlert () {
+    swal({
+      title: 'Are you sure?',
+      text: `'${this.state.name}' will be published. Once published it cannot be edited or deleted.`,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#DD6B55',
+      confirmButtonText: 'Publish',
+      closeOnConfirm: false,
+      allowOutsideClick: true,
+      showLoaderOnConfirm: true
+    },
+    () => {
+      this.confirmPublish()
     })
   }
 
@@ -139,11 +160,6 @@ class NewVote extends React.Component {
     const description = this.props.description || 'Create a new vote'
     return (
       <div className='content-wrapper' style={{ height: '100%' }}>
-        <WarningModal
-          title='Are you sure you want to publish? This cannot be undone.'
-          name='warningModal'
-          ref='publishModal'
-          confirm={this.confirmPublish.bind(this)} />
         <section className='content-header' style={{ height: '100%' }}>
           <h1>{title}<small>{description}</small></h1>
           <ol className='breadcrumb'>

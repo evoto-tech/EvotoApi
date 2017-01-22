@@ -43,16 +43,34 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         }
 
         /// <summary>
-        /// Get list of votes for user, needs authorize to be added
+        /// Get list of all votes for user, needs authorize to be added
         /// </summary>
         [HttpGet]
-        [Route("list/user/{state?}")]
-        public async Task<IHttpActionResult> UserList(string state = "all")
+        [Route("list/user/{userId:int}")]
+        public async Task<IHttpActionResult> UserList(int userId)
         {
-            if (state != "all" && state != "draft" && state != "published") state = "all";
             try
             {
-                var votes = await _store.GetUserVotes(2, state);
+                var votes = await _store.GetAllUserVotes(userId);
+                var response = votes.Select((v) => new ManaVoteResponse(v)).ToList();
+                return Json(response);
+            }
+            catch (RecordNotFoundException)
+            {
+                return Json(new object[] { });
+            }
+        }
+
+        /// <summary>
+        /// Get list of votes for user based on published, needs authorize to be added
+        /// </summary>
+        [HttpGet]
+        [Route("list/user/{userId:int}/{published:bool}")]
+        public async Task<IHttpActionResult> UserList(int userId, bool published)
+        {
+            try
+            {
+                var votes = await _store.GetUserVotes(userId, published);
                 var response = votes.Select((v) => new ManaVoteResponse(v)).ToList();
                 return Json(response);
             }
@@ -130,7 +148,7 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
             try
             {
                 var affectedVote = await _store.GetVoteById(voteId);
-                if (affectedVote.State != "published")
+                if (affectedVote.Published)
                 {
                     var affectedRows = await _store.DeleteVote(voteId);
                     return Json(affectedRows);
