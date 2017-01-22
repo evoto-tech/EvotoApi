@@ -59,15 +59,7 @@ namespace Management.Database.Stores
 
         public async Task<IEnumerable<ManaVote>> GetUserVotes(int userId, bool published)
         {
-            dynamic vote;
-            if (published)
-            {
-                vote = await GetVoteByQuery(ManagementQueries.VotesGetByUserAndPublished, new { UserId = userId, Published = published });
-            }
-            else
-            {
-                vote = await GetVoteByQuery(ManagementQueries.VotesGetByUserAndPublished, new { UserId = userId, Published = published });
-            }
+            var vote = await GetVoteByQuery(ManagementQueries.VotesGetByUserAndPublished, new { UserId = userId, Published = published });
             return vote;
         }
 
