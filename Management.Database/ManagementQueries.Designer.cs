@@ -61,6 +61,96 @@ namespace Management.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Users_Lockout WHERE UserId = @UserId.
+        /// </summary>
+        internal static string LockoutGetByUserId {
+            get {
+                return ResourceManager.GetString("LockoutGetByUserId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO Users_Lockout (UserId, Attempts) VALUES (@UserId, @Attempts).
+        /// </summary>
+        internal static string LockoutInsertAttempts {
+            get {
+                return ResourceManager.GetString("LockoutInsertAttempts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO Users_Lockout (UserId, LockEnd) VALUES (@UserId, @LockEnd).
+        /// </summary>
+        internal static string LockoutInsertTime {
+            get {
+                return ResourceManager.GetString("LockoutInsertTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE Users_Lockout SET Attempts = @Attempts WHERE UserId = @UserId.
+        /// </summary>
+        internal static string LockoutUpdateAttempts {
+            get {
+                return ResourceManager.GetString("LockoutUpdateAttempts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE Users_Lockout SET LockEnd = @LockEnd WHERE UserId = @UserId.
+        /// </summary>
+        internal static string LockoutUpdateTime {
+            get {
+                return ResourceManager.GetString("LockoutUpdateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO Users (Email, PasswordHash) VALUES (@Email, @PasswordHash).
+        /// </summary>
+        internal static string UserCreate {
+            get {
+                return ResourceManager.GetString("UserCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM Users WHERE Id = @Id.
+        /// </summary>
+        internal static string UserDeleteById {
+            get {
+                return ResourceManager.GetString("UserDeleteById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Users WHERE Email LIKE @Email.
+        /// </summary>
+        internal static string UserGetByEmail {
+            get {
+                return ResourceManager.GetString("UserGetByEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Users WHERE Id = @Id.
+        /// </summary>
+        internal static string UserGetById {
+            get {
+                return ResourceManager.GetString("UserGetById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash WHERE Id = @Id.
+        /// </summary>
+        internal static string UserUpdate {
+            get {
+                return ResourceManager.GetString("UserUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString).
         /// </summary>
         internal static string VoteCreate {

@@ -135,4 +135,34 @@
   <data name="VoteUpdate" xml:space="preserve">
     <value>UPDATE Votes SET Name=@Name, Published=@Published, ExpiryDate=@ExpiryDate WHERE Id=@Id</value>
   </data>
+  <data name="LockoutGetByUserId" xml:space="preserve">
+    <value>SELECT * FROM Users_Lockout WHERE UserId = @UserId</value>
+  </data>
+  <data name="LockoutInsertAttempts" xml:space="preserve">
+    <value>INSERT INTO Users_Lockout (UserId, Attempts) VALUES (@UserId, @Attempts)</value>
+  </data>
+  <data name="LockoutInsertTime" xml:space="preserve">
+    <value>INSERT INTO Users_Lockout (UserId, LockEnd) VALUES (@UserId, @LockEnd)</value>
+  </data>
+  <data name="LockoutUpdateAttempts" xml:space="preserve">
+    <value>UPDATE Users_Lockout SET Attempts = @Attempts WHERE UserId = @UserId</value>
+  </data>
+  <data name="LockoutUpdateTime" xml:space="preserve">
+    <value>UPDATE Users_Lockout SET LockEnd = @LockEnd WHERE UserId = @UserId</value>
+  </data>
+  <data name="UserCreate" xml:space="preserve">
+    <value>INSERT INTO Users (Email, PasswordHash) VALUES (@Email, @PasswordHash)</value>
+  </data>
+  <data name="UserDeleteById" xml:space="preserve">
+    <value>DELETE FROM Users WHERE Id = @Id</value>
+  </data>
+  <data name="UserGetByEmail" xml:space="preserve">
+    <value>SELECT * FROM Users WHERE Email LIKE @Email</value>
+  </data>
+  <data name="UserGetById" xml:space="preserve">
+    <value>SELECT * FROM Users WHERE Id = @Id</value>
+  </data>
+  <data name="UserUpdate" xml:space="preserve">
+    <value>UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash WHERE Id = @Id</value>
+  </data>
 </root>

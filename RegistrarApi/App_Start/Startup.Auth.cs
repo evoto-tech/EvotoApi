@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
-using Microsoft.Owin.Security.Infrastructure;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using Registrar.Api.Auth;
