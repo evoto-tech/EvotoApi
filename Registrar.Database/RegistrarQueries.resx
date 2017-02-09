@@ -124,7 +124,7 @@
     <value>INSERT INTO Blockchains (Name, ExpiryDate, ChainString) VALUES (@Name, @ExpiryDate, @ChainString)</value>
   </data>
   <data name="BlockchainsNotExpired" xml:space="preserve">
-    <value>SELECT * FROM Blockchains WHERE ExpiryDate &gt;DATETIME()</value>
+    <value>SELECT * FROM Blockchains WHERE ExpiryDate &gt;@Now</value>
   </data>
   <data name="LockoutGetByUserId" xml:space="preserve">
     <value>SELECT * FROM Users_Lockout WHERE UserId = @UserId</value>

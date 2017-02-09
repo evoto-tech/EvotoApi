@@ -45,8 +45,8 @@ namespace Registrar.Database.Stores
             {
                 using (var connection = await GetConnectionAsync())
                 {
-                    var rows = await connection.QueryAsync(RegistrarQueries.BlockchainsNotExpired);
-                    return rows.Select(r => new RegiDbBlockchain(r).ToBlockchain());
+                    var rows = await connection.QueryAsync(RegistrarQueries.BlockchainsNotExpired, new {DateTime.Now});
+                    return rows.Select(r => new RegiDbBlockchain(r).ToBlockchain()).ToList();
                 }
             }
             catch (Exception e)

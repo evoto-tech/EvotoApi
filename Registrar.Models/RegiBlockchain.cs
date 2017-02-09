@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.AspNet.Identity;
 
 namespace Registrar.Models
 {
@@ -7,7 +6,7 @@ namespace Registrar.Models
     {
         public string Name { get; set; }
 
-        public DateTime ExpiryTime { get; set; }
+        public DateTime ExpiryDate { get; set; }
 
         public string ChainString { get; set; }
     }

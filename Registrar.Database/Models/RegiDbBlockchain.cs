@@ -8,7 +8,7 @@ namespace Registrar.Database.Models
         public RegiDbBlockchain(dynamic record)
         {
             Name = record.Name;
-            ExpiryTime = record.ExpiryTime;
+            ExpiryDate = record.ExpiryDate;
             ChainString = record.ChainString;
         }
 
@@ -18,12 +18,12 @@ namespace Registrar.Database.Models
                 throw new ArgumentException(nameof(model));
 
             Name = model.Name;
-            ExpiryTime = model.ExpiryTime;
+            ExpiryDate = model.ExpiryDate;
             ChainString = model.ChainString;
         }
 
         public string Name { get; }
-        public DateTime ExpiryTime { get; }
+        public DateTime ExpiryDate { get; }
         public string ChainString { get; }
 
         public RegiBlockchain ToBlockchain()
@@ -31,7 +31,7 @@ namespace Registrar.Database.Models
             return new RegiBlockchain
             {
                 Name = Name,
-                ExpiryTime = ExpiryTime,
+                ExpiryDate = ExpiryDate,
                 ChainString = ChainString
             };
         }

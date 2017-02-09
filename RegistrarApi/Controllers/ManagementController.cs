@@ -33,7 +33,7 @@ namespace Registrar.Api.Controllers
             var blockchain = new RegiBlockchain
             {
                 Name = model.Name,
-                ExpiryTime = model.ExpiryDate,
+                ExpiryDate = model.ExpiryDate,
                 ChainString = model.ChainString
             };
 

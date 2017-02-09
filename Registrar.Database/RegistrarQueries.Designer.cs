@@ -79,7 +79,7 @@ namespace Registrar.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Blockchains WHERE ExpiryDate &gt;DATETIME().
+        ///   Looks up a localized string similar to SELECT * FROM Blockchains WHERE ExpiryDate &gt;@Now.
         /// </summary>
         internal static string BlockchainsNotExpired {
             get {
