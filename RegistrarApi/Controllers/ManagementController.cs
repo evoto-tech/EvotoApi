@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using Blockchain;
+using Common;
 using Registrar.Api.Models.Request;
 using Registrar.Database.Interfaces;
 using Registrar.Models;
@@ -21,7 +22,7 @@ namespace Registrar.Api.Controllers
             _blockchainStore = blockchainStore;
         }
 
-        // TODO: Key auth middleware
+        [ApiKeyAuth]
         [HttpPost]
         public async Task<IHttpActionResult> CreateBlockchain(CreateBlockchain model)
         {
