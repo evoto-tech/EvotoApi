@@ -13,6 +13,8 @@ namespace Registrar.Api.Controllers
             _blockchainStore = blockchainStore;
         }
 
+        [Route("votes")]
+        [HttpGet]
         public async Task<IHttpActionResult> GetVotes()
         {
             var votes = await _blockchainStore.GetCurrentBlockchains();

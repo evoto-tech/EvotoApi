@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Blockchain;
 using Common;
@@ -38,15 +39,15 @@ namespace Registrar.Api.Controllers
 
             try
             {
-                //await MultiChainUtilHandler.CreateBlockchain(model.ChainString);
-                // TODO: Blockchain Name
+                await MultiChainUtilHandler.CreateBlockchain(model.ChainString);
                 await _multichaind.Connect();
                 await _blockchainStore.CreateBlockchain(blockchain);
 
                 return Ok();
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return InternalServerError();
             }
         }
