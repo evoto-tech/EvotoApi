@@ -1,26 +1,22 @@
-﻿using System.Web.Mvc;
+﻿using System.Threading.Tasks;
+using System.Web.Http;
+using Registrar.Database.Interfaces;
 
 namespace Registrar.Api.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ApiController
     {
-        public ActionResult Index()
+        private readonly IRegiBlockchainStore _blockchainStore;
+
+        public HomeController(IRegiBlockchainStore blockchainStore)
         {
-            return View();
+            _blockchainStore = blockchainStore;
         }
 
-        public ActionResult About()
+        public async Task<IHttpActionResult> GetVotes()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            var votes = await _blockchainStore.GetCurrentBlockchains();
+            return Ok(votes);
         }
     }
 }

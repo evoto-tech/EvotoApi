@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegiBlockchain.cs" />
     <Compile Include="RegiUserLockout.cs" />
     <Compile Include="RegiUser.cs" />
   </ItemGroup>

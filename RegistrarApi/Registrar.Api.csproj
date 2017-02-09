@@ -202,11 +202,13 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ManagementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Request\CreateBlockchain.cs" />
     <Compile Include="Models\Request\CreateRegiUser.cs" />
     <Compile Include="Models\Request\ForgotRegiPassword.cs" />
     <Compile Include="Models\Request\LoginRegiUser.cs" />
@@ -294,6 +296,10 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{9666f7cf-1941-4d24-8870-395bdd99e607}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EvotoBlockchain\Blockchain\Blockchain.csproj">
+      <Project>{28880810-9210-4b1b-a320-feb6f91a6745}</Project>
+      <Name>Blockchain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Registrar.Database\Registrar.Database.csproj">
       <Project>{e1aa49e6-a743-4ce5-859f-eeaac0b716f2}</Project>

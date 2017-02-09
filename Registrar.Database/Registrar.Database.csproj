@@ -60,6 +60,7 @@
     <Compile Include="Migrations\M002CreateRefreshTokenTable.cs" />
     <Compile Include="Migrations\M001CreateLockoutTable.cs" />
     <Compile Include="Migrations\M000CreateUserTable.cs" />
+    <Compile Include="Models\RegiDbBlockchain.cs" />
     <Compile Include="Models\RegiDbUserLockout.cs" />
     <Compile Include="Models\RegiDbUser.cs" />
     <Compile Include="RegistrarQueries.Designer.cs">
@@ -70,6 +71,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\IRegiUserLockoutStore.cs" />
     <Compile Include="Interfaces\IRegiRefreshTokenStore.cs" />
+    <Compile Include="Interfaces\IRegiBlockchainStore.cs" />
+    <Compile Include="Stores\RegiSqlBlockchainStore.cs" />
     <Compile Include="Stores\RegiSqlRefreshTokenStore.cs" />
     <Compile Include="Stores\RegiUserLockoutStore.cs" />
     <Compile Include="Stores\RegiSqlUserStore.cs" />

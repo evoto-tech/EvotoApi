@@ -72,11 +72,10 @@ namespace Registrar.Database.Stores
         {
             try
             {
+                var dbModel = new RegiDbUser(user);
                 using (var connection = await GetConnectionAsync())
                 {
-                    var dbModel = new RegiDbUser(user);
                     await connection.ExecuteAsync(RegistrarQueries.UserCreate, dbModel);
-
                     return user;
                 }
             }
