@@ -155,6 +155,22 @@ class NewVote extends React.Component {
     })
   }
 
+  cancel () {
+    if (window.isDirty) {
+      swal({
+        title: 'You will lose any changes that have been made',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#DD6B55',
+      },
+      () => {
+        this.props.router.push('/')
+      })
+    } else {
+      this.props.router.push('/')
+    }
+  }
+
   render () {
     const title = this.props.title || 'New Vote'
     const description = this.props.description || 'Create a new vote'
@@ -202,6 +218,7 @@ class NewVote extends React.Component {
               </div>
               <div className='box-footer'>
                 <div className='btn-group'>
+                  <button type='button' className='btn btn-danger' onClick={this.cancel.bind(this)}>Cancel</button>
                   <button type='button' className='btn' onClick={this.saveDraft.bind(this)}>Save as a Draft</button>
                   <button type='button' className='btn btn-success' onClick={this.savePublish.bind(this)}>Save and Publish</button>
                 </div>
