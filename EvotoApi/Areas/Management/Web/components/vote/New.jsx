@@ -169,7 +169,7 @@ class NewVote extends React.Component {
           </ol>
         </section>
         <section className='content'>
-          <div className='box box-primary'>
+          <div className='box box-success'>
             { !this.state.loaded ? (
               <div className='overlay'>
                 <i className='fa fa-refresh fa-spin' />
