@@ -1,6 +1,7 @@
 using System;
 using System.Configuration;
 using System.Web;
+using Blockchain;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Syntax;
@@ -80,6 +81,9 @@ namespace Registrar.Api
             kernel.Bind<IRegiBlockchainStore>()
                 .To<RegiSqlBlockchainStore>()
                 .WithConstructorArgument("connectionString", r);
+
+            kernel.Bind<IMultiChainHandler>().To<MultiChainHandler>()
+                .WithConstructorArgument("hostname", "localhost");
         }
     }
 }

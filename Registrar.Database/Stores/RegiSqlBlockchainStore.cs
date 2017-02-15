@@ -24,7 +24,7 @@ namespace Registrar.Database.Stores
                 var dbModel = new RegiDbBlockchain(model);
                 using (var connection = await GetConnectionAsync())
                 {
-                    await connection.ExecuteAsync(RegistrarQueries.BlockchainByName, dbModel);
+                    await connection.ExecuteAsync(RegistrarQueries.BlockchainCreate, dbModel);
                     return model;
                 }
             }
