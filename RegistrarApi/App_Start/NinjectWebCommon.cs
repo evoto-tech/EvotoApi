@@ -82,7 +82,8 @@ namespace Registrar.Api
                 .To<RegiSqlBlockchainStore>()
                 .WithConstructorArgument("connectionString", r);
 
-            kernel.Bind<IMultiChainHandler>().To<MultiChainHandler>();
+            kernel.Bind<IMultiChainHandler>().To<MultiChainHandler>()
+                .WithConstructorArgument("hostname", "localhost");
         }
     }
 }

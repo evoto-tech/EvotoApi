@@ -42,7 +42,7 @@ namespace Registrar.Api.Controllers
             try
             {
                 await MultiChainUtilHandler.CreateBlockchain(model.ChainString);
-                await _multichaind.Connect();
+                await _multichaind.Connect(model.ChainString, false);
                 await _blockchainStore.CreateBlockchain(blockchain);
 
                 return Ok();
