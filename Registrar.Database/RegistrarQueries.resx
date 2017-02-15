@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BlockchainByName" xml:space="preserve">
+    <value>SELECT * FROM Blockchains WHERE Name = Name</value>
+  </data>
+  <data name="BlockchainCreate" xml:space="preserve">
+    <value>INSERT INTO Blockchains (Name, ExpiryDate, ChainString) VALUES (@Name, @ExpiryDate, @ChainString)</value>
+  </data>
+  <data name="BlockchainsNotExpired" xml:space="preserve">
+    <value>SELECT * FROM Blockchains WHERE ExpiryDate &gt;@Now</value>
+  </data>
   <data name="LockoutGetByUserId" xml:space="preserve">
     <value>SELECT * FROM Users_Lockout WHERE UserId = @UserId</value>
   </data>

@@ -61,6 +61,33 @@ namespace Registrar.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Blockchains WHERE Name = Name.
+        /// </summary>
+        internal static string BlockchainByName {
+            get {
+                return ResourceManager.GetString("BlockchainByName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO Blockchains (Name, ExpiryDate, ChainString) VALUES (@Name, @ExpiryDate, @ChainString).
+        /// </summary>
+        internal static string BlockchainCreate {
+            get {
+                return ResourceManager.GetString("BlockchainCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Blockchains WHERE ExpiryDate &gt;@Now.
+        /// </summary>
+        internal static string BlockchainsNotExpired {
+            get {
+                return ResourceManager.GetString("BlockchainsNotExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM Users_Lockout WHERE UserId = @UserId.
         /// </summary>
         internal static string LockoutGetByUserId {

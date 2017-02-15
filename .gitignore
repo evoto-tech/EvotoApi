@@ -78,5 +78,5 @@ node_modules/
 .vs/
 
 EvotoApi/Scripts/react.js
-EvotoApi/User.config
-RegistrarApi/User.config
+*/User.config
+*/ApiKey.config

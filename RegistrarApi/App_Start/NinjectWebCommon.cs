@@ -77,6 +77,9 @@ namespace Registrar.Api
             kernel.Bind<IRegiRefreshTokenStore>()
                 .To<RegiSqlRefreshTokenStore>()
                 .WithConstructorArgument("connectionString", r);
+            kernel.Bind<IRegiBlockchainStore>()
+                .To<RegiSqlBlockchainStore>()
+                .WithConstructorArgument("connectionString", r);
         }
     }
 }
