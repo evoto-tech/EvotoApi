@@ -12,6 +12,7 @@ namespace Registrar.Api.Controllers
     /// <summary>
     ///     Controller manages API requests from the Management API
     /// </summary>
+    [RoutePrefix("management")]
     public class ManagementController : ApiController
     {
         private readonly IMultiChainHandler _multichaind;
@@ -25,6 +26,7 @@ namespace Registrar.Api.Controllers
 
         [ApiKeyAuth]
         [HttpPost]
+        [Route("createblockchain")]
         public async Task<IHttpActionResult> CreateBlockchain(CreateBlockchain model)
         {
             if (!ModelState.IsValid)
