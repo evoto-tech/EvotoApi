@@ -1,6 +1,7 @@
 import React from 'react'
 import {IndexLink} from 'react-router'
 import VoteList from './vote/List.jsx'
+import Dashboard from './dashboard.jsx'
 
 class Home extends React.Component {
   render () {
@@ -15,6 +16,7 @@ class Home extends React.Component {
           </ol>
         </section>
         <section className='content'>
+          <Dashboard />
           <VoteList />
         </section>
       </div>
