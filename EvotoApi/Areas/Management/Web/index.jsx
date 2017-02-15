@@ -12,6 +12,14 @@ const history = useRouterHistory(createHistory)({
   basename: '/manage'
 })
 
+history.listen(() => {
+  window.isDirty = false
+})
+
+$('#app').on('change keyup keydown', ':input', () => {
+  window.isDirty = true
+})
+
 ReactDOM.render(
   <Router history={history}>
     <Route path='/login' component={LoginContent} />
