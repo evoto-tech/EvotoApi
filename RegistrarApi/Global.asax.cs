@@ -1,8 +1,14 @@
-﻿using System.Web;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Blockchain;
+using Ninject;
 
 namespace Registrar.Api
 {
@@ -15,6 +21,12 @@ namespace Registrar.Api
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            MutliChainConfig.StartBlockchains();
+        }
+
+        protected void Application_OnEnd()
+        {
+            MutliChainConfig.StopBlockchains();
         }
     }
 }

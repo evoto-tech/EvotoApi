@@ -1,0 +1,32 @@
+﻿using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using Blockchain;
+using Ninject;
+using Registrar.Database.Interfaces;
+
+namespace Registrar.Api
+{
+    public static class MutliChainConfig
+    {
+        public static void StartBlockchains()
+        {
+            var handler = NinjectWebCommon.Kernel.Get<MultiChainHandler>();
+            var blockchainStore = NinjectWebCommon.Kernel.Get<IRegiBlockchainStore>();
+            var blockchains = blockchainStore.GetAllBlockchains();
+
+            Task.WaitAll(
+                blockchains.Select(
+                    blockchain =>
+                        handler.Connect(IPAddress.Loopback.ToString(), blockchain.ChainString, blockchain.Port,
+                            false)).Cast<Task>().ToArray());
+        }
+
+        public static void StopBlockchains()
+        {
+            var handler = NinjectWebCommon.Kernel.Get<MultiChainHandler>();
+
+            Task.WaitAll(handler.Connections.Values.Select(connection => handler.DisconnectAndClose(connection)).ToArray());
+        }
+    }
+}
