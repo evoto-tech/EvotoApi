@@ -70,11 +70,20 @@ namespace Registrar.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INSERT INTO Blockchains (Name, ExpiryDate, ChainString) VALUES (@Name, @ExpiryDate, @ChainString).
+        ///   Looks up a localized string similar to INSERT INTO Blockchains (Name, ExpiryDate, ChainString, Port) VALUES (@Name, @ExpiryDate, @ChainString, @Port).
         /// </summary>
         internal static string BlockchainCreate {
             get {
                 return ResourceManager.GetString("BlockchainCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Blockchains.
+        /// </summary>
+        internal static string BlockchainGetAll {
+            get {
+                return ResourceManager.GetString("BlockchainGetAll", resourceCulture);
             }
         }
         

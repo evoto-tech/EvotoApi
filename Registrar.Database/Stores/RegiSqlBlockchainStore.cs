@@ -17,6 +17,25 @@ namespace Registrar.Database.Stores
         {
         }
 
+        public List<RegiBlockchain> GetAllBlockchains()
+        {
+            try
+            {
+                using (var connection = GetConnection())
+                {
+                    var rows = connection.Query(RegistrarQueries.BlockchainGetAll);
+                    return rows.Select(r => new RegiDbBlockchain(r).ToBlockchain()).ToList();
+                }
+            }
+            catch (Exception)
+            {
+#if DEBUG
+                throw;
+#endif
+                throw new Exception("Could not get all Blockchains");
+            }
+        }
+
         public async Task<RegiBlockchain> CreateBlockchain(RegiBlockchain model)
         {
             try
