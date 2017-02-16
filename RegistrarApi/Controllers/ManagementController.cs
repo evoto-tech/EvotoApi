@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -41,19 +42,24 @@ namespace Registrar.Api.Controllers
                 ChainString = model.ChainString
             };
 
-            try
-            {
-                await MultiChainUtilHandler.CreateBlockchain(model.ChainString);
-                await _multichaind.Connect(IPAddress.Loopback.ToString(), model.ChainString, MultiChainTools.GetNewPort(EPortType.MultichainD), false);
-                await _blockchainStore.CreateBlockchain(blockchain);
+            await MultiChainUtilHandler.CreateBlockchain(model.ChainString);
 
-                return Ok();
-            }
-            catch (Exception e)
+            var blockchains = _blockchainStore.GetAllBlockchains();
+
+            int port;
+            while (true)
             {
-                Console.WriteLine(e.Message);
-                return InternalServerError();
+                port = MultiChainTools.GetNewPort(EPortType.MultichainD);
+                if (blockchains.All(b => b.Port != port))
+                    break;
             }
+
+            await _multichaind.Connect(IPAddress.Loopback.ToString(), model.ChainString, port, false);
+
+            blockchain.Port = port;
+            await _blockchainStore.CreateBlockchain(blockchain);
+
+            return Ok();
         }
     }
 }
