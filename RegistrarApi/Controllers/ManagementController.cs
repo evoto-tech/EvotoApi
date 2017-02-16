@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Blockchain;
+using Blockchain.Models;
 using Common;
 using Registrar.Api.Models.Request;
 using Registrar.Database.Interfaces;
@@ -15,10 +17,10 @@ namespace Registrar.Api.Controllers
     [RoutePrefix("management")]
     public class ManagementController : ApiController
     {
-        private readonly IMultiChainHandler _multichaind;
+        private readonly MultiChainHandler _multichaind;
         private readonly IRegiBlockchainStore _blockchainStore;
 
-        public ManagementController(IMultiChainHandler multichaind, IRegiBlockchainStore blockchainStore)
+        public ManagementController(MultiChainHandler multichaind, IRegiBlockchainStore blockchainStore)
         {
             _multichaind = multichaind;
             _blockchainStore = blockchainStore;
@@ -42,7 +44,7 @@ namespace Registrar.Api.Controllers
             try
             {
                 await MultiChainUtilHandler.CreateBlockchain(model.ChainString);
-                await _multichaind.Connect(model.ChainString, false);
+                await _multichaind.Connect(IPAddress.Loopback.ToString(), model.ChainString, MultiChainTools.GetNewPort(EPortType.MultichainD), false);
                 await _blockchainStore.CreateBlockchain(blockchain);
 
                 return Ok();
