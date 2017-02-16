@@ -8,7 +8,7 @@ namespace Registrar.Database.Migrations
         public override void Up()
         {
             Alter.Table("Blockchains")
-                .AddColumn("Port").AsInt16();
+                .AddColumn("Port").AsInt16().Nullable();
         }
 
         public override void Down()
