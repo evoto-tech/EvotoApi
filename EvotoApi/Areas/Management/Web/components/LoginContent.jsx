@@ -13,17 +13,19 @@ class LoginContent extends React.Component {
 
   loginUser (e) {
     e.preventDefault()
-    let user = {
-      email: this.refs.email.value,
+    let loginModel = {
+      client_id: "Management",
+      grant_type: "password",
+      username: this.refs.email.value,
       password: this.refs.password.value
     }
 
     $.ajax({
       type: 'POST',
-      url: '/mana/auth/login',
+      url: '/Token',
       dataType: 'json',
-      data: JSON.stringify(user),
-      success: (resp) => {
+      data: loginModel,
+      complete: (resp) => {
         console.log(resp)
         //this.props.router.push('/')
       }
