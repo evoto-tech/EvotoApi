@@ -68,13 +68,20 @@ namespace EvotoApi
             var m = ConfigurationManager.ConnectionStrings["ManagementConnectionString"].ConnectionString;
             //var r = ConfigurationManager.ConnectionStrings["RegistrarConnectionString"].ConnectionString;
 
-            kernel.Bind<IManaVoteStore>().To<ManaSqlVoteStore>().WithConstructorArgument("connectionString", m);
+            kernel.Bind<IManaVoteStore>()
+                .To<ManaSqlVoteStore>()
+                .WithConstructorArgument("connectionString", m);
 
             kernel.Bind<IManaUserStore>()
                 .To<ManaSqlUserStore>()
                 .WithConstructorArgument("connectionString", m);
+
             kernel.Bind<IManaUserLockoutStore>()
                 .To<ManaUserLockoutStore>()
+                .WithConstructorArgument("connectionString", m);
+
+            kernel.Bind<IManaRefreshTokenStore>()
+                .To<ManaSqlRefreshTokenStore>()
                 .WithConstructorArgument("connectionString", m);
         }
     }

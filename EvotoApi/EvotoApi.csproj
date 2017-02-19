@@ -275,9 +275,10 @@
     <Compile Include="Auth\ManaAuthUserStore.cs" />
     <Compile Include="Auth\ManaClaims.cs" />
     <Compile Include="Auth\ManaEmailService.cs" />
+    <Compile Include="Auth\ManaOAuthProvider.cs" />
+    <Compile Include="Auth\ManaRefreshTokenProvider.cs" />
     <Compile Include="Auth\ManaSignInManager.cs" />
     <Compile Include="Auth\ManaUserManager.cs" />
-    <Compile Include="Auth\ManaOAuthProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />

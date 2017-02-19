@@ -165,4 +165,19 @@
   <data name="UserUpdate" xml:space="preserve">
     <value>UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash WHERE Id = @Id</value>
   </data>
+  <data name="RefreshTokenCreate" xml:space="preserve">
+    <value>INSERT INTO RefreshTokens (UserId, Token, Ticket, Issued, Expires) VALUES (@UserId, @Token, @Ticket, @Issued, @Expires)</value>
+  </data>
+  <data name="RefreshTokenDelete" xml:space="preserve">
+    <value>DELETE FROM RefreshTokens WHERE Token = @Token</value>
+  </data>
+  <data name="RefreshTokenSelect" xml:space="preserve">
+    <value>SELECT * FROM RefreshTokens WHERE Token = @Token</value>
+  </data>
+  <data name="RefreshTokenSelectForUser" xml:space="preserve">
+    <value>SELECT * FROM RefreshTokens WHERE UserId = @UserId</value>
+  </data>
+  <data name="RefreshTokenUpdate" xml:space="preserve">
+    <value>UPDATE RefreshTokens SET Token = @Token, Ticket = @Ticket, Issued = @Issued, Expires = @Expires WHERE UserId = @UserId</value>
+  </data>
 </root>

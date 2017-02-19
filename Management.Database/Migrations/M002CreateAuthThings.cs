@@ -20,6 +20,14 @@ namespace Management.Database.Migrations
                 .WithColumn("LockEnd").AsDateTime().Nullable();
 
             Create.PrimaryKey("PK_Users_Locked").OnTable("Users_Lockout").Column("UserId");
+
+            Insert.IntoTable("Users")
+                .Row(
+                    new
+                    {
+                        Email = "admin@evoto.tech",
+                        PasswordHash = @"AFm/4QwHKpkiyCG7qEAoTq0/xtMZA/MLqZyZYklkuh9wfz6BzTvOi2bJSa7MVsiFYg=="
+                    });
         }
 
         public override void Down()
