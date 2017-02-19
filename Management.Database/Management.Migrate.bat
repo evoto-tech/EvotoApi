@@ -1,4 +1,7 @@
 set MSB="%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe"
+
+IF NOT EXIST %MSB% set MSB="%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\MSBuild.exe"
+
 set BASE=%~dp0
 set CONFIG=%BASE%..\EvotoApi\Web.config
 
