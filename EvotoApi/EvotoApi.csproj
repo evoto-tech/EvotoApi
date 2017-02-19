@@ -263,11 +263,13 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Areas\Management\Controllers\AuthController.cs" />
     <Compile Include="Areas\Management\Controllers\ReactController.cs" />
     <Compile Include="Areas\Management\Controllers\ManaVotesController.cs" />
     <Compile Include="Areas\Management\ManagementAreaRegistration.cs" />
     <Compile Include="Areas\Management\ManagementApiAreaRegistration.cs" />
     <Compile Include="Areas\Management\Models\Request\CreateManaVote.cs" />
+    <Compile Include="Areas\Management\Models\Request\LoginManaUser.cs" />
     <Compile Include="Areas\Management\Models\Response\ManaVoteResponse.cs" />
     <Compile Include="Auth\ManaAuthUser.cs" />
     <Compile Include="Auth\ManaAuthUserStore.cs" />

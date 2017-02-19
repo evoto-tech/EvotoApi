@@ -8,36 +8,37 @@ using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Syntax;
 using Ninject.Web.Common;
+using WebActivatorEx;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
+[assembly: ApplicationShutdownMethod(typeof(NinjectWebCommon), "Stop")]
 
 namespace EvotoApi
 {
-    public static class NinjectWebCommon 
+    public static class NinjectWebCommon
     {
         private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
 
         /// <summary>
-        /// Starts the application
+        ///     Starts the application
         /// </summary>
-        public static void Start() 
+        public static void Start()
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
             Bootstrapper.Initialize(CreateKernel);
         }
-        
+
         /// <summary>
-        /// Stops the application.
+        ///     Stops the application.
         /// </summary>
         public static void Stop()
         {
             Bootstrapper.ShutDown();
         }
-        
+
         /// <summary>
-        /// Creates the kernel that will manage your application.
+        ///     Creates the kernel that will manage your application.
         /// </summary>
         /// <returns>The created kernel.</returns>
         private static IKernel CreateKernel()
@@ -59,15 +60,22 @@ namespace EvotoApi
         }
 
         /// <summary>
-        /// Load your modules or register your services here!
+        ///     Load your modules or register your services here!
         /// </summary>
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IBindingRoot kernel)
         {
             var m = ConfigurationManager.ConnectionStrings["ManagementConnectionString"].ConnectionString;
-            var r = ConfigurationManager.ConnectionStrings["RegistrarConnectionString"].ConnectionString;
+            //var r = ConfigurationManager.ConnectionStrings["RegistrarConnectionString"].ConnectionString;
 
             kernel.Bind<IManaVoteStore>().To<ManaSqlVoteStore>().WithConstructorArgument("connectionString", m);
-        }        
+
+            kernel.Bind<IManaUserStore>()
+                .To<ManaSqlUserStore>()
+                .WithConstructorArgument("connectionString", m);
+            kernel.Bind<IManaUserLockoutStore>()
+                .To<ManaUserLockoutStore>()
+                .WithConstructorArgument("connectionString", m);
+        }
     }
 }

@@ -4,10 +4,16 @@ namespace EvotoApi.Areas.Management.Controllers
 {
     public class ReactController : Controller
     {
-        [Route(Name = "reactIndex")]
+        [Authorize]
         public ActionResult Index()
         {
             return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult Login()
+        {
+            return View("Index");
         }
     }
 }
