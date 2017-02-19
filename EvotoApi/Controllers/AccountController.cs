@@ -85,31 +85,6 @@ namespace EvotoApi.Controllers
             return Ok();
         }
 
-        // POST api/Account/RegisterExternal
-        [OverrideAuthentication]
-        [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
-        [Route("RegisterExternal")]
-        public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var info = await Authentication.GetExternalLoginInfoAsync();
-            if (info == null)
-                return InternalServerError();
-
-            var user = new ManaAuthUser {UserName = model.Email, Email = model.Email};
-
-            var result = await UserManager.CreateAsync(user);
-            if (!result.Succeeded)
-                return GetErrorResult(result);
-
-            result = await UserManager.AddLoginAsync(user.Id, info.Login);
-            if (!result.Succeeded)
-                return GetErrorResult(result);
-            return Ok();
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && (_userManager != null))
