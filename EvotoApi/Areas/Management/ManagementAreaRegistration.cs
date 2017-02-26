@@ -21,6 +21,12 @@ namespace EvotoApi.Areas.Management
             );
 
             context.MapRoute(
+                "Management_react_login",
+                "manage/login",
+                new { controller = "React", action = "Login" }
+            );
+
+            context.MapRoute(
                 "Management_react",
                 "manage/{*uri}",
                 new {controller = "React", action = "Index"}

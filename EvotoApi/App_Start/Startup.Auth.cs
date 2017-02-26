@@ -1,7 +1,7 @@
 ﻿using System;
-using EvotoApi.Models;
-using EvotoApi.Providers;
+using EvotoApi.Auth;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
@@ -11,36 +11,31 @@ namespace EvotoApi
 {
     public partial class Startup
     {
-        public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
+        public static OAuthBearerAuthenticationOptions OAuthBearerOptions { get; private set; }
 
-        public static string PublicClientId { get; private set; }
+        // In minutes
+        public static int RefreshTokenTime => 30;
 
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context and user manager to use a single instance per request
-            app.CreatePerOwinContext(ApplicationDbContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            app.CreatePerOwinContext<ManaUserManager>(ManaUserManager.Create);
+            app.CreatePerOwinContext<ManaSignInManager>(ManaSignInManager.Create);
 
-            // Enable the application to use a cookie to store information for the signed in user
-            // and to use a cookie to temporarily store information about a user logging in with a third party login provider
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+            OAuthBearerOptions =
+                new OAuthBearerAuthenticationOptions();
+            app.UseOAuthBearerAuthentication(OAuthBearerOptions);
 
-            // Configure the application for OAuth based flow
-            PublicClientId = "self";
-            OAuthOptions = new OAuthAuthorizationServerOptions
+            app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
             {
+                AuthenticationType = DefaultAuthenticationTypes.ExternalBearer,
                 TokenEndpointPath = new PathString("/Token"),
-                Provider = new ApplicationOAuthProvider(PublicClientId),
-                AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
-                // In production mode set AllowInsecureHttp = false
-                AllowInsecureHttp = true
-            };
-
-            // Enable the application to use bearer tokens to authenticate users
-            app.UseOAuthBearerTokens(OAuthOptions);
+                Provider = new ManaOAuthProvider("Management"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(15),
+                AllowInsecureHttp = true,
+                RefreshTokenProvider = new ManaRefreshTokenProvider()
+            });
         }
     }
 }

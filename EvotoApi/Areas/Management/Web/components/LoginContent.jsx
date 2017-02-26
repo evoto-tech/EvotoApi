@@ -13,24 +13,23 @@ class LoginContent extends React.Component {
 
   loginUser (e) {
     e.preventDefault()
-    let user = {
-      username: this.refs.username.value,
+    let loginModel = {
+      client_id: "Management",
+      grant_type: "password",
+      username: this.refs.email.value,
       password: this.refs.password.value
     }
 
     $.ajax({
       type: 'POST',
-      url: '/api/login',
+      url: '/Token',
       dataType: 'json',
-      data: JSON.stringify(user),
-      success: (resp) => {
+      data: loginModel,
+      complete: (resp) => {
         console.log(resp)
-        this.props.router.push('/')
+        //this.props.router.push('/')
       }
     })
-    setTimeout(() => {
-      this.props.router.push('/')
-    }, 1000)
   }
 
   render () {
@@ -53,7 +52,7 @@ class LoginContent extends React.Component {
 
                       <form onSubmit={this.loginUser}>
                         <div className='form-group has-feedback'>
-                          <input type='text' ref='username' className='form-control' placeholder='Username' />
+                          <input type='text' ref='email' className='form-control' placeholder='Email' />
                           <span className='fa fa-envelope form-control-feedback' />
                         </div>
                         <div className='form-group has-feedback'>
