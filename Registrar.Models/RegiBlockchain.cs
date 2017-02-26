@@ -9,5 +9,7 @@ namespace Registrar.Models
         public DateTime ExpiryDate { get; set; }
 
         public string ChainString { get; set; }
+
+        public int Port { get; set; }
     }
 }

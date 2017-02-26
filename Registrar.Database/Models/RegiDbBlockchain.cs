@@ -10,6 +10,7 @@ namespace Registrar.Database.Models
             Name = record.Name;
             ExpiryDate = record.ExpiryDate;
             ChainString = record.ChainString;
+            Port = record.Port;
         }
 
         public RegiDbBlockchain(RegiBlockchain model)
@@ -20,11 +21,13 @@ namespace Registrar.Database.Models
             Name = model.Name;
             ExpiryDate = model.ExpiryDate;
             ChainString = model.ChainString;
+            Port = model.Port;
         }
 
         public string Name { get; }
         public DateTime ExpiryDate { get; }
         public string ChainString { get; }
+        public int Port { get; }
 
         public RegiBlockchain ToBlockchain()
         {
@@ -32,7 +35,8 @@ namespace Registrar.Database.Models
             {
                 Name = Name,
                 ExpiryDate = ExpiryDate,
-                ChainString = ChainString
+                ChainString = ChainString,
+                Port = Port
             };
         }
     }

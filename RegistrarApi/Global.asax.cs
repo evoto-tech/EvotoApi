@@ -15,6 +15,12 @@ namespace Registrar.Api
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            MutliChainConfig.StartBlockchains();
+        }
+
+        protected void Application_OnEnd()
+        {
+            MutliChainConfig.StopBlockchains();
         }
     }
 }
