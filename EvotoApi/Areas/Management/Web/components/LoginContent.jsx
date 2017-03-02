@@ -1,87 +1,44 @@
 import React from 'react'
-import {withRouter} from 'react-router'
+import Login from './auth/login.jsx'
+import Register from './auth/register.jsx'
 
 class LoginContent extends React.Component {
-  constructor (props) {
-    super(props)
-    this.loginUser = this.loginUser.bind(this)
-  }
-
-  componentDidMount () {
-    console.log(this.props.router)
-  }
-
-  loginUser (e) {
-    e.preventDefault()
-    let loginModel = {
-      client_id: "Management",
-      grant_type: "password",
-      username: this.refs.email.value,
-      password: this.refs.password.value
-    }
-
-    $.ajax({
-      type: 'POST',
-      url: '/Token',
-      dataType: 'json',
-      data: loginModel,
-      complete: (resp) => {
-        console.log(resp)
-        //this.props.router.push('/')
-      }
-    })
-  }
-
   render () {
     return (
-      <div className='container '>
-        <div className='row'>
-          <div className='absolute-center is-responsive'>
-            <div className='col-centered col-md-4 col-mod-offset-2'>
-              <div className='center-block'>
-                <section className='content-header'>
-                  <h1>
-                                        evoto Manager
-                                        <small>Login to manage evoto</small>
-                  </h1>
-                </section>
-
-                <section className='content'>
-                  <div className='row'>
+      <div className='content'>
+        <div className='container'>
+          <div className='row'>
+            <div className='absolute-center is-responsive'>
+              <div className='col-centered col-md-4 col-mod-offset-2'>
+                <div className='center-block'>
+                  <div className='box box-success'>
+                    <div className='box-header with-border'>
+                      <h3 className='box-title'>evoto Management</h3>
+                      <br/>
+                      <small>Access the evoto management portal.</small>
+                    </div>
                     <div className='login-box-body'>
-
-                      <form onSubmit={this.loginUser}>
-                        <div className='form-group has-feedback'>
-                          <input type='text' ref='email' className='form-control' placeholder='Email' />
-                          <span className='fa fa-envelope form-control-feedback' />
-                        </div>
-                        <div className='form-group has-feedback'>
-                          <input type='password' ref='password' className='form-control' placeholder='Password' />
-                          <span className='fa fa-lock form-control-feedback' />
-                        </div>
-                        {/* <div className="row">
-                              <div className="col-xs-8">
-                                  <div className="checkbox">
-                                      <label className="">
-                                          <div className="" aria-checked="false" aria-disabled="false" style={{position: "relative"}}>
-                                          <input type="checkbox"/>
-                                          </div> Remember Me
-                                      </label>
-                                  </div>
-                              </div>
-                            </div>
-                        */}
-                        <div className='row'>
-                          <div className='col-xs-4'>
-                            <button type='submit' className='btn btn-primary btn-block btn-flat'>Sign In</button>
+                      <div className='nav-tabs-custom tab-success'>
+                        <ul className='nav nav-tabs'>
+                          <li className='active'>
+                            <a href='#tab_1' data-toggle='tab' aria-expanded='true'>Login</a>
+                          </li>
+                          <li>
+                            <a href='#tab_2' data-toggle='tab' aria-expanded='false'>Register</a>
+                          </li>
+                        </ul>
+                        <div className='tab-content'>
+                          <div className='tab-pane active' id='tab_1'>
+                            <Login />
+                          </div>
+                          <div className='tab-pane' id='tab_2'>
+                            <Register />
                           </div>
                         </div>
-                      </form>
-
-                      {/* <a href="#">I forgot my password</a><br /> */}
+                      </div>
                     </div>
                   </div>
-                </section>
+                </div>
               </div>
             </div>
           </div>
@@ -91,4 +48,4 @@ class LoginContent extends React.Component {
   }
 }
 
-export default withRouter(LoginContent)
+export default LoginContent
