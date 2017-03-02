@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -18,8 +17,8 @@ namespace Registrar.Api.Controllers
     [RoutePrefix("management")]
     public class ManagementController : ApiController
     {
-        private readonly MultiChainHandler _multichaind;
         private readonly IRegiBlockchainStore _blockchainStore;
+        private readonly MultiChainHandler _multichaind;
 
         public ManagementController(MultiChainHandler multichaind, IRegiBlockchainStore blockchainStore)
         {
@@ -54,7 +53,23 @@ namespace Registrar.Api.Controllers
                     break;
             }
 
-            await _multichaind.Connect(IPAddress.Loopback.ToString(), model.ChainString, port, false);
+            // TODO: Receive from Management
+            var questions = new[]
+            {
+                new
+                {
+                    Question = "Who is the best?",
+                    Answers = new[]
+                    {
+                        "Elmo",
+                        "THOR",
+                        "Spongebob"
+                    }
+                }
+            };
+
+            var chain = await _multichaind.Connect(IPAddress.Loopback.ToString(), model.ChainString, port, false);
+            await chain.WriteToStream(MultiChainTools.ROOT_STREAM_NAME, MultiChainTools.QUESTIONS_KEY, questions);
 
             blockchain.Port = port;
             await _blockchainStore.CreateBlockchain(blockchain);
