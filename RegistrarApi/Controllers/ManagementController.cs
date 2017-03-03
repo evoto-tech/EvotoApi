@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -54,12 +55,12 @@ namespace Registrar.Api.Controllers
             }
 
             // TODO: Receive from Management
-            var questions = new[]
+            var questions = new List<BlockchainQuestionModel>
             {
-                new
+                new BlockchainQuestionModel
                 {
                     Question = "Who is the best?",
-                    Answers = new[]
+                    Answers = new List<string>
                     {
                         "Elmo",
                         "THOR",
@@ -68,6 +69,8 @@ namespace Registrar.Api.Controllers
                 }
             };
 
+            UpdateParams(model.ChainString);
+
             var chain = await _multichaind.Connect(IPAddress.Loopback.ToString(), model.ChainString, port, port, false);
             await chain.WriteToStream(MultiChainTools.ROOT_STREAM_NAME, MultiChainTools.QUESTIONS_KEY, questions);
 
@@ -75,6 +78,16 @@ namespace Registrar.Api.Controllers
             await _blockchainStore.CreateBlockchain(blockchain);
 
             return Ok();
+        }
+
+        private static void UpdateParams(string chainName)
+        {
+            var p = MultiChainTools.GetBlockchainConfig(chainName);
+            p["anyone-can-connect"] = true;
+            p["anyone-can-send"] = true;
+            p["anyone-can-receive"] = true;
+            p["anyone-can-mine"] = true;
+            MultiChainTools.WriteBlockchainConfig(chainName, p);
         }
     }
 }
