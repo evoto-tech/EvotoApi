@@ -55,24 +55,21 @@ namespace Registrar.Api.Controllers
             }
 
             // TODO: Receive from Management
-            var questions = new List<BlockchainQuestionModel>
+            var question = new BlockchainQuestionModel
             {
-                new BlockchainQuestionModel
+                Question = "Who is the best?",
+                Answers = new List<string>
                 {
-                    Question = "Who is the best?",
-                    Answers = new List<string>
-                    {
-                        "Elmo",
-                        "THOR",
-                        "Spongebob"
-                    }
+                    "Elmo",
+                    "THOR",
+                    "Spongebob"
                 }
             };
 
             UpdateParams(model.ChainString);
 
             var chain = await _multichaind.Connect(IPAddress.Loopback.ToString(), model.ChainString, port, port, false);
-            await chain.WriteToStream(MultiChainTools.ROOT_STREAM_NAME, MultiChainTools.QUESTIONS_KEY, questions);
+            await chain.WriteToStream(MultiChainTools.ROOT_STREAM_NAME, MultiChainTools.QUESTIONS_KEY, question);
 
             blockchain.Port = port;
             await _blockchainStore.CreateBlockchain(blockchain);
@@ -83,10 +80,14 @@ namespace Registrar.Api.Controllers
         private static void UpdateParams(string chainName)
         {
             var p = MultiChainTools.GetBlockchainConfig(chainName);
+
             p["anyone-can-connect"] = true;
             p["anyone-can-send"] = true;
             p["anyone-can-receive"] = true;
             p["anyone-can-mine"] = true;
+
+            p["root-stream-open"] = false;
+
             MultiChainTools.WriteBlockchainConfig(chainName, p);
         }
     }
