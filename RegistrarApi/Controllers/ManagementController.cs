@@ -68,7 +68,7 @@ namespace Registrar.Api.Controllers
                 }
             };
 
-            var chain = await _multichaind.Connect(IPAddress.Loopback.ToString(), model.ChainString, port, false);
+            var chain = await _multichaind.Connect(IPAddress.Loopback.ToString(), model.ChainString, port, port, false);
             await chain.WriteToStream(MultiChainTools.ROOT_STREAM_NAME, MultiChainTools.QUESTIONS_KEY, questions);
 
             blockchain.Port = port;
