@@ -11,5 +11,7 @@ namespace Registrar.Models
         public string ChainString { get; set; }
 
         public int Port { get; set; }
+
+        public string WalletId { get; set; }
     }
 }

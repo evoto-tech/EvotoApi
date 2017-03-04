@@ -121,7 +121,7 @@
     <value>SELECT * FROM Blockchains WHERE Name = Name</value>
   </data>
   <data name="BlockchainCreate" xml:space="preserve">
-    <value>INSERT INTO Blockchains (Name, ExpiryDate, ChainString, Port) VALUES (@Name, @ExpiryDate, @ChainString, @Port)</value>
+    <value>INSERT INTO Blockchains (Name, ExpiryDate, ChainString, Port, WalletId) VALUES (@Name, @ExpiryDate, @ChainString, @Port, @WalletId)</value>
   </data>
   <data name="BlockchainGetAll" xml:space="preserve">
     <value>SELECT * FROM Blockchains</value>

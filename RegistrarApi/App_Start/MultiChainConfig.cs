@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Blockchain;
+using Blockchain.Models;
 using Ninject;
 using Registrar.Database.Interfaces;
 
@@ -17,17 +18,20 @@ namespace Registrar.Api
 
             Task.WaitAll(
                 blockchains.Select(
-                    blockchain =>
-                        // We're the host/master node, so local port = remote port
-                        handler.Connect(IPAddress.Loopback.ToString(), blockchain.ChainString, blockchain.Port, blockchain.Port,
-                            false)).Cast<Task>().ToArray());
+                        blockchain =>
+                            // We're the host/master node, so local port = remote port
+                                handler.Connect(IPAddress.Loopback.ToString(), blockchain.ChainString, blockchain.Port,
+                                    blockchain.Port, MultiChainTools.GetNewPort(EPortType.Rpc), false))
+                    .Cast<Task>()
+                    .ToArray());
         }
 
         public static void StopBlockchains()
         {
             var handler = NinjectWebCommon.Kernel.Get<MultiChainHandler>();
 
-            Task.WaitAll(handler.Connections.Values.Select(connection => handler.DisconnectAndClose(connection)).ToArray());
+            Task.WaitAll(
+                handler.Connections.Values.Select(connection => handler.DisconnectAndClose(connection)).ToArray());
         }
     }
 }

@@ -68,10 +68,16 @@ namespace Registrar.Api.Controllers
 
             UpdateParams(model.ChainString);
 
-            var chain = await _multichaind.Connect(IPAddress.Loopback.ToString(), model.ChainString, port, port, false);
+            var rpcPort = MultiChainTools.GetNewPort(EPortType.MultichainD);
+            var chain =
+                await _multichaind.Connect(IPAddress.Loopback.ToString(), model.ChainString, port, port, rpcPort, false);
             await chain.WriteToStream(MultiChainTools.ROOT_STREAM_NAME, MultiChainTools.QUESTIONS_KEY, question);
 
+            var walletId = await chain.GetNewWalletAddress();
+
+            blockchain.WalletId = walletId;
             blockchain.Port = port;
+
             await _blockchainStore.CreateBlockchain(blockchain);
 
             return Ok();

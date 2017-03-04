@@ -204,6 +204,7 @@
     <Compile Include="Auth\RegiSignInManager.cs" />
     <Compile Include="Auth\RegiUserManager.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\VoteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManagementController.cs" />
@@ -214,6 +215,8 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Request\CreateBlockchain.cs" />
     <Compile Include="Models\Request\CreateRegiUser.cs" />
+    <Compile Include="Models\Request\IssueCurrencyModel.cs" />
+    <Compile Include="Models\Request\GetBlindSignatureModel.cs" />
     <Compile Include="Models\Request\ForgotRegiPassword.cs" />
     <Compile Include="Models\Request\LoginRegiUser.cs" />
     <Compile Include="Models\Request\ResetRegiPassword.cs" />
