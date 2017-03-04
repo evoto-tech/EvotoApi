@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Blockchain;
 using Blockchain.Models;
 using Common;
+using MultiChainLib.Client;
+using Newtonsoft.Json;
 using Registrar.Api.Models.Request;
 using Registrar.Database.Interfaces;
 using Registrar.Models;
@@ -16,6 +20,7 @@ namespace Registrar.Api.Controllers
     ///     Controller manages API requests from the Management API
     /// </summary>
     [RoutePrefix("management")]
+    [ApiKeyAuth]
     public class ManagementController : ApiController
     {
         private readonly IRegiBlockchainStore _blockchainStore;
@@ -27,7 +32,6 @@ namespace Registrar.Api.Controllers
             _blockchainStore = blockchainStore;
         }
 
-        [ApiKeyAuth]
         [HttpPost]
         [Route("createblockchain")]
         public async Task<IHttpActionResult> CreateBlockchain(CreateBlockchain model)
@@ -81,6 +85,41 @@ namespace Registrar.Api.Controllers
             await _blockchainStore.CreateBlockchain(blockchain);
 
             return Ok();
+        }
+
+        [Route("results")]
+        [HttpGet]
+        public async Task<IHttpActionResult> Results(string blockchainName)
+        {
+            var blockchain = await _blockchainStore.GetBlockchain(blockchainName);
+
+            MultichainModel chain;
+            if (!_multichaind.Connections.TryGetValue(blockchain.ChainString, out chain))
+                return NotFound();
+
+            var votes = await chain.GetAddressTransactions(blockchain.WalletId);
+
+            var answers = votes
+                .Select(v => MultiChainClient.ParseHexString(v.Data.First()))
+                .Select(Encoding.UTF8.GetString)
+                .Select(JsonConvert.DeserializeObject<BlockchainAnswerModel>)
+                .ToList();
+
+
+            var questions = await chain.GetQuestions();
+
+            var options = questions.First().Answers.ToDictionary(a => a, a => 0);
+            foreach (var a in answers)
+            {
+                if (!options.ContainsKey(a.Answer))
+                {
+                    Debug.WriteLine($"Unexpected answer: {a}");
+                    continue;
+                }
+                options[a.Answer]++;
+            }
+
+            return Ok(options);
         }
 
         private static void UpdateParams(string chainName)

@@ -309,6 +309,10 @@
       <Project>{28880810-9210-4b1b-a320-feb6f91a6745}</Project>
       <Name>Blockchain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EvotoBlockchain\MultiChainLib\MultiChainLib\MultiChainLib.csproj">
+      <Project>{F7C35562-FDD5-4124-86DF-B8BE94CF816D}</Project>
+      <Name>MultiChainLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Registrar.Database\Registrar.Database.csproj">
       <Project>{e1aa49e6-a743-4ce5-859f-eeaac0b716f2}</Project>
       <Name>Registrar.Database</Name>
