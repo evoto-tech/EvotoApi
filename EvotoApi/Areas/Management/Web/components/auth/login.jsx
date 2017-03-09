@@ -44,8 +44,12 @@ class Login extends React.Component {
         return data.json()
       }, console.error)
       .then((json) => {
-        this.session.storeTokens(json['access_token'], json['refresh_token'], json['.expires'])
-        this.props.router.push('/')
+        if (json.error) {
+          this.setState({ error: 'Those details seem to be wrong! Please try again.' })
+        } else {
+          this.session.storeTokens(json['access_token'], json['refresh_token'], json['.expires'])
+          this.props.router.push('/')
+        }
       })
       .catch((err) => {
         this.setState({ error: err.Message })

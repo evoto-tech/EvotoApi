@@ -1,13 +1,20 @@
 class Session {
   constructor (options) {
     this.options = Object.assign({
-      refreshUrl: '/Token'
+      refreshUrl: '/Token',
+      prefix: 'evoto',
+      accessTokenName: 'AccessToken',
+      refreshTokenName: 'RefreshToken'
     }, options)
+    this.options.accessTokenName =
+      this.options.prefix + this.options.accessTokenName
+    this.options.refreshTokenName =
+      this.options.prefix + this.options.refreshTokenName
   }
 
   storeTokens (access, refresh, expiry, remove) {
-    this.storeToken('accessToken', access, expiry, remove)
-    this.storeToken('refreshToken', refresh, 'Fri, 31 Dec 9999 23:59:59 GMT', remove)
+    this.storeToken(`${this.options.accessTokenName}`, access, expiry, remove)
+    this.storeToken(`${this.options.refreshTokenName}`, refresh, 'Fri, 31 Dec 9999 23:59:59 GMT', remove)
   }
 
   storeToken (name, token, expiry, remove) {
@@ -16,11 +23,16 @@ class Session {
   }
 
   getAccessTokenCookie () {
-    return document.cookie.replace(/(?:(?:^|.*;\s*)accessToken\s*\=\s*([^;]*).*$)|^.*$/, "$1")
+    return this.getTokenCookie(this.options.accessTokenName)
   }
 
   getRefreshTokenCookie () {
-    return document.cookie.replace(/(?:(?:^|.*;\s*)refreshToken\s*\=\s*([^;]*).*$)|^.*$/, "$1")
+    return this.getTokenCookie(this.options.refreshTokenName)
+  }
+
+  getTokenCookie (name) {
+    var regex = new RegExp(`(?:(?:^|.*;\s*)${name}\s*\=\s*([^;]*).*$)|^.*$`)
+    return document.cookie.replace(regex, '$1')
   }
 
   getStoredToken () {
