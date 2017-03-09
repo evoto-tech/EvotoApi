@@ -18,7 +18,8 @@ namespace Registrar.Api
             Task.WaitAll(
                 blockchains.Select(
                     blockchain =>
-                        handler.Connect(IPAddress.Loopback.ToString(), blockchain.ChainString, blockchain.Port,
+                        // We're the host/master node, so local port = remote port
+                        handler.Connect(IPAddress.Loopback.ToString(), blockchain.ChainString, blockchain.Port, blockchain.Port,
                             false)).Cast<Task>().ToArray());
         }
 

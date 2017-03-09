@@ -23,18 +23,24 @@ namespace EvotoApi
             app.CreatePerOwinContext<ManaUserManager>(ManaUserManager.Create);
             app.CreatePerOwinContext<ManaSignInManager>(ManaSignInManager.Create);
 
-            OAuthBearerOptions =
-                new OAuthBearerAuthenticationOptions();
-            app.UseOAuthBearerAuthentication(OAuthBearerOptions);
+            //OAuthBearerOptions =
+            //    new OAuthBearerAuthenticationOptions();
+            //app.UseOAuthBearerAuthentication(OAuthBearerOptions);
 
-            app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                AuthenticationType = DefaultAuthenticationTypes.ExternalBearer,
-                TokenEndpointPath = new PathString("/Token"),
-                Provider = new ManaOAuthProvider("Management"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(15),
-                AllowInsecureHttp = true,
-                RefreshTokenProvider = new ManaRefreshTokenProvider()
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                LoginPath = new PathString("/manage/login"),
+                Provider = new CookieAuthenticationProvider
+                {
+                    // Enables the application to validate the security stamp when the user logs in.
+                    // This is a security feature which is used when you change a password or add an external login to your account.  
+                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ManaUserManager, ManaAuthUser, int>(
+                        TimeSpan.FromMinutes(30),
+                        (manager, user) => user.GenerateUserIdentityAsync(manager),
+                        (user) => user.GetUserId<int>())
+                }
             });
         }
     }
