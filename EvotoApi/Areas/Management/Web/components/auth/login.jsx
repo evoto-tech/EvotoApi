@@ -1,6 +1,5 @@
 import React from 'react'
 import { withRouter } from 'react-router'
-import Session from '../../lib/session'
 
 class Login extends React.Component {
   constructor (props) {
@@ -11,7 +10,6 @@ class Login extends React.Component {
       ready: false,
       error: ''
     }
-    this.session = new Session()
   }
 
   checkReady () {
@@ -26,33 +24,26 @@ class Login extends React.Component {
   }
 
   login () {
-    let form = [
-        `username=${encodeURIComponent(this.state.email)}`,
-        `password=${encodeURIComponent(this.state.password)}`,
-        `grant_type=password`
-      ].join('&')
+    let user = {
+          email: this.state.email,
+          password: this.state.password
+        }
 
-    fetch('/Token',
+    fetch('/mana/auth/login',
       { method: 'POST',
-        body: form,
+        credentials: 'same-origin',
+        body: JSON.stringify(user),
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+          'Content-Type': 'application/json; charset=utf-8'
         }
       })
       .then((data) => {
-        return data.json()
+        this.props.router.push('/')
       }, console.error)
-      .then((json) => {
-        if (json.error) {
-          this.setState({ error: 'Those details seem to be wrong! Please try again.' })
-        } else {
-          this.session.storeTokens(json['access_token'], json['refresh_token'], json['.expires'])
-          this.props.router.push('/')
-        }
-      })
       .catch((err) => {
-        this.setState({ error: err.Message })
+        console.error('Login error', err)
+        this.setState({ error: 'Those details seem to be wrong! Please try again.' })
       })
   }
 
