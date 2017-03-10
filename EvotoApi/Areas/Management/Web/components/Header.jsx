@@ -1,10 +1,11 @@
 import React from 'react'
-import {Link, IndexLink, browserHistory} from 'react-router'
+import {Link, IndexLink} from 'react-router'
+import Session from '../lib/session'
 
 class Header extends React.Component {
   constructor (props) {
     super(props)
-    this.onLogout = this.onLogout.bind(this)
+    this.session = new Session()
   }
 
   contextTypes: {
@@ -27,9 +28,9 @@ class Header extends React.Component {
     })
         // Wait for 1 second for logout callback to complete
     setTimeout(() => {
-      browserHistory.push('/login')
-    },
-            1000)
+      this.session.remove()
+      window.location = '/manage/login'
+    }, 1000)
   }
 
   render () {
@@ -41,8 +42,7 @@ class Header extends React.Component {
                 <Link to='/settings'><i className='fa fa-gears fa-fw' />Settings</Link>
               </li>
               <li>
-                <a href='javascript:void(0)' onClick={this.onLogout}><i className='fa fa-lock fa-fw' />Logout</
-                     a>
+                <a onClick={this.onLogout.bind(this)}><i className='fa fa-lock fa-fw' />Logout</a>
               </li>
             </ul>)
     }
