@@ -204,6 +204,7 @@
     <Compile Include="Auth\RegiSignInManager.cs" />
     <Compile Include="Auth\RegiUserManager.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\VoteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManagementController.cs" />
@@ -214,6 +215,8 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Request\CreateBlockchain.cs" />
     <Compile Include="Models\Request\CreateRegiUser.cs" />
+    <Compile Include="Models\Request\IssueCurrencyModel.cs" />
+    <Compile Include="Models\Request\GetBlindSignatureModel.cs" />
     <Compile Include="Models\Request\ForgotRegiPassword.cs" />
     <Compile Include="Models\Request\LoginRegiUser.cs" />
     <Compile Include="Models\Request\ResetRegiPassword.cs" />
@@ -305,6 +308,10 @@
     <ProjectReference Include="..\EvotoBlockchain\Blockchain\Blockchain.csproj">
       <Project>{28880810-9210-4b1b-a320-feb6f91a6745}</Project>
       <Name>Blockchain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EvotoBlockchain\MultiChainLib\MultiChainLib\MultiChainLib.csproj">
+      <Project>{F7C35562-FDD5-4124-86DF-B8BE94CF816D}</Project>
+      <Name>MultiChainLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Registrar.Database\Registrar.Database.csproj">
       <Project>{e1aa49e6-a743-4ce5-859f-eeaac0b716f2}</Project>

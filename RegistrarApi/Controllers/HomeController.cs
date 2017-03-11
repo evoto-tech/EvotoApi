@@ -5,6 +5,7 @@ using Registrar.Database.Interfaces;
 namespace Registrar.Api.Controllers
 {
     [RoutePrefix("home")]
+    [Authorize]
     public class HomeController : ApiController
     {
         private readonly IRegiBlockchainStore _blockchainStore;

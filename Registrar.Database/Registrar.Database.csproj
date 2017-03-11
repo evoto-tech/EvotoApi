@@ -60,7 +60,8 @@
     <Compile Include="Migrations\M002CreateRefreshTokenTable.cs" />
     <Compile Include="Migrations\M001CreateLockoutTable.cs" />
     <Compile Include="Migrations\M000CreateUserTable.cs" />
-    <Compile Include="Migrations\M004CreateBlockchainTable.cs" />
+    <Compile Include="Migrations\M005UpdateBlockchainTableAgain.cs" />
+    <Compile Include="Migrations\M004UpdateBlockchainTable.cs" />
     <Compile Include="Migrations\M003CreateBlockchainTable.cs" />
     <Compile Include="Models\RegiDbBlockchain.cs" />
     <Compile Include="Models\RegiDbUserLockout.cs" />
