@@ -6,3 +6,25 @@
 .sidebar-collapse .placeholder__user-picture {
     width: 100%;
 }
+
+/* Retheme bootstrap datepicker */
+
+.bootstrap-datetimepicker-widget table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
+    background-color: #00a65a
+}
+
+.bootstrap-datetimepicker-widget button[data-action] {
+    background-color: #00a65a
+}
+
+.bootstrap-datetimepicker-widget table td.today:before {
+    border-bottom-color: #00a65a
+}
+
+.bootstrap-datetimepicker-widget a[data-action] {
+    color: #00a65a
+}
+
+.bootstrap-datetimepicker-widget table td span.active {
+    background-color:  #00a65a
+}
