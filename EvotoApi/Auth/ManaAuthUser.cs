@@ -19,7 +19,7 @@ namespace EvotoApi.Auth
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ManaAuthUser, int> manager,
-            string authenticationType = DefaultAuthenticationTypes.ExternalBearer)
+            string authenticationType = DefaultAuthenticationTypes.ApplicationCookie)
         {
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
             // Add custom user claims here

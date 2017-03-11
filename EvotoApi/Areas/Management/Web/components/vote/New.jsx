@@ -1,5 +1,6 @@
 import React from 'react'
 import { withRouter, Link } from 'react-router'
+import Question from './parts/Question.jsx'
 
 class NewVote extends React.Component {
   constructor (props) {
@@ -26,6 +27,7 @@ class NewVote extends React.Component {
       name: nonEmptyVote ? props.vote.name : '',
       expiryDate: nonEmptyVote ? props.vote.expiryDate : '',
       published: nonEmptyVote ? props.vote.published : false,
+      questions: nonEmptyVote ? props.vote.questions : [],
       loaded: props.hasOwnProperty('loaded') ? props.loaded : true
     }
   }
@@ -171,6 +173,27 @@ class NewVote extends React.Component {
     }
   }
 
+  addQuestion () {
+    let questions = this.state.questions
+    questions.push({
+      question: `Question ${questions.length + 1}`,
+      options: []
+    })
+    this.setState({ questions })
+  }
+
+  updateQuestion (index, question) {
+    let questions = [].concat(this.state.questions)
+    questions[index] = question
+    this.setState({ questions })
+  }
+
+  deleteQuestion (index) {
+    let questions = [].concat(this.state.questions)
+    questions.splice(index, 1)
+    this.setState({ questions })
+  }
+
   render () {
     const title = this.props.title || 'New Vote'
     const description = this.props.description || 'Create a new vote'
@@ -207,13 +230,33 @@ class NewVote extends React.Component {
                   <div style={{ overflow: 'hidden' }}>
                     <div className='form-group'>
                       <div className='row'>
-                        <div className='col-md-4'>
+                        <div className='col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4'>
                           <div id='expiryDate' />
                         </div>
                       </div>
                     </div>
                   </div>
                   <span className='help-block'>{this.state.errors.expiryDate}</span>
+                </div>
+                <div className={this.state.errors.questions ? 'form-group has-error' : 'form-group'}>
+                  <label>Questions</label>
+                  <div className='form-group'>
+                    <div className='row'>
+                      <div className='col-md-offset-2 col-md-8'>
+                        {this.state.questions.map((question, i) => (
+                          <Question
+                            question={question}
+                            id={i}
+                            key={i}
+                            onDelete={this.deleteQuestion.bind(this)}
+                            onChange={this.updateQuestion.bind(this, i)}
+                            />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <button type='button' className='btn btn-success' onClick={this.addQuestion.bind(this)}>New Question</button>
+                  <span className='help-block'>{this.state.errors.questions}</span>
                 </div>
               </div>
               <div className='box-footer'>
