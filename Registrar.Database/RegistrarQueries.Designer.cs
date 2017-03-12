@@ -70,7 +70,7 @@ namespace Registrar.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INSERT INTO Blockchains (Name, ExpiryDate, ChainString, Port, WalletId) VALUES (@Name, @ExpiryDate, @ChainString, @Port, @WalletId).
+        ///   Looks up a localized string similar to INSERT INTO Blockchains (Name, ExpiryDate, ChainString, Port, WalletId, Info) VALUES (@Name, @ExpiryDate, @ChainString, @Port, @WalletId, @Info).
         /// </summary>
         internal static string BlockchainCreate {
             get {
