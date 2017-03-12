@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
@@ -18,5 +19,32 @@ namespace Registrar.Api.Models.Request
         [DataMember]
         [Required]
         public string ChainString { get; private set; }
+
+        [DataMember]
+        [Required]
+        public List<CreateBlockchainQuestion> Questions { get; private set; }
+    }
+
+    [DataContract]
+    public class CreateBlockchainQuestion
+    {
+        [DataMember]
+        [Required]
+        public string Question { get; private set; }
+
+        [DataMember]
+        [Required]
+        public List<CreateBlockchainAnswer> Answers { get; private set; }
+    }
+
+    [DataContract]
+    public class CreateBlockchainAnswer
+    {
+        [DataMember]
+        [Required]
+        public string Answer { get; private set; }
+
+        [DataMember]
+        public string Info { get; private set; }
     }
 }
