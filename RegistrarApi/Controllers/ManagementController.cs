@@ -56,6 +56,7 @@ namespace Registrar.Api.Controllers
             {
                 Name = model.Name,
                 ExpiryDate = model.ExpiryDate,
+                Info = model.Info,
                 ChainString = model.ChainString
             };
 
@@ -161,6 +162,7 @@ namespace Registrar.Api.Controllers
             {
                 Number = i++,
                 Question = q.Question,
+                Info = q.Info,
                 Answers = q.Answers.Select(a => new BlockchainAnswerModel
                 {
                     Answer = a.Answer,

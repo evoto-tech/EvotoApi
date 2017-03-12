@@ -21,6 +21,9 @@ namespace Registrar.Api.Models.Request
         public string ChainString { get; private set; }
 
         [DataMember]
+        public string Info { get; private set; }
+
+        [DataMember]
         [Required]
         public List<CreateBlockchainQuestion> Questions { get; private set; }
     }
@@ -31,6 +34,9 @@ namespace Registrar.Api.Models.Request
         [DataMember]
         [Required]
         public string Question { get; private set; }
+
+        [DataMember]
+        public string Info { get; private set; }
 
         [DataMember]
         [Required]
