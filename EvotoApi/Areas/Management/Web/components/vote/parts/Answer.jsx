@@ -16,8 +16,7 @@ class Question extends React.Component {
   stateFromProps (props) {
     return {
       question: props.question.question || '',
-      options: props.question.options || [],
-      info: props.question.info || ''
+      options: props.question.options || []
     }
   }
 
@@ -33,26 +32,8 @@ class Question extends React.Component {
     this.props.onChange(this.state)
   }
 
-  addOption () {
-    let options = [].concat(this.state.options)
-    options.push('')
-    this.setState({ options }, this.onChange)
-  }
-
-  deleteOption (index) {
-    let options = [].concat(this.state.options)
-    options.splice(index, 1)
-    this.setState({ options }, this.onChange)
-  }
-
-  updateQuestion(e) {
+  updateAnswer (e) {
     this.setState({ question: e.target.value }, this.onChange)
-  }
-
-  updateOption(index, e) {
-    let options = [].concat(this.state.options)
-    options[index] = e.target.value
-    this.setState({ options }, this.onChange)
   }
 
   render () {
