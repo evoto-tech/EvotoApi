@@ -18,7 +18,7 @@ namespace Registrar.Database.Models
             if (model == null)
                 throw new ArgumentException(nameof(model));
 
-            UserId = UserId;
+            UserId = model.UserId;
             Attempts = model.Attempts;
             LockEnd = model.LockEnd;
         }

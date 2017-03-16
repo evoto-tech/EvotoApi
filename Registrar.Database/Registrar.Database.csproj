@@ -57,9 +57,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IRegiUserStore.cs" />
+    <Compile Include="Interfaces\IRegiUserTokenStore.cs" />
     <Compile Include="Migrations\M002CreateRefreshTokenTable.cs" />
     <Compile Include="Migrations\M001CreateLockoutTable.cs" />
     <Compile Include="Migrations\M000CreateUserTable.cs" />
+    <Compile Include="Migrations\M007CreateUserTokenTable.cs" />
     <Compile Include="Migrations\M005UpdateBlockchainTableAgain.cs" />
     <Compile Include="Migrations\M004UpdateBlockchainTable.cs" />
     <Compile Include="Migrations\M003CreateBlockchainTable.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Interfaces\IRegiRefreshTokenStore.cs" />
     <Compile Include="Interfaces\IRegiBlockchainStore.cs" />
     <Compile Include="Stores\RegiSqlBlockchainStore.cs" />
+    <Compile Include="Stores\RegiSqlUserTokenStore.cs" />
     <Compile Include="Stores\RegiSqlRefreshTokenStore.cs" />
     <Compile Include="Stores\RegiUserLockoutStore.cs" />
     <Compile Include="Stores\RegiSqlUserStore.cs" />

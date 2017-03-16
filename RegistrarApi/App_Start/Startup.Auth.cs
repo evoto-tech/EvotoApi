@@ -14,6 +14,9 @@ namespace Registrar.Api
         // In minutes
         public static int RefreshTokenTime => 30;
 
+        // In hours
+        public static int UserTokenTime => 24;
+
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {

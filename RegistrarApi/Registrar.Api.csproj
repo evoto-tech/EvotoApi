@@ -208,6 +208,7 @@
     <Compile Include="Auth\RegiClaims.cs" />
     <Compile Include="Auth\RegiEmailService.cs" />
     <Compile Include="Auth\RegiOAuthProvider.cs" />
+    <Compile Include="Auth\RegiTokenProvider.cs" />
     <Compile Include="Auth\RegiRefreshTokenProvider.cs" />
     <Compile Include="Auth\RegiSignInManager.cs" />
     <Compile Include="Auth\RegiUserManager.cs" />
@@ -219,7 +220,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Request\CreateBlockchain.cs" />
     <Compile Include="Models\Request\CreateRegiUser.cs" />
