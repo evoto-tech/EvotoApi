@@ -8,7 +8,7 @@ namespace Registrar.Api.Models.Request
     {
         [Required]
         [EmailAddress]
-        [DataMember(Name = "Email")]
+        [DataMember(Name = "email")]
         public string Email { get; private set; }
     }
 }
