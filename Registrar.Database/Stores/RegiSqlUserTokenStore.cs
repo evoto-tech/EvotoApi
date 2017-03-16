@@ -72,7 +72,7 @@ namespace Registrar.Database.Stores
                 var dbModel = new DbUserToken(token);
                 using (var connection = await GetConnectionAsync())
                 {
-                    await connection.ExecuteAsync(RegistrarQueries.UserTokenGetByPurpose,
+                    await connection.ExecuteAsync(RegistrarQueries.UserTokenDelete,
                         dbModel);
                 }
             }

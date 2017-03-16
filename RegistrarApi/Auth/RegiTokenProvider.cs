@@ -45,14 +45,17 @@ namespace Registrar.Api.Auth
             try
             {
                 var token = await _store.GetRefreshTokenForUser(purpose, user.Id);
-                await _store.DeleteUserToken(token);
 
-                return providedToken == token.Token;
+                if (!token.Expired && providedToken == token.Token)
+                {
+                    await _store.DeleteUserToken(token);
+                    return true;
+                }
             }
             catch (RecordNotFoundException)
             {
-                return false;
             }
+            return false;
         }
 
         public Task NotifyAsync(string token, UserManager<RegiAuthUser, int> manager, RegiAuthUser user)
