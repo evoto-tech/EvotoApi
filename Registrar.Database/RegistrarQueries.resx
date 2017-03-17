@@ -160,7 +160,7 @@
     <value>UPDATE RefreshTokens SET Token = @Token, Ticket = @Ticket, Issued = @Issued, Expires = @Expires WHERE UserId = @UserId</value>
   </data>
   <data name="UserCreate" xml:space="preserve">
-    <value>INSERT INTO Users (Email, PasswordHash) VALUES (@Email, @PasswordHash)</value>
+    <value>INSERT INTO Users (Email, PasswordHash, EmailConfirmed) VALUES (@Email, @PasswordHash, @EmailConfirmed)</value>
   </data>
   <data name="UserDeleteById" xml:space="preserve">
     <value>DELETE FROM Users WHERE Id = @Id</value>
@@ -184,6 +184,6 @@
     <value>UPDATE Users_Tokens SET Token = @Token, Expires = @Expires WHERE UserId = @UserId AND Purpose = @Purpose</value>
   </data>
   <data name="UserUpdate" xml:space="preserve">
-    <value>UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash WHERE Id = @Id</value>
+    <value>UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash, EmailConfirmed = @EmailConfirmed WHERE Id = @Id</value>
   </data>
 </root>

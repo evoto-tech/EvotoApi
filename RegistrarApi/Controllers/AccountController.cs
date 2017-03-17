@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using Common.Exceptions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Registrar.Api.Auth;
@@ -53,7 +55,6 @@ namespace Registrar.Api.Controllers
             return Ok(res);
         }
 
-        // POST: /Account/VerifyCode
         [HttpPost]
         [Route("verifyCode")]
         public async Task<IHttpActionResult> VerifyCode(VerifyCodeViewModel model)
@@ -80,7 +81,6 @@ namespace Registrar.Api.Controllers
             }
         }
 
-        // POST: /Account/Register
         [HttpPost]
         [Route("register")]
         public async Task<IHttpActionResult> Register(CreateRegiUser model)
@@ -92,34 +92,48 @@ namespace Registrar.Api.Controllers
             var result = await UserManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                await SignInManager.SignInAsync(user, false, false);
+                // Get created account
+                var userModel = await UserManager.FindByEmailAsync(model.Email);
 
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                var code = await UserManager.GenerateEmailConfirmationTokenAsync(userModel.Id);
+                var uri = GetUri("confirmemail", model.Email, code);
+                try
+                {
+                    await UserManager.SendEmailAsync(userModel.Id, "Confirm your account",
+                        $"Email confirmation code: {code}<br /><br />Alternatively, click <a href=\"{uri}\">here</a>");
+                }
+                catch (CouldNotSendEmailException)
+                {
+                    return BadRequest("Could not send email");
+                }
 
                 return Ok();
             }
             AddErrors(result);
 
-            // If we got this far, something failed, redisplay form
+            // If we got this far, something failed
             return BadRequest(ModelState);
         }
 
-        // GET: /Account/ConfirmEmail
-        public async Task<IHttpActionResult> ConfirmEmail(int userId, string code)
+        [HttpPost]
+        [Route("verifyEmail")]
+        public async Task<IHttpActionResult> ConfirmEmail(ConfirmEmailModel model)
         {
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
-            if (result.Succeeded)
-                return BadRequest();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return Unauthorized();
+
+            var result = await UserManager.ConfirmEmailAsync(user.Id, model.Code);
+            if (!result.Succeeded)
+                return Unauthorized();
 
             return Ok();
         }
 
-
-        // POST: /Account/ForgotPassword
         [HttpPost]
         [Route("forgotPassword")]
         public async Task<IHttpActionResult> ForgotPassword(ForgotRegiPassword model)
@@ -135,9 +149,10 @@ namespace Registrar.Api.Controllers
             var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
             try
             {
+                var uri = GetUri("resetpassword", code);
                 await
                     UserManager.SendEmailAsync(user.Id, "Reset Password",
-                        $"Password reset authorisation code: {code} <br /><br />Alternatively, click <a href=\"evoto://resetpassword/{code}\">here</a>");
+                        $"Password reset authorisation code: {code}<br /><br />Alternatively, click <a href=\"{uri}\">here</a>");
             }
             catch (Exception e)
             {
@@ -220,6 +235,14 @@ namespace Registrar.Api.Controllers
         }
 
         #region Helpers
+
+        private static string GetUri(string action, params string[] parameters)
+        {
+            var uri = $"evoto://{action}";
+            if (parameters.Any())
+                uri += "/" + string.Join("/", parameters);
+            return uri;
+        }
 
         private void AddErrors(IdentityResult result)
         {

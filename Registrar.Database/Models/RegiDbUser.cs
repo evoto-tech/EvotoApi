@@ -10,6 +10,7 @@ namespace Registrar.Database.Models
             Id = record.Id;
             Email = record.Email;
             PasswordHash = record.PasswordHash;
+            EmailConfirmed = record.EmailConfirmed;
         }
 
         public RegiDbUser(RegiUser model)
@@ -20,11 +21,16 @@ namespace Registrar.Database.Models
             Id = model.Id;
             Email = model.Email;
             PasswordHash = model.PasswordHash;
+            EmailConfirmed = model.EmailConfirmed;
         }
 
         public int Id { get; }
+
         public string Email { get; }
+
         public string PasswordHash { get; }
+
+        public bool EmailConfirmed { get; }
 
         public RegiUser ToUser()
         {
@@ -32,7 +38,8 @@ namespace Registrar.Database.Models
             {
                 Id = Id,
                 Email = Email,
-                PasswordHash = PasswordHash
+                PasswordHash = PasswordHash,
+                EmailConfirmed = EmailConfirmed
             };
         }
     }

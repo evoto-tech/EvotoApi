@@ -16,6 +16,7 @@ namespace Registrar.Api.Auth
             Id = user.Id;
             Email = user.Email;
             PasswordHash = user.PasswordHash;
+            EmailConfirmed = user.EmailConfirmed;
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<RegiAuthUser, int> manager,
