@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Net;
 using System.Threading.Tasks;
+using Common.Exceptions;
 using Microsoft.AspNet.Identity;
 using RestSharp;
 using RestSharp.Authenticators;
@@ -33,7 +34,7 @@ namespace Registrar.Api.Auth
 
             if (res.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception("Could not send email");
+                throw new CouldNotSendEmailException();
             }
         }
     }
