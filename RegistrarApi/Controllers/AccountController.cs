@@ -4,7 +4,6 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.Routing;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Registrar.Api.Auth;
@@ -136,7 +135,9 @@ namespace Registrar.Api.Controllers
             var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
             try
             {
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", $"Password reset code: {code}");
+                await
+                    UserManager.SendEmailAsync(user.Id, "Reset Password",
+                        $"Password reset authorisation code: {code} <br /><br />Alternatively, click <a href=\"evoto://resetpassword/{code}\">here</a>");
             }
             catch (Exception e)
             {
