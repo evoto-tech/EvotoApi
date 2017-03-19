@@ -14,6 +14,7 @@ namespace Management.Database.Models
             ExpiryDate = record.ExpiryDate;
             Published = record.Published;
             ChainString = record.ChainString;
+            Questions = record.Questions;
         }
 
         public ManaDbVote(ManaVote model)
@@ -28,6 +29,7 @@ namespace Management.Database.Models
             ExpiryDate = model.ExpiryDate;
             Published = model.Published;
             ChainString = model.ChainString;
+            Questions = model.Questions;
         }
 
         public int Id { get; }
@@ -37,6 +39,7 @@ namespace Management.Database.Models
         public DateTime ExpiryDate { get; }
         public bool Published { get; }
         public string ChainString { get; }
+        public string Questions { get; }
 
         public ManaVote ToVote()
         {
@@ -48,7 +51,8 @@ namespace Management.Database.Models
                 CreationDate = CreationDate,
                 ExpiryDate = ExpiryDate,
                 Published = Published,
-                ChainString = ChainString
+                ChainString = ChainString,
+                Questions = Questions
             };
         }
     }

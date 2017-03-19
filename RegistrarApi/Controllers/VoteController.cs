@@ -35,12 +35,24 @@ namespace Registrar.Api.Controllers
             if (!_multichaind.Connections.TryGetValue(model.Blockchain, out chain))
                 return NotFound();
 
+            // TODO: Check user hasn't had a key signed before
+
             var keys = RsaTools.LoadKeysFromFile(KEYS_FILE);
 
             var message = new BigInteger(model.BlindedToken);
             var signed = RsaTools.SignBlindedMessage(message, keys.Private);
 
             return Ok(new {Signature = signed.ToString()});
+        }
+
+        [Route("hasvoted")]
+        [HttpGet]
+        [Authorize]
+        public IHttpActionResult HasVoted(HasVotedModel model)
+        {
+            // TODO: Check if the current user has voted before
+
+            return Ok(new {Voted = true});
         }
 
         [Route("confirm")]

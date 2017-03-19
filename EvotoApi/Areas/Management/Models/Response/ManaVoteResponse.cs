@@ -16,6 +16,7 @@ namespace EvotoApi.Areas.ManagementApi.Models.Response
             ExpiryDate = vote.ExpiryDate;
             Published = vote.Published;
             ChainString = vote.ChainString;
+            Questions = vote.Questions;
         }
 
         [DataMember(Name = "id")]
@@ -38,5 +39,8 @@ namespace EvotoApi.Areas.ManagementApi.Models.Response
 
         [DataMember(Name = "chainString")]
         public string ChainString { get; }
+
+        [DataMember(Name = "questions")]
+        public string Questions { get; }
     }
 }

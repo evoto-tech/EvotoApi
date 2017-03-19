@@ -27,9 +27,9 @@ class Login extends React.Component {
   login (e) {
     e.preventDefault()
     let user = {
-          email: this.state.email,
-          password: this.state.password
-        }
+      email: this.state.email,
+      password: this.state.password
+    }
 
     let handleError = (err, errorMessages) => {
       errorMessages = errorMessages || []
@@ -51,7 +51,7 @@ class Login extends React.Component {
       })
       .then((response) => {
         if (response.ok && response.status === 200) {
-          return this.props.router.push('/')
+
         } else if (response.status === 401) {
           return handleError(response)
         } else if (response.status === 400) {
@@ -61,10 +61,14 @@ class Login extends React.Component {
         }
       }, handleError)
       .then((data) => {
-        let messages = data.ModelState
-          ? Object.keys(data.ModelState).reduce((o, k) => data.ModelState[k], [])
-          : undefined
-        return handleError(data, messages)
+        if (data) {
+          let messages = data.ModelState
+            ? Object.keys(data.ModelState).reduce((o, k) => data.ModelState[k], [])
+            : undefined
+          return handleError(data, messages)
+        } else {
+          return this.props.router.push('/')
+        }
       }, handleError)
       .catch(handleError)
   }
@@ -81,15 +85,15 @@ class Login extends React.Component {
       <div>
         <form onSubmit={this.login.bind(this)}>
           { this.state.error === '' ? '' : (
-              <div className='callout callout-danger'>
-                <h4>Error!</h4>
-                <p>{this.state.error}</p>
-                {errorMessages}
-              </div>
+            <div className='callout callout-danger'>
+              <h4>Error!</h4>
+              <p>{this.state.error}</p>
+              {errorMessages}
+            </div>
             )
           }
           <div className='input-group' style={{ width: '100%' }}>
-            <span className='fa fa-envelope input-group-addon' style={{ width: '40px' }}/>
+            <span className='fa fa-envelope input-group-addon' style={{ width: '40px' }} />
             <input
               type='text'
               data-field='email'
@@ -99,7 +103,7 @@ class Login extends React.Component {
               onChange={this.onFieldChange.bind(this)}
               />
           </div>
-          <br/>
+          <br />
           <div className='input-group'style={{ width: '100%' }}>
             <span className='fa fa-lock input-group-addon' style={{ width: '40px' }} />
             <input
@@ -111,7 +115,7 @@ class Login extends React.Component {
               onChange={this.onFieldChange.bind(this)}
               />
           </div>
-          <br/>
+          <br />
           {/* <div className="row">
                 <div className="col-xs-8">
                     <div className="checkbox">

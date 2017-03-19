@@ -6,7 +6,7 @@ class Session {
   }
 
   getCookie (name) {
-    var regex = new RegExp(`(?:(?:^|.*;\s*)${this.options.cookieName}\s*\=\s*([^;]*).*$)|^.*$`)
+    var regex = new RegExp(`(?:(?:^|.*;\s*)${this.options.cookieName}\s*\=\s*([^;]*).*$)|^.*$`) // eslint-disable-line
     return document.cookie.replace(regex, '$1')
   }
 

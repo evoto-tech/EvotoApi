@@ -18,11 +18,11 @@ class Register extends React.Component {
   }
 
   checkReady () {
-    let ready = this.state.matchingPassword
-        && this.state.firstName !== ''
-        && this.state.lastName !== ''
-        && this.state.email !== ''
-        && this.state.password !== ''
+    let ready = this.state.matchingPassword &&
+        this.state.firstName !== '' &&
+        this.state.lastName !== '' &&
+        this.state.email !== '' &&
+        this.state.password !== ''
     this.setState({ ready })
   }
 
@@ -99,15 +99,15 @@ class Register extends React.Component {
       <div>
         <form onSubmit={this.register.bind(this)}>
           { this.state.error === '' ? '' : (
-              <div className='callout callout-danger'>
-                <h4>Error!</h4>
-                <p>{this.state.error}</p>
-                {errorMessages}
-              </div>
+            <div className='callout callout-danger'>
+              <h4>Error!</h4>
+              <p>{this.state.error}</p>
+              {errorMessages}
+            </div>
             )
           }
           <div className='input-group' style={{ width: '100%' }}>
-            <span className='fa fa-user input-group-addon' style={{ width: '40px' }}/>
+            <span className='fa fa-user input-group-addon' style={{ width: '40px' }} />
             <input
               type='text'
               ref='firstName'
@@ -118,9 +118,9 @@ class Register extends React.Component {
               onChange={this.onFieldChange.bind(this)}
               />
           </div>
-          <br/>
+          <br />
           <div className='input-group' style={{ width: '100%' }}>
-            <span className='fa fa-user input-group-addon' style={{ width: '40px' }}/>
+            <span className='fa fa-user input-group-addon' style={{ width: '40px' }} />
             <input
               type='text'
               ref='lastName'
@@ -131,9 +131,9 @@ class Register extends React.Component {
               onChange={this.onFieldChange.bind(this)}
               />
           </div>
-          <br/>
+          <br />
           <div className='input-group' style={{ width: '100%' }}>
-            <span className='fa fa-envelope input-group-addon' style={{ width: '40px' }}/>
+            <span className='fa fa-envelope input-group-addon' style={{ width: '40px' }} />
             <input
               type='text'
               ref='email'
@@ -144,7 +144,7 @@ class Register extends React.Component {
               onChange={this.onFieldChange.bind(this)}
               />
           </div>
-          <br/>
+          <br />
           <div className='input-group'style={{ width: '100%' }}>
             <span className='fa fa-lock input-group-addon' style={{ width: '40px' }} />
             <input
@@ -157,8 +157,8 @@ class Register extends React.Component {
               onChange={this.checkPassword.bind(this)}
               />
           </div>
-          <br/>
-          <div className={`input-group ${this.state.matchingPassword ? '' : 'has-error' }`} style={{ width: '100%' }}>
+          <br />
+          <div className={`input-group ${this.state.matchingPassword ? '' : 'has-error'}`} style={{ width: '100%' }}>
             <span className='fa fa-lock input-group-addon' style={{ width: '40px' }} />
             <input
               type='password'
@@ -175,7 +175,7 @@ class Register extends React.Component {
               <span className='has-error help-block'>Passwords do not match</span>
             </div>
           )}
-          <br/>
+          <br />
           {/* <div className="row">
                 <div className="col-xs-8">
                     <div className="checkbox">
