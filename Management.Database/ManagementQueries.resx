@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="VoteCreate" xml:space="preserve">
-    <value>INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString)</value>
+    <value>INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString, Questions) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString, @Questions)</value>
   </data>
   <data name="VoteDelete" xml:space="preserve">
     <value>DELETE FROM Votes WHERE Id=@Id</value>

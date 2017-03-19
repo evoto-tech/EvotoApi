@@ -196,7 +196,7 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString).
+        ///   Looks up a localized string similar to INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString, Questions) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString, @Questions).
         /// </summary>
         internal static string VoteCreate {
             get {
