@@ -46,17 +46,15 @@ namespace Registrar.Api.Auth
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
             manager.MaxFailedAccessAttemptsBeforeLockout = 5;
 
-            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<RegiAuthUser, int>
-            {
-                Subject = "Security Code",
-                BodyFormat = "Your security code is {0}"
-            });
+            //manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<RegiAuthUser, int>
+            //{
+            //    Subject = "Security Code",
+            //    BodyFormat = "Your security code is {0}"
+            //});
+
+            manager.UserTokenProvider = new RegiTokenProvider();
 
             manager.EmailService = new EmailService();
-            var dataProtectionProvider = options.DataProtectionProvider;
-            if (dataProtectionProvider != null)
-                manager.UserTokenProvider =
-                    new DataProtectorTokenProvider<RegiAuthUser, int>(dataProtectionProvider.Create("ASP.NET Evoto Registrar Identity"));
             return manager;
         }
     }

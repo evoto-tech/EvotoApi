@@ -82,6 +82,9 @@ namespace Registrar.Api
             kernel.Bind<IRegiBlockchainStore>()
                 .To<RegiSqlBlockchainStore>()
                 .WithConstructorArgument("connectionString", r);
+            kernel.Bind<IRegiUserTokenStore>()
+                .To<RegiSqlUserTokenStore>()
+                .WithConstructorArgument("connectionString", r);
 
             kernel.Bind<MultiChainHandler>().To<MultiChainHandler>().InSingletonScope();
         }

@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Diagnostics;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -129,18 +131,23 @@ namespace Registrar.Api.Controllers
             if ((user == null) || !await UserManager.IsEmailConfirmedAsync(user.Id))
                 return Ok();
 
-            // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-            // Send an email with this link
-            // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-            // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-            // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-            // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+            // Send reset code to their email. Needs to be copy and pasted into client
+            var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+            try
+            {
+                await
+                    UserManager.SendEmailAsync(user.Id, "Reset Password",
+                        $"Password reset authorisation code: {code} <br /><br />Alternatively, click <a href=\"evoto://resetpassword/{code}\">here</a>");
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return InternalServerError();
+            }
 
-            // If we got this far, something failed, redisplay form
-            return BadRequest(ModelState);
+            return Ok();
         }
 
-        // POST: /Account/ResetPassword
         [HttpPost]
         [Route("resetPassword")]
         public async Task<IHttpActionResult> ResetPassword(ResetRegiPassword model)
@@ -151,11 +158,13 @@ namespace Registrar.Api.Controllers
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user == null)
                 return StatusCode(HttpStatusCode.Forbidden);
+
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
                 return Ok();
+
             AddErrors(result);
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
         //// GET: /Account/SendCode

@@ -42,6 +42,7 @@ namespace Registrar.Api.Auth
 
             try
             {
+                // TODO: Refactor to better encompass logic if updating fails
                 // Will throw exception if doesn't exist, and call insert instead of update
                 await _store.GetRefreshTokenForUser(userId);
                 await _store.UpdateRefreshToken(token);

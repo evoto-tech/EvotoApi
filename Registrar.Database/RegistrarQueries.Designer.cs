@@ -223,6 +223,42 @@ namespace Registrar.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO Users_Tokens (Purpose, UserId, Token, Expires) VALUES (@Purpose, @UserId, @Token, @Expires).
+        /// </summary>
+        internal static string UserTokenCreate {
+            get {
+                return ResourceManager.GetString("UserTokenCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM Users_Tokens WHERE UserId = @UserId AND Purpose = @Purpose.
+        /// </summary>
+        internal static string UserTokenDelete {
+            get {
+                return ResourceManager.GetString("UserTokenDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Users_Tokens WHERE UserId = @UserId AND Purpose = @Purpose.
+        /// </summary>
+        internal static string UserTokenGetByPurpose {
+            get {
+                return ResourceManager.GetString("UserTokenGetByPurpose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE Users_Tokens SET Token = @Token, Expires = @Expires WHERE UserId = @UserId AND Purpose = @Purpose.
+        /// </summary>
+        internal static string UserTokenUpdate {
+            get {
+                return ResourceManager.GetString("UserTokenUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash WHERE Id = @Id.
         /// </summary>
         internal static string UserUpdate {
