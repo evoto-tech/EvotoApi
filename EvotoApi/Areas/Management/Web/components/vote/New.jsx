@@ -27,7 +27,7 @@ class NewVote extends React.Component {
       name: nonEmptyVote ? props.vote.name : '',
       expiryDate: nonEmptyVote ? props.vote.expiryDate : '',
       published: nonEmptyVote ? props.vote.published : false,
-      questions: nonEmptyVote ? props.vote.questions : [],
+      questions: nonEmptyVote ? (props.vote.questions || []) : [],
       loaded: props.hasOwnProperty('loaded') ? props.loaded : true
     }
   }
@@ -86,7 +86,8 @@ class NewVote extends React.Component {
       createdBy: this.state.user.id,
       name: this.state.name,
       expiryDate: this.state.expiryDate,
-      published: this.state.published
+      published: this.state.published,
+      questions: this.state.questions
     })
   }
 
@@ -163,7 +164,7 @@ class NewVote extends React.Component {
         title: 'You will lose any changes that have been made',
         type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#DD6B55',
+        confirmButtonColor: '#DD6B55'
       },
       () => {
         this.props.router.push('/')
@@ -176,7 +177,7 @@ class NewVote extends React.Component {
   addQuestion () {
     let questions = this.state.questions
     questions.push({
-      question: `Question ${questions.length + 1}`,
+      question: '',
       options: []
     })
     this.setState({ questions })

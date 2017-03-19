@@ -1,5 +1,5 @@
 module.exports = {
-  entry: './index.jsx',
+  entry: [ 'whatwg-fetch', './index.jsx' ],
   output: { path: '../../../Scripts', filename: 'react.js' },
   module: {
     loaders: [
