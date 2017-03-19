@@ -187,7 +187,7 @@ namespace Registrar.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INSERT INTO Users (Email, PasswordHash) VALUES (@Email, @PasswordHash).
+        ///   Looks up a localized string similar to INSERT INTO Users (Email, PasswordHash, EmailConfirmed) VALUES (@Email, @PasswordHash, @EmailConfirmed).
         /// </summary>
         internal static string UserCreate {
             get {
@@ -259,7 +259,7 @@ namespace Registrar.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash WHERE Id = @Id.
+        ///   Looks up a localized string similar to UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash, EmailConfirmed = @EmailConfirmed WHERE Id = @Id.
         /// </summary>
         internal static string UserUpdate {
             get {

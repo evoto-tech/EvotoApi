@@ -54,6 +54,13 @@ namespace Registrar.Api.Auth
 
                     var user = await UserManager.FindByNameAsync(context.UserName);
 
+                    // Ensure email is verified
+                    if (user == null || !await UserManager.IsEmailConfirmedAsync(user.Id))
+                    {
+                        context.SetError("invalid_grant", "Unconfirmed Email.");
+                        return;
+                    }
+
                     var oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
                         OAuthDefaults.AuthenticationType);
                     var cookiesIdentity = await user.GenerateUserIdentityAsync(UserManager,

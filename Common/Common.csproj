@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiKeyAuth.cs" />
+    <Compile Include="Exceptions\CouldNotSendEmailException.cs" />
     <Compile Include="Exceptions\RecordNotFoundException.cs" />
     <Compile Include="FormatterConfig.cs" />
     <Compile Include="Models\DbRefreshToken.cs" />

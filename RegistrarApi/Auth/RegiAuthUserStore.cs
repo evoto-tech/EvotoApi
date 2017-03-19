@@ -38,12 +38,13 @@ namespace Registrar.Api.Auth
 
         public Task<bool> GetEmailConfirmedAsync(RegiAuthUser user)
         {
-            return Task.FromResult(true);
+            return Task.FromResult(user.EmailConfirmed);
         }
 
-        public Task SetEmailConfirmedAsync(RegiAuthUser user, bool confirmed)
+        public async Task SetEmailConfirmedAsync(RegiAuthUser user, bool confirmed)
         {
-            return Task.CompletedTask;
+            user.EmailConfirmed = confirmed;
+            await _store.UpdateUser(user);
         }
 
         public async Task<RegiAuthUser> FindByEmailAsync(string email)
