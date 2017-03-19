@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Common;
@@ -10,6 +12,8 @@ using EvotoApi.Areas.ManagementApi.Models.Request;
 using EvotoApi.Areas.ManagementApi.Models.Response;
 using Management.Database.Interfaces;
 using Management.Models;
+using Newtonsoft.Json;
+using RestSharp;
 
 namespace EvotoApi.Areas.ManagementApi.Controllers
 {
@@ -96,6 +100,19 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
             {
                 var vote = await _store.CreateVote(voteModel);
                 var response = new ManaVoteResponse(vote);
+
+                // TODO: Put this in its own class?
+                var urlBase = ConfigurationManager.AppSettings["registrarUrl"];
+                var client = new RestClient(urlBase);
+
+                // TODO: Put in resource dictionary
+                var req = new RestRequest("management/createblockchain");
+                req.AddBody(JsonConvert.SerializeObject(model));
+
+                var res = await client.ExecuteTaskAsync(req);
+                if(res.StatusCode != HttpStatusCode.OK)
+                    return InternalServerError();
+
                 return Json(response);
             }
             catch (Exception e)
