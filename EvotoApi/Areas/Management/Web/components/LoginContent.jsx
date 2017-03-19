@@ -14,7 +14,7 @@ class LoginContent extends React.Component {
                   <div className='box box-success'>
                     <div className='box-header with-border'>
                       <h3 className='box-title'>evoto Management</h3>
-                      <br/>
+                      <br />
                       <small>Access the evoto management portal.</small>
                     </div>
                     <div className='login-box-body'>

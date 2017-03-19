@@ -1,5 +1,4 @@
 import React from 'react'
-import {IndexLink} from 'react-router'
 
 class Dashboard extends React.Component {
   constructor (props) {
@@ -28,16 +27,16 @@ class Dashboard extends React.Component {
   }
 
   getCurrentVotesInfoBoxes (currentVotes) {
-    return currentVotes.length > 0 ?(
+    return currentVotes.length > 0 ? (
       currentVotes.map((vote, i) => {
         return (
           <div className='info-box bg-green' key={i}>
-            <span className='info-box-icon'><i className='fa fa-check'></i></span>
+            <span className='info-box-icon'><i className='fa fa-check' /></span>
             <div className='info-box-content'>
               <span className='info-box-text'>{vote.name}</span>
               <span className='info-box-number'># votes used</span>
               <div className='progress'>
-                <div className='progress-bar' style={{ width: '70%' }}></div>
+                <div className='progress-bar' style={{ width: '70%' }} />
               </div>
               <span className='progress-description'>
                 {moment(vote.expiryDate).diff(moment(), 'days')} days left
@@ -64,7 +63,7 @@ class Dashboard extends React.Component {
         <div className='box-header with-border'>
           <h3 className='box-title'>{currentVotes.length} Active Vote{currentVotes.length !== 1 ? 's' : ''}</h3>
           <div className='box-tools pull-right'>
-            <button className='btn btn-box-tool' data-widget='collapse'><i className='fa fa-minus'></i></button>
+            <button className='btn btn-box-tool' data-widget='collapse'><i className='fa fa-minus' /></button>
           </div>
         </div>
         <div className='box-body'>

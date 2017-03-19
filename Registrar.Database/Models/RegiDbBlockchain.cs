@@ -10,6 +10,7 @@ namespace Registrar.Database.Models
             Name = record.Name;
             ExpiryDate = record.ExpiryDate;
             ChainString = record.ChainString;
+            Info = record.Info;
             Port = record.Port;
             WalletId = record.WalletId;
         }
@@ -22,6 +23,7 @@ namespace Registrar.Database.Models
             Name = model.Name;
             ExpiryDate = model.ExpiryDate;
             ChainString = model.ChainString;
+            Info = model.Info;
             Port = model.Port;
             WalletId = model.WalletId;
         }
@@ -29,6 +31,7 @@ namespace Registrar.Database.Models
         public string Name { get; }
         public DateTime ExpiryDate { get; }
         public string ChainString { get; }
+        public string Info { get; }
         public int Port { get; }
         public string WalletId { get; }
 
@@ -39,6 +42,7 @@ namespace Registrar.Database.Models
                 Name = Name,
                 ExpiryDate = ExpiryDate,
                 ChainString = ChainString,
+                Info = Info,
                 Port = Port,
                 WalletId = WalletId
             };

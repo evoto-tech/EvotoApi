@@ -11,5 +11,6 @@ namespace Management.Models
         public DateTime ExpiryDate { get; set; }
         public bool Published { get; set; }
         public string ChainString { get; set; }
+        public string Questions { get; set; }
     }
 }

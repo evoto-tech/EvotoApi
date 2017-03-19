@@ -63,6 +63,7 @@
     <Compile Include="Migrations\M000CreateUserTable.cs" />
     <Compile Include="Migrations\M007CreateUserTokenTable.cs" />
     <Compile Include="Migrations\M008UpdateUserTableWithEmailConfirmed.cs" />
+    <Compile Include="Migrations\M006UpdateBlockchainTableWithInfo.cs" />
     <Compile Include="Migrations\M005UpdateBlockchainTableAgain.cs" />
     <Compile Include="Migrations\M004UpdateBlockchainTable.cs" />
     <Compile Include="Migrations\M003CreateBlockchainTable.cs" />

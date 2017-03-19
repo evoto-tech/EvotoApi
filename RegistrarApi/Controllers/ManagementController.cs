@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -36,6 +35,20 @@ namespace Registrar.Api.Controllers
         [Route("createblockchain")]
         public async Task<IHttpActionResult> CreateBlockchain(CreateBlockchain model)
         {
+            // Must have at least one question
+            if ((model.Questions == null) || !model.Questions.Any())
+            {
+                ModelState.AddModelError("Questions", "At least one question is required");
+                return BadRequest(ModelState);
+            }
+
+            // All questions must have at least one answer (although should probably have at least two?)
+            if (model.Questions.Any(q => (q.Answers == null) || !q.Answers.Any()))
+            {
+                ModelState.AddModelError("Questions", "All questions must have at least one answer");
+                return BadRequest(ModelState);
+            }
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -43,11 +56,14 @@ namespace Registrar.Api.Controllers
             {
                 Name = model.Name,
                 ExpiryDate = model.ExpiryDate,
+                Info = model.Info,
                 ChainString = model.ChainString
             };
 
+            // multichain-util create {model.ChainString}
             await MultiChainUtilHandler.CreateBlockchain(model.ChainString);
 
+            // Find a Port to run multichaind on
             var blockchains = _blockchainStore.GetAllBlockchains();
 
             int port;
@@ -58,27 +74,26 @@ namespace Registrar.Api.Controllers
                     break;
             }
 
-            // TODO: Receive from Management
-            var question = new BlockchainQuestionModel
-            {
-                Question = "Who is the best?",
-                Answers = new List<string>
-                {
-                    "Elmo",
-                    "THOR",
-                    "Spongebob"
-                }
-            };
-
+            // Update the default multichain.params to adjust permissions etc.
             UpdateParams(model.ChainString);
 
+            // Run the blockchain for the first time
             var rpcPort = MultiChainTools.GetNewPort(EPortType.MultichainD);
             var chain =
                 await _multichaind.Connect(IPAddress.Loopback.ToString(), model.ChainString, port, port, rpcPort, false);
-            await chain.WriteToStream(MultiChainTools.ROOT_STREAM_NAME, MultiChainTools.QUESTIONS_KEY, question);
 
+            // Convert questions. Each has a unique number (per blockchain) starting from 1
+            var questionNumber = 1;
+            foreach (var q in model.Questions.Select(q => RequestToBlockchainQuestion(q, ref questionNumber)))
+            {
+                // Write each question as a new entry in the Root Stream unnder the Questions Key
+                await chain.WriteToStream(MultiChainTools.ROOT_STREAM_NAME, MultiChainTools.QUESTIONS_KEY, q);
+            }
+
+            // Create a new wallet ID for votes to be sent to
             var walletId = await chain.GetNewWalletAddress();
 
+            // Persist port and wallet ID in db
             blockchain.WalletId = walletId;
             blockchain.Port = port;
 
@@ -91,35 +106,69 @@ namespace Registrar.Api.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> Results(string blockchainName)
         {
+            // Get blockchain info. Ensure exists and is connected to
             var blockchain = await _blockchainStore.GetBlockchain(blockchainName);
 
             MultichainModel chain;
             if (!_multichaind.Connections.TryGetValue(blockchain.ChainString, out chain))
                 return NotFound();
 
+            // Get the votes, aka transactions to our wallet ID
             var votes = await chain.GetAddressTransactions(blockchain.WalletId);
 
+            // Read the answers from hex
             var answers = votes
                 .Select(v => MultiChainClient.ParseHexString(v.Data.First()))
                 .Select(Encoding.UTF8.GetString)
-                .Select(JsonConvert.DeserializeObject<BlockchainAnswerModel>)
-                .ToList();
+                .Select(JsonConvert.DeserializeObject<BlockchainVoteModel>).ToList();
 
-
+            // Read the questions from the blockchain
             var questions = await chain.GetQuestions();
 
-            var options = questions.First().Answers.ToDictionary(a => a, a => 0);
-            foreach (var a in answers)
+            // For each question, get its total for each answer
+            var results = questions.Select(question =>
             {
-                if (!options.ContainsKey(a.Answer))
+                // Setup response dictionary, answer -> num votes
+                var options = question.Answers.ToDictionary(a => a.Answer, a => 0);
+                foreach (var answer in answers)
                 {
-                    Debug.WriteLine($"Unexpected answer: {a}");
-                    continue;
+                    // Each vote has answer for multiple questions. Only look at the one corresponding to our current question
+                    foreach (var questionAnswer in answer.Answers.Where(a => a.Question == question.Number))
+                    {
+                        // In case we have anything unusual going on
+                        if (!options.ContainsKey(questionAnswer.Answer))
+                        {
+                            Debug.WriteLine($"Unexpected answer for question {questionAnswer.Question}: {questionAnswer.Answer}");
+                            continue;
+                        }
+                        options[questionAnswer.Answer]++;
+                    }
                 }
-                options[a.Answer]++;
-            }
 
-            return Ok(options);
+                return new
+                {
+                    question.Number,
+                    question.Question,
+                    Results = options
+                };
+            });
+
+            return Ok(results);
+        }
+
+        private static BlockchainQuestionModel RequestToBlockchainQuestion(CreateBlockchainQuestion q, ref int i)
+        {
+            return new BlockchainQuestionModel
+            {
+                Number = i++,
+                Question = q.Question,
+                Info = q.Info,
+                Answers = q.Answers.Select(a => new BlockchainAnswerModel
+                {
+                    Answer = a.Answer,
+                    Info = a.Info
+                }).ToList()
+            };
         }
 
         private static void UpdateParams(string chainName)
