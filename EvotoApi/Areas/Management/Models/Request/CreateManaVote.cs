@@ -30,6 +30,9 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
         [DataMember(Name = "chainString")]
         public string ChainString { get; private set; }
 
+        [DataMember(Name = "questions")]
+        public string Questions { get; private set; }
+
         public ManaVote ToModel()
         {
             return new ManaVote()
@@ -38,7 +41,8 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
                 Name = Name,
                 ExpiryDate = ExpiryDate,
                 Published = Published,
-                ChainString = ChainString
+                ChainString = ChainString,
+                Questions = Questions
             };
         }
     }
