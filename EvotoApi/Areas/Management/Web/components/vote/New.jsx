@@ -27,7 +27,7 @@ class NewVote extends React.Component {
       name: nonEmptyVote ? props.vote.name : '',
       expiryDate: nonEmptyVote ? props.vote.expiryDate : '',
       published: nonEmptyVote ? props.vote.published : false,
-      questions: nonEmptyVote ? (props.vote.questions || []) : [],
+      questions: nonEmptyVote ? (JSON.parse(props.vote.questions) || []) : [],
       loaded: props.hasOwnProperty('loaded') ? props.loaded : true
     }
   }
@@ -87,7 +87,7 @@ class NewVote extends React.Component {
       name: this.state.name,
       expiryDate: this.state.expiryDate,
       published: this.state.published,
-      questions: this.state.questions
+      questions: JSON.stringify(this.state.questions)
     })
   }
 
