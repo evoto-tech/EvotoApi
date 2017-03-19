@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Common;
 using Common.Exceptions;
+using EvotoApi.Areas.Management.Connections;
 using EvotoApi.Areas.ManagementApi.Models;
 using EvotoApi.Areas.ManagementApi.Models.Request;
 using EvotoApi.Areas.ManagementApi.Models.Response;
@@ -25,6 +26,35 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         public ManaVotesController(IManaVoteStore voteStore)
         {
             _store = voteStore;
+        }
+
+        private async Task<bool> CheckAndPublish(ManaVote vote)
+        {
+            if (vote.Published)
+            {
+                var created = await RegistrarConnection.CreateBlockchain(vote);
+                if (created)
+                {
+                    return true;
+                }
+                else
+                {
+                    try
+                    {
+                        vote.Published = false;
+                        await _store.UpdateVote(vote);
+                    }
+                    catch (Exception e)
+                    {
+                        return false;
+                    }
+                    return false;
+                }
+            }
+            else
+            {
+                return true;
+            }
         }
 
         /// <summary>
@@ -100,19 +130,11 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
             {
                 var vote = await _store.CreateVote(voteModel);
                 var response = new ManaVoteResponse(vote);
-
-                // TODO: Put this in its own class?
-                var urlBase = ConfigurationManager.AppSettings["registrarUrl"];
-                var client = new RestClient(urlBase);
-
-                // TODO: Put in resource dictionary
-                var req = new RestRequest("management/createblockchain");
-                req.AddBody(JsonConvert.SerializeObject(model));
-
-                var res = await client.ExecuteTaskAsync(req);
-                if(res.StatusCode != HttpStatusCode.OK)
-                    return InternalServerError();
-
+                var publishStateValid = await CheckAndPublish(vote);
+                if (!publishStateValid) return Json(new
+                {
+                    errors = "Your changes have been saved but there was an issue publishing this vote."
+                });
                 return Json(response);
             }
             catch (Exception e)
@@ -140,6 +162,11 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
             {
                 var updatedVote = await _store.UpdateVote(voteModel);
                 var response = new ManaVoteResponse(updatedVote);
+                var publishStateValid = await CheckAndPublish(updatedVote);
+                if (!publishStateValid) return Json(new
+                {
+                    errors = "Your changes have been saved but there was an issue publishing this vote."
+                });
                 return Json(response);
             }
             catch (RecordNotFoundException)
