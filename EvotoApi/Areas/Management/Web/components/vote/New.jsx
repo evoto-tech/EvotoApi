@@ -94,8 +94,8 @@ class NewVote extends React.Component {
   saveVote () {
     const vote = this.makeVote()
     this.props.save
-      ? this.props.save(vote, this.postSave.bind(this))
-      : this.save(vote, this.postSave.bind(this))
+      ? this.props.save(vote, this.postSave.bind(this), this.showErrors)
+      : this.save(vote, this.postSave.bind(this), this.showErrors)
   }
 
   save (vote, postSave) {
@@ -111,6 +111,17 @@ class NewVote extends React.Component {
       .catch((err) => {
         console.error(err)
       })
+  }
+
+  showErrors (errors) {
+    let errorMessage = (typeof(errors) === 'string') ? errors : errors.join('\n')
+    swal({
+      title: 'Errors',
+      text: errors,
+      type: 'error',
+      confirmButtonColor: '#DD6B55',
+      allowOutsideClick: true
+    })
   }
 
   postSave () {

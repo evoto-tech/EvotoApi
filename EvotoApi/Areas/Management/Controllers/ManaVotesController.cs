@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Common;
 using Common.Exceptions;
+using EvotoApi.Areas.Management.Connections;
 using EvotoApi.Areas.ManagementApi.Models;
 using EvotoApi.Areas.ManagementApi.Models.Request;
 using EvotoApi.Areas.ManagementApi.Models.Response;
 using Management.Database.Interfaces;
 using Management.Models;
+using Newtonsoft.Json;
+using RestSharp;
 
 namespace EvotoApi.Areas.ManagementApi.Controllers
 {
@@ -21,6 +26,35 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         public ManaVotesController(IManaVoteStore voteStore)
         {
             _store = voteStore;
+        }
+
+        private async Task<bool> CheckAndPublish(ManaVote vote)
+        {
+            if (vote.Published)
+            {
+                var created = await RegistrarConnection.CreateBlockchain(vote);
+                if (created)
+                {
+                    return true;
+                }
+                else
+                {
+                    try
+                    {
+                        vote.Published = false;
+                        await _store.UpdateVote(vote);
+                    }
+                    catch (Exception e)
+                    {
+                        return false;
+                    }
+                    return false;
+                }
+            }
+            else
+            {
+                return true;
+            }
         }
 
         /// <summary>
@@ -96,6 +130,11 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
             {
                 var vote = await _store.CreateVote(voteModel);
                 var response = new ManaVoteResponse(vote);
+                var publishStateValid = await CheckAndPublish(vote);
+                if (!publishStateValid) return Json(new
+                {
+                    errors = "Your changes have been saved but there was an issue publishing this vote."
+                });
                 return Json(response);
             }
             catch (Exception e)
@@ -123,6 +162,11 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
             {
                 var updatedVote = await _store.UpdateVote(voteModel);
                 var response = new ManaVoteResponse(updatedVote);
+                var publishStateValid = await CheckAndPublish(updatedVote);
+                if (!publishStateValid) return Json(new
+                {
+                    errors = "Your changes have been saved but there was an issue publishing this vote."
+                });
                 return Json(response);
             }
             catch (RecordNotFoundException)
