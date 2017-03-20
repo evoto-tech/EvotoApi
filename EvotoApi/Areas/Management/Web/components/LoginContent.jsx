@@ -1,6 +1,6 @@
 import React from 'react'
-import Login from './auth/login.jsx'
-import Register from './auth/register.jsx'
+import Login from './auth/Login.jsx'
+import Register from './auth/Register.jsx'
 
 class LoginContent extends React.Component {
   render () {
