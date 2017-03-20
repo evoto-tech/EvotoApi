@@ -250,7 +250,7 @@ namespace Registrar.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UPDATE Users_Tokens SET Token = @Token, Expires = @Expires WHERE UserId = @UserId AND Purpose = @Purpose.
+        ///   Looks up a localized string similar to UPDATE Users_Tokens SET Token = @Token, Created = @Created, Expires = @Expires WHERE UserId = @UserId AND Purpose = @Purpose.
         /// </summary>
         internal static string UserTokenUpdate {
             get {

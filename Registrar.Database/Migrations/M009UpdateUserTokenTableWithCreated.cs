@@ -1,4 +1,5 @@
-﻿using FluentMigrator;
+﻿using System;
+using FluentMigrator;
 
 namespace Registrar.Database.Migrations
 {
@@ -7,7 +8,7 @@ namespace Registrar.Database.Migrations
     {
         public override void Up()
         {
-            Create.Column("Created").OnTable("Users_Tokens").AsDateTime();
+            Create.Column("Created").OnTable("Users_Tokens").AsDateTime().WithDefaultValue(DateTime.Now);
         }
 
         public override void Down()

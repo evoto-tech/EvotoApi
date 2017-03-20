@@ -181,7 +181,7 @@
     <value>SELECT * FROM Users_Tokens WHERE UserId = @UserId AND Purpose = @Purpose</value>
   </data>
   <data name="UserTokenUpdate" xml:space="preserve">
-    <value>UPDATE Users_Tokens SET Token = @Token, Expires = @Expires WHERE UserId = @UserId AND Purpose = @Purpose</value>
+    <value>UPDATE Users_Tokens SET Token = @Token, Created = @Created, Expires = @Expires WHERE UserId = @UserId AND Purpose = @Purpose</value>
   </data>
   <data name="UserUpdate" xml:space="preserve">
     <value>UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash, EmailConfirmed = @EmailConfirmed WHERE Id = @Id</value>

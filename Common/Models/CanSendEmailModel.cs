@@ -4,13 +4,13 @@ namespace Common.Models
 {
     public class CanSendEmailModel
     {
-        public CanSendEmailModel(bool canSend, TimeSpan delay)
+        public CanSendEmailModel(bool canSend, TimeSpan remaining)
         {
             CanSend = canSend;
-            Delay = delay;
+            Remaining = remaining;
         }
 
         public bool CanSend { get; set; }
-        public TimeSpan Delay { get; set; }
+        public TimeSpan Remaining { get; set; }
     }
 }

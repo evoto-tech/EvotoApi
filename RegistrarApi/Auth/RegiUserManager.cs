@@ -62,14 +62,22 @@ namespace Registrar.Api.Auth
         {
             var tokenProvider = UserTokenProvider as RegiTokenProvider;
             if (tokenProvider == null)
-                return new CanSendEmailModel(false, TimeSpan.MaxValue);
+                return new CanSendEmailModel(false, TimeSpan.Zero);
 
+            // Get any existing token
             var token = await tokenProvider.GetToken(purpose, user);
+            // This should only happen if the token table has been flushed
+            if (token == null)
+                return new CanSendEmailModel(true, TimeSpan.Zero);
 
+            // Time since the email was sent
             var delay = DateTime.Now - token.Created;
+            // Ensure the minimum time has passed
             var canSend = delay > Startup.EmailDelay;
 
-            return new CanSendEmailModel(canSend, delay);
+            // Time left to wait
+            var remaining = Startup.EmailDelay - delay;
+            return new CanSendEmailModel(canSend, remaining);
         }
     }
 }
