@@ -220,6 +220,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmailContentWriter.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Request\CreateBlockchain.cs" />
     <Compile Include="Models\Request\CreateRegiUser.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Models\Request\IssueCurrencyModel.cs" />
     <Compile Include="Models\Request\GetBlindSignatureModel.cs" />
     <Compile Include="Models\Request\ForgotRegiPassword.cs" />
+    <Compile Include="Models\Request\ResendVerificationEmail.cs" />
     <Compile Include="Models\Request\LoginRegiUser.cs" />
     <Compile Include="Models\Request\ResetRegiPassword.cs" />
     <Compile Include="Models\Request\RegiCode.cs" />

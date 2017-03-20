@@ -23,7 +23,7 @@ namespace Registrar.Api.Auth
         public override async Task CreateAsync(AuthenticationTokenCreateContext context)
         {
             var userId = context.Ticket.Identity.GetUserId<int>();
-            var expires = DateTime.Now.AddMinutes(Convert.ToDouble(Startup.RefreshTokenTime));
+            var expires = DateTime.Now.Add(Startup.RefreshTokenTime);
 
             var refreshToken = Guid.NewGuid().ToString("n");
             var storeToken = HashToken(refreshToken);

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
@@ -9,6 +7,7 @@ using Common.Exceptions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Registrar.Api.Auth;
+using Registrar.Api.Models;
 using Registrar.Api.Models.Request;
 using Registrar.Api.Models.Response;
 
@@ -97,11 +96,10 @@ namespace Registrar.Api.Controllers
 
                 // Send an email with this link
                 var code = await UserManager.GenerateEmailConfirmationTokenAsync(userModel.Id);
-                var uri = GetUri("confirmemail", model.Email, code);
+                var body = EmailContentWriter.ConfirmEmail(user.Email, code);
                 try
                 {
-                    await UserManager.SendEmailAsync(userModel.Id, "Confirm your account",
-                        $"Email confirmation code: {code}<br /><br />Alternatively, click <a href=\"{uri}\">here</a>");
+                    await UserManager.SendEmailAsync(userModel.Id, EmailContentWriter.ConfirmEmailSubject, body);
                 }
                 catch (CouldNotSendEmailException)
                 {
@@ -114,6 +112,40 @@ namespace Registrar.Api.Controllers
 
             // If we got this far, something failed
             return BadRequest(ModelState);
+        }
+
+        [HttpPost]
+        [Route("resendEmail")]
+        public async Task<IHttpActionResult> ResendEmail(ResendVerificationEmail model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            // Get account
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return Unauthorized();
+
+            // Ensure the user hasn't had a token sent recently
+            var canSendModel = await UserManager.CanSendToken(RegiTokenProvider.EmailProvider, user);
+            if (!canSendModel.CanSend)
+                return BadRequest($"Please wait {Math.Ceiling(canSendModel.Remaining.TotalMinutes)} minutes");
+
+            // Generate a new token
+            var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+
+            // Send an email with this link
+            var body = EmailContentWriter.ConfirmEmail(user.Email, code);
+            try
+            {
+                await UserManager.SendEmailAsync(user.Id, EmailContentWriter.ConfirmEmailSubject, body);
+            }
+            catch (CouldNotSendEmailException)
+            {
+                return InternalServerError();
+            }
+
+            return Ok();
         }
 
         [HttpPost]
@@ -142,21 +174,28 @@ namespace Registrar.Api.Controllers
                 return BadRequest(ModelState);
 
             var user = await UserManager.FindByNameAsync(model.Email);
-            if ((user == null) || !await UserManager.IsEmailConfirmedAsync(user.Id))
+            // User not found, but we don't want to reveal this
+            if (user == null)
                 return Ok();
+
+            // Email not confirmed, so can't use for reset
+            if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                return BadRequest("Unconfirmed Email");
+
+            // Ensure the user hasn't had a token sent recently
+            var canSendModel = await UserManager.CanSendToken(RegiTokenProvider.PasswordProvider, user);
+            if (!canSendModel.CanSend)
+                return BadRequest($"Please wait {Math.Ceiling(canSendModel.Remaining.TotalMinutes)} minutes");
 
             // Send reset code to their email. Needs to be copy and pasted into client
             var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+            var body = EmailContentWriter.ResetPassword(user.Email, code);
             try
             {
-                var uri = GetUri("resetpassword", code);
-                await
-                    UserManager.SendEmailAsync(user.Id, "Reset Password",
-                        $"Password reset authorisation code: {code}<br /><br />Alternatively, click <a href=\"{uri}\">here</a>");
+                await UserManager.SendEmailAsync(user.Id, EmailContentWriter.ResetPasswordSubject, body);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Debug.WriteLine(e.Message);
                 return InternalServerError();
             }
 
@@ -174,10 +213,20 @@ namespace Registrar.Api.Controllers
             if (user == null)
                 return StatusCode(HttpStatusCode.Forbidden);
 
+            // Check the password is valid before consuming the token
+            var res = await UserManager.PasswordValidator.ValidateAsync(model.Password);
+            if (!res.Succeeded)
+            {
+                AddErrors(res);
+                return BadRequest(ModelState);
+            }
+
+            // Change password and attempt to consume token
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
                 return Ok();
 
+            // Error changing the password. Probably token related
             AddErrors(result);
             return BadRequest(ModelState);
         }
@@ -235,14 +284,6 @@ namespace Registrar.Api.Controllers
         }
 
         #region Helpers
-
-        private static string GetUri(string action, params string[] parameters)
-        {
-            var uri = $"evoto://{action}";
-            if (parameters.Any())
-                uri += "/" + string.Join("/", parameters);
-            return uri;
-        }
 
         private void AddErrors(IdentityResult result)
         {

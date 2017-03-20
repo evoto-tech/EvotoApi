@@ -9,7 +9,7 @@ namespace Registrar.Database.Migrations
         public override void Up()
         {
             Create.Table("Users_Tokens")
-                .WithColumn("UserId").AsInt32().NotNullable()
+                .WithColumn("UserId").AsInt32().NotNullable().ForeignKey("Users", "Id")
                 .WithColumn("Purpose").AsString().NotNullable()
                 .WithColumn("Token").AsString().NotNullable()
                 .WithColumn("Expires").AsDateTime().NotNullable();
