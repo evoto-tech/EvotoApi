@@ -7,15 +7,15 @@ namespace Registrar.Api.Models
         public static readonly string ConfirmEmailSubject = "Confirm your account";
         public static readonly string ResetPasswordSubject = "Reset your password";
 
-        public static string ConfirmEmail(string code)
+        public static string ConfirmEmail(string email, string code)
         {
-            var uri = GetUri("confirmEmail", code);
+            var uri = GetUri("confirmEmail", email, code);
             return $"Email confirmation code: {code}<br /><br />Alternatively, click <a href=\"{uri}\">here</a>";
         }
 
-        public static string ResetPassword(string code)
+        public static string ResetPassword(string email, string code)
         {
-            var uri = GetUri("resetpassword", code);
+            var uri = GetUri("resetpassword", email, code);
             return
                 $"Password reset authorisation code: {code}<br /><br />Alternatively, click <a href=\"{uri}\">here</a>";
         }

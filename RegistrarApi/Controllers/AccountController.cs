@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
@@ -97,7 +96,7 @@ namespace Registrar.Api.Controllers
 
                 // Send an email with this link
                 var code = await UserManager.GenerateEmailConfirmationTokenAsync(userModel.Id);
-                var body = EmailContentWriter.ConfirmEmail(code);
+                var body = EmailContentWriter.ConfirmEmail(user.Email, code);
                 try
                 {
                     await UserManager.SendEmailAsync(userModel.Id, EmailContentWriter.ConfirmEmailSubject, body);
@@ -127,23 +126,23 @@ namespace Registrar.Api.Controllers
             if (user == null)
                 return Unauthorized();
 
-            // Ensure the user hasn't had a token send in the past (delay time)
+            // Ensure the user hasn't had a token sent recently
             var canSendModel = await UserManager.CanSendToken(RegiTokenProvider.EmailProvider, user);
             if (!canSendModel.CanSend)
-                return BadRequest($"Please wait {canSendModel.Delay.Minutes + 1}");
+                return BadRequest($"Please wait {Math.Ceiling(canSendModel.Remaining.TotalMinutes)} minutes");
 
             // Generate a new token
             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
             // Send an email with this link
-            var body = EmailContentWriter.ConfirmEmail(code);
+            var body = EmailContentWriter.ConfirmEmail(user.Email, code);
             try
             {
                 await UserManager.SendEmailAsync(user.Id, EmailContentWriter.ConfirmEmailSubject, body);
             }
             catch (CouldNotSendEmailException)
             {
-                return BadRequest("Could not send email");
+                return InternalServerError();
             }
 
             return Ok();
@@ -175,19 +174,28 @@ namespace Registrar.Api.Controllers
                 return BadRequest(ModelState);
 
             var user = await UserManager.FindByNameAsync(model.Email);
-            if ((user == null) || !await UserManager.IsEmailConfirmedAsync(user.Id))
+            // User not found, but we don't want to reveal this
+            if (user == null)
                 return Ok();
+
+            // Email not confirmed, so can't use for reset
+            if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                return BadRequest("Unconfirmed Email");
+
+            // Ensure the user hasn't had a token sent recently
+            var canSendModel = await UserManager.CanSendToken(RegiTokenProvider.PasswordProvider, user);
+            if (!canSendModel.CanSend)
+                return BadRequest($"Please wait {Math.Ceiling(canSendModel.Remaining.TotalMinutes)} minutes");
 
             // Send reset code to their email. Needs to be copy and pasted into client
             var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-            var body = EmailContentWriter.ResetPassword(code);
+            var body = EmailContentWriter.ResetPassword(user.Email, code);
             try
             {
                 await UserManager.SendEmailAsync(user.Id, EmailContentWriter.ResetPasswordSubject, body);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Debug.WriteLine(e.Message);
                 return InternalServerError();
             }
 
@@ -205,15 +213,20 @@ namespace Registrar.Api.Controllers
             if (user == null)
                 return StatusCode(HttpStatusCode.Forbidden);
 
-            // Ensure the user hasn't had a token send in the past (delay time)
-            var canSendModel = await UserManager.CanSendToken(RegiTokenProvider.PasswordProvider, user);
-            if (!canSendModel.CanSend)
-                return BadRequest($"Please wait {canSendModel.Delay.Minutes + 1}");
+            // Check the password is valid before consuming the token
+            var res = await UserManager.PasswordValidator.ValidateAsync(model.Password);
+            if (!res.Succeeded)
+            {
+                AddErrors(res);
+                return BadRequest(ModelState);
+            }
 
+            // Change password and attempt to consume token
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
                 return Ok();
 
+            // Error changing the password. Probably token related
             AddErrors(result);
             return BadRequest(ModelState);
         }
