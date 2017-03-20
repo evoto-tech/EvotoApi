@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
@@ -9,6 +8,7 @@ using Common.Exceptions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Registrar.Api.Auth;
+using Registrar.Api.Models;
 using Registrar.Api.Models.Request;
 using Registrar.Api.Models.Response;
 
@@ -97,11 +97,10 @@ namespace Registrar.Api.Controllers
 
                 // Send an email with this link
                 var code = await UserManager.GenerateEmailConfirmationTokenAsync(userModel.Id);
-                var uri = GetUri("confirmemail", model.Email, code);
+                var body = EmailContentWriter.ConfirmEmail(code);
                 try
                 {
-                    await UserManager.SendEmailAsync(userModel.Id, "Confirm your account",
-                        $"Email confirmation code: {code}<br /><br />Alternatively, click <a href=\"{uri}\">here</a>");
+                    await UserManager.SendEmailAsync(userModel.Id, EmailContentWriter.ConfirmEmailSubject, body);
                 }
                 catch (CouldNotSendEmailException)
                 {
@@ -114,6 +113,33 @@ namespace Registrar.Api.Controllers
 
             // If we got this far, something failed
             return BadRequest(ModelState);
+        }
+
+        [HttpPost]
+        [Route("register")]
+        public async Task<IHttpActionResult> ResendEmail(ResendVerificationEmail model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            // Get account
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return Unauthorized();
+
+            // Send an email with this link
+            var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            var body = EmailContentWriter.ConfirmEmail(code);
+            try
+            {
+                await UserManager.SendEmailAsync(user.Id, EmailContentWriter.ConfirmEmailSubject, body);
+            }
+            catch (CouldNotSendEmailException)
+            {
+                return BadRequest("Could not send email");
+            }
+
+            return Ok();
         }
 
         [HttpPost]
@@ -147,12 +173,10 @@ namespace Registrar.Api.Controllers
 
             // Send reset code to their email. Needs to be copy and pasted into client
             var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+            var body = EmailContentWriter.ResetPassword(code);
             try
             {
-                var uri = GetUri("resetpassword", code);
-                await
-                    UserManager.SendEmailAsync(user.Id, "Reset Password",
-                        $"Password reset authorisation code: {code}<br /><br />Alternatively, click <a href=\"{uri}\">here</a>");
+                await UserManager.SendEmailAsync(user.Id, EmailContentWriter.ResetPasswordSubject, body);
             }
             catch (Exception e)
             {
@@ -235,14 +259,6 @@ namespace Registrar.Api.Controllers
         }
 
         #region Helpers
-
-        private static string GetUri(string action, params string[] parameters)
-        {
-            var uri = $"evoto://{action}";
-            if (parameters.Any())
-                uri += "/" + string.Join("/", parameters);
-            return uri;
-        }
 
         private void AddErrors(IdentityResult result)
         {
