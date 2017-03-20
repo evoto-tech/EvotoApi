@@ -1,8 +1,11 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Net;
 using System.Threading.Tasks;
 using Management.Models;
 using Newtonsoft.Json;
+using Registrar.Models;
 using RestSharp;
 
 namespace EvotoApi.Areas.Management.Connections
@@ -15,18 +18,35 @@ namespace EvotoApi.Areas.Management.Connections
         private const string RegistrarUrl = "http://api.evoto.tech";
 #endif
 
-        private const string ApiBase = "management";
-
         public static async Task<bool> CreateBlockchain(ManaVote model)
         {
             var client = new RestClient(RegistrarUrl);
 
             // TODO: Put in resource dictionary
-            var req = new RestRequest(ApiBase + "/createblockchain");
+            var req = new RestRequest("management/createblockchain");
             req.AddBody(JsonConvert.SerializeObject(model));
 
             var res = await client.ExecuteTaskAsync(req);
             return (res.StatusCode == HttpStatusCode.OK);
-        } 
+        }
+
+        public static async Task<IEnumerable<RegiUser>> GetRegistrarUsers()
+        {
+            var client = new RestClient(RegistrarUrl);
+
+            // TODO: Put in resource dictionary
+            var req = new RestRequest("/users/list");
+
+            var res = await client.ExecuteTaskAsync(req);
+            if (res.StatusCode == HttpStatusCode.OK)
+            {
+                var users = JsonConvert.DeserializeObject<IEnumerable<RegiUser>>(res.Content);
+                return users;
+            }
+            else
+            {
+                throw new Exception("Error retrieving registrar users");
+            }
+        }
     }
 }
