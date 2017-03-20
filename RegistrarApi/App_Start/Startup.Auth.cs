@@ -11,11 +11,14 @@ namespace Registrar.Api
     {
         public static OAuthBearerAuthenticationOptions OAuthBearerOptions { get; private set; }
 
-        // In minutes
-        public static int RefreshTokenTime => 30;
+        // Length of validity of Refresh Tokens
+        public static TimeSpan RefreshTokenTime => TimeSpan.FromMinutes(30);
 
-        // In hours
-        public static int UserTokenTime => 24;
+        // Timeout for password reset, 2FA and email confirmation tokens
+        public static TimeSpan UserTokenTime => TimeSpan.FromHours(24);
+
+        // Minimum time between emails for the same purpose
+        public static TimeSpan EmailDelay => TimeSpan.FromMinutes(10);
 
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)

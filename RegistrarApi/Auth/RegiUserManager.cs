@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Configuration;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using Common.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Registrar.Database.Interfaces;
-using Registrar.Database.Stores;
 
 namespace Registrar.Api.Auth
 {
@@ -56,6 +56,28 @@ namespace Registrar.Api.Auth
 
             manager.EmailService = new EmailService();
             return manager;
+        }
+
+        public async Task<CanSendEmailModel> CanSendToken(string purpose, RegiAuthUser user)
+        {
+            var tokenProvider = UserTokenProvider as RegiTokenProvider;
+            if (tokenProvider == null)
+                return new CanSendEmailModel(false, TimeSpan.Zero);
+
+            // Get any existing token
+            var token = await tokenProvider.GetToken(purpose, user);
+            // This should only happen if the token table has been flushed
+            if (token == null)
+                return new CanSendEmailModel(true, TimeSpan.Zero);
+
+            // Time since the email was sent
+            var delay = DateTime.Now - token.Created;
+            // Ensure the minimum time has passed
+            var canSend = delay > Startup.EmailDelay;
+
+            // Time left to wait
+            var remaining = Startup.EmailDelay - delay;
+            return new CanSendEmailModel(canSend, remaining);
         }
     }
 }

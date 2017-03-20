@@ -10,6 +10,9 @@ namespace Registrar.Api.Auth
 {
     public class RegiTokenProvider : IUserTokenProvider<RegiAuthUser, int>
     {
+        public static readonly string EmailProvider = "Confirmation";
+        public static readonly string PasswordProvider = "ResetPassword";
+
         private readonly IRegiUserTokenStore _store;
 
         public RegiTokenProvider()
@@ -28,7 +31,6 @@ namespace Registrar.Api.Auth
                 await _store.GetRefreshTokenForUser(purpose, user.Id);
 
                 // TODO: Refactor to better encompass logic if updating fails
-                
                 await _store.UpdateUserToken(token);
             }
             catch (RecordNotFoundException)
@@ -37,6 +39,18 @@ namespace Registrar.Api.Auth
             }
 
             return token.Token;
+        }
+
+        public async Task<UserToken> GetToken(string purpose, RegiAuthUser user)
+        {
+            try
+            {
+                return await _store.GetRefreshTokenForUser(purpose, user.Id);
+            }
+            catch (RecordNotFoundException)
+            {
+                return null;
+            }
         }
 
         public async Task<bool> ValidateAsync(string purpose, string providedToken, UserManager<RegiAuthUser, int> manager,
@@ -74,10 +88,11 @@ namespace Registrar.Api.Auth
         {
             return new UserToken
             {
-                Expires = DateTime.Now.AddHours(Startup.UserTokenTime),
+                Expires = DateTime.Now.Add(Startup.UserTokenTime),
                 UserId = userId,
                 Purpose = purpose,
-                Token = Guid.NewGuid().ToString("n").Substring(0, 10)
+                Token = Guid.NewGuid().ToString("n").Substring(0, 10),
+                Created = DateTime.Now
             };
         }
     }

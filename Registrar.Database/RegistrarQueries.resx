@@ -175,7 +175,7 @@
     <value>SELECT * FROM Users WHERE Id = @Id</value>
   </data>
   <data name="UserTokenCreate" xml:space="preserve">
-    <value>INSERT INTO Users_Tokens (Purpose, UserId, Token, Expires) VALUES (@Purpose, @UserId, @Token, @Expires)</value>
+    <value>INSERT INTO Users_Tokens (Purpose, UserId, Token, Created, Expires) VALUES (@Purpose, @UserId, @Token, @Created, @Expires)</value>
   </data>
   <data name="UserTokenDelete" xml:space="preserve">
     <value>DELETE FROM Users_Tokens WHERE UserId = @UserId AND Purpose = @Purpose</value>
@@ -184,7 +184,7 @@
     <value>SELECT * FROM Users_Tokens WHERE UserId = @UserId AND Purpose = @Purpose</value>
   </data>
   <data name="UserTokenUpdate" xml:space="preserve">
-    <value>UPDATE Users_Tokens SET Token = @Token, Expires = @Expires WHERE UserId = @UserId AND Purpose = @Purpose</value>
+    <value>UPDATE Users_Tokens SET Token = @Token, Created = @Created, Expires = @Expires WHERE UserId = @UserId AND Purpose = @Purpose</value>
   </data>
   <data name="UserUpdate" xml:space="preserve">
     <value>UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash, EmailConfirmed = @EmailConfirmed WHERE Id = @Id</value>
