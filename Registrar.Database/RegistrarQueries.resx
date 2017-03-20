@@ -165,6 +165,9 @@
   <data name="UserDeleteById" xml:space="preserve">
     <value>DELETE FROM Users WHERE Id = @Id</value>
   </data>
+  <data name="UserGetAll" xml:space="preserve">
+    <value>SELECT *FROM Users</value>
+  </data>
   <data name="UserGetByEmail" xml:space="preserve">
     <value>SELECT * FROM Users WHERE Email LIKE @Email</value>
   </data>

@@ -205,6 +205,15 @@ namespace Registrar.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT *FROM Users.
+        /// </summary>
+        internal static string UserGetAll {
+            get {
+                return ResourceManager.GetString("UserGetAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM Users WHERE Email LIKE @Email.
         /// </summary>
         internal static string UserGetByEmail {
