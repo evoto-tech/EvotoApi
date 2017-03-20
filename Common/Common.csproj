@@ -71,6 +71,7 @@
     <Compile Include="Exceptions\CouldNotSendEmailException.cs" />
     <Compile Include="Exceptions\RecordNotFoundException.cs" />
     <Compile Include="FormatterConfig.cs" />
+    <Compile Include="Models\CanSendEmailModel.cs" />
     <Compile Include="Models\DbRefreshToken.cs" />
     <Compile Include="Models\RefreshToken.cs" />
     <Compile Include="Models\DbUserToken.cs" />

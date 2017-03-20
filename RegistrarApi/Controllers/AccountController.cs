@@ -116,7 +116,7 @@ namespace Registrar.Api.Controllers
         }
 
         [HttpPost]
-        [Route("register")]
+        [Route("resendEmail")]
         public async Task<IHttpActionResult> ResendEmail(ResendVerificationEmail model)
         {
             if (!ModelState.IsValid)
@@ -127,8 +127,15 @@ namespace Registrar.Api.Controllers
             if (user == null)
                 return Unauthorized();
 
-            // Send an email with this link
+            // Ensure the user hasn't had a token send in the past (delay time)
+            var canSendModel = await UserManager.CanSendToken(RegiTokenProvider.EmailProvider, user);
+            if (!canSendModel.CanSend)
+                return BadRequest($"Please wait {canSendModel.Delay.Minutes + 1}");
+
+            // Generate a new token
             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+
+            // Send an email with this link
             var body = EmailContentWriter.ConfirmEmail(code);
             try
             {
@@ -197,6 +204,11 @@ namespace Registrar.Api.Controllers
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user == null)
                 return StatusCode(HttpStatusCode.Forbidden);
+
+            // Ensure the user hasn't had a token send in the past (delay time)
+            var canSendModel = await UserManager.CanSendToken(RegiTokenProvider.PasswordProvider, user);
+            if (!canSendModel.CanSend)
+                return BadRequest($"Please wait {canSendModel.Delay.Minutes + 1}");
 
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)

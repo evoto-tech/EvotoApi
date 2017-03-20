@@ -223,7 +223,7 @@ namespace Registrar.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INSERT INTO Users_Tokens (Purpose, UserId, Token, Expires) VALUES (@Purpose, @UserId, @Token, @Expires).
+        ///   Looks up a localized string similar to INSERT INTO Users_Tokens (Purpose, UserId, Token, Created, Expires) VALUES (@Purpose, @UserId, @Token, @Created, @Expires).
         /// </summary>
         internal static string UserTokenCreate {
             get {
