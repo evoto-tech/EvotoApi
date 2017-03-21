@@ -15,8 +15,8 @@ namespace EvotoApi.Areas.Management.Controllers
         {
             try
             {
-                var registrarConnection = RegistrarConnection.GetRegistrarUsers();
-                return Json(registrarConnection);
+                var users = await RegistrarConnection.GetRegistrarUsers();
+                return Json(users);
             }
             catch (Exception e)
             {
@@ -34,8 +34,8 @@ namespace EvotoApi.Areas.Management.Controllers
         {
             try
             {
-                var registrarConnection = RegistrarConnection.GetRegistrarUsers();
-                return Json(registrarConnection);
+                var users = await RegistrarConnection.GetRegistrarUsers();
+                return Json(users);
             }
             catch (Exception e)
             {
