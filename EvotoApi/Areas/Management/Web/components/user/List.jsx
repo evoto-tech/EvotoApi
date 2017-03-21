@@ -1,23 +1,30 @@
 import React from 'react'
-import { withRouter, Link } from 'react-router'
+import Wrapper from './parts/Wrapper.jsx'
 
 class UserList extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = { users: [], loaded: false }
+  }
+
+  componentDidMount () {
+    this.fetchVotes()
+  }
+
+  fetchVotes () {
+    fetch('/regi/users/list')
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({ users: data, loaded: true })
+      })
+      .catch(console.error)
+  }
+
   render () {
     let title = 'List',
         description = 'User List'
     return (
-      <div className='content-wrapper' style={{ height: '100%' }}>
-        <section className='content-header' style={{ height: '100%' }}>
-          <h1>{title}<small>{description}</small></h1>
-          <ol className='breadcrumb'>
-            <li>
-              <Link to='/user/new'><i className='fa fa-plus' />New User</Link>
-            </li>
-          </ol>
-        </section>
-        <section className='content'>
-        </section>
-      </div>
+      <Wrapper title={title} description={description} />
     )
   }
 }

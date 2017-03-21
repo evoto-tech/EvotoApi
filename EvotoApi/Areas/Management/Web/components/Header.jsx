@@ -13,9 +13,9 @@ class Header extends React.Component {
     }
 
   propTypes: {
-        loggedIn: React.PropTypes.bool.isRequired,
-        username: React.PropTypes.string.isRequired
-    }
+      loggedIn: React.PropTypes.bool.isRequired,
+      username: React.PropTypes.string.isRequired
+  }
 
   onLogout (e) {
     e.preventDefault()
