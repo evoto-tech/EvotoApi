@@ -16,12 +16,12 @@ class UserWrapper extends React.Component {
           <h1>{title}<small>{description}</small></h1>
           <ol className='breadcrumb'>
             <li>
-              <Link to='/user/new'><i className='fa fa-plus' />New User</Link>
+              <Link to='/users/new'><i className='fa fa-plus' />New User</Link>
             </li>
           </ol>
         </section>
         <section className='content'>
-          {children}
+          {this.props.children}
         </section>
       </div>
     )
