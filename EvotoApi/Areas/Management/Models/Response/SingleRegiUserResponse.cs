@@ -1,7 +1,7 @@
-﻿using System.Runtime.Serialization;
+using System.Runtime.Serialization;
 using Common.Models;
 
-namespace Registrar.Api.Models.Response
+namespace EvotoApi.Areas.ManagementApi.Models.Response
 {
     [DataContract]
     public class SingleRegiUserResponse
