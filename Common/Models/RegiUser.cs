@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 
-namespace Registrar.Models
+namespace Common.Models
 {
     public class RegiUser : IUser<int>
     {

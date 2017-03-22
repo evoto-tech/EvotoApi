@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Common;
 using Common.Exceptions;
+using Common.Models;
 using Dapper;
 using Registrar.Database.Interfaces;
 using Registrar.Database.Models;

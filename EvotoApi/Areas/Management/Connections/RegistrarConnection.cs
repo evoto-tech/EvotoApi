@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Common.Models;
+using EvotoApi.Areas.ManagementApi.Models.Response;
 using Management.Models;
 using Newtonsoft.Json;
-using Registrar.Models;
 using RestSharp;
 
 namespace EvotoApi.Areas.Management.Connections

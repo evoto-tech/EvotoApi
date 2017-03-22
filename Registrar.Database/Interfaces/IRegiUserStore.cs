@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Registrar.Models;
+using Common.Models;
 
 namespace Registrar.Database.Interfaces
 {

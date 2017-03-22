@@ -1,17 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
-using Common.Exceptions;
+using Common;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Registrar.Api.Auth;
-using Registrar.Api.Models.Request;
 using Registrar.Api.Models.Response;
-using Registrar.Database;
 using Registrar.Database.Interfaces;
 
 namespace Registrar.Api.Controllers

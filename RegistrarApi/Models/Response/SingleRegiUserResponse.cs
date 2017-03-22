@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.Serialization;
-using Registrar.Models;
+﻿using System.Runtime.Serialization;
+using Common.Models;
 
 namespace Registrar.Api.Models.Response
 {
