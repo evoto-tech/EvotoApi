@@ -6,7 +6,9 @@ class UserDetail extends React.Component {
     let title = 'New User',
         description = 'New User'
     return (
-      <Wrapper title={title} description={description} />
+      <Wrapper title={title} description={description}>
+
+      </Wrapper>
     )
   }
 }
