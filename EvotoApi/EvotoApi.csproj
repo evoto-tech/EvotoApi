@@ -277,6 +277,7 @@
     <Compile Include="Areas\Management\Models\Request\CreateManaVote.cs" />
     <Compile Include="Areas\Management\Models\Request\LoginManaUser.cs" />
     <Compile Include="Areas\Management\Models\Response\ManaVoteResponse.cs" />
+    <Compile Include="Areas\Management\Models\Response\SingleRegiUserResponse.cs" />
     <Compile Include="Auth\ManaAuthUser.cs" />
     <Compile Include="Auth\ManaAuthUserStore.cs" />
     <Compile Include="Auth\ManaClaims.cs" />
