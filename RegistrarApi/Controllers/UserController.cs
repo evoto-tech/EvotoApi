@@ -20,7 +20,7 @@ namespace Registrar.Api.Controllers
 
         [HttpGet]
         [Route("list")]
-        [Authorize]
+        [ApiKeyAuth]
         public async Task<IHttpActionResult> List ()
         {
             var details = await _store.GetUsers();
@@ -30,7 +30,7 @@ namespace Registrar.Api.Controllers
 
         [HttpGet]
         [Route("details/{userId:int}")]
-        [Authorize]
+        [ApiKeyAuth]
         public async Task<IHttpActionResult> Details(int userId)
         {
             var details = await _store.GetUserById(userId);
