@@ -42,7 +42,8 @@ class Sidebar extends React.Component {
           <ul className='sidebar-menu'>
             <li className='header'>MENU</li>
             <li><IndexLink to='/' activeClassName='active'><i className='fa fa-home' /><span>Home</span></IndexLink></li>
-            <li><Link to='/votes' activeClassName='active'><i className='fa fa-envelope' /><span>Votes</span></Link></li>
+            <li><Link to='/' activeClassName='active'><i className='fa fa-envelope' /><span>Votes</span></Link></li>
+            <li><Link to='/admins' activeClassName='active'><i className='fa fa-users' /><span>Administrators</span></Link></li>
             <li><Link to='/users' activeClassName='active'><i className='fa fa-users' /><span>Users</span></Link></li>
             <li><Link to='/settings' activeClassName='active'><i className='fa fa-cogs' /><span>Settings</span></Link></li>
           </ul>
