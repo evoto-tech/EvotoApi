@@ -38,6 +38,10 @@
       <HintPath>..\packages\Jil.2.15.0\lib\net45\Jil.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -75,6 +79,7 @@
     <Compile Include="Models\DbRefreshToken.cs" />
     <Compile Include="Models\RefreshToken.cs" />
     <Compile Include="Models\DbUserToken.cs" />
+    <Compile Include="Models\RegiUser.cs" />
     <Compile Include="Models\UserToken.cs" />
     <Compile Include="SqlStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,7 +91,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

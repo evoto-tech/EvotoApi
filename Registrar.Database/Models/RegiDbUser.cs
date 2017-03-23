@@ -1,4 +1,5 @@
 ﻿using System;
+using Common.Models;
 using Registrar.Models;
 
 namespace Registrar.Database.Models

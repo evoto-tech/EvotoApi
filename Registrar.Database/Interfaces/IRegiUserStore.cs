@@ -1,5 +1,6 @@
-﻿using System.Threading.Tasks;
-using Registrar.Models;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Common.Models;
 
 namespace Registrar.Database.Interfaces
 {
@@ -7,6 +8,7 @@ namespace Registrar.Database.Interfaces
     {
         Task<RegiUser> GetUserById(int id);
         Task<RegiUser> GetUserByEmail(string email);
+        Task<IEnumerable<RegiUser>>GetUsers();
         Task<RegiUser> CreateUser(RegiUser user);
         Task DeleteUser(int id);
         Task UpdateUser(RegiUser user);

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Common;
 using Common.Exceptions;
+using Common.Models;
 using Dapper;
 using Registrar.Database.Interfaces;
 using Registrar.Database.Models;
@@ -16,19 +18,18 @@ namespace Registrar.Database.Stores
         {
         }
 
-        public async Task<RegiUser> GetUserById(int id)
+        private async Task<IEnumerable<RegiUser>> GetUserByQuery(string query, object parameters = null)
         {
             try
             {
                 using (var connection = await GetConnectionAsync())
                 {
-                    var result = await connection.QueryAsync(RegistrarQueries.UserGetById, new {Id = id});
+                    var result = await connection.QueryAsync(query, parameters);
 
                     if (!result.Any())
                         throw new RecordNotFoundException();
 
-                    var model = new RegiDbUser(result.First());
-                    return model.ToUser();
+                    return result.Select((v) => new RegiDbUser(v).ToUser());
                 }
             }
             catch (Exception e)
@@ -42,30 +43,29 @@ namespace Registrar.Database.Stores
             }
         }
 
-        public async Task<RegiUser> GetUserByEmail(string email)
+        public async Task<IEnumerable<RegiUser>> GetUsers()
         {
             try
             {
-                using (var connection = await GetConnectionAsync())
-                {
-                    var result = await connection.QueryAsync(RegistrarQueries.UserGetByEmail, new {Email = email});
-
-                    if (!result.Any())
-                        throw new RecordNotFoundException();
-
-                    var model = new RegiDbUser(result.First());
-                    return model.ToUser();
-                }
+                var users = await GetUserByQuery(RegistrarQueries.UserGetAll);
+                return users;
             }
-            catch (Exception e)
+            catch (RecordNotFoundException)
             {
-#if DEBUG
-                throw;
-#endif
-                if (e is RecordNotFoundException)
-                    throw;
-                throw new Exception("Could not get Regi User");
+                return Enumerable.Empty<RegiUser>();
             }
+        }
+
+        public async Task<RegiUser> GetUserById(int id)
+        {
+            var users = await GetUserByQuery(RegistrarQueries.UserGetById, new { Id = id });
+            return users.First();
+        }
+
+        public async Task<RegiUser> GetUserByEmail(string email)
+        {
+            var users = await GetUserByQuery(RegistrarQueries.UserGetByEmail, new { Email = email });
+            return users.First();
         }
 
         public async Task<RegiUser> CreateUser(RegiUser user)
