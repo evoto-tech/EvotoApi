@@ -128,26 +128,5 @@ namespace Registrar.Database.Stores
                 throw new Exception("Could not update Regi User");
             }
         }
-
-        public async Task<IList<CustomUserField>> GetCustomUserFields()
-        {
-            try
-            {
-                using (var connection = await GetConnectionAsync())
-                {
-                    var rows = await connection.QueryAsync(RegistrarQueries.GetCustomUserFields);
-                    return rows.Select(r => new DbCustomUserField(r).ToModel()).ToList();
-                }
-            }
-            catch (Exception e)
-            {
-#if DEBUG
-                throw;
-#endif
-                if (e is RecordNotFoundException)
-                    throw;
-
-            }
-        }
     }
 }

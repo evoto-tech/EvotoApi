@@ -225,6 +225,7 @@
     <Compile Include="Models\EmailContentWriter.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Request\CreateBlockchain.cs" />
+    <Compile Include="Models\Request\CreateCustomUserFieldModel.cs" />
     <Compile Include="Models\Request\CreateRegiUser.cs" />
     <Compile Include="Models\Request\ConfirmEmailModel.cs" />
     <Compile Include="Models\Request\HasVotedModel.cs" />

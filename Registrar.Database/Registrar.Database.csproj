@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IRegiUserFieldsStore.cs" />
     <Compile Include="Interfaces\IRegiUserStore.cs" />
     <Compile Include="Interfaces\IRegiUserTokenStore.cs" />
     <Compile Include="Migrations\M002CreateRefreshTokenTable.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Interfaces\IRegiRefreshTokenStore.cs" />
     <Compile Include="Interfaces\IRegiBlockchainStore.cs" />
     <Compile Include="Stores\RegiSqlBlockchainStore.cs" />
+    <Compile Include="Stores\RegiSqlUserFieldsStore.cs" />
     <Compile Include="Stores\RegiSqlUserTokenStore.cs" />
     <Compile Include="Stores\RegiSqlRefreshTokenStore.cs" />
     <Compile Include="Stores\RegiUserLockoutStore.cs" />

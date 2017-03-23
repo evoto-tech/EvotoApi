@@ -17,6 +17,18 @@ namespace Common.Models
 
     public abstract class CustomUserField
     {
+        public static CustomUserField GetFieldForType(EUserFieldType type)
+        {
+            var fieldType = typeof(CustomUserField);
+            var fieldName = fieldType.Namespace + "." + fieldType.Name + "_" + type;
+            var fieldClass = typeof(CustomUserField).Assembly.GetType(fieldName);
+            var constructor = fieldClass.GetConstructor(new Type[] { });
+            if (constructor == null)
+                return null;
+
+            return (CustomUserField)constructor.Invoke(new object[] { });
+        }
+
         public int Id { get; set; }
 
         public string Name { get; set; }

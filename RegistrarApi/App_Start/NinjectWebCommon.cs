@@ -85,6 +85,9 @@ namespace Registrar.Api
             kernel.Bind<IRegiUserTokenStore>()
                 .To<RegiSqlUserTokenStore>()
                 .WithConstructorArgument("connectionString", r);
+            kernel.Bind<IRegiUserFieldsStore>()
+                .To<RegiSqlUserFieldsStore>()
+                .WithConstructorArgument("connectionString", r);
 
             kernel.Bind<MultiChainHandler>().To<MultiChainHandler>().InSingletonScope();
         }

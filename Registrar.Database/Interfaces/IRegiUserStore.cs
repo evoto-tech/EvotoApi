@@ -12,6 +12,5 @@ namespace Registrar.Database.Interfaces
         Task<RegiUser> CreateUser(RegiUser user);
         Task DeleteUser(int id);
         Task UpdateUser(RegiUser user);
-        Task<IList<CustomUserField>> GetCustomUserFields();
     }
 }

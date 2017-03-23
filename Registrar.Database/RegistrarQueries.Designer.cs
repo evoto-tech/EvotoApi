@@ -97,24 +97,38 @@ namespace Registrar.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Users_CustomFields.
+        ///   Looks up a localized string similar to INSERT INTO Users_CustomFields (Name, Type, Required, Validation) VALUES (@Name, @Type, @Required, @Validation).
         /// </summary>
-        internal static string GetCustomUserFields {
+        internal static string CustomUserFieldCreate {
             get {
-                return ResourceManager.GetString("GetCustomUserFields", resourceCulture);
+                return ResourceManager.GetString("CustomUserFieldCreate", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to select STUFF((SELECT distinct &apos;,&apos; + QUOTENAME(name) 
-        ///              from Users_CustomFields
-        ///      FOR XML PATH(&apos;&apos;), TYPE
-        ///      ).value(&apos;.&apos;, &apos;NVARCHAR(MAX)&apos;) 
-        ///  ,1,1,&apos;&apos;);.
+        ///   Looks up a localized string similar to DELETE FROM Users_CustomFields WHERE Id = @Id.
         /// </summary>
-        internal static string GetCustomUserRows {
+        internal static string CustomUserFieldDelete {
             get {
-                return ResourceManager.GetString("GetCustomUserRows", resourceCulture);
+                return ResourceManager.GetString("CustomUserFieldDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Users_CustomFields.
+        /// </summary>
+        internal static string CustomUserFieldGetAll {
+            get {
+                return ResourceManager.GetString("CustomUserFieldGetAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE Users_CustomFields SET Name = @Name, Required = @Required, Validation = @Validation WHERE Id = @Id.
+        /// </summary>
+        internal static string CustomUserFieldUpdate {
+            get {
+                return ResourceManager.GetString("CustomUserFieldUpdate", resourceCulture);
             }
         }
         

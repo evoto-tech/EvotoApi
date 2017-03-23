@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using Newtonsoft.Json;
 
 namespace Common.Models
@@ -15,7 +14,7 @@ namespace Common.Models
             Required = row.Required;
         }
 
-        public DbCustomUserField(CustomUserField<dynamic> model)
+        public DbCustomUserField(CustomUserField model)
         {
             Id = model.Id;
             Name = model.Name;
@@ -41,14 +40,7 @@ namespace Common.Models
             if (!Enum.TryParse(Type, out type))
                 return null;
 
-            var fieldType = typeof(CustomUserField);
-            var fieldName = fieldType.Namespace + "." + fieldType.Name + "_" + type;
-            var fieldClass = typeof(CustomUserField).Assembly.GetType(fieldName);
-            var constructor = fieldClass.GetConstructor(new Type[] {});
-            if (constructor == null)
-                return null;
-
-            var field = (CustomUserField) constructor.Invoke(new object[] {});
+            var field = CustomUserField.GetFieldForType(type);
 
             field.Id = Id;
             field.Name = Name;

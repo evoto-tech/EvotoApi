@@ -129,15 +129,17 @@
   <data name="BlockchainsNotExpired" xml:space="preserve">
     <value>SELECT * FROM Blockchains WHERE ExpiryDate &gt;@Now</value>
   </data>
-  <data name="GetCustomUserFields" xml:space="preserve">
+  <data name="CustomUserFieldCreate" xml:space="preserve">
+    <value>INSERT INTO Users_CustomFields (Name, Type, Required, Validation) VALUES (@Name, @Type, @Required, @Validation)</value>
+  </data>
+  <data name="CustomUserFieldDelete" xml:space="preserve">
+    <value>DELETE FROM Users_CustomFields WHERE Id = @Id</value>
+  </data>
+  <data name="CustomUserFieldGetAll" xml:space="preserve">
     <value>SELECT * FROM Users_CustomFields</value>
   </data>
-  <data name="GetCustomUserRows" xml:space="preserve">
-    <value>select STUFF((SELECT distinct ',' + QUOTENAME(name) 
-              from Users_CustomFields
-      FOR XML PATH(''), TYPE
-      ).value('.', 'NVARCHAR(MAX)') 
-  ,1,1,'');</value>
+  <data name="CustomUserFieldUpdate" xml:space="preserve">
+    <value>UPDATE Users_CustomFields SET Name = @Name, Required = @Required, Validation = @Validation WHERE Id = @Id</value>
   </data>
   <data name="LockoutGetByUserId" xml:space="preserve">
     <value>SELECT * FROM Users_Lockout WHERE UserId = @UserId</value>
