@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Net;
 using System.Threading.Tasks;
+using Common.Models;
 using Management.Models;
 using Newtonsoft.Json;
-using Registrar.Models;
 using RestSharp;
 
 namespace EvotoApi.Areas.Management.Connections
@@ -27,7 +26,7 @@ namespace EvotoApi.Areas.Management.Connections
             req.AddBody(JsonConvert.SerializeObject(model));
 
             var res = await client.ExecuteTaskAsync(req);
-            return (res.StatusCode == HttpStatusCode.OK);
+            return res.StatusCode == HttpStatusCode.OK;
         }
 
         public static async Task<IEnumerable<RegiUser>> GetRegistrarUsers()
@@ -43,10 +42,7 @@ namespace EvotoApi.Areas.Management.Connections
                 var users = JsonConvert.DeserializeObject<IEnumerable<RegiUser>>(res.Content);
                 return users;
             }
-            else
-            {
-                throw new Exception("Error retrieving registrar users");
-            }
+            throw new Exception("Error retrieving registrar users");
         }
     }
 }

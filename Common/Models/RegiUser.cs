@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System.Collections.Generic;
+using Microsoft.AspNet.Identity;
 
-namespace Registrar.Models
+namespace Common.Models
 {
     public class RegiUser : IUser<int>
     {
@@ -8,9 +9,11 @@ namespace Registrar.Models
 
         public string PasswordHash { get; set; }
 
+        public bool EmailConfirmed { get; set; }
+
         public int Id { get; set; }
 
-        public bool EmailConfirmed { get; set; }
+        public IList<CustomUserField> CustomFields { get; set; }
 
         public string UserName
         {

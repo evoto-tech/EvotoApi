@@ -1,17 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
-using Common.Exceptions;
+using Common;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Registrar.Api.Auth;
-using Registrar.Api.Models.Request;
 using Registrar.Api.Models.Response;
-using Registrar.Database;
 using Registrar.Database.Interfaces;
 
 namespace Registrar.Api.Controllers
@@ -28,11 +20,11 @@ namespace Registrar.Api.Controllers
 
         [HttpGet]
         [Route("list")]
-        [Authorize]
-        public async Task<IHttpActionResult> List ()
+        [ApiKeyAuth]
+        public async Task<IHttpActionResult> List()
         {
             var details = await _store.GetUsers();
-            var res = details.Select((v) => new SingleRegiUserResponse(v));
+            var res = details.Select(v => new SingleRegiUserResponse(v));
             return Ok(res);
         }
 

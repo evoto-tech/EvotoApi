@@ -129,6 +129,13 @@
   <data name="BlockchainsNotExpired" xml:space="preserve">
     <value>SELECT * FROM Blockchains WHERE ExpiryDate &gt;@Now</value>
   </data>
+  <data name="GetCustomUserRows" xml:space="preserve">
+    <value>select STUFF((SELECT distinct ',' + QUOTENAME(name) 
+              from Users_CustomFields
+      FOR XML PATH(''), TYPE
+      ).value('.', 'NVARCHAR(MAX)') 
+  ,1,1,'');</value>
+  </data>
   <data name="LockoutGetByUserId" xml:space="preserve">
     <value>SELECT * FROM Users_Lockout WHERE UserId = @UserId</value>
   </data>
@@ -166,7 +173,34 @@
     <value>DELETE FROM Users WHERE Id = @Id</value>
   </data>
   <data name="UserGetAll" xml:space="preserve">
-    <value>SELECT *FROM Users</value>
+    <value>DECLARE @cols AS NVARCHAR(MAX),
+    @query  AS NVARCHAR(MAX)
+
+SELECT @cols = STUFF((SELECT distinct ',' + name
+              FROM Users_CustomFields
+      FOR XML PATH(''), TYPE
+      ).value('.', 'NVARCHAR(MAX)') 
+  ,1,1,'')
+
+IF @cols IS NULL
+	SET @query = 'SELECT * FROM Users'
+ELSE
+	SET @query = 'SELECT * FROM
+		(
+			SELECT u.*, cv.Value,
+			cf.Name KeyName
+			FROM Users u
+			LEFT JOIN Users_CustomValues cv
+			ON cv.UserId = u.Id
+			LEFT JOIN Users_CustomFields cf
+			ON cv.CustomFieldId = cf.id
+		) x
+		PIVOT 
+		(
+			MAX(value)
+			FOR KeyName in (' + @cols + ')
+		) p'
+EXECUTE(@query)</value>
   </data>
   <data name="UserGetByEmail" xml:space="preserve">
     <value>SELECT * FROM Users WHERE Email LIKE @Email</value>

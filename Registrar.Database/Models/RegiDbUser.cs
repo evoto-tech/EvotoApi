@@ -1,5 +1,7 @@
 ﻿using System;
-using Registrar.Models;
+using System.Collections.Generic;
+using System.Linq;
+using Common.Models;
 
 namespace Registrar.Database.Models
 {
@@ -11,6 +13,16 @@ namespace Registrar.Database.Models
             Email = record.Email;
             PasswordHash = record.PasswordHash;
             EmailConfirmed = record.EmailConfirmed;
+
+            var rowDict = (IDictionary<string, object>) record;
+            var builtInTypes = GetType().GetProperties();
+
+            // Ignore the properties we already have in this class (Id, Email, etc.)
+            CustomFields =
+                rowDict.Where(
+                        kv => builtInTypes.All(t => !t.Name.Equals(kv.Key, StringComparison.InvariantCultureIgnoreCase)))
+                    .Select(kv => new RegiDbUserCustomField(kv.Key, kv.Value?.ToString()))
+                    .ToList();
         }
 
         public RegiDbUser(RegiUser model)
@@ -32,6 +44,8 @@ namespace Registrar.Database.Models
 
         public bool EmailConfirmed { get; }
 
+        public IList<RegiDbUserCustomField> CustomFields { get; }
+
         public RegiUser ToUser()
         {
             return new RegiUser
@@ -39,7 +53,8 @@ namespace Registrar.Database.Models
                 Id = Id,
                 Email = Email,
                 PasswordHash = PasswordHash,
-                EmailConfirmed = EmailConfirmed
+                EmailConfirmed = EmailConfirmed,
+                CustomFields = CustomFields.Select(cf => cf.ToModel()).ToList()
             };
         }
     }
