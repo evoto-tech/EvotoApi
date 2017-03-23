@@ -22,10 +22,6 @@ class Register extends React.Component {
     buttonText: React.PropTypes.string
   }
 
-  static defaultProps: {
-    successLink: '/login'
-  }
-
   checkReady () {
     let ready = this.state.matchingPassword &&
         this.state.firstName !== '' &&

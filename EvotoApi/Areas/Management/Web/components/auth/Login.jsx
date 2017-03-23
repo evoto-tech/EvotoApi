@@ -17,10 +17,6 @@ class Login extends React.Component {
     successLink: React.PropTypes.string
   }
 
-  defaultProps: {
-    successLink: '/'
-  }
-
   checkReady () {
     let ready = (this.state.email !== '' && this.state.password !== '')
     this.setState({ ready })
