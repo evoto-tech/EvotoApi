@@ -180,4 +180,7 @@
   <data name="RefreshTokenUpdate" xml:space="preserve">
     <value>UPDATE RefreshTokens SET Token = @Token, Ticket = @Ticket, Issued = @Issued, Expires = @Expires WHERE UserId = @UserId</value>
   </data>
+  <data name="UserGetAll" xml:space="preserve">
+    <value>SELECT * FROM Users</value>
+  </data>
 </root>
