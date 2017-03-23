@@ -13,7 +13,7 @@ namespace Common.Models
 
         public int Id { get; set; }
 
-        public IList<CustomUserField> CustomFields { get; set; }
+        public IList<CustomUserValue> CustomFields { get; set; }
 
         public string UserName
         {

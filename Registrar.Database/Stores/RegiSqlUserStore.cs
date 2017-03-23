@@ -51,7 +51,7 @@ namespace Registrar.Database.Stores
             }
             catch (RecordNotFoundException)
             {
-                return Enumerable.Empty<RegiUser>();
+                return new List<RegiUser>(0);
             }
         }
 
@@ -126,6 +126,27 @@ namespace Registrar.Database.Stores
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not update Regi User");
+            }
+        }
+
+        public async Task<IList<CustomUserField>> GetCustomUserFields()
+        {
+            try
+            {
+                using (var connection = await GetConnectionAsync())
+                {
+                    var rows = await connection.QueryAsync(RegistrarQueries.GetCustomUserFields);
+                    return rows.Select(r => new DbCustomUserField(r).ToModel()).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                throw;
+#endif
+                if (e is RecordNotFoundException)
+                    throw;
+
             }
         }
     }

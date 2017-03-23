@@ -97,6 +97,15 @@ namespace Registrar.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Users_CustomFields.
+        /// </summary>
+        internal static string GetCustomUserFields {
+            get {
+                return ResourceManager.GetString("GetCustomUserFields", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to select STUFF((SELECT distinct &apos;,&apos; + QUOTENAME(name) 
         ///              from Users_CustomFields
         ///      FOR XML PATH(&apos;&apos;), TYPE

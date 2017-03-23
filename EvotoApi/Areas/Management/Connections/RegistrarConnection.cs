@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Common.Models;
+using EvotoApi.Areas.ManagementApi.Models.Response;
 using Management.Models;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
@@ -39,8 +42,6 @@ namespace EvotoApi.Areas.Management.Connections
 
         public static async Task<IEnumerable<SingleRegiUserResponse>> GetRegistrarUsers()
         {
-            var client = new RestClient(RegistrarUrl);
-
             // TODO: Put in resource dictionary
             var req = new RestRequest("/users/list");
             var res = await MakeApiRequest(req);

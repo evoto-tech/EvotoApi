@@ -61,6 +61,7 @@
     <Compile Include="Migrations\M002CreateRefreshTokenTable.cs" />
     <Compile Include="Migrations\M001CreateLockoutTable.cs" />
     <Compile Include="Migrations\M000CreateUserTable.cs" />
+    <Compile Include="Migrations\M011UpdateCustomUserFieldsWithTypeAndRequired.cs" />
     <Compile Include="Migrations\M010CreateCustomUserFields.cs" />
     <Compile Include="Migrations\M009UpdateUserTokenTableWithCreated.cs" />
     <Compile Include="Migrations\M007CreateUserTokenTable.cs" />
@@ -69,7 +70,6 @@
     <Compile Include="Migrations\M005UpdateBlockchainTableAgain.cs" />
     <Compile Include="Migrations\M004UpdateBlockchainTable.cs" />
     <Compile Include="Migrations\M003CreateBlockchainTable.cs" />
-    <Compile Include="Models\RegiDbUserCustomField.cs" />
     <Compile Include="Models\RegiDbBlockchain.cs" />
     <Compile Include="Models\RegiDbUserLockout.cs" />
     <Compile Include="Models\RegiDbUser.cs" />

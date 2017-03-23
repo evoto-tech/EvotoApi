@@ -51,5 +51,16 @@ namespace Registrar.Api.Controllers
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// Public endpoint. Gets currently defined custom user metadata
+        /// </summary>
+        [HttpGet]
+        [Route("customFields")]
+        public async Task<IHttpActionResult> GetCustomFields()
+        {
+            var fields = await _store.GetCustomUserFields();
+            return Ok(fields.Select(f => new SingleCustomUserFieldResponse(f)));
+        }
     }
 }
