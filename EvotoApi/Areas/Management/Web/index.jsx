@@ -38,9 +38,9 @@ ReactDOM.render(
         <Route path='new' component={NewVote} />
         <Route path=':id/edit' component={EditVote} />
       </Route>
-      <Route path='user'>
+      <Route path='users'>
+        <IndexRoute component={ListUsers} />
         <Route path='new' component={NewUser} />
-        <Route path='list' component={ListUsers} />
         <Route path=':id' component={DetailUser} />
       </Route>
     </Route>

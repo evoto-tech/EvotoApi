@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 import Wrapper from './parts/Wrapper.jsx'
 import formatDateString from '../../lib/format-date-string'
 
@@ -22,15 +23,15 @@ class UserList extends React.Component {
   }
 
   createUserRows () {
-    return this.state.votes.length > 0 ? (
+    return this.state.users.length > 0 ? (
       this.state.users.map((user, i) => {
         return (
           <tr key={i}>
             <td>{i + 1}.</td>
             <td>{user.email}</td>
-            <td><span className={'badge ' + (user.verified ? 'bg-green' : 'bg-red')}>{user.verified ? 'Verified' : 'Unverified'}</span></td>
-            <td>{formatDateString(vote.creationDate)}</td>
-            <td><Link to={`/user/${user.id}`}><i className='fa fa-edit' /></Link></td>
+            <td><span className={'badge ' + (user.emailConfirmed ? 'bg-green' : 'bg-red')}>{user.emailConfirmed ? 'Verified' : 'Unverified'}</span></td>
+            <td>{formatDateString(user.creationDate)}</td>
+            <td><Link to={`/users/${user.id}`}><i className='fa fa-edit' /></Link></td>
           </tr>
         )
       })

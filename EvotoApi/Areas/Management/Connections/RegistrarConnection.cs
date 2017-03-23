@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Common.Models;
 using Management.Models;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -17,29 +18,35 @@ namespace EvotoApi.Areas.Management.Connections
         private const string RegistrarUrl = "http://api.evoto.tech";
 #endif
 
-        public static async Task<bool> CreateBlockchain(ManaVote model)
+        private static async Task<IRestResponse> MakeApiRequest(IRestRequest req)
         {
             var client = new RestClient(RegistrarUrl);
+            if (!ConfigurationManager.AppSettings.Get("ApiKeys").IsNullOrWhiteSpace())
+            {
+                req.AddQueryParameter("key", ConfigurationManager.AppSettings.Get("ApiKeys"));
+            }
+            return await client.ExecuteTaskAsync(req);
+        }
 
-            // TODO: Put in resource dictionary
+        public static async Task<bool> CreateBlockchain(ManaVote model)
+        {
             var req = new RestRequest("management/createblockchain");
             req.AddBody(JsonConvert.SerializeObject(model));
 
-            var res = await client.ExecuteTaskAsync(req);
-            return res.StatusCode == HttpStatusCode.OK;
+            var res = await MakeApiRequest(req);
+            return (res.StatusCode == HttpStatusCode.OK);
         }
 
-        public static async Task<IEnumerable<RegiUser>> GetRegistrarUsers()
+        public static async Task<IEnumerable<SingleRegiUserResponse>> GetRegistrarUsers()
         {
             var client = new RestClient(RegistrarUrl);
 
             // TODO: Put in resource dictionary
             var req = new RestRequest("/users/list");
-
-            var res = await client.ExecuteTaskAsync(req);
+            var res = await MakeApiRequest(req);
             if (res.StatusCode == HttpStatusCode.OK)
             {
-                var users = JsonConvert.DeserializeObject<IEnumerable<RegiUser>>(res.Content);
+                var users = JsonConvert.DeserializeObject<IEnumerable<RegiUser>>(res.Content).Select((v) => new SingleRegiUserResponse(v));
                 return users;
             }
             throw new Exception("Error retrieving registrar users");
