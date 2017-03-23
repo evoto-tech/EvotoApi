@@ -97,6 +97,15 @@ namespace Registrar.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM Users_CustomValues WHERE CustomFieldId = @FieldId.
+        /// </summary>
+        internal static string CustomUserFieldClearValuesForField {
+            get {
+                return ResourceManager.GetString("CustomUserFieldClearValuesForField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to INSERT INTO Users_CustomFields (Name, Type, Required, Validation) VALUES (@Name, @Type, @Required, @Validation).
         /// </summary>
         internal static string CustomUserFieldCreate {

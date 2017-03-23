@@ -129,6 +129,9 @@
   <data name="BlockchainsNotExpired" xml:space="preserve">
     <value>SELECT * FROM Blockchains WHERE ExpiryDate &gt;@Now</value>
   </data>
+  <data name="CustomUserFieldClearValuesForField" xml:space="preserve">
+    <value>DELETE FROM Users_CustomValues WHERE CustomFieldId = @FieldId</value>
+  </data>
   <data name="CustomUserFieldCreate" xml:space="preserve">
     <value>INSERT INTO Users_CustomFields (Name, Type, Required, Validation) VALUES (@Name, @Type, @Required, @Validation)</value>
   </data>

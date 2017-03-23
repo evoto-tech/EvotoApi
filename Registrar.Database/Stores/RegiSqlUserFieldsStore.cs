@@ -60,6 +60,9 @@ namespace Registrar.Database.Stores
                 using (var connection = await GetConnectionAsync())
                 {
                     var model = new DbCustomUserField(field);
+                    await
+                        connection.ExecuteAsync(RegistrarQueries.CustomUserFieldClearValuesForField,
+                            new {FieldId = model.Id});
                     await connection.ExecuteAsync(RegistrarQueries.CustomUserFieldDelete, model);
                 }
             }
