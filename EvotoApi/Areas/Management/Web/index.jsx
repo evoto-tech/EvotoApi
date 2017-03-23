@@ -11,6 +11,9 @@ import EditVote from './components/vote/Edit.jsx'
 import NewUser from './components/user/New.jsx'
 import ListUsers from './components/user/List.jsx'
 import DetailUser from './components/user/Detail.jsx'
+import ListAdmins from './components/admin/List.jsx'
+import NewAdmin from './components/admin/New.jsx'
+import SettingsIndex from './components/settings/Index.jsx'
 
 /* Polyfills */
 if (!window.Promise) {
@@ -43,6 +46,11 @@ ReactDOM.render(
         <Route path='new' component={NewUser} />
         <Route path=':id' component={DetailUser} />
       </Route>
+      <Route path='admins'>
+        <IndexRoute component={ListAdmins} />
+        <Route path='new' component={NewAdmin} />
+      </Route>
+      <Route path='settings' component={SettingsIndex} />
     </Route>
   </Router>,
   document.getElementById('app'))
