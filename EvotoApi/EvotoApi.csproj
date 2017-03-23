@@ -268,6 +268,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Areas\Management\Connections\RegistrarConnection.cs" />
+    <Compile Include="Areas\Management\Controllers\ManaUserController.cs" />
     <Compile Include="Areas\Management\Controllers\RegistrarConnectionController.cs" />
     <Compile Include="Areas\Management\Controllers\AuthController.cs" />
     <Compile Include="Areas\Management\Controllers\ReactController.cs" />
@@ -277,6 +278,7 @@
     <Compile Include="Areas\Management\Models\Request\CreateManaVote.cs" />
     <Compile Include="Areas\Management\Models\Request\LoginManaUser.cs" />
     <Compile Include="Areas\Management\Models\Response\ManaVoteResponse.cs" />
+    <Compile Include="Areas\Management\Models\Response\SingleManaUserResponse.cs" />
     <Compile Include="Areas\Management\Models\Response\SingleRegiUserResponse.cs" />
     <Compile Include="Auth\ManaAuthUser.cs" />
     <Compile Include="Auth\ManaAuthUserStore.cs" />
