@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using Common;
+using Common.Exceptions;
 using Microsoft.AspNet.Identity;
 using Registrar.Api.Models.Response;
 using Registrar.Database.Interfaces;
@@ -23,9 +24,16 @@ namespace Registrar.Api.Controllers
         [ApiKeyAuth]
         public async Task<IHttpActionResult> List ()
         {
-            var details = await _store.GetUsers();
-            var res = details.Select((v) => new SingleRegiUserResponse(v));
-            return Ok(res);
+            try
+            {
+                var details = await _store.GetUsers();
+                var res = details.Select((v) => new SingleRegiUserResponse(v));
+                return Ok(res);
+            }
+            catch (RecordNotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet]
@@ -33,19 +41,16 @@ namespace Registrar.Api.Controllers
         [ApiKeyAuth]
         public async Task<IHttpActionResult> Details(int userId)
         {
-            var details = await _store.GetUserById(userId);
-            var res = new SingleRegiUserResponse(details);
-            return Ok(res);
+            try
+            {
+                var details = await _store.GetUserById(userId);
+                var res = new SingleRegiUserResponse(details);
+                return Ok(res);
+            }
+            catch (RecordNotFoundException)
+            {
+                return NotFound();
+            }
         }
-
-        #region Helpers
-
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-                ModelState.AddModelError("", error);
-        }
-
-        #endregion
     }
 }

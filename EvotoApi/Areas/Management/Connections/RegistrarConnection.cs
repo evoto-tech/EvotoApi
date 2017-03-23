@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Common.Models;
 using EvotoApi.Areas.ManagementApi.Models.Response;
 using Management.Models;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -20,10 +21,13 @@ namespace EvotoApi.Areas.Management.Connections
         private const string RegistrarUrl = "http://api.evoto.tech";
 #endif
 
-        private static async Task<IRestResponse> MakeApiRequest(RestRequest req)
+        private static async Task<IRestResponse> MakeApiRequest(IRestRequest req)
         {
             var client = new RestClient(RegistrarUrl);
-            req.AddQueryParameter("key", ConfigurationManager.AppSettings.Get("ApiKeys"));
+            if (!ConfigurationManager.AppSettings.Get("ApiKeys").IsNullOrWhiteSpace())
+            {
+                req.AddQueryParameter("key", ConfigurationManager.AppSettings.Get("ApiKeys"));
+            }
             return await client.ExecuteTaskAsync(req);
         }
 

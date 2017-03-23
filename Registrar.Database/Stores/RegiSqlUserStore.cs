@@ -18,7 +18,7 @@ namespace Registrar.Database.Stores
         {
         }
 
-        private async Task<IEnumerable<RegiUser>> GetUserByQuery(string query, object parameters)
+        private async Task<IEnumerable<RegiUser>> GetUserByQuery(string query, object parameters = null)
         {
             try
             {
@@ -45,8 +45,15 @@ namespace Registrar.Database.Stores
 
         public async Task<IEnumerable<RegiUser>> GetUsers()
         {
-            var users = await GetUserByQuery(RegistrarQueries.UserGetAll, new {});
-            return users;
+            try
+            {
+                var users = await GetUserByQuery(RegistrarQueries.UserGetAll);
+                return users;
+            }
+            catch (RecordNotFoundException)
+            {
+                return Enumerable.Empty<RegiUser>();
+            }
         }
 
         public async Task<RegiUser> GetUserById(int id)

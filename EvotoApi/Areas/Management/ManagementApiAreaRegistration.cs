@@ -20,6 +20,7 @@ namespace EvotoApi.Areas.ManagementApi
                 new { action = "Index", id = UrlParameter.Optional }
             );
 
+            // TODO: Figure out why this needs to be defined
             context.MapRoute(
                 "ManagementApi_Registrar_Relay",
                 "regi/{controller}/{action}/{id}",
