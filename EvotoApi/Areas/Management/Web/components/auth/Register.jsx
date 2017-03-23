@@ -17,6 +17,15 @@ class Register extends React.Component {
     }
   }
 
+  propTypes: {
+    successLink: React.PropTypes.string,
+    buttonText: React.PropTypes.string
+  }
+
+  static defaultProps: {
+    successLink: '/login'
+  }
+
   checkReady () {
     let ready = this.state.matchingPassword &&
         this.state.firstName !== '' &&
@@ -68,20 +77,24 @@ class Register extends React.Component {
       })
       .then((response) => {
         if (response.ok && response.status === 200) {
-          return this.props.router.push('/login')
+          // Do nothing
         } else if (response.status === 401) {
-          return handleError(response)
+          throw new Error('Those details seem to be wrong! Please try again.')
         } else if (response.status === 400) {
           return response.json()
         } else {
-          return handleError(response)
+          throw new Error('An unknown error occurred')
         }
       }, handleError)
       .then((data) => {
-        let messages = data.ModelState
-          ? Object.keys(data.ModelState).reduce((o, k) => data.ModelState[k], [])
-          : undefined
-        return handleError(data, messages)
+        if (data) {
+          let messages = data.ModelState
+              ? Object.keys(data.ModelState).reduce((o, k) => data.ModelState[k], [])
+              : undefined
+          return handleError(data, messages)
+        } else {
+          if (this.props.successLink) this.props.router.push(this.props.successLink)
+        }
       }, handleError)
       .catch(handleError)
   }
@@ -94,6 +107,8 @@ class Register extends React.Component {
         ))}
       </ul>
     ) : ''
+
+    console.log('what', this.props)
 
     return (
       <div>
@@ -189,8 +204,15 @@ class Register extends React.Component {
               </div>
           */}
           <div className='row'>
-            <div className='col-xs-4'>
-              <button type='submit' disabled={!this.state.ready} className='btn btn-success btn-block btn-flat' onClick={this.register.bind(this)}>Register</button>
+            <div className='col-xs-4 col-md-2'>
+              <button
+                type='submit'
+                disabled={!this.state.ready}
+                className='btn btn-success btn-block btn-flat'
+                onClick={this.register.bind(this)}
+              >
+                {this.props.buttonText || 'Register'}
+              </button>
             </div>
           </div>
           {/* <a href="#">I forgot my password</a><br /> */}

@@ -13,6 +13,14 @@ class Login extends React.Component {
     }
   }
 
+  propTypes: {
+    successLink: React.PropTypes.string
+  }
+
+  defaultProps: {
+    successLink: '/'
+  }
+
   checkReady () {
     let ready = (this.state.email !== '' && this.state.password !== '')
     this.setState({ ready })
@@ -51,13 +59,13 @@ class Login extends React.Component {
       })
       .then((response) => {
         if (response.ok && response.status === 200) {
-
+          // Do nothing
         } else if (response.status === 401) {
-          return handleError(response)
+          throw new Error('Those details seem to be wrong! Please try again.')
         } else if (response.status === 400) {
           return response.json()
         } else {
-          return handleError(response)
+          throw new Error('An unknown error occurred')
         }
       }, handleError)
       .then((data) => {
@@ -67,7 +75,7 @@ class Login extends React.Component {
             : undefined
           return handleError(data, messages)
         } else {
-          return this.props.router.push('/')
+          if (this.props.successLink) this.props.router.push(this.props.successLink)
         }
       }, handleError)
       .catch(handleError)
