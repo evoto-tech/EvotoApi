@@ -1,6 +1,7 @@
 import React from 'react'
 import { withRouter, Link } from 'react-router'
 import Question from './parts/Question.jsx'
+import LoadableOverlay from '../parts/LoadableOverlay.jsx'
 
 class NewVote extends React.Component {
   constructor (props) {
@@ -221,12 +222,7 @@ class NewVote extends React.Component {
         </section>
         <section className='content'>
           <div className='box box-success'>
-            { !this.state.loaded ? (
-              <div className='overlay'>
-                <i className='fa fa-refresh fa-spin' />
-              </div>
-              ) : ''
-            }
+            <LoadableOverlay loaded={this.state.loaded} />
             <div className='box-header with-border'>
               <h3 className='box-title'>{title} Details</h3>
             </div>

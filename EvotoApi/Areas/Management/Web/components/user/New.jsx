@@ -1,7 +1,7 @@
 import React from 'react'
 import Wrapper from './parts/Wrapper.jsx'
 
-class UserDetail extends React.Component {
+class UserNew extends React.Component {
   render () {
     let title = 'New User',
         description = 'New User'
@@ -13,4 +13,4 @@ class UserDetail extends React.Component {
   }
 }
 
-export default UserDetail
+export default UserNew

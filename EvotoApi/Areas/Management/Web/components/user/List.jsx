@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 import Wrapper from './parts/Wrapper.jsx'
+import LoadableOverlay from '../parts/LoadableOverlay.jsx'
 import formatDateString from '../../lib/format-date-string'
 
 class UserList extends React.Component {
@@ -48,12 +49,7 @@ class UserList extends React.Component {
     return (
       <Wrapper title={title} description={description}>
         <div className='box'>
-          { !this.state.loaded ? (
-            <div className='overlay'>
-              <i className='fa fa-refresh fa-spin' />
-            </div>
-            ) : ''
-          }
+          <LoadableOverlay loaded={this.state.loaded} />
           <div className='box-header with-border'>
             <h3 className='box-title'>Users</h3>
           </div>
