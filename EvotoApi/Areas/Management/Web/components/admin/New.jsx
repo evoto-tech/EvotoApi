@@ -1,7 +1,5 @@
 import React from 'react'
-import { withRouter, Link } from 'react-router'
 import Wrapper from './parts/Wrapper.jsx'
-import LoadableOverlay from '../parts/LoadableOverlay.jsx'
 import Register from '../auth/Register.jsx'
 
 class AdminNew extends React.Component {
@@ -12,8 +10,8 @@ class AdminNew extends React.Component {
   render () {
     return (
       <Wrapper
-        title="New Administrator"
-        description="Add a new user to the management site."
+        title='New Administrator'
+        description='Add a new user to the management site.'
         >
         <div className='box box-success'>
           <div className='box-header with-border'>

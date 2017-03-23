@@ -1,7 +1,5 @@
 import React from 'react'
-import { withRouter, Link } from 'react-router'
 import Wrapper from '../parts/Wrapper.jsx'
-import LoadableOverlay from '../parts/LoadableOverlay.jsx'
 
 class SettingsIndex extends React.Component {
   propTypes: {
@@ -11,11 +9,9 @@ class SettingsIndex extends React.Component {
   render () {
     return (
       <Wrapper
-        title="Settings"
-        description="Settings for the user account."
-        >
-
-      </Wrapper>
+        title='Settings'
+        description='Settings for the user account.'
+         />
     )
   }
 }

@@ -18,8 +18,8 @@ class UserDetail extends React.Component {
   }
 
   render () {
-    let title = 'Details',
-        description = 'User details'
+    let title = 'Details'
+    let description = 'User details'
     return (
       <Wrapper title={title} description={description}>
         <div className='box'>

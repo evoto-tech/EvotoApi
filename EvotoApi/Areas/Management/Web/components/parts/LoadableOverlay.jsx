@@ -11,10 +11,10 @@ class LoadableOverlay extends React.Component {
 
   render () {
     let element = !this.props.loaded ? (
-        <div className='overlay'>
-          <i className='fa fa-refresh fa-spin' />
-        </div>
-        ) : <div style={{ display: 'none' }}></div>
+      <div className='overlay'>
+        <i className='fa fa-refresh fa-spin' />
+      </div>
+        ) : <div style={{ display: 'none' }} />
     return element
   }
 }

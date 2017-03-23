@@ -44,8 +44,8 @@ class UserList extends React.Component {
   }
 
   render () {
-    let title = 'List',
-        description = 'User List'
+    let title = 'List'
+    let description = 'User List'
     return (
       <Wrapper title={title} description={description}>
         <div className='box'>

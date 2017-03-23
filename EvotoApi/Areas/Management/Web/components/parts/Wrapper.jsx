@@ -1,5 +1,4 @@
 import React from 'react'
-import { withRouter, Link } from 'react-router'
 
 class Wrapper extends React.Component {
   propTypes: {
@@ -9,8 +8,8 @@ class Wrapper extends React.Component {
   }
 
   render () {
-    let title = this.props.title || '',
-        description = this.props.description || ''
+    let title = this.props.title || ''
+    let description = this.props.description || ''
     return (
       <div className='content-wrapper' style={{ height: '100%' }}>
         <section className='content-header' style={{ height: '100%' }}>

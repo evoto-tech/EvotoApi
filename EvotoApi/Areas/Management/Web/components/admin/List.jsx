@@ -1,5 +1,4 @@
 import React from 'react'
-import { withRouter, Link } from 'react-router'
 import Wrapper from './parts/Wrapper.jsx'
 import LoadableOverlay from '../parts/LoadableOverlay.jsx'
 
@@ -29,8 +28,8 @@ class AdminList extends React.Component {
           <tr key={i}>
             <td>{i + 1}.</td>
             <td>{admin.email}</td>
-            <td></td>
-            <td></td>
+            <td />
+            <td />
           </tr>
         )
       })
@@ -44,8 +43,8 @@ class AdminList extends React.Component {
   render () {
     return (
       <Wrapper
-        title="Administrators Management"
-        description="Manage administrators for the management site."
+        title='Administrators Management'
+        description='Manage administrators for the management site.'
         >
         <div className='box box-success'>
           <LoadableOverlay loaded={this.state.loaded} />

@@ -115,10 +115,10 @@ class NewVote extends React.Component {
   }
 
   showErrors (errors) {
-    let errorMessage = (typeof(errors) === 'string') ? errors : errors.join('\n')
+    let errorMessage = (typeof (errors) === 'string') ? errors : errors.join('\n')
     swal({
       title: 'Errors',
-      text: errors,
+      text: errorMessage,
       type: 'error',
       confirmButtonColor: '#DD6B55',
       allowOutsideClick: true
