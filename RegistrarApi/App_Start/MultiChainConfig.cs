@@ -12,18 +12,18 @@ namespace Registrar.Api
     {
         public static void StartBlockchains()
         {
-            //var handler = NinjectWebCommon.Kernel.Get<MultiChainHandler>();
-            //var blockchainStore = NinjectWebCommon.Kernel.Get<IRegiBlockchainStore>();
-            //var blockchains = blockchainStore.GetAllBlockchains();
+            var handler = NinjectWebCommon.Kernel.Get<MultiChainHandler>();
+            var blockchainStore = NinjectWebCommon.Kernel.Get<IRegiBlockchainStore>();
+            var blockchains = blockchainStore.GetAllBlockchains();
 
-            //Task.WaitAll(
-            //    blockchains.Select(
-            //            blockchain =>
-            //                    // We're the host/master node, so local port = remote port
-            //                    handler.Connect(IPAddress.Loopback.ToString(), blockchain.ChainString, blockchain.Port,
-            //                        blockchain.Port, MultiChainTools.GetNewPort(EPortType.Rpc), false))
-            //        .Cast<Task>()
-            //        .ToArray());
+            Task.WaitAll(
+                blockchains.Select(
+                        blockchain =>
+                            // We're the host/master node, so local port = remote port
+                                handler.Connect(IPAddress.Loopback.ToString(), blockchain.ChainString, blockchain.Port,
+                                    blockchain.Port, MultiChainTools.GetNewPort(EPortType.Rpc), false))
+                    .Cast<Task>()
+                    .ToArray());
         }
 
         public static void StopBlockchains()
