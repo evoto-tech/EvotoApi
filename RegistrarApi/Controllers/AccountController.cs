@@ -83,7 +83,7 @@ namespace Registrar.Api.Controllers
 
             // Validate custom fields
             var fields = await _fieldsStore.GetCustomUserFields();
-            var errors = ValidateCustomUserFields(model, fields);
+            var errors = ValidateCustomUserFields(model.CustomFields, fields);
 
             if (errors.Any())
             {
@@ -91,8 +91,11 @@ namespace Registrar.Api.Controllers
                 return BadRequest(ModelState);
             }
 
+            // Create account
             var user = new RegiAuthUser {UserName = model.Email, Email = model.Email};
             var result = await UserManager.CreateAsync(user, model.Password);
+
+            // Any errors in UserManager (such as duplicate email or insufficient password strength)
             if (!result.Succeeded)
             {
                 AddErrors(result);
@@ -111,7 +114,7 @@ namespace Registrar.Api.Controllers
                 }).Select(value => _fieldsStore.AddFieldValueForUser(userModel, value));
             await Task.WhenAll(fieldsTasks);
 
-            // Send an email with this link
+            // Send an email confirmation code
             var code = await UserManager.GenerateEmailConfirmationTokenAsync(userModel.Id);
             var body = EmailContentWriter.ConfirmEmail(user.Email, code);
             try
@@ -295,7 +298,14 @@ namespace Registrar.Api.Controllers
             base.Dispose(disposing);
         }
 
-        private static List<string> ValidateCustomUserFields(CreateRegiUser model, IEnumerable<CustomUserField> fields)
+        /// <summary>
+        ///     Ensures the supplied custom values for a user satisfy the field requirements
+        /// </summary>
+        /// <param name="customFields">Supplied User Field Values</param>
+        /// <param name="fields">Defined Custom User Fields</param>
+        /// <returns>List of errors. Empty if valid</returns>
+        private static List<string> ValidateCustomUserFields(IList<CreateRegiUserCustomField> customFields,
+            IEnumerable<CustomUserField> fields)
         {
             var errors = new List<string>();
             foreach (var field in fields)
@@ -303,7 +313,8 @@ namespace Registrar.Api.Controllers
                 CreateRegiUserCustomField userField;
                 try
                 {
-                    userField = model.CustomFields.SingleOrDefault(f => f.Name == field.Name);
+                    // Try to get the custom user value defined by the field
+                    userField = customFields.SingleOrDefault(f => f.Name == field.Name);
                 }
                 catch (InvalidOperationException)
                 {
@@ -311,24 +322,26 @@ namespace Registrar.Api.Controllers
                     continue;
                 }
 
+                // Value provided?
                 if (userField != null)
                 {
-                    var missing = string.IsNullOrEmpty(userField.Value);
+                    // Empty value, check if allowed
+                    var missing = string.IsNullOrWhiteSpace(userField.Value);
                     if (missing && field.Required)
                         errors.Add($"Missing value for required field: {field.Name}");
-                    else
+                    else if (!missing)
                     {
+                        // We have a value. Is it valid?
                         List<string> fieldErrors;
-                        if (!missing && !field.IsValid(userField.Value, out fieldErrors))
+                        if (!field.IsValid(userField.Value, out fieldErrors))
                             errors.Add($"Invalid value for field: {field.Name}.\n" + string.Join("\n", fieldErrors));
                     }
-                    // Else present and valid
                 }
                 else if (field.Required)
                 {
                     errors.Add($"Missing value for required field: {field.Name}");
                 }
-                // Else missing but not required
+                // Else value missing but not required
             }
             return errors;
         }
