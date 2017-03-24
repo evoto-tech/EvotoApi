@@ -1,45 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using Common.Exceptions;
+using Common.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Registrar.Api.Auth;
 using Registrar.Api.Models;
 using Registrar.Api.Models.Request;
 using Registrar.Api.Models.Response;
+using Registrar.Database.Interfaces;
 
 namespace Registrar.Api.Controllers
 {
     [RoutePrefix("account")]
     public class AccountController : ApiController
     {
+        private readonly IRegiUserFieldsStore _fieldsStore;
         private RegiSignInManager _signInManager;
         private RegiUserManager _userManager;
 
-        public AccountController()
+        public AccountController(IRegiUserFieldsStore fieldsStore)
         {
-        }
-
-        public AccountController(RegiUserManager userManager, RegiSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
+            _fieldsStore = fieldsStore;
         }
 
         public RegiSignInManager SignInManager
-        {
-            get { return _signInManager ?? HttpContext.Current.GetOwinContext().Get<RegiSignInManager>(); }
-            private set { _signInManager = value; }
-        }
+            => _signInManager ?? (_signInManager = HttpContext.Current.GetOwinContext().Get<RegiSignInManager>());
 
         public RegiUserManager UserManager
-        {
-            get { return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<RegiUserManager>(); }
-            private set { _userManager = value; }
-        }
+            => _userManager ?? (_userManager = HttpContext.Current.GetOwinContext().Get<RegiUserManager>());
 
         [HttpGet]
         [Route("details/{userId:int}")]
@@ -87,12 +81,55 @@ namespace Registrar.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var errors = new List<string>();
+
+            // Validate against custom fields
+            var fields = await _fieldsStore.GetCustomUserFields();
+            foreach (var field in fields)
+            {
+                var userField = model.CustomFields.SingleOrDefault(f => f.Name == field.Name);
+                if (userField != null)
+                {
+                    var missing = string.IsNullOrEmpty(userField.Value);
+                    if (missing && field.Required)
+                        errors.Add($"Missing value for required field: {field.Name}");
+                    else
+                    {
+                        List<string> fieldErrors;
+                        if (!missing && !field.IsValid(userField.Value, out fieldErrors))
+                            errors.Add($"Invalid value for field: {field.Name}.\n" + string.Join("\n", fieldErrors));
+                    }
+                    // Else present and valid
+                }
+                else if (field.Required)
+                {
+                    errors.Add($"Missing value for required field: {field.Name}");
+                }
+                // Else missing but not required
+            }
+
+            if (errors.Any())
+            {
+                AddErrors(errors);
+                return BadRequest(ModelState);
+            }
+
             var user = new RegiAuthUser {UserName = model.Email, Email = model.Email};
             var result = await UserManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
                 // Get created account
                 var userModel = await UserManager.FindByEmailAsync(model.Email);
+
+                foreach (var field in fields)
+                {
+                    var value = new CustomUserValue
+                    {
+                        FieldId = field.Id,
+                        Value = model.CustomFields.Single(f => f.Name == field.Name).Value
+                    };
+                    await _fieldsStore.AddFieldValueForUser(userModel, value);
+                }
 
                 // Send an email with this link
                 var code = await UserManager.GenerateEmailConfirmationTokenAsync(userModel.Id);
@@ -287,7 +324,12 @@ namespace Registrar.Api.Controllers
 
         private void AddErrors(IdentityResult result)
         {
-            foreach (var error in result.Errors)
+            AddErrors(result.Errors);
+        }
+
+        private void AddErrors(IEnumerable<string> errors)
+        {
+            foreach (var error in errors)
                 ModelState.AddModelError("", error);
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace Common.Models
 {
-    public class DbCustomUserValue
+    public class DbCustomUserValueOut
     {
         public string Name { get; set; }
 

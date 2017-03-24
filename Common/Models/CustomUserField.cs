@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -17,18 +16,6 @@ namespace Common.Models
 
     public abstract class CustomUserField
     {
-        public static CustomUserField GetFieldForType(EUserFieldType type)
-        {
-            var fieldType = typeof(CustomUserField);
-            var fieldName = fieldType.Namespace + "." + fieldType.Name + "_" + type;
-            var fieldClass = typeof(CustomUserField).Assembly.GetType(fieldName);
-            var constructor = fieldClass.GetConstructor(new Type[] { });
-            if (constructor == null)
-                return null;
-
-            return (CustomUserField)constructor.Invoke(new object[] { });
-        }
-
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -37,39 +24,55 @@ namespace Common.Models
 
         public bool Required { get; set; }
 
+        public static CustomUserField GetFieldForType(EUserFieldType type)
+        {
+            var fieldType = typeof(CustomUserField);
+            var fieldName = fieldType.Namespace + "." + fieldType.Name + "_" + type;
+            var fieldClass = typeof(CustomUserField).Assembly.GetType(fieldName);
+            var constructor = fieldClass.GetConstructor(new Type[] {});
+            if (constructor == null)
+                return null;
+
+            return (CustomUserField) constructor.Invoke(new object[] {});
+        }
+
         public abstract object GetValidationProperties();
 
         public abstract void SetValidationProperties(dynamic props);
+
+        public abstract bool IsValid(string value);
+
+        public abstract bool IsValid(string value, out List<string> errors);
     }
 
-    public abstract class CustomUserField<T> : CustomUserField
-    {
-        public abstract bool IsValid(T value);
-
-        public abstract bool IsValid(T value, out List<string> errors);
-    }
-
-    public class CustomUserField_Date : CustomUserField<DateTime>
+    public class CustomUserField_Date : CustomUserField
     {
         public DateTime? MaxDate { get; set; } = new DateTime?();
         public DateTime? MinDate { get; set; } = new DateTime?();
 
-        public override bool IsValid(DateTime value)
+        public override bool IsValid(string value)
         {
             List<string> e;
             return IsValid(value, false, out e);
         }
 
-        public override bool IsValid(DateTime value, out List<string> errors)
+        public override bool IsValid(string value, out List<string> errors)
         {
             return IsValid(value, true, out errors);
         }
 
-        private bool IsValid(DateTime value, bool showErrors, out List<string> errors)
+        private bool IsValid(string value, bool showErrors, out List<string> errors)
         {
             errors = new List<string>();
 
-            if (MinDate.HasValue && (value < MinDate.Value))
+            DateTime date;
+            if (!DateTime.TryParse(value, out date))
+            {
+                errors.Add("Invalid Date string");
+                return false;
+            }
+
+            if (MinDate.HasValue && (date < MinDate.Value))
             {
                 if (!showErrors)
                     return false;
@@ -77,7 +80,7 @@ namespace Common.Models
                 errors.Add($"Min Date: {MinDate.Value}, Provided Date: {value}");
             }
 
-            if (MaxDate.HasValue && (value > MaxDate.Value))
+            if (MaxDate.HasValue && (date > MaxDate.Value))
             {
                 if (!showErrors)
                     return false;
@@ -104,7 +107,7 @@ namespace Common.Models
         }
     }
 
-    public class CustomUserField_Email : CustomUserField<string>
+    public class CustomUserField_Email : CustomUserField
     {
         public override bool IsValid(string value)
         {
@@ -143,27 +146,34 @@ namespace Common.Models
         }
     }
 
-    public class CustomUserField_Number : CustomUserField<double>
+    public class CustomUserField_Number : CustomUserField
     {
         public double? Max { get; set; } = new double?();
         public double? Min { get; set; } = new double?();
 
-        public override bool IsValid(double value)
+        public override bool IsValid(string value)
         {
             List<string> e;
             return IsValid(value, false, out e);
         }
 
-        public override bool IsValid(double value, out List<string> errors)
+        public override bool IsValid(string value, out List<string> errors)
         {
             return IsValid(value, true, out errors);
         }
 
-        private bool IsValid(double value, bool showErrors, out List<string> errors)
+        private bool IsValid(string value, bool showErrors, out List<string> errors)
         {
             errors = new List<string>();
 
-            if (Min.HasValue && (value < Min.Value))
+            double number;
+            if (!double.TryParse(value, out number))
+            {
+                errors.Add("Invalid number string");
+                return false;
+            }
+
+            if (Min.HasValue && (number < Min.Value))
             {
                 if (!showErrors)
                     return false;
@@ -171,7 +181,7 @@ namespace Common.Models
                 errors.Add($"Min Value: {Min.Value}, Actual Value: {value}");
             }
 
-            if (Max.HasValue && (value > Max.Value))
+            if (Max.HasValue && (number > Max.Value))
             {
                 if (!showErrors)
                     return false;
@@ -198,7 +208,7 @@ namespace Common.Models
         }
     }
 
-    public class CustomUserField_String : CustomUserField<string>
+    public class CustomUserField_String : CustomUserField
     {
         public int? MaxLength { get; set; }
         public int? MinLength { get; set; }

@@ -10,5 +10,6 @@ namespace Registrar.Database.Interfaces
         Task CreateCustomUserField(CustomUserField field);
         Task DeleteCustomUserField(CustomUserField field);
         Task UpdateCustomUserField(CustomUserField field);
+        Task AddFieldValueForUser(RegiUser user, CustomUserValue value);
     }
 }

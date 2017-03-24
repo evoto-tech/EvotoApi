@@ -142,6 +142,15 @@ namespace Registrar.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO Users_CustomValues (UserId, CustomFieldId, Value) VALUES (@UserId, @CustomFieldId, @Value);.
+        /// </summary>
+        internal static string CustomUserValueInsert {
+            get {
+                return ResourceManager.GetString("CustomUserValueInsert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM Users_Lockout WHERE UserId = @UserId.
         /// </summary>
         internal static string LockoutGetByUserId {

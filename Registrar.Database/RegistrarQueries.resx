@@ -144,6 +144,9 @@
   <data name="CustomUserFieldUpdate" xml:space="preserve">
     <value>UPDATE Users_CustomFields SET Name = @Name, Required = @Required, Validation = @Validation WHERE Id = @Id</value>
   </data>
+  <data name="CustomUserValueInsert" xml:space="preserve">
+    <value>INSERT INTO Users_CustomValues (UserId, CustomFieldId, Value) VALUES (@UserId, @CustomFieldId, @Value);</value>
+  </data>
   <data name="LockoutGetByUserId" xml:space="preserve">
     <value>SELECT * FROM Users_Lockout WHERE UserId = @UserId</value>
   </data>

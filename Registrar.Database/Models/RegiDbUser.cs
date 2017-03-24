@@ -21,7 +21,7 @@ namespace Registrar.Database.Models
             CustomFields =
                 rowDict.Where(
                         kv => builtInTypes.All(t => !t.Name.Equals(kv.Key, StringComparison.InvariantCultureIgnoreCase)))
-                    .Select(kv => new DbCustomUserValue { Name = kv.Key, Value = (string) kv.Value})
+                    .Select(kv => new DbCustomUserValueOut { Name = kv.Key, Value = (string) kv.Value})
                     .ToList();
         }
 
@@ -44,7 +44,7 @@ namespace Registrar.Database.Models
 
         public bool EmailConfirmed { get; }
 
-        public IList<DbCustomUserValue> CustomFields { get; }
+        public IList<DbCustomUserValueOut> CustomFields { get; }
 
         public RegiUser ToUser()
         {

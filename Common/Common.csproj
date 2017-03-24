@@ -80,7 +80,8 @@
     <Compile Include="Models\CustomUserField.cs" />
     <Compile Include="Models\CustomUserValue.cs" />
     <Compile Include="Models\DbCustomUserField.cs" />
-    <Compile Include="Models\DbCustomUserValue.cs" />
+    <Compile Include="Models\DbCustomUserValueIn.cs" />
+    <Compile Include="Models\DbCustomUserValueOut.cs" />
     <Compile Include="Models\DbRefreshToken.cs" />
     <Compile Include="Models\RefreshToken.cs" />
     <Compile Include="Models\DbUserToken.cs" />

@@ -93,5 +93,24 @@ namespace Registrar.Database.Stores
                 throw new Exception("Could not delete custom user field");
             }
         }
+
+        public async Task AddFieldValueForUser(RegiUser user, CustomUserValue value)
+        {
+            try
+            {
+                using (var connection = await GetConnectionAsync())
+                {
+                    var model = new DbCustomUserValueIn(user, value);
+                    await connection.ExecuteAsync(RegistrarQueries.CustomUserValueInsert, model);
+                }
+            }
+            catch (Exception)
+            {
+#if DEBUG
+                throw;
+#endif
+                throw new Exception("Could not insert custom user value");
+            }
+        }
     }
 }

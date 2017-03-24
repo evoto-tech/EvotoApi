@@ -18,14 +18,14 @@ namespace Registrar.Api.Models.Request
         [DataMember(Name = "type")]
         [Required]
         [EnumDataType(typeof(EUserFieldType))]
-        public EUserFieldType Type { get; set; }
+        public EUserFieldType Type { get; private set; }
 
         [DataMember(Name = "required")]
         [Required]
-        public bool Required { get; set; }
+        public bool Required { get; private set; }
 
         [DataMember(Name = "validation")]
         [Required]
-        public dynamic Validation { get; set; }
+        public dynamic Validation { get; private set; }
     }
 }
