@@ -81,32 +81,9 @@ namespace Registrar.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var errors = new List<string>();
-
-            // Validate against custom fields
+            // Validate custom fields
             var fields = await _fieldsStore.GetCustomUserFields();
-            foreach (var field in fields)
-            {
-                var userField = model.CustomFields.SingleOrDefault(f => f.Name == field.Name);
-                if (userField != null)
-                {
-                    var missing = string.IsNullOrEmpty(userField.Value);
-                    if (missing && field.Required)
-                        errors.Add($"Missing value for required field: {field.Name}");
-                    else
-                    {
-                        List<string> fieldErrors;
-                        if (!missing && !field.IsValid(userField.Value, out fieldErrors))
-                            errors.Add($"Invalid value for field: {field.Name}.\n" + string.Join("\n", fieldErrors));
-                    }
-                    // Else present and valid
-                }
-                else if (field.Required)
-                {
-                    errors.Add($"Missing value for required field: {field.Name}");
-                }
-                // Else missing but not required
-            }
+            var errors = ValidateCustomUserFields(model, fields);
 
             if (errors.Any())
             {
@@ -116,39 +93,37 @@ namespace Registrar.Api.Controllers
 
             var user = new RegiAuthUser {UserName = model.Email, Email = model.Email};
             var result = await UserManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                // Get created account
-                var userModel = await UserManager.FindByEmailAsync(model.Email);
-
-                foreach (var field in fields)
-                {
-                    var value = new CustomUserValue
-                    {
-                        FieldId = field.Id,
-                        Value = model.CustomFields.Single(f => f.Name == field.Name).Value
-                    };
-                    await _fieldsStore.AddFieldValueForUser(userModel, value);
-                }
-
-                // Send an email with this link
-                var code = await UserManager.GenerateEmailConfirmationTokenAsync(userModel.Id);
-                var body = EmailContentWriter.ConfirmEmail(user.Email, code);
-                try
-                {
-                    await UserManager.SendEmailAsync(userModel.Id, EmailContentWriter.ConfirmEmailSubject, body);
-                }
-                catch (CouldNotSendEmailException)
-                {
-                    return BadRequest("Could not send email");
-                }
-
-                return Ok();
+                AddErrors(result);
+                return BadRequest(ModelState);
             }
-            AddErrors(result);
 
-            // If we got this far, something failed
-            return BadRequest(ModelState);
+            // Get created account
+            var userModel = await UserManager.FindByEmailAsync(model.Email);
+
+            // Store custom user data
+            var fieldsTasks = fields.Where(f => model.CustomFields.Any(m => m.Name == f.Name))
+                .Select(field => new CustomUserValue
+                {
+                    FieldId = field.Id,
+                    Value = model.CustomFields.Single(f => f.Name == field.Name).Value
+                }).Select(value => _fieldsStore.AddFieldValueForUser(userModel, value));
+            await Task.WhenAll(fieldsTasks);
+
+            // Send an email with this link
+            var code = await UserManager.GenerateEmailConfirmationTokenAsync(userModel.Id);
+            var body = EmailContentWriter.ConfirmEmail(user.Email, code);
+            try
+            {
+                await UserManager.SendEmailAsync(userModel.Id, EmailContentWriter.ConfirmEmailSubject, body);
+            }
+            catch (CouldNotSendEmailException)
+            {
+                return BadRequest("Could not send email");
+            }
+
+            return Ok();
         }
 
         [HttpPost]
@@ -318,6 +293,44 @@ namespace Registrar.Api.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        private static List<string> ValidateCustomUserFields(CreateRegiUser model, IEnumerable<CustomUserField> fields)
+        {
+            var errors = new List<string>();
+            foreach (var field in fields)
+            {
+                CreateRegiUserCustomField userField;
+                try
+                {
+                    userField = model.CustomFields.SingleOrDefault(f => f.Name == field.Name);
+                }
+                catch (InvalidOperationException)
+                {
+                    errors.Add($"More than one value for field: {field.Name}");
+                    continue;
+                }
+
+                if (userField != null)
+                {
+                    var missing = string.IsNullOrEmpty(userField.Value);
+                    if (missing && field.Required)
+                        errors.Add($"Missing value for required field: {field.Name}");
+                    else
+                    {
+                        List<string> fieldErrors;
+                        if (!missing && !field.IsValid(userField.Value, out fieldErrors))
+                            errors.Add($"Invalid value for field: {field.Name}.\n" + string.Join("\n", fieldErrors));
+                    }
+                    // Else present and valid
+                }
+                else if (field.Required)
+                {
+                    errors.Add($"Missing value for required field: {field.Name}");
+                }
+                // Else missing but not required
+            }
+            return errors;
         }
 
         #region Helpers
