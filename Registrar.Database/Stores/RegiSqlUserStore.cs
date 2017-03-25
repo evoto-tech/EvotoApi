@@ -8,7 +8,6 @@ using Common.Models;
 using Dapper;
 using Registrar.Database.Interfaces;
 using Registrar.Database.Models;
-using Registrar.Models;
 
 namespace Registrar.Database.Stores
 {
@@ -52,19 +51,19 @@ namespace Registrar.Database.Stores
             }
             catch (RecordNotFoundException)
             {
-                return Enumerable.Empty<RegiUser>();
+                return new List<RegiUser>(0);
             }
         }
 
         public async Task<RegiUser> GetUserById(int id)
         {
-            var users = await GetUserByQuery(RegistrarQueries.UserGetById, new { Id = id });
+            var users = await GetUserByQuery(RegistrarQueries.UserGetById, new {Id = id});
             return users.First();
         }
 
         public async Task<RegiUser> GetUserByEmail(string email)
         {
-            var users = await GetUserByQuery(RegistrarQueries.UserGetByEmail, new { Email = email });
+            var users = await GetUserByQuery(RegistrarQueries.UserGetByEmail, new {Email = email});
             return users.First();
         }
 
@@ -126,7 +125,7 @@ namespace Registrar.Database.Stores
 #endif
                 if (e is RecordNotFoundException)
                     throw;
-                throw new Exception("Could not delete Regi User");
+                throw new Exception("Could not update Regi User");
             }
         }
     }

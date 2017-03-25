@@ -97,6 +97,60 @@ namespace Registrar.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM Users_CustomValues WHERE CustomFieldId = @FieldId.
+        /// </summary>
+        internal static string CustomUserFieldClearValuesForField {
+            get {
+                return ResourceManager.GetString("CustomUserFieldClearValuesForField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO Users_CustomFields (Name, Type, Required, Validation) VALUES (@Name, @Type, @Required, @Validation).
+        /// </summary>
+        internal static string CustomUserFieldCreate {
+            get {
+                return ResourceManager.GetString("CustomUserFieldCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM Users_CustomFields WHERE Id = @Id.
+        /// </summary>
+        internal static string CustomUserFieldDelete {
+            get {
+                return ResourceManager.GetString("CustomUserFieldDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Users_CustomFields.
+        /// </summary>
+        internal static string CustomUserFieldGetAll {
+            get {
+                return ResourceManager.GetString("CustomUserFieldGetAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE Users_CustomFields SET Name = @Name, Required = @Required, Validation = @Validation WHERE Id = @Id.
+        /// </summary>
+        internal static string CustomUserFieldUpdate {
+            get {
+                return ResourceManager.GetString("CustomUserFieldUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO Users_CustomValues (UserId, CustomFieldId, Value) VALUES (@UserId, @CustomFieldId, @Value);.
+        /// </summary>
+        internal static string CustomUserValueInsert {
+            get {
+                return ResourceManager.GetString("CustomUserValueInsert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM Users_Lockout WHERE UserId = @UserId.
         /// </summary>
         internal static string LockoutGetByUserId {
@@ -205,7 +259,27 @@ namespace Registrar.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT *FROM Users.
+        ///   Looks up a localized string similar to DECLARE @cols AS NVARCHAR(MAX),
+        ///    @query  AS NVARCHAR(MAX)
+        ///
+        ///SELECT @cols = STUFF((SELECT distinct &apos;,&apos; + name
+        ///              FROM Users_CustomFields
+        ///      FOR XML PATH(&apos;&apos;), TYPE
+        ///      ).value(&apos;.&apos;, &apos;NVARCHAR(MAX)&apos;) 
+        ///  ,1,1,&apos;&apos;)
+        ///
+        ///IF @cols IS NULL
+        ///	SET @query = &apos;SELECT * FROM Users&apos;
+        ///ELSE
+        ///	SET @query = &apos;SELECT * FROM
+        ///		(
+        ///			SELECT u.*, cv.Value,
+        ///			cf.Name KeyName
+        ///			FROM Users u
+        ///			LEFT JOIN Users_CustomValues cv
+        ///			ON cv.UserId = u.Id
+        ///			LEFT JOIN Users_CustomFields cf
+        ///			ON cv.CustomFieldI [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UserGetAll {
             get {

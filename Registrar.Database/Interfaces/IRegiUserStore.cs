@@ -8,7 +8,7 @@ namespace Registrar.Database.Interfaces
     {
         Task<RegiUser> GetUserById(int id);
         Task<RegiUser> GetUserByEmail(string email);
-        Task<IEnumerable<RegiUser>>GetUsers();
+        Task<IEnumerable<RegiUser>> GetUsers();
         Task<RegiUser> CreateUser(RegiUser user);
         Task DeleteUser(int id);
         Task UpdateUser(RegiUser user);

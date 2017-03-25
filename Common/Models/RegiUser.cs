@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System.Collections.Generic;
+using Microsoft.AspNet.Identity;
 
 namespace Common.Models
 {
@@ -8,9 +9,11 @@ namespace Common.Models
 
         public string PasswordHash { get; set; }
 
+        public bool EmailConfirmed { get; set; }
+
         public int Id { get; set; }
 
-        public bool EmailConfirmed { get; set; }
+        public IList<CustomUserValue> CustomFields { get; set; }
 
         public string UserName
         {

@@ -51,6 +51,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -76,6 +77,11 @@
     <Compile Include="Exceptions\RecordNotFoundException.cs" />
     <Compile Include="FormatterConfig.cs" />
     <Compile Include="Models\CanSendEmailModel.cs" />
+    <Compile Include="Models\CustomUserField.cs" />
+    <Compile Include="Models\CustomUserValue.cs" />
+    <Compile Include="Models\DbCustomUserField.cs" />
+    <Compile Include="Models\DbCustomUserValueIn.cs" />
+    <Compile Include="Models\DbCustomUserValueOut.cs" />
     <Compile Include="Models\DbRefreshToken.cs" />
     <Compile Include="Models\RefreshToken.cs" />
     <Compile Include="Models\DbUserToken.cs" />

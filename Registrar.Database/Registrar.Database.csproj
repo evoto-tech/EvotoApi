@@ -56,11 +56,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IRegiUserFieldsStore.cs" />
     <Compile Include="Interfaces\IRegiUserStore.cs" />
     <Compile Include="Interfaces\IRegiUserTokenStore.cs" />
     <Compile Include="Migrations\M002CreateRefreshTokenTable.cs" />
     <Compile Include="Migrations\M001CreateLockoutTable.cs" />
     <Compile Include="Migrations\M000CreateUserTable.cs" />
+    <Compile Include="Migrations\M011UpdateCustomUserFieldsWithTypeAndRequired.cs" />
+    <Compile Include="Migrations\M010CreateCustomUserFields.cs" />
     <Compile Include="Migrations\M009UpdateUserTokenTableWithCreated.cs" />
     <Compile Include="Migrations\M007CreateUserTokenTable.cs" />
     <Compile Include="Migrations\M008UpdateUserTableWithEmailConfirmed.cs" />
@@ -81,6 +84,7 @@
     <Compile Include="Interfaces\IRegiRefreshTokenStore.cs" />
     <Compile Include="Interfaces\IRegiBlockchainStore.cs" />
     <Compile Include="Stores\RegiSqlBlockchainStore.cs" />
+    <Compile Include="Stores\RegiSqlUserFieldsStore.cs" />
     <Compile Include="Stores\RegiSqlUserTokenStore.cs" />
     <Compile Include="Stores\RegiSqlRefreshTokenStore.cs" />
     <Compile Include="Stores\RegiUserLockoutStore.cs" />

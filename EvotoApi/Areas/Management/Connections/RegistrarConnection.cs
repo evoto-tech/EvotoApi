@@ -42,8 +42,6 @@ namespace EvotoApi.Areas.Management.Connections
 
         public static async Task<IEnumerable<SingleRegiUserResponse>> GetRegistrarUsers()
         {
-            var client = new RestClient(RegistrarUrl);
-
             // TODO: Put in resource dictionary
             var req = new RestRequest("/users/list");
             var res = await MakeApiRequest(req);
@@ -52,10 +50,7 @@ namespace EvotoApi.Areas.Management.Connections
                 var users = JsonConvert.DeserializeObject<IEnumerable<RegiUser>>(res.Content).Select((v) => new SingleRegiUserResponse(v));
                 return users;
             }
-            else
-            {
-                throw new Exception("Error retrieving registrar users");
-            }
+            throw new Exception("Error retrieving registrar users");
         }
     }
 }
