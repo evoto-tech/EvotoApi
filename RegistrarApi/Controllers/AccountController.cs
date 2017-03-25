@@ -278,6 +278,17 @@ namespace Registrar.Api.Controllers
             return Ok(new {Provider = model.SelectedProvider});
         }
 
+        /// <summary>
+        ///     Public endpoint. Gets currently defined custom user metadata
+        /// </summary>
+        [HttpGet]
+        [Route("customFields")]
+        public async Task<IHttpActionResult> GetCustomFields()
+        {
+            var fields = await _fieldsStore.GetCustomUserFields();
+            return Ok(fields.Select(f => new SingleCustomUserFieldResponse(f)));
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

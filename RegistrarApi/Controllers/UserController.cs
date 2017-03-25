@@ -57,17 +57,6 @@ namespace Registrar.Api.Controllers
             }
         }
 
-        /// <summary>
-        ///     Public endpoint. Gets currently defined custom user metadata
-        /// </summary>
-        [HttpGet]
-        [Route("customFields")]
-        public async Task<IHttpActionResult> GetCustomFields()
-        {
-            var fields = await _fieldStore.GetCustomUserFields();
-            return Ok(fields.Select(f => new SingleCustomUserFieldResponse(f)));
-        }
-
         [HttpPost]
         [Route("customFields/update")]
         [ApiKeyAuth]
