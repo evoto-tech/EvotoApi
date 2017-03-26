@@ -57,17 +57,6 @@ namespace Registrar.Api.Controllers
             }
         }
 
-        /// <summary>
-        ///     Public endpoint. Gets currently defined custom user metadata
-        /// </summary>
-        [HttpGet]
-        [Route("customFields")]
-        public async Task<IHttpActionResult> GetCustomFields()
-        {
-            var fields = await _fieldStore.GetCustomUserFields();
-            return Ok(fields.Select(f => new SingleCustomUserFieldResponse(f)));
-        }
-
         [HttpPost]
         [Route("customFields/update")]
         [ApiKeyAuth]
@@ -89,6 +78,8 @@ namespace Registrar.Api.Controllers
                     field.Name = model.Name;
                     field.Type = model.Type;
                     field.Required = model.Required;
+
+                    field.SetValidationProperties(model.Validation);
 
                     create.Add(field);
                 }
@@ -139,6 +130,8 @@ namespace Registrar.Api.Controllers
             tasks.AddRange(delete.Select(d => _fieldStore.DeleteCustomUserField(d)).ToList());
 
             await Task.WhenAll(tasks);
+
+            await _fieldStore.UpdateUserView();
 
             return Ok();
         }

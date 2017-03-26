@@ -38,7 +38,7 @@ namespace Common.Models
 
         public abstract object GetValidationProperties();
 
-        public abstract void SetValidationProperties(dynamic props);
+        public abstract bool SetValidationProperties(dynamic props);
 
         public abstract bool IsValid(string value);
 
@@ -100,10 +100,26 @@ namespace Common.Models
             };
         }
 
-        public override void SetValidationProperties(dynamic props)
+        public override bool SetValidationProperties(dynamic props)
         {
-            MaxDate = props?.MaxDate;
-            MinDate = props?.MinDate;
+            if (props == null)
+                return true;
+
+            DateTime date;
+            if (props.MaxDate != null && !string.IsNullOrWhiteSpace(props.MaxDate.ToString()))
+            {
+                if (DateTime.TryParse(props.MaxDate.ToString(), out date))
+                    MaxDate = date;
+                else return false;
+            }
+            if (props.MinDate != null && !string.IsNullOrWhiteSpace(props.MinDate.ToString()))
+            {
+                if (DateTime.TryParse(props.MinDate.ToString(), out date))
+                    MinDate = date;
+                else return false;
+            }
+
+            return true;
         }
     }
 
@@ -141,8 +157,9 @@ namespace Common.Models
             return new {};
         }
 
-        public override void SetValidationProperties(dynamic props)
+        public override bool SetValidationProperties(dynamic props)
         {
+            return true;
         }
     }
 
@@ -201,10 +218,26 @@ namespace Common.Models
             };
         }
 
-        public override void SetValidationProperties(dynamic props)
+        public override bool SetValidationProperties(dynamic props)
         {
-            Max = props?.Max;
-            Min = props?.Min;
+            if (props == null)
+                return true;
+
+            double num;
+            if (props.Max != null && string.IsNullOrWhiteSpace(props.Max.ToString()))
+            {
+                if (double.TryParse(props.Max.ToString(), out num))
+                    Max = num;
+                else return false;
+            }
+            if (props.Min != null && string.IsNullOrWhiteSpace(props.Min.ToString()))
+            {
+                if (double.TryParse(props.Min.ToString(), out num))
+                    Min = num;
+                else return false;
+            }
+
+            return true;
         }
     }
 
@@ -266,11 +299,28 @@ namespace Common.Models
             };
         }
 
-        public override void SetValidationProperties(dynamic props)
+        public override bool SetValidationProperties(dynamic props)
         {
-            MaxLength = props?.MaxLength;
-            MinLength = props?.MinLength;
-            Regex = props?.Regex;
+            if (props == null)
+                return true;
+
+            int i;
+            if (props.MaxLength != null && string.IsNullOrWhiteSpace(props.MaxLength.ToString()))
+            {
+                if (int.TryParse(props.MaxLength.ToString(), out i))
+                    MaxLength = i;
+                else return false;
+            }
+            if (props.MinLength != null && string.IsNullOrWhiteSpace(props.MinLength.ToString()))
+            {
+                if (int.TryParse(props.MinLength.ToString(), out i))
+                    MinLength = i;
+                else return false;
+            }
+
+            Regex = props.Regex;
+
+            return true;
         }
     }
 }

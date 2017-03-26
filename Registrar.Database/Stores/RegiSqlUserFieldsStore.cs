@@ -112,5 +112,26 @@ namespace Registrar.Database.Stores
                 throw new Exception("Could not insert custom user value");
             }
         }
+
+        public async Task UpdateUserView()
+        {
+            try
+            {
+                using (var connection = await GetConnectionAsync())
+                {
+                    var tx = connection.BeginTransaction();
+                    await connection.ExecuteAsync(RegistrarQueries.UserDeleteView, transaction: tx);
+                    await connection.ExecuteAsync(RegistrarQueries.UserCreateView, transaction: tx);
+                    tx.Commit();
+                }
+            }
+            catch (Exception)
+            {
+#if DEBUG
+                throw;
+#endif
+                throw new Exception("Could not update user view");
+            }
+        }
     }
 }

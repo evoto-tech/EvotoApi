@@ -46,7 +46,7 @@ namespace Registrar.Database.Stores
         {
             try
             {
-                var users = await GetUserByQuery(RegistrarQueries.UserGetAll);
+                var users = await GetUserByQuery(RegistrarQueries.UsersAll);
                 return users;
             }
             catch (RecordNotFoundException)
@@ -57,13 +57,13 @@ namespace Registrar.Database.Stores
 
         public async Task<RegiUser> GetUserById(int id)
         {
-            var users = await GetUserByQuery(RegistrarQueries.UserGetById, new {Id = id});
+            var users = await GetUserByQuery(RegistrarQueries.UserById, new {Id = id});
             return users.First();
         }
 
         public async Task<RegiUser> GetUserByEmail(string email)
         {
-            var users = await GetUserByQuery(RegistrarQueries.UserGetByEmail, new {Email = email});
+            var users = await GetUserByQuery(RegistrarQueries.UserByEmail, new {Email = email});
             return users.First();
         }
 
