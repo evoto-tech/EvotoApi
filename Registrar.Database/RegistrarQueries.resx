@@ -177,13 +177,16 @@
   <data name="RefreshTokenUpdate" xml:space="preserve">
     <value>UPDATE RefreshTokens SET Token = @Token, Ticket = @Ticket, Issued = @Issued, Expires = @Expires WHERE UserId = @UserId</value>
   </data>
+  <data name="UserByEmail" xml:space="preserve">
+    <value>SELECT * FROM UsersView WHERE Email = @Email</value>
+  </data>
+  <data name="UserById" xml:space="preserve">
+    <value>SELECT * FROM UsersView WHERE Id = @Id</value>
+  </data>
   <data name="UserCreate" xml:space="preserve">
     <value>INSERT INTO Users (Email, PasswordHash, EmailConfirmed) VALUES (@Email, @PasswordHash, @EmailConfirmed)</value>
   </data>
-  <data name="UserDeleteById" xml:space="preserve">
-    <value>DELETE FROM Users WHERE Id = @Id</value>
-  </data>
-  <data name="UserGetAll" xml:space="preserve">
+  <data name="UserCreateView" xml:space="preserve">
     <value>DECLARE @cols AS NVARCHAR(MAX),
     @query  AS NVARCHAR(MAX)
 
@@ -194,9 +197,11 @@ SELECT @cols = STUFF((SELECT distinct ',' + name
   ,1,1,'')
 
 IF @cols IS NULL
-	SET @query = 'SELECT * FROM Users'
+	SET @query = 'CREATE VIEW UsersView
+	AS SELECT * FROM Users'
 ELSE
-	SET @query = 'SELECT * FROM
+	SET @query = 'CREATE VIEW UsersView
+			AS SELECT * FROM
 		(
 			SELECT u.*, cv.Value,
 			cf.Name KeyName
@@ -213,11 +218,15 @@ ELSE
 		) p'
 EXECUTE(@query)</value>
   </data>
-  <data name="UserGetByEmail" xml:space="preserve">
-    <value>SELECT * FROM Users WHERE Email LIKE @Email</value>
+  <data name="UserDeleteById" xml:space="preserve">
+    <value>DELETE FROM Users WHERE Id = @Id</value>
   </data>
-  <data name="UserGetById" xml:space="preserve">
-    <value>SELECT * FROM Users WHERE Id = @Id</value>
+  <data name="UserDeleteView" xml:space="preserve">
+    <value>IF OBJECT_ID('UsersView', 'V') IS NOT NULL
+    DROP VIEW UsersView</value>
+  </data>
+  <data name="UsersAll" xml:space="preserve">
+    <value>SELECT * FROM UsersView</value>
   </data>
   <data name="UserTokenCreate" xml:space="preserve">
     <value>INSERT INTO Users_Tokens (Purpose, UserId, Token, Created, Expires) VALUES (@Purpose, @UserId, @Token, @Created, @Expires)</value>

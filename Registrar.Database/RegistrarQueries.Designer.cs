@@ -241,20 +241,29 @@ namespace Registrar.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM UsersView WHERE Email = @Email.
+        /// </summary>
+        internal static string UserByEmail {
+            get {
+                return ResourceManager.GetString("UserByEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM UsersView WHERE Id = @Id.
+        /// </summary>
+        internal static string UserById {
+            get {
+                return ResourceManager.GetString("UserById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to INSERT INTO Users (Email, PasswordHash, EmailConfirmed) VALUES (@Email, @PasswordHash, @EmailConfirmed).
         /// </summary>
         internal static string UserCreate {
             get {
                 return ResourceManager.GetString("UserCreate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to DELETE FROM Users WHERE Id = @Id.
-        /// </summary>
-        internal static string UserDeleteById {
-            get {
-                return ResourceManager.GetString("UserDeleteById", resourceCulture);
             }
         }
         
@@ -269,39 +278,50 @@ namespace Registrar.Database {
         ///  ,1,1,&apos;&apos;)
         ///
         ///IF @cols IS NULL
-        ///	SET @query = &apos;SELECT * FROM Users&apos;
+        ///	SET @query = &apos;CREATE VIEW UsersView
+        ///	AS SELECT * FROM Users&apos;
         ///ELSE
-        ///	SET @query = &apos;SELECT * FROM
+        ///	SET @query = &apos;CREATE VIEW UsersView
+        ///			AS SELECT * FROM
         ///		(
         ///			SELECT u.*, cv.Value,
         ///			cf.Name KeyName
         ///			FROM Users u
         ///			LEFT JOIN Users_CustomValues cv
         ///			ON cv.UserId = u.Id
-        ///			LEFT JOIN Users_CustomFields cf
-        ///			ON cv.CustomFieldI [rest of string was truncated]&quot;;.
+        ///	 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string UserGetAll {
+        internal static string UserCreateView {
             get {
-                return ResourceManager.GetString("UserGetAll", resourceCulture);
+                return ResourceManager.GetString("UserCreateView", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Users WHERE Email LIKE @Email.
+        ///   Looks up a localized string similar to DELETE FROM Users WHERE Id = @Id.
         /// </summary>
-        internal static string UserGetByEmail {
+        internal static string UserDeleteById {
             get {
-                return ResourceManager.GetString("UserGetByEmail", resourceCulture);
+                return ResourceManager.GetString("UserDeleteById", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Users WHERE Id = @Id.
+        ///   Looks up a localized string similar to IF OBJECT_ID(&apos;UsersView&apos;, &apos;V&apos;) IS NOT NULL
+        ///    DROP VIEW UsersView.
         /// </summary>
-        internal static string UserGetById {
+        internal static string UserDeleteView {
             get {
-                return ResourceManager.GetString("UserGetById", resourceCulture);
+                return ResourceManager.GetString("UserDeleteView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM UsersView.
+        /// </summary>
+        internal static string UsersAll {
+            get {
+                return ResourceManager.GetString("UsersAll", resourceCulture);
             }
         }
         

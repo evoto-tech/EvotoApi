@@ -79,6 +79,8 @@ namespace Registrar.Api.Controllers
                     field.Type = model.Type;
                     field.Required = model.Required;
 
+                    field.SetValidationProperties(model.Validation);
+
                     create.Add(field);
                 }
                 else
@@ -128,6 +130,8 @@ namespace Registrar.Api.Controllers
             tasks.AddRange(delete.Select(d => _fieldStore.DeleteCustomUserField(d)).ToList());
 
             await Task.WhenAll(tasks);
+
+            await _fieldStore.UpdateUserView();
 
             return Ok();
         }
