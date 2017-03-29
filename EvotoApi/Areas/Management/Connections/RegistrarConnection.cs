@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web.Http.ModelBinding;
 using Common.Models;
 using EvotoApi.Areas.ManagementApi.Models.Response;
 using Management.Models;
@@ -47,10 +48,32 @@ namespace EvotoApi.Areas.Management.Connections
             var res = await MakeApiRequest(req);
             if (res.StatusCode == HttpStatusCode.OK)
             {
-                var users = JsonConvert.DeserializeObject<IEnumerable<RegiUser>>(res.Content).Select((v) => new SingleRegiUserResponse(v));
+                var users =
+                    JsonConvert.DeserializeObject<IEnumerable<RegiUser>>(res.Content)
+                        .Select((v) => new SingleRegiUserResponse(v));
                 return users;
             }
             throw new Exception("Error retrieving registrar users");
+        }
+
+        public static async Task<IEnumerable<SingleRegiUserResponse>> CreateRegistrarUser(CreateRegiUser model)
+        {
+            // TODO: Put in resource dictionary
+            var req = new RestRequest("/account/register");
+            req.AddBody(JsonConvert.SerializeObject(model));
+
+            var res = await MakeApiRequest(req);
+            if (res.StatusCode == HttpStatusCode.OK)
+            {
+                var users =
+                    JsonConvert.DeserializeObject<IEnumerable<RegiUser>>(res.Content)
+                        .Select((v) => new SingleRegiUserResponse(v));
+                return users;
+            }
+            var exception = new Exception("Error registering registrar user");
+            exception.Data["status"] = res.StatusCode;
+            exception.Data["content"] = res.Content;
+            throw exception;
         }
     }
 }

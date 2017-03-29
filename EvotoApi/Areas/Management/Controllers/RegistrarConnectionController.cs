@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
+using Common.Models;
 using EvotoApi.Areas.Management.Connections;
 
 namespace EvotoApi.Areas.Management.Controllers
@@ -39,6 +42,31 @@ namespace EvotoApi.Areas.Management.Controllers
             }
             catch (Exception e)
             {
+                return Json(new
+                {
+                    errors = e.Message
+                });
+            }
+        }
+
+        [Route("account/register")]
+        //[Authorize]
+        [HttpPost]
+        public async Task<IHttpActionResult> Register(CreateRegiUser user)
+        {
+            try
+            {
+                var users = await RegistrarConnection.CreateRegistrarUser(user);
+                return Json(users);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Data["status"]);
+                Debug.WriteLine(e.Data["content"]);
+                if ((int) e.Data["status"] != 400)
+                {
+                    return Json(e.Data["content"]);
+                }
                 return Json(new
                 {
                     errors = e.Message
