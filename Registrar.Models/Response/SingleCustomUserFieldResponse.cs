@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using Common.Models;
 
-namespace Registrar.Api.Models.Response
+namespace Registrar.Models.Response
 {
     [DataContract]
     public class SingleCustomUserFieldResponse

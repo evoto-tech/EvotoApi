@@ -222,24 +222,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\EmailContentWriter.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Request\CreateBlockchain.cs" />
-    <Compile Include="Models\Request\CreateCustomUserFieldModel.cs" />
-    <Compile Include="Models\Request\ConfirmEmailModel.cs" />
-    <Compile Include="Models\Request\HasVotedModel.cs" />
-    <Compile Include="Models\Request\IssueCurrencyModel.cs" />
-    <Compile Include="Models\Request\GetBlindSignatureModel.cs" />
-    <Compile Include="Models\Request\ForgotRegiPassword.cs" />
-    <Compile Include="Models\Request\ResendVerificationEmail.cs" />
-    <Compile Include="Models\Request\LoginRegiUser.cs" />
-    <Compile Include="Models\Request\ResetRegiPassword.cs" />
-    <Compile Include="Models\Request\RegiCode.cs" />
-    <Compile Include="Models\Request\VerifyRegiCode.cs" />
-    <Compile Include="Models\Request\VerifyRegiUser.cs" />
-    <Compile Include="Models\Response\SingleRegiCodeResponse.cs" />
-    <Compile Include="Models\Response\SingleCustomUserFieldResponse.cs" />
-    <Compile Include="Models\Response\SingleRegiUserResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

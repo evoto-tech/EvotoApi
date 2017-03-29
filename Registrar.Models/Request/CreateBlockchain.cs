@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
-namespace Registrar.Api.Models.Request
+namespace Registrar.Models.Request
 {
     [DataContract]
     public class CreateBlockchain

@@ -1,15 +1,18 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Common.Models;
 
-namespace EvotoApi.Areas.ManagementApi.Models.Response
+namespace Registrar.Models.Response
 {
     [DataContract]
     public class SingleRegiUserResponse
     {
         public SingleRegiUserResponse(RegiUser user)
         {
+            if (user == null)
+                return;
+
             Id = user.Id;
             Email = user.Email;
 
@@ -17,15 +20,15 @@ namespace EvotoApi.Areas.ManagementApi.Models.Response
         }
 
         [DataMember(Name = "id")]
-        public int Id { get; }
+        public int Id { get; set; }
 
         [DataMember(Name = "email")]
-        public string Email { get; }
+        public string Email { get; set; }
 
         [DataMember(Name = "customFields")]
-        public IDictionary<string, string> CustomFields { get; }
+        public IDictionary<string, string> CustomFields { get; set; }
 
         [DataMember(Name = "emailConfirmed")]
-        public bool EmailConfirmed { get; }
+        public bool EmailConfirmed { get; set; }
     }
 }

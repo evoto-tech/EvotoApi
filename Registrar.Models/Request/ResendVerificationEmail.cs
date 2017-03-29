@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
-namespace Registrar.Api.Models.Request
+namespace Registrar.Models.Request
 {
     [DataContract]
-    public class ForgotRegiPassword
+    public class ResendVerificationEmail
     {
+        [DataMember(Name = "email")]
         [Required]
         [EmailAddress]
-        [DataMember(Name = "email")]
         public string Email { get; private set; }
     }
 }

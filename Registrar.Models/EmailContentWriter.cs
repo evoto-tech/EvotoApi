@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Registrar.Api.Models
+namespace Registrar.Models
 {
     public static class EmailContentWriter
     {

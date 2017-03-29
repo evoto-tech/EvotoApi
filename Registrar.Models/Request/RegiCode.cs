@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Web.Mvc;
 
-namespace Registrar.Api.Models.Request
+namespace Registrar.Models.Request
 {
     [DataContract]
     public class RegiCode

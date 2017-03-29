@@ -1,13 +1,13 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using EvotoApi.Areas.ManagementApi.Models.Response;
 using EvotoApi.Auth;
 using EvotoApi.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
-using Registrar.Api.Models.Response;
 
 namespace EvotoApi.Controllers
 {
