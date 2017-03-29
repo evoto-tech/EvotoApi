@@ -8,6 +8,7 @@ import Home from './components/Home.jsx'
 import LoginContent from './components/LoginContent.jsx'
 import NewVote from './components/vote/New.jsx'
 import EditVote from './components/vote/Edit.jsx'
+import DetailVote from './components/vote/Detail.jsx'
 import NewUser from './components/user/New.jsx'
 import ListUsers from './components/user/List.jsx'
 import DetailUser from './components/user/Detail.jsx'
@@ -40,6 +41,7 @@ ReactDOM.render(
       <Route path='vote'>
         <Route path='new' component={NewVote} />
         <Route path=':id/edit' component={EditVote} />
+        <Route path=':id' component={DetailVote} />
       </Route>
       <Route path='users'>
         <IndexRoute component={ListUsers} />

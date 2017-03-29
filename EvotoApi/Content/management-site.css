@@ -28,3 +28,16 @@
 .bootstrap-datetimepicker-widget table td span.active {
     background-color:  #00a65a
 }
+
+/* Add disabled state to bootstrap datetimepicker */
+
+.disabled-datetimepicker {
+    pointer-events: none;
+}
+
+.disabled-datetimepicker .timepicker-picker tbody tr:first-of-type,
+.disabled-datetimepicker .timepicker-picker tbody tr:last-of-type,
+.disabled-datetimepicker .datepicker .datepicker-days thead tr .prev,
+.disabled-datetimepicker .datepicker .datepicker-days thead tr .next {
+    visibility: hidden;
+}

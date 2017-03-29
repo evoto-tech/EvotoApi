@@ -10,7 +10,8 @@ class Option extends React.Component {
     id: React.PropTypes.number,
     option: React.PropTypes.object,
     onDelete: React.PropTypes.func,
-    onChange: React.PropTypes.func
+    onChange: React.PropTypes.func,
+    disabled: React.PropTypes.bool
   }
 
   stateFromProps (props) {
@@ -45,12 +46,21 @@ class Option extends React.Component {
       <div>
         <div className='input-group'>
           <span className='input-group-addon' style={{ color: '#000000' }}>{this.props.id + 1}</span>
-          <input type='text' className='form-control' placeholder='Option...' value={this.state.option} onChange={this.updateOption.bind(this)} />
-          <span className='input-group-btn'>
-            <button type='button' className='btn btn-danger btn-flat' onClick={this.delete.bind(this)}>
-              <i className='fa fa-times' />
-            </button>
-          </span>
+          <input
+            disabled={this.props.disabled}
+            type='text'
+            className='form-control'
+            placeholder='Option...'
+            value={this.state.option}
+            onChange={this.updateOption.bind(this)}
+          />
+          {this.props.disabled ? '' : (
+            <span className='input-group-btn'>
+              <button type='button' className='btn btn-danger btn-flat' onClick={this.delete.bind(this)}>
+                <i className='fa fa-times' />
+              </button>
+            </span>
+          )}
         </div>
         <div className='form-group'>
           <textarea
@@ -60,7 +70,8 @@ class Option extends React.Component {
             style={{ resize: 'vertical', borderTop: 'none' }}
             onChange={this.updateInfo.bind(this)}
             value={this.state.info}
-             />
+            disabled={this.props.disabled}
+          />
         </div>
       </div>
     )

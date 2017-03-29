@@ -11,7 +11,8 @@ class Question extends React.Component {
     id: React.PropTypes.number,
     question: React.PropTypes.object,
     onDelete: React.PropTypes.func,
-    onChange: React.PropTypes.func
+    onChange: React.PropTypes.func,
+    disabled: React.PropTypes.bool
   }
 
   stateFromProps (props) {
@@ -67,7 +68,14 @@ class Question extends React.Component {
           <h4 className='box-title'>
             <div className='input-group' style={{ padding: '2px' }}>
               <span className='input-group-addon' style={{ color: '#000000' }}>Question {this.props.id + 1}</span>
-              <input type='text' className='form-control' placeholder='Question...' value={this.state.question} onChange={this.updateQuestion.bind(this)} />
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Question...'
+                value={this.state.question}
+                onChange={this.updateQuestion.bind(this)}
+                disabled={this.props.disabled}
+              />
             </div>
           </h4>
         </div>
@@ -81,7 +89,8 @@ class Question extends React.Component {
               style={{ resize: 'vertical' }}
               onChange={this.updateInfo.bind(this)}
               value={this.state.info}
-               />
+              disabled={this.props.disabled}
+              />
           </div>
           <div className='form-group'>
             <label>Options</label>
@@ -92,13 +101,16 @@ class Question extends React.Component {
                 option={option}
                 onDelete={this.deleteOption.bind(this)}
                 onChange={this.updateOption.bind(this, i)}
+                disabled={this.props.disabled}
                 />
             ))}
           </div>
-          <div className='btn-group'>
-            <button type='button' className='btn btn-danger' onClick={this.delete.bind(this)}>Delete Question</button>
-            <button type='button' className='btn btn-success' onClick={this.addOption.bind(this)}>Add Option</button>
-          </div>
+          {this.props.disabled ? '' : (
+            <div className='btn-group'>
+              <button type='button' className='btn btn-danger' onClick={this.delete.bind(this)}>Delete Question</button>
+              <button type='button' className='btn btn-success' onClick={this.addOption.bind(this)}>Add Option</button>
+            </div>
+          )}
         </div>
       </div>
     )
