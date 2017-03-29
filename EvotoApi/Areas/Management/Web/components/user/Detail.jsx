@@ -1,5 +1,6 @@
 import React from 'react'
 import Wrapper from './parts/Wrapper.jsx'
+import LoadableOverlay from '../parts/LoadableOverlay.jsx'
 
 class UserDetail extends React.Component {
   constructor (props) {
@@ -8,7 +9,7 @@ class UserDetail extends React.Component {
   }
 
   componentDidMount () {
-    fetch(`/regi/user/detail/${this.props.params.id}`)
+    fetch(`/regi/user/detail/${this.props.params.id}`, { credentials: 'same-origin' })
       .then((res) => res.json())
       .then((data) => {
         this.setState({ user: data, loaded: true })
@@ -17,17 +18,12 @@ class UserDetail extends React.Component {
   }
 
   render () {
-    let title = 'Details',
-        description = 'User details'
+    let title = 'Details'
+    let description = 'User details'
     return (
       <Wrapper title={title} description={description}>
         <div className='box'>
-          { !this.state.loaded ? (
-            <div className='overlay'>
-              <i className='fa fa-refresh fa-spin' />
-            </div>
-            ) : ''
-          }
+          <LoadableOverlay loaded={this.state.loaded} />
           <div className='box-header with-border'>
             <h3 className='box-title'>User Details</h3>
           </div>

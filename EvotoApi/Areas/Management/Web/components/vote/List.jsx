@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 import formatDateString from '../../lib/format-date-string'
+import LoadableOverlay from '../parts/LoadableOverlay.jsx'
 
 class VoteList extends React.Component {
   constructor (props) {
@@ -13,7 +14,7 @@ class VoteList extends React.Component {
   }
 
   fetchVotes () {
-    fetch('/mana/vote/list/user/2')
+    fetch('/mana/vote/list/user/2', { credentials: 'same-origin' })
       .then((res) => res.json())
       .then((data) => {
         this.setState({ votes: data, loaded: true })
@@ -94,12 +95,7 @@ class VoteList extends React.Component {
   render () {
     return (
       <div className='box'>
-        { !this.state.loaded ? (
-          <div className='overlay'>
-            <i className='fa fa-refresh fa-spin' />
-          </div>
-          ) : ''
-        }
+        <LoadableOverlay loaded={this.state.loaded} />
         <div className='box-header with-border'>
           <h3 className='box-title'>Votes</h3>
           <div className='box-tools pull-right'>

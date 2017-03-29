@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Common;
@@ -15,6 +16,30 @@ namespace Management.Database.Stores
         public ManaSqlUserStore(string connectionString) : base(connectionString)
         {
         }
+
+        public async Task<IEnumerable<ManaUser>> GetUsers()
+        {
+            try
+            {
+                using (var connection = await GetConnectionAsync())
+                {
+                    var result = await connection.QueryAsync(ManagementQueries.UserGetAll);
+
+                    if (!result.Any())
+                        return Enumerable.Empty<ManaUser>();
+
+                    var users = result.Select((v) => new ManaDbUser(v).ToUser());
+                    return users;
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                throw;
+#endif
+                throw new Exception("Could not get Mana User");
+            }
+        } 
 
         public async Task<ManaUser> GetUserById(int id)
         {

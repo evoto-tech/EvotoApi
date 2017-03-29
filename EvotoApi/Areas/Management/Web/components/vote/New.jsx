@@ -1,6 +1,7 @@
 import React from 'react'
 import { withRouter, Link } from 'react-router'
 import Question from './parts/Question.jsx'
+import LoadableOverlay from '../parts/LoadableOverlay.jsx'
 
 class NewVote extends React.Component {
   constructor (props) {
@@ -99,13 +100,14 @@ class NewVote extends React.Component {
   }
 
   save (vote, postSave) {
-    fetch('/mana/vote/create'
-      , { method: 'POST',
+    fetch('/mana/vote/create',
+      { method: 'POST',
         body: JSON.stringify(vote),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-        }
+        },
+        credentials: 'same-origin'
       })
       .then(postSave)
       .catch((err) => {
@@ -114,10 +116,10 @@ class NewVote extends React.Component {
   }
 
   showErrors (errors) {
-    let errorMessage = (typeof(errors) === 'string') ? errors : errors.join('\n')
+    let errorMessage = (typeof (errors) === 'string') ? errors : errors.join('\n')
     swal({
       title: 'Errors',
-      text: errors,
+      text: errorMessage,
       type: 'error',
       confirmButtonColor: '#DD6B55',
       allowOutsideClick: true
@@ -221,12 +223,7 @@ class NewVote extends React.Component {
         </section>
         <section className='content'>
           <div className='box box-success'>
-            { !this.state.loaded ? (
-              <div className='overlay'>
-                <i className='fa fa-refresh fa-spin' />
-              </div>
-              ) : ''
-            }
+            <LoadableOverlay loaded={this.state.loaded} />
             <div className='box-header with-border'>
               <h3 className='box-title'>{title} Details</h3>
             </div>

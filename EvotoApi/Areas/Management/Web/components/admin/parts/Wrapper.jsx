@@ -13,7 +13,7 @@ class UserWrapper extends React.Component {
     let description = this.props.description || ''
     return (
       <Wrapper title={title} description={description} breadcrumbs={(
-        [<Link to='/users/new'><i className='fa fa-plus' />New User</Link>]
+        [<Link to='/admins/new'><i className='fa fa-plus' />New Administrator</Link>]
       )}>
         {this.props.children}
       </Wrapper>

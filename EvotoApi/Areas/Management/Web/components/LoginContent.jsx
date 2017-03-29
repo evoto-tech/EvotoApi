@@ -1,6 +1,5 @@
 import React from 'react'
 import Login from './auth/Login.jsx'
-import Register from './auth/Register.jsx'
 
 class LoginContent extends React.Component {
   render () {
@@ -18,24 +17,7 @@ class LoginContent extends React.Component {
                       <small>Access the evoto management portal.</small>
                     </div>
                     <div className='login-box-body'>
-                      <div className='nav-tabs-custom tab-success'>
-                        <ul className='nav nav-tabs'>
-                          <li className='active'>
-                            <a href='#tab_1' data-toggle='tab' aria-expanded='true'>Login</a>
-                          </li>
-                          <li>
-                            <a href='#tab_2' data-toggle='tab' aria-expanded='false'>Register</a>
-                          </li>
-                        </ul>
-                        <div className='tab-content'>
-                          <div className='tab-pane active' id='tab_1'>
-                            <Login />
-                          </div>
-                          <div className='tab-pane' id='tab_2'>
-                            <Register />
-                          </div>
-                        </div>
-                      </div>
+                      <Login successLink='/' />
                     </div>
                   </div>
                 </div>

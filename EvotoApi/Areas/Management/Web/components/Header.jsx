@@ -42,7 +42,7 @@ class Header extends React.Component {
                 <Link to='/settings'><i className='fa fa-gears fa-fw' />Settings</Link>
               </li>
               <li>
-                <a onClick={this.onLogout.bind(this)}><i className='fa fa-lock fa-fw' />Logout</a>
+                <a onClick={this.onLogout.bind(this)} style={{ cursor: 'pointer' }}><i className='fa fa-lock fa-fw' />Logout</a>
               </li>
             </ul>)
     }

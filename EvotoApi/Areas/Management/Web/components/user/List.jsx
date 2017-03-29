@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 import Wrapper from './parts/Wrapper.jsx'
+import LoadableOverlay from '../parts/LoadableOverlay.jsx'
 import formatDateString from '../../lib/format-date-string'
 
 class UserList extends React.Component {
@@ -14,7 +15,7 @@ class UserList extends React.Component {
   }
 
   fetchVotes () {
-    fetch('/regi/users/list')
+    fetch('/regi/users/list', { credentials: 'same-origin' })
       .then((res) => res.json())
       .then((data) => {
         this.setState({ users: data, loaded: true })
@@ -43,17 +44,12 @@ class UserList extends React.Component {
   }
 
   render () {
-    let title = 'List',
-        description = 'User List'
+    let title = 'List'
+    let description = 'User List'
     return (
       <Wrapper title={title} description={description}>
         <div className='box'>
-          { !this.state.loaded ? (
-            <div className='overlay'>
-              <i className='fa fa-refresh fa-spin' />
-            </div>
-            ) : ''
-          }
+          <LoadableOverlay loaded={this.state.loaded} />
           <div className='box-header with-border'>
             <h3 className='box-title'>Users</h3>
           </div>
