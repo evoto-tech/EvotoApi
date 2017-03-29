@@ -13,7 +13,7 @@ class AdminList extends React.Component {
   }
 
   fetchAdmins () {
-    fetch('/mana/user/list')
+    fetch('/mana/user/list', { credentials: 'same-origin' })
       .then((res) => res.json())
       .then((data) => {
         this.setState({ admins: data, loaded: true })

@@ -100,13 +100,14 @@ class NewVote extends React.Component {
   }
 
   save (vote, postSave) {
-    fetch('/mana/vote/create'
-      , { method: 'POST',
+    fetch('/mana/vote/create',
+      { method: 'POST',
         body: JSON.stringify(vote),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-        }
+        },
+        credentials: 'same-origin'
       })
       .then(postSave)
       .catch((err) => {

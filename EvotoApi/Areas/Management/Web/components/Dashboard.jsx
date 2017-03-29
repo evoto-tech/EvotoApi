@@ -11,7 +11,7 @@ class Dashboard extends React.Component {
   }
 
   fetchVotes () {
-    fetch('/mana/vote/list/user/2')
+    fetch('/mana/vote/list/user/2', { credentials: 'same-origin' })
       .then((res) => res.json())
       .then((data) => {
         this.setState({ votes: data, loaded: true })

@@ -9,7 +9,7 @@ class EditVote extends React.Component {
   }
 
   componentDidMount () {
-    fetch(`/mana/vote/${this.props.params.id}`)
+    fetch(`/mana/vote/${this.props.params.id}`, { credentials: 'same-origin' })
       .then((res) => res.json())
       .then((data) => {
         this.setState({ vote: data, loaded: true })

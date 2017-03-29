@@ -15,7 +15,7 @@ class UserList extends React.Component {
   }
 
   fetchVotes () {
-    fetch('/regi/users/list')
+    fetch('/regi/users/list', { credentials: 'same-origin' })
       .then((res) => res.json())
       .then((data) => {
         this.setState({ users: data, loaded: true })
