@@ -14,7 +14,8 @@ class NewVote extends React.Component {
     loaded: React.PropTypes.bool,
     title: React.PropTypes.string,
     description: React.PropTypes.string,
-    save: React.PropTypes.func
+    save: React.PropTypes.func,
+    disabled: React.PropTypes.bool
   }
 
   contextTypes: {
@@ -222,6 +223,7 @@ class NewVote extends React.Component {
           </ol>
         </section>
         <section className='content'>
+          {this.props.children}
           <div className='box box-success'>
             <LoadableOverlay loaded={this.state.loaded} />
             <div className='box-header with-border'>
@@ -231,7 +233,15 @@ class NewVote extends React.Component {
               <div className='box-body'>
                 <div className={this.state.errors.name ? 'form-group has-error' : 'form-group'}>
                   <label htmlFor='voteName'>Name</label>
-                  <input type='text' className='form-control' id='voteName' placeholder='Enter vote name' value={this.state.name} onChange={this.handleNameChange.bind(this)} />
+                  <input
+                    type='text'
+                    className='form-control'
+                    id='voteName'
+                    placeholder='Enter vote name'
+                    value={this.state.name}
+                    onChange={this.handleNameChange.bind(this)}
+                    disabled={this.props.disabled}
+                  />
                   <span className='help-block'>{this.state.errors.name}</span>
                 </div>
                 <div className={this.state.errors.expiryDate ? 'form-group has-error' : 'form-group'}>
@@ -240,7 +250,9 @@ class NewVote extends React.Component {
                     <div className='form-group'>
                       <div className='row'>
                         <div className='col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4'>
-                          <div id='expiryDate' />
+                          <div id='expiryDate' className={this.props.disabled ? 'disabled-datetimepicker' : ''}>
+                            <input type='hidden' />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -259,22 +271,36 @@ class NewVote extends React.Component {
                             key={i}
                             onDelete={this.deleteQuestion.bind(this)}
                             onChange={this.updateQuestion.bind(this, i)}
+                            disabled={this.props.disabled}
                             />
                         ))}
                       </div>
                     </div>
                   </div>
-                  <button type='button' className='btn btn-success' onClick={this.addQuestion.bind(this)}>New Question</button>
+                  {this.props.disabled ? '' : (
+                    <button type='button' className='btn btn-success' onClick={this.addQuestion.bind(this)}>New Question</button>
+                  )}
                   <span className='help-block'>{this.state.errors.questions}</span>
                 </div>
               </div>
-              <div className='box-footer'>
-                <div className='btn-group'>
-                  <button type='button' className='btn btn-danger' onClick={this.cancel.bind(this)}>Cancel</button>
-                  <button type='button' className='btn' onClick={this.saveDraft.bind(this)}>Save as a Draft</button>
-                  <button type='button' className='btn btn-success' onClick={this.savePublish.bind(this)}>Save and Publish</button>
+              {!this.props.disabled || (this.props.disabled && this.props.vote.published) ? '' : (
+                <div className='box-footer'>
+                  <div className='btn-group'>
+                    <Link to={`/vote/${this.props.vote.id}/edit`}>
+                      <button type='button' className='btn btn-success'>Edit</button>
+                    </Link>
+                  </div>
                 </div>
-              </div>
+              )}
+              {this.props.disabled ? '' : (
+                <div className='box-footer'>
+                  <div className='btn-group'>
+                    <button type='button' className='btn btn-danger' onClick={this.cancel.bind(this)}>Cancel</button>
+                    <button type='button' className='btn' onClick={this.saveDraft.bind(this)}>Save as a Draft</button>
+                    <button type='button' className='btn btn-success' onClick={this.savePublish.bind(this)}>Save and Publish</button>
+                  </div>
+                </div>
+              )}
             </form>
           </div>
         </section>
