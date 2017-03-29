@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using Common.Exceptions;
 using EvotoApi.Areas.ManagementApi.Models.Response;
 using Management.Database.Interfaces;
@@ -21,19 +22,13 @@ namespace EvotoApi.Areas.Management.Controllers
         /// Get a list of management users
         /// </summary>
         [HttpGet]
+        //TODO: [Authorize]
         [Route("list")]
         public async Task<IHttpActionResult> UserList()
         {
-            try
-            {
-                var users = await _store.GetUsers();
-                var response = users.Select((v) => new SingleManaUserResponse(v)).ToList();
-                return Json(response);
-            }
-            catch (RecordNotFoundException)
-            {
-                return Json(new object[] { });
-            }
+            var users = await _store.GetUsers();
+            var response = users.Select((v) => new SingleManaUserResponse(v)).ToList();
+            return Json(response);
         }
     }
 }

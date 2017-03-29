@@ -26,7 +26,7 @@ namespace Management.Database.Stores
                     var result = await connection.QueryAsync(ManagementQueries.UserGetAll);
 
                     if (!result.Any())
-                        throw new RecordNotFoundException();
+                        return Enumerable.Empty<ManaUser>();
 
                     var users = result.Select((v) => new ManaDbUser(v).ToUser());
                     return users;
@@ -37,8 +37,6 @@ namespace Management.Database.Stores
 #if DEBUG
                 throw;
 #endif
-                if (e is RecordNotFoundException)
-                    throw;
                 throw new Exception("Could not get Mana User");
             }
         } 
