@@ -240,6 +240,7 @@
     <Compile Include="Models\Request\VerifyRegiUser.cs" />
     <Compile Include="Models\Response\SingleRegiCodeResponse.cs" />
     <Compile Include="Models\Response\SingleCustomUserFieldResponse.cs" />
+    <Compile Include="Models\Response\SingleBlockchainResponse.cs" />
     <Compile Include="Models\Response\SingleRegiUserResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

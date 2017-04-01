@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
+using Blockchain;
+using Registrar.Api.Models.Response;
 using Registrar.Database.Interfaces;
 
 namespace Registrar.Api.Controllers
@@ -9,10 +12,12 @@ namespace Registrar.Api.Controllers
     public class HomeController : ApiController
     {
         private readonly IRegiBlockchainStore _blockchainStore;
+        private readonly MultiChainHandler _multichaind;
 
-        public HomeController(IRegiBlockchainStore blockchainStore)
+        public HomeController(IRegiBlockchainStore blockchainStore, MultiChainHandler multichain)
         {
             _blockchainStore = blockchainStore;
+            _multichaind = multichain;
         }
 
         [Route("votes")]
@@ -20,7 +25,16 @@ namespace Registrar.Api.Controllers
         public async Task<IHttpActionResult> GetVotes()
         {
             var votes = await _blockchainStore.GetCurrentBlockchains();
-            return Ok(votes);
+
+            var response = new List<SingleBlockchainResponse>();
+            foreach (var vote in votes)
+            {
+                // TODO: Error handle
+                var info = await _multichaind.Connections[vote.ChainString].RpcClient.GetInfoAsync();
+                response.Add(new SingleBlockchainResponse(vote, info.Result.Blocks));
+            }
+
+            return Ok(response);
         }
     }
 }
