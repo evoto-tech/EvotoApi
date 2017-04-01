@@ -12,5 +12,7 @@ namespace Management.Models
         public bool Published { get; set; }
         public string ChainString { get; set; }
         public string Questions { get; set; }
+        public bool EncryptResults { get; set; }
+        public int BlockSpeed { get; set; }
     }
 }

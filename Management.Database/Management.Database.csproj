@@ -65,6 +65,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ManagementQueries.resx</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\M005AddEncryptAndBlockSpeed.cs" />
     <Compile Include="Migrations\M004AddQuestionsField.cs" />
     <Compile Include="Migrations\M002CreateAuthThings.cs" />
     <Compile Include="Migrations\M001ChangeVoteTableStateFieldToPublished.cs" />

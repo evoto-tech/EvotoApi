@@ -33,6 +33,12 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
         [DataMember(Name = "questions")]
         public string Questions { get; private set; }
 
+        [DataMember(Name = "encryptResults")]
+        public bool EncryptResults { get; private set; }
+
+        [DataMember(Name = "blockSpeed")]
+        public int BlockSpeed { get; private set; }
+
         public ManaVote ToModel()
         {
             return new ManaVote()
@@ -42,7 +48,9 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
                 ExpiryDate = ExpiryDate,
                 Published = Published,
                 ChainString = ChainString,
-                Questions = Questions
+                Questions = Questions,
+                EncryptResults = EncryptResults,
+                BlockSpeed = BlockSpeed
             };
         }
     }

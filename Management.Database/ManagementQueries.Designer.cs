@@ -196,7 +196,7 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash WHERE Id = @Id.
+        ///   Looks up a localized string similar to UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash, EncryptResults = @EncryptResults, BlockSpeed = @BlockSpeed WHERE Id = @Id.
         /// </summary>
         internal static string UserUpdate {
             get {
@@ -205,7 +205,7 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString, Questions) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString, @Questions).
+        ///   Looks up a localized string similar to INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString, Questions, EncryptResults, BlockSpeed) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString, @Questions, @EncryptResults, @BlockSpeed).
         /// </summary>
         internal static string VoteCreate {
             get {
