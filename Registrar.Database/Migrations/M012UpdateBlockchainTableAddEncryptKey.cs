@@ -8,7 +8,7 @@ namespace Registrar.Database.Migrations
         public override void Up()
         {
             Alter.Table("Blockchains")
-                .AddColumn("EncryptKey").AsString().Nullable();
+                .AddColumn("EncryptKey").AsString(int.MaxValue).Nullable();
         }
 
         public override void Down()

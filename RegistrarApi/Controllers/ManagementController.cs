@@ -100,7 +100,7 @@ namespace Registrar.Api.Controllers
             {
                 // Create encryption key
                 var key = RsaTools.CreateKey();
-                blockchain.EncryptKey = key.Public.ToString();
+                blockchain.EncryptKey = RsaTools.KeyToString(key.Public);
             }
 
             // Save blockchain data in store
