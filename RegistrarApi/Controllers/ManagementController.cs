@@ -75,7 +75,7 @@ namespace Registrar.Api.Controllers
             }
 
             // Update the default multichain.params to adjust permissions etc.
-            UpdateParams(model.ChainString);
+            UpdateParams(model);
 
             // Run the blockchain for the first time
             var rpcPort = MultiChainTools.GetNewPort(EPortType.MultichainD);
@@ -97,7 +97,11 @@ namespace Registrar.Api.Controllers
             blockchain.WalletId = walletId;
             blockchain.Port = port;
 
+            // Save blockchain data in store
             await _blockchainStore.CreateBlockchain(blockchain);
+
+            // Create RSA keypair for blind signing
+            RsaTools.CreateKeyAndSave(blockchain.ChainString);
 
             return Ok();
         }
@@ -171,9 +175,9 @@ namespace Registrar.Api.Controllers
             };
         }
 
-        private static void UpdateParams(string chainName)
+        private static void UpdateParams(CreateBlockchain model)
         {
-            var p = MultiChainTools.GetBlockchainConfig(chainName);
+            var p = MultiChainTools.GetBlockchainConfig(model.ChainString);
 
             p["anyone-can-connect"] = true;
             p["anyone-can-send"] = true;
@@ -182,7 +186,11 @@ namespace Registrar.Api.Controllers
 
             p["root-stream-open"] = false;
 
-            MultiChainTools.WriteBlockchainConfig(chainName, p);
+            // Target block time must be between 5 and 86400 seconds
+            if (model.BlockSpeed >= 5 && model.BlockSpeed <= 86400)
+                p["target-block-time"] = model.BlockSpeed;
+
+            MultiChainTools.WriteBlockchainConfig(model.ChainString, p);
         }
     }
 }
