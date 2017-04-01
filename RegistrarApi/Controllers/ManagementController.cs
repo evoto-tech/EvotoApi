@@ -52,14 +52,6 @@ namespace Registrar.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var blockchain = new RegiBlockchain
-            {
-                Name = model.Name,
-                ExpiryDate = model.ExpiryDate,
-                Info = model.Info,
-                ChainString = model.ChainString
-            };
-
             // multichain-util create {model.ChainString}
             await MultiChainUtilHandler.CreateBlockchain(model.ChainString);
 
@@ -93,9 +85,23 @@ namespace Registrar.Api.Controllers
             // Create a new wallet ID for votes to be sent to
             var walletId = await chain.GetNewWalletAddress();
 
-            // Persist port and wallet ID in db
-            blockchain.WalletId = walletId;
-            blockchain.Port = port;
+            var blockchain = new RegiBlockchain
+            {
+                Name = model.Name,
+                ExpiryDate = model.ExpiryDate,
+                Info = model.Info,
+                ChainString = model.ChainString,
+                WalletId = walletId,
+                Port = port
+            };
+
+            // Encrypt blockchain results
+            if (model.Encrypted)
+            {
+                // Create encryption key
+                var key = RsaTools.CreateKey();
+                blockchain.EncryptKey = key.Public.ToString();
+            }
 
             // Save blockchain data in store
             await _blockchainStore.CreateBlockchain(blockchain);

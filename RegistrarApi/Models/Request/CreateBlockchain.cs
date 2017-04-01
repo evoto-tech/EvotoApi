@@ -29,6 +29,9 @@ namespace Registrar.Api.Models.Request
 
         [DataMember]
         public int BlockSpeed { get; private set; }
+
+        [DataMember]
+        public bool Encrypted { get; private set; }
     }
 
     [DataContract]

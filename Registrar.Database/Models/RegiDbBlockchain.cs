@@ -13,6 +13,7 @@ namespace Registrar.Database.Models
             Info = record.Info;
             Port = record.Port;
             WalletId = record.WalletId;
+            EncryptKey = record.EncryptKey;
         }
 
         public RegiDbBlockchain(RegiBlockchain model)
@@ -26,6 +27,7 @@ namespace Registrar.Database.Models
             Info = model.Info;
             Port = model.Port;
             WalletId = model.WalletId;
+            EncryptKey = model.EncryptKey;
         }
 
         public string Name { get; }
@@ -34,6 +36,7 @@ namespace Registrar.Database.Models
         public string Info { get; }
         public int Port { get; }
         public string WalletId { get; }
+        public string EncryptKey { get; }
 
         public RegiBlockchain ToBlockchain()
         {
@@ -44,7 +47,8 @@ namespace Registrar.Database.Models
                 ChainString = ChainString,
                 Info = Info,
                 Port = Port,
-                WalletId = WalletId
+                WalletId = WalletId,
+                EncryptKey = EncryptKey
             };
         }
     }
