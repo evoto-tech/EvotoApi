@@ -5,8 +5,8 @@ using Blockchain.Models;
 using Common.Exceptions;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
-using Registrar.Api.Models.Request;
 using Registrar.Database.Interfaces;
+using Registrar.Models.Request;
 
 namespace Registrar.Api.Controllers
 {

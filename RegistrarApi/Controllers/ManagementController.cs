@@ -7,9 +7,9 @@ using Blockchain;
 using Blockchain.Models;
 using Common;
 using Common.Exceptions;
-using Registrar.Api.Models.Request;
 using Registrar.Database.Interfaces;
 using Registrar.Models;
+using Registrar.Models.Request;
 
 namespace Registrar.Api.Controllers
 {

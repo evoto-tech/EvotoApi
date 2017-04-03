@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using Common.Models;
 
-namespace Registrar.Api.Models.Request
+namespace Registrar.Models.Request
 {
     [DataContract]
     public class CreateCustomUserFieldModel

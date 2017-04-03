@@ -77,6 +77,7 @@
     <Compile Include="Exceptions\RecordNotFoundException.cs" />
     <Compile Include="FormatterConfig.cs" />
     <Compile Include="Models\CanSendEmailModel.cs" />
+    <Compile Include="Models\CreateRegiUser.cs" />
     <Compile Include="Models\CustomUserField.cs" />
     <Compile Include="Models\CustomUserValue.cs" />
     <Compile Include="Models\DbCustomUserField.cs" />

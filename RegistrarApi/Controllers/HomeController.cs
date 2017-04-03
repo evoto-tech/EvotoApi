@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using Blockchain;
-using Registrar.Api.Models.Response;
 using Registrar.Database.Interfaces;
+using Registrar.Models.Response;
 
 namespace Registrar.Api.Controllers
 {

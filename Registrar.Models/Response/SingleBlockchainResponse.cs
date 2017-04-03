@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Org.BouncyCastle.Asn1.Crmf;
-using Registrar.Models;
 
-namespace Registrar.Api.Models.Response
+namespace Registrar.Models.Response
 {
     [DataContract]
     public class SingleBlockchainResponse

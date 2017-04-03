@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Registrar.Api.Auth;
-using Registrar.Api.Models;
+using Registrar.Models;
 
 namespace Registrar.Api.Controllers
 {

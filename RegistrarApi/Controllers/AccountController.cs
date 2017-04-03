@@ -10,10 +10,10 @@ using Common.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Registrar.Api.Auth;
-using Registrar.Api.Models;
-using Registrar.Api.Models.Request;
-using Registrar.Api.Models.Response;
 using Registrar.Database.Interfaces;
+using Registrar.Models;
+using Registrar.Models.Request;
+using Registrar.Models.Response;
 
 namespace Registrar.Api.Controllers
 {
