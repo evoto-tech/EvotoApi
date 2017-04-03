@@ -6,6 +6,7 @@ using Common.Exceptions;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
 using Registrar.Database.Interfaces;
+using Registrar.Models;
 using Registrar.Models.Request;
 
 namespace Registrar.Api.Controllers
@@ -77,7 +78,9 @@ namespace Registrar.Api.Controllers
 
                 var txId = await chain.IssueVote(model.WalletId);
 
-                return Ok(new { TxId = txId, RegistrarAddress = blockchain.WalletId });
+                var words = RandomWordsGenerator.GetRandomWords();
+
+                return Ok(new { TxId = txId, RegistrarAddress = blockchain.WalletId, Words = words });
             }
             catch (RecordNotFoundException)
             {
