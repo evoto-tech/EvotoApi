@@ -57,8 +57,7 @@ namespace EvotoApi.Areas.Management.Controllers
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Data["status"]);
-                Debug.WriteLine(e.Data["content"]);
+                // TODO: better error handling
                 if ((int) e.Data["status"] != 400)
                 {
                     return Json(e.Data["content"]);

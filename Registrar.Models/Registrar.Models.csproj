@@ -121,6 +121,7 @@
     <Compile Include="Request\ResetRegiPassword.cs" />
     <Compile Include="Request\VerifyRegiCode.cs" />
     <Compile Include="Request\VerifyRegiUser.cs" />
+    <Compile Include="Response\SingleBlockchainResponse.cs" />
     <Compile Include="Response\SingleCustomUserFieldResponse.cs" />
     <Compile Include="Response\SingleRegiUserResponse.cs" />
   </ItemGroup>
