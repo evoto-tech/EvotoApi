@@ -26,6 +26,12 @@ namespace Registrar.Models.Request
         [DataMember]
         [Required]
         public List<CreateBlockchainQuestion> Questions { get; private set; }
+
+        [DataMember]
+        public int BlockSpeed { get; private set; }
+
+        [DataMember]
+        public bool Encrypted { get; private set; }
     }
 
     [DataContract]

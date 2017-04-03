@@ -2,6 +2,7 @@ import React from 'react'
 import { withRouter, Link } from 'react-router'
 import Question from './parts/Question.jsx'
 import LoadableOverlay from '../parts/LoadableOverlay.jsx'
+import Slider from 'react-rangeslider'
 
 class NewVote extends React.Component {
   constructor (props) {
@@ -30,7 +31,9 @@ class NewVote extends React.Component {
       expiryDate: nonEmptyVote ? props.vote.expiryDate : '',
       published: nonEmptyVote ? props.vote.published : false,
       questions: nonEmptyVote ? (JSON.parse(props.vote.questions) || []) : [],
-      loaded: props.hasOwnProperty('loaded') ? props.loaded : true
+      loaded: props.hasOwnProperty('loaded') ? props.loaded : true,
+      encrypted: nonEmptyVote ? props.vote.encrypted : false,
+      blockSpeed: nonEmptyVote ? props.vote.blockSpeed : 30
     }
   }
 
@@ -66,6 +69,14 @@ class NewVote extends React.Component {
     this.setState({ expiryDate: e.date.format() })
   }
 
+  handleEncryptedChange (e) {
+      this.setState({ encrypted: e.target.value })
+  }
+
+  handleBlockSpeedChange (val) {
+      this.setState({ blockSpeed: val })
+  }
+
   isValid () {
     const vote = this.makeVote()
     const expectedKeys = [ 'createdBy', 'expiryDate', 'name' ]
@@ -89,7 +100,9 @@ class NewVote extends React.Component {
       name: this.state.name,
       expiryDate: this.state.expiryDate,
       published: this.state.published,
-      questions: JSON.stringify(this.state.questions)
+      questions: JSON.stringify(this.state.questions),
+      encrypted: this.state.encrypted,
+      blockSpeed: this.state.blockSpeed
     })
   }
 
@@ -258,6 +271,36 @@ class NewVote extends React.Component {
                     </div>
                   </div>
                   <span className='help-block'>{this.state.errors.expiryDate}</span>
+                </div>
+                <div className={this.state.errors.encrypted ? 'form-group has-error' : 'form-group'}>
+                  <div className="checkbox">
+                    <input
+                        type='checkbox'
+                        id='encryptResults'
+                        value={this.state.encrypted}
+                        onChange={this.handleEncryptedChange.bind(this)}
+                        disabled={this.props.disabled}
+                    />
+                    <label htmlFor='encryptResults'>Encrypt Results?</label>
+                    <span className='help-block'>{this.state.errors.name}</span>
+                  </div>
+                </div>
+                <div className={this.state.errors.blockSpeed ? 'form-group has-error' : 'form-group'}>
+                  <label htmlFor='blockSpeed'>Block Speed</label>
+                  <div className='value'>{this.state.blockSpeed}</div>
+                  {(!this.props.disabled) ?
+                  <Slider
+                        id="blockSpeed"
+                        value={this.state.blockSpeed}
+                        onChange={this.handleBlockSpeedChange.bind(this)}
+                        step={5}
+                        min={5}
+                        max={110}
+                        labels={{5:"Fast, Larger, More secure", 100:"Slow, Smaller, Less secure"}}
+                        disabled={this.props.disabled}
+                  />
+                  :""}
+                  <span className='help-block'>{this.state.errors.name}</span>
                 </div>
                 <div className={this.state.errors.questions ? 'form-group has-error' : 'form-group'}>
                   <label>Questions</label>

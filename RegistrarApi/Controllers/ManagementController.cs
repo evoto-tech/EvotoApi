@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Blockchain;
@@ -9,6 +8,8 @@ using Blockchain.Models;
 using Common;
 using MultiChainLib.Client;
 using Newtonsoft.Json;
+using Common.Exceptions;
+using Registrar.Api.Models.Request;
 using Registrar.Database.Interfaces;
 using Registrar.Models;
 using Registrar.Models.Request;
@@ -52,14 +53,6 @@ namespace Registrar.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var blockchain = new RegiBlockchain
-            {
-                Name = model.Name,
-                ExpiryDate = model.ExpiryDate,
-                Info = model.Info,
-                ChainString = model.ChainString
-            };
-
             // multichain-util create {model.ChainString}
             await MultiChainUtilHandler.CreateBlockchain(model.ChainString);
 
@@ -75,7 +68,7 @@ namespace Registrar.Api.Controllers
             }
 
             // Update the default multichain.params to adjust permissions etc.
-            UpdateParams(model.ChainString);
+            UpdateParams(model);
 
             // Run the blockchain for the first time
             var rpcPort = MultiChainTools.GetNewPort(EPortType.MultichainD);
@@ -85,19 +78,34 @@ namespace Registrar.Api.Controllers
             // Convert questions. Each has a unique number (per blockchain) starting from 1
             var questionNumber = 1;
             foreach (var q in model.Questions.Select(q => RequestToBlockchainQuestion(q, ref questionNumber)))
-            {
-                // Write each question as a new entry in the Root Stream unnder the Questions Key
                 await chain.WriteToStream(MultiChainTools.ROOT_STREAM_NAME, MultiChainTools.QUESTIONS_KEY, q);
-            }
 
             // Create a new wallet ID for votes to be sent to
             var walletId = await chain.GetNewWalletAddress();
 
-            // Persist port and wallet ID in db
-            blockchain.WalletId = walletId;
-            blockchain.Port = port;
+            var blockchain = new RegiBlockchain
+            {
+                Name = model.Name,
+                ExpiryDate = model.ExpiryDate,
+                Info = model.Info,
+                ChainString = model.ChainString,
+                WalletId = walletId,
+                Port = port
+            };
 
+            // Encrypt blockchain results
+            if (model.Encrypted)
+            {
+                // Create encryption key TODO: Don't store on disk?
+                var key = RsaTools.CreateKeyAndSave(blockchain.ChainString + "-encrypt");
+                blockchain.EncryptKey = RsaTools.KeyToString(key.Public);
+            }
+
+            // Save blockchain data in store
             await _blockchainStore.CreateBlockchain(blockchain);
+
+            // Create RSA keypair for blind signing
+            RsaTools.CreateKeyAndSave(blockchain.ChainString);
 
             return Ok();
         }
@@ -106,21 +114,24 @@ namespace Registrar.Api.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> Results(string blockchainName)
         {
-            // Get blockchain info. Ensure exists and is connected to
-            var blockchain = await _blockchainStore.GetBlockchain(blockchainName);
+            RegiBlockchain blockchain;
+            try
+            {
+                // Get blockchain info. Ensure exists and is connected to
+                blockchain = await _blockchainStore.GetBlockchain(blockchainName);
+            }
+            catch (RecordNotFoundException)
+            {
+                return NotFound();
+            }
 
             MultichainModel chain;
             if (!_multichaind.Connections.TryGetValue(blockchain.ChainString, out chain))
                 return NotFound();
 
-            // Get the votes, aka transactions to our wallet ID
-            var votes = await chain.GetAddressTransactions(blockchain.WalletId);
-
-            // Read the answers from hex
-            var answers = votes
-                .Select(v => MultiChainClient.ParseHexString(v.Data.First()))
-                .Select(Encoding.UTF8.GetString)
-                .Select(JsonConvert.DeserializeObject<BlockchainVoteModel>).ToList();
+            var key = RsaTools.LoadKeysFromFile(blockchain.ChainString + "-encrypt");
+            var priv = RsaTools.KeyToString(key.Private);
+            var answers = await chain.GetResults(blockchain.WalletId, priv, blockchain.ChainString);
 
             // Read the questions from the blockchain
             var questions = await chain.GetQuestions();
@@ -131,19 +142,17 @@ namespace Registrar.Api.Controllers
                 // Setup response dictionary, answer -> num votes
                 var options = question.Answers.ToDictionary(a => a.Answer, a => 0);
                 foreach (var answer in answers)
-                {
-                    // Each vote has answer for multiple questions. Only look at the one corresponding to our current question
                     foreach (var questionAnswer in answer.Answers.Where(a => a.Question == question.Number))
                     {
                         // In case we have anything unusual going on
                         if (!options.ContainsKey(questionAnswer.Answer))
                         {
-                            Debug.WriteLine($"Unexpected answer for question {questionAnswer.Question}: {questionAnswer.Answer}");
+                            Debug.WriteLine(
+                                $"Unexpected answer for question {questionAnswer.Question}: {questionAnswer.Answer}");
                             continue;
                         }
                         options[questionAnswer.Answer]++;
                     }
-                }
 
                 return new
                 {
@@ -171,9 +180,9 @@ namespace Registrar.Api.Controllers
             };
         }
 
-        private static void UpdateParams(string chainName)
+        private static void UpdateParams(CreateBlockchain model)
         {
-            var p = MultiChainTools.GetBlockchainConfig(chainName);
+            var p = MultiChainTools.GetBlockchainConfig(model.ChainString);
 
             p["anyone-can-connect"] = true;
             p["anyone-can-send"] = true;
@@ -182,7 +191,11 @@ namespace Registrar.Api.Controllers
 
             p["root-stream-open"] = false;
 
-            MultiChainTools.WriteBlockchainConfig(chainName, p);
+            // Target block time must be between 5 and 86400 seconds
+            if ((model.BlockSpeed >= 5) && (model.BlockSpeed <= 86400))
+                p["target-block-time"] = model.BlockSpeed;
+
+            MultiChainTools.WriteBlockchainConfig(model.ChainString, p);
         }
     }
 }
