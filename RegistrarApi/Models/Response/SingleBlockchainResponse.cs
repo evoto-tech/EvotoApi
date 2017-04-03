@@ -17,7 +17,7 @@ namespace Registrar.Api.Models.Response
             Port = blockchain.Port;
             WalletId = blockchain.WalletId;
             Blocks = blocks;
-            EncryptKey = blockchain.EncryptKey
+            EncryptKey = blockchain.EncryptKey;
         }
 
         [DataMember(Name = "name")]
