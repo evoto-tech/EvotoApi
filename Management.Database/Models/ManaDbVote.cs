@@ -15,6 +15,8 @@ namespace Management.Database.Models
             Published = record.Published;
             ChainString = record.ChainString;
             Questions = record.Questions;
+            EncryptResults = record.EncryptResults;
+            BlockSpeed = record.BlockSpeed;
         }
 
         public ManaDbVote(ManaVote model)
@@ -30,6 +32,8 @@ namespace Management.Database.Models
             Published = model.Published;
             ChainString = model.ChainString;
             Questions = model.Questions;
+            EncryptResults = model.EncryptResults;
+            BlockSpeed = model.BlockSpeed;
         }
 
         public int Id { get; }
@@ -40,6 +44,8 @@ namespace Management.Database.Models
         public bool Published { get; }
         public string ChainString { get; }
         public string Questions { get; }
+        public bool EncryptResults { get; }
+        public int BlockSpeed { get; }
 
         public ManaVote ToVote()
         {
@@ -52,7 +58,9 @@ namespace Management.Database.Models
                 ExpiryDate = ExpiryDate,
                 Published = Published,
                 ChainString = ChainString,
-                Questions = Questions
+                Questions = Questions,
+                EncryptResults = EncryptResults,
+                BlockSpeed = BlockSpeed
             };
         }
     }

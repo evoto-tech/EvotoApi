@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Org.BouncyCastle.Asn1.Crmf;
 using Registrar.Models;
 
 namespace Registrar.Api.Models.Response
@@ -16,6 +17,7 @@ namespace Registrar.Api.Models.Response
             Port = blockchain.Port;
             WalletId = blockchain.WalletId;
             Blocks = blocks;
+            EncryptKey = blockchain.EncryptKey;
         }
 
         [DataMember(Name = "name")]
@@ -38,5 +40,8 @@ namespace Registrar.Api.Models.Response
 
         [DataMember(Name = "blocks")]
         public int Blocks { get; }
+
+        [DataMember(Name = "encryptKey")]
+        public string EncryptKey { get; }
     }
 }

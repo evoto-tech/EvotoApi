@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="VoteCreate" xml:space="preserve">
-    <value>INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString, Questions) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString, @Questions)</value>
+    <value>INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString, Questions, EncryptResults, BlockSpeed) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString, @Questions, @EncryptResults, @BlockSpeed)</value>
   </data>
   <data name="VoteDelete" xml:space="preserve">
     <value>DELETE FROM Votes WHERE Id=@Id</value>
@@ -163,7 +163,7 @@
     <value>SELECT * FROM Users WHERE Id = @Id</value>
   </data>
   <data name="UserUpdate" xml:space="preserve">
-    <value>UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash WHERE Id = @Id</value>
+    <value>UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash, EncryptResults = @EncryptResults, BlockSpeed = @BlockSpeed WHERE Id = @Id</value>
   </data>
   <data name="RefreshTokenCreate" xml:space="preserve">
     <value>INSERT INTO RefreshTokens (UserId, Token, Ticket, Issued, Expires) VALUES (@UserId, @Token, @Ticket, @Issued, @Expires)</value>

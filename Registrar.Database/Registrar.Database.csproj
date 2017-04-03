@@ -62,6 +62,7 @@
     <Compile Include="Migrations\M002CreateRefreshTokenTable.cs" />
     <Compile Include="Migrations\M001CreateLockoutTable.cs" />
     <Compile Include="Migrations\M000CreateUserTable.cs" />
+    <Compile Include="Migrations\M012UpdateBlockchainTableAddEncryptKey.cs" />
     <Compile Include="Migrations\M011UpdateCustomUserFieldsWithTypeAndRequired.cs" />
     <Compile Include="Migrations\M010CreateCustomUserFields.cs" />
     <Compile Include="Migrations\M009UpdateUserTokenTableWithCreated.cs" />

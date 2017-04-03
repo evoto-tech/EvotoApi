@@ -15,5 +15,7 @@ namespace Registrar.Models
         public int Port { get; set; }
 
         public string WalletId { get; set; }
+
+        public string EncryptKey { get; set; }
     }
 }

@@ -17,6 +17,8 @@ namespace EvotoApi.Areas.ManagementApi.Models.Response
             Published = vote.Published;
             ChainString = vote.ChainString;
             Questions = vote.Questions;
+            EncryptResults = vote.EncryptResults;
+            BlockSpeed = vote.BlockSpeed;
         }
 
         [DataMember(Name = "id")]
@@ -42,5 +44,12 @@ namespace EvotoApi.Areas.ManagementApi.Models.Response
 
         [DataMember(Name = "questions")]
         public string Questions { get; }
+
+        [DataMember(Name = "encryptResults")]
+        public bool EncryptResults { get; }
+
+        [DataMember(Name = "blockSpeed")]
+        public int BlockSpeed { get; }
+
     }
 }

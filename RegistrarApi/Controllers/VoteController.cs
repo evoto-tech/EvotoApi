@@ -2,6 +2,7 @@
 using System.Web.Http;
 using Blockchain;
 using Blockchain.Models;
+using Common.Exceptions;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
 using Registrar.Api.Models.Request;
@@ -12,8 +13,6 @@ namespace Registrar.Api.Controllers
     [RoutePrefix("vote")]
     public class VoteController : ApiController
     {
-        // TODO: Make this configurable?
-        private const string KEYS_FILE = "evoto.pem";
         private readonly IRegiBlockchainStore _blockchainStore;
         private readonly MultiChainHandler _multichaind;
 
@@ -37,7 +36,7 @@ namespace Registrar.Api.Controllers
 
             // TODO: Check user hasn't had a key signed before
 
-            var keys = RsaTools.LoadKeysFromFile(KEYS_FILE);
+            var keys = RsaTools.LoadKeysFromFile(model.Blockchain);
 
             var message = new BigInteger(model.BlindedToken);
             var signed = RsaTools.SignBlindedMessage(message, keys.Private);
@@ -62,28 +61,45 @@ namespace Registrar.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var blockchain = await _blockchainStore.GetBlockchain(model.Blockchain);
+            try
+            {
+                var blockchain = await _blockchainStore.GetBlockchain(model.Blockchain);
 
-            var keys = RsaTools.LoadKeysFromFile(KEYS_FILE);
+                var keys = RsaTools.LoadKeysFromFile(blockchain.ChainString);
 
-            var signature = new BigInteger(model.BlindSignature);
-            if (!RsaTools.VerifySignature(model.Token, signature, keys.Private))
-                return Unauthorized();
+                var signature = new BigInteger(model.BlindSignature);
+                if (!RsaTools.VerifySignature(model.Token, signature, keys.Private))
+                    return Unauthorized();
 
-            MultichainModel chain;
-            if (!_multichaind.Connections.TryGetValue(model.Blockchain, out chain))
+                MultichainModel chain;
+                if (!_multichaind.Connections.TryGetValue(model.Blockchain, out chain))
+                    return NotFound();
+
+                var txId = await chain.IssueVote(model.WalletId);
+
+                return Ok(new { TxId = txId, RegistrarAddress = blockchain.WalletId });
+            }
+            catch (RecordNotFoundException)
+            {
                 return NotFound();
-
-            var txId = await chain.IssueVote(model.WalletId);
-
-            return Ok(new {TxId = txId, RegistrarAddress = blockchain.WalletId});
+            }
         }
 
-        [Route("key")]
+        [Route("key/{blockchain}")]
         [HttpGet]
-        public IHttpActionResult GetPublicKey()
+        public async Task<IHttpActionResult> GetPublicKey(string blockchain)
         {
-            var keys = RsaTools.LoadKeysFromFile(KEYS_FILE);
+            // Check blockchain exists
+            try
+            {
+                await _blockchainStore.GetBlockchain(blockchain);
+            }
+            catch (RecordNotFoundException)
+            {
+                return NotFound();
+            }
+
+            var keys = RsaTools.LoadKeysFromFile(blockchain);
             var pub = (RsaKeyParameters) keys.Public;
             return Ok(new
             {
