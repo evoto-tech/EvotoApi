@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
-namespace Registrar.Api.Models.Request
+namespace Registrar.Models.Request
 {
     [DataContract]
     public class CreateBlockchain
@@ -26,6 +26,12 @@ namespace Registrar.Api.Models.Request
         [DataMember]
         [Required]
         public List<CreateBlockchainQuestion> Questions { get; private set; }
+
+        [DataMember]
+        public int BlockSpeed { get; private set; }
+
+        [DataMember]
+        public bool Encrypted { get; private set; }
     }
 
     [DataContract]

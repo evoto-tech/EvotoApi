@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Common.Models;
-using EvotoApi.Areas.ManagementApi.Models.Response;
+using Registrar.Models.Response;
 using Management.Models;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
@@ -18,16 +17,14 @@ namespace EvotoApi.Areas.Management.Connections
 #if DEBUG
         private const string RegistrarUrl = "http://localhost:15893";
 #else
-        private const string RegistrarUrl = "http://api.evoto.tech";
+        private const string RegistrarUrl = "https://api.evoto.tech";
 #endif
 
         private static async Task<IRestResponse> MakeApiRequest(IRestRequest req)
         {
             var client = new RestClient(RegistrarUrl);
             if (!ConfigurationManager.AppSettings.Get("ApiKeys").IsNullOrWhiteSpace())
-            {
                 req.AddQueryParameter("key", ConfigurationManager.AppSettings.Get("ApiKeys"));
-            }
             return await client.ExecuteTaskAsync(req);
         }
 
@@ -37,7 +34,7 @@ namespace EvotoApi.Areas.Management.Connections
             req.AddBody(JsonConvert.SerializeObject(model));
 
             var res = await MakeApiRequest(req);
-            return (res.StatusCode == HttpStatusCode.OK);
+            return res.StatusCode == HttpStatusCode.OK;
         }
 
         public static async Task<IEnumerable<SingleRegiUserResponse>> GetRegistrarUsers()
@@ -46,9 +43,18 @@ namespace EvotoApi.Areas.Management.Connections
             var req = new RestRequest("/users/list");
             var res = await MakeApiRequest(req);
             if (res.StatusCode == HttpStatusCode.OK)
+                return JsonConvert.DeserializeObject<IEnumerable<SingleRegiUserResponse>>(res.Content);
+            throw new Exception("Error retrieving registrar users");
+        }
+
+        public static async Task<SingleRegiUserResponse> GetRegistrarUser(int id)
+        {
+            // TODO: Put in resource dictionary
+            var req = new RestRequest("/users/details/" + id);
+            var res = await MakeApiRequest(req);
+            if (res.StatusCode == HttpStatusCode.OK)
             {
-                var users = JsonConvert.DeserializeObject<IEnumerable<RegiUser>>(res.Content).Select((v) => new SingleRegiUserResponse(v));
-                return users;
+                return JsonConvert.DeserializeObject<SingleRegiUserResponse>(res.Content);
             }
             throw new Exception("Error retrieving registrar users");
         }
@@ -60,11 +66,28 @@ namespace EvotoApi.Areas.Management.Connections
 
             var res = await MakeApiRequest(req);
             if (res.StatusCode == HttpStatusCode.OK)
+
             {
                 var fields = JsonConvert.DeserializeObject<IList<CustomUserField>>(res.Content);
                 return fields;
             }
             throw new Exception("Error updating custom field settings");
+        }
+
+        public static async Task<SingleRegiUserResponse> CreateRegistrarUser(CreateRegiUser model)
+        {
+            // TODO: Put in resource dictionary
+            var req = new RestRequest("/account/register");
+            req.AddBody(JsonConvert.SerializeObject(model));
+
+            var res = await MakeApiRequest(req);
+            if (res.StatusCode == HttpStatusCode.OK)
+                return JsonConvert.DeserializeObject<SingleRegiUserResponse>(res.Content);
+
+            var exception = new Exception("Error registering registrar user");
+            exception.Data["status"] = res.StatusCode;
+            exception.Data["content"] = res.Content;
+            throw exception;
         }
     }
 }

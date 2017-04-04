@@ -5,9 +5,9 @@ using System.Web.Http;
 using Common;
 using Common.Exceptions;
 using Common.Models;
-using Registrar.Api.Models.Request;
-using Registrar.Api.Models.Response;
 using Registrar.Database.Interfaces;
+using Registrar.Models.Request;
+using Registrar.Models.Response;
 
 namespace Registrar.Api.Controllers
 {

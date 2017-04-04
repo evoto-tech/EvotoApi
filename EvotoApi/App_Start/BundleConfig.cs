@@ -23,12 +23,12 @@ namespace EvotoApi
                 "~/Scripts/respond.js",
                 "~/Scripts/icheck.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new StyleBundle("~/bundles/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/site.css"));
 
             // Management CSS Bundle
-            bundles.Add(new StyleBundle("~/Content/management").Include(
+            bundles.Add(new StyleBundle("~/bundles/css/management").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/bootstrap-datetimepicker.css",
                 "~/Content/AdminLTE.css",
@@ -39,6 +39,7 @@ namespace EvotoApi
                 "~/Content/icheck/flat.css",
                 "~/Content/icheck/grey.css",
                 "~/Content/icheck/green.css"));
+                "~/Content/slider.css"));
 
             // Admin LTE
             bundles.Add(new ScriptBundle("~/bundles/adminlte").Include("~/Scripts/adminlte.js"));

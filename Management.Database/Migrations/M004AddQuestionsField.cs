@@ -1,5 +1,4 @@
 ﻿using FluentMigrator;
-using FluentMigrator.Runner.Extensions;
 
 namespace Management.Database.Migrations
 {

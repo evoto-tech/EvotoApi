@@ -9,7 +9,7 @@ class UserDetail extends React.Component {
   }
 
   componentDidMount () {
-    fetch(`/regi/user/detail/${this.props.params.id}`, { credentials: 'same-origin' })
+    fetch(`/regi/users/detail/${this.props.params.id}`, { credentials: 'same-origin' })
       .then((res) => res.json())
       .then((data) => {
         this.setState({ user: data, loaded: true })

@@ -1,5 +1,4 @@
 ﻿using FluentMigrator;
-using FluentMigrator.Runner.Extensions;
 
 namespace Management.Database.Migrations
 {
@@ -8,7 +7,6 @@ namespace Management.Database.Migrations
     {
         public override void Up()
         {
-
             Delete.Column("State").FromTable("Votes");
             Alter.Table("Votes").AddColumn("Published").AsBoolean().NotNullable().WithDefaultValue(false);
         }

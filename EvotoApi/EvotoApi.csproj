@@ -279,7 +279,6 @@
     <Compile Include="Areas\Management\Models\Request\LoginManaUser.cs" />
     <Compile Include="Areas\Management\Models\Response\ManaVoteResponse.cs" />
     <Compile Include="Areas\Management\Models\Response\SingleManaUserResponse.cs" />
-    <Compile Include="Areas\Management\Models\Response\SingleRegiUserResponse.cs" />
     <Compile Include="Auth\ManaAuthUser.cs" />
     <Compile Include="Auth\ManaAuthUserStore.cs" />
     <Compile Include="Auth\ManaClaims.cs" />
@@ -297,7 +296,6 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Response\SingleRegiUserResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
@@ -329,6 +327,7 @@
     <Content Include="Content\skins\skin-green.min.css" />
     <Content Include="Content\skins\_all-skins.css" />
     <Content Include="Content\skins\_all-skins.min.css" />
+    <Content Include="Content\slider.css" />
     <Content Include="Content\sweetalert.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -432,6 +431,10 @@
     <ProjectReference Include="..\Management.Models\Management.Models.csproj">
       <Project>{fb39716f-ee20-4d7c-91c5-d93a67001920}</Project>
       <Name>Management.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Registrar.Models\Registrar.Models.csproj">
+      <Project>{15222185-51fc-49ca-b2a3-b301eb608fac}</Project>
+      <Name>Registrar.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

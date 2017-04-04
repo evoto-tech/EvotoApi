@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace Registrar.Api.Models
+namespace Registrar.Models
 {
     public class IndexViewModel
     {
