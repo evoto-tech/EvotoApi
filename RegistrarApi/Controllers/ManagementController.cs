@@ -54,7 +54,7 @@ namespace Registrar.Api.Controllers
             await MultiChainUtilHandler.CreateBlockchain(model.ChainString);
 
             // Find a Port to run multichaind on
-            var blockchains = _blockchainStore.GetAllBlockchains();
+            var blockchains = await _blockchainStore.GetAllBlockchains();
 
             int port;
             while (true)
@@ -128,7 +128,7 @@ namespace Registrar.Api.Controllers
 
             var key = RsaTools.LoadKeysFromFile(blockchain.ChainString + "-encrypt");
             var priv = RsaTools.KeyToString(key.Private);
-            var answers = await chain.GetResults(blockchain.WalletId, priv, blockchain.ChainString);
+            var answers = await chain.GetResults(blockchain.WalletId, priv);
 
             // Read the questions from the blockchain
             var questions = await chain.GetQuestions();

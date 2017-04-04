@@ -6,7 +6,7 @@ namespace Registrar.Database.Interfaces
 {
     public interface IRegiBlockchainStore
     {
-        List<RegiBlockchain> GetAllBlockchains();
+        Task<List<RegiBlockchain>> GetAllBlockchains();
         Task<RegiBlockchain> GetBlockchain(string name);
         Task<RegiBlockchain> CreateBlockchain(RegiBlockchain model);
         Task<IEnumerable<RegiBlockchain>> GetCurrentBlockchains();
