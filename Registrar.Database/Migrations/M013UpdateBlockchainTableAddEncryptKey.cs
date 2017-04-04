@@ -2,8 +2,8 @@
 
 namespace Registrar.Database.Migrations
 {
-    [Migration(12)]
-    public class M012UpdateBlockchainTableAddEncryptKey : Migration
+    [Migration(13)]
+    public class M013UpdateBlockchainTableAddEncryptKey : Migration
     {
         public override void Up()
         {
