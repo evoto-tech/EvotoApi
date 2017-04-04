@@ -1,16 +1,17 @@
 import React from 'react'
 import Box from '../../parts/Box.jsx'
+import LoadableOverlay from '../../parts/LoadableOverlay.jsx'
 import CustomField from './parts/CustomField.jsx'
 
 class CustomFields extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { loaded: true, customFields: [ {name: 'what', type: '', required: true} ] }
+    this.state = { loaded: true, customFields: [ { name: 'what', type: '', required: true, validation: {} } ] }
   }
 
   addCustomField (e) {
     e.preventDefault()
-    this.setState({ customFields: [].concat(this.state.customFields).concat([ { name: 'New Field', type: '', required: true } ]) })
+    this.setState({ customFields: [].concat(this.state.customFields).concat([ { name: 'New Field', type: '', required: true, validation: {} } ]) })
   }
 
   updateCustomField (index, field) {
@@ -43,6 +44,7 @@ class CustomFields extends React.Component {
         subtitle='Other fields required for client user accounts'
         footer={footer}
       >
+        <LoadableOverlay loaded={this.state.loaded} />
         {this.state.customFields.map((f, i) => (
           <CustomField
             field={f}

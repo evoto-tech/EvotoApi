@@ -1,5 +1,7 @@
 import React from 'react'
 import Box from '../../../parts/Box.jsx'
+import FormGroup from '../../../parts/form-components/FormGroup.jsx'
+import NamedInput from '../../../parts/form-components/NamedInput.jsx'
 
 class CustomField extends React.Component {
   constructor (props) {
@@ -15,12 +17,14 @@ class CustomField extends React.Component {
   }
 
   stateFromProps (props) {
-    return {
-      field: props.field || ''
-    }
+    return props.field || {}
   }
 
   componentDidMount () {
+    $(this.requiredCheckbox).iCheck({
+      checkboxClass: 'icheckbox_flat-green',
+      radioClass: 'icheckbox_flat-green'
+    })
     $(this.requiredCheckbox).on('ifChanged', (e) => {
       this.updateField('required', e, e.target.checked)
     })
@@ -30,105 +34,91 @@ class CustomField extends React.Component {
     this.setState(this.stateFromProps(nextProps))
   }
 
+  componentWillUpdate (nextProps, nextState) {
+    if (this.state.type != nextState.type) {
+      this.setState({ validation: this.getTypeValidationState(nextState.type) })
+    }
+  }
+
   delete (e) {
     e.preventDefault()
     this.props.onDelete(this.props.index)
   }
 
   onUpdate () {
-    this.props.onUpdate(this.props.index, this.state.field)
+    this.props.onUpdate(this.props.index, this.state)
   }
 
   updateField (type, e, value) {
     e.preventDefault()
     value = value === undefined ? e.target.value : value
-    const field = Object.assign({}, this.state.field, { [type]: value })
-    this.setState({ field }, this.onUpdate)
+    this.setState({ [type]: value }, this.onUpdate)
   }
 
-  getTypeValidationFields () {
-    if (this.state.field.type === 'String') {
+  updateValidationField (field, e) {
+    e.preventDefault()
+    const value = e.target.value
+    const validation = Object.assign({}, this.state.validation, { [field]: value })
+    this.setState({ validation }, this.onUpdate)
+  }
+
+  getTypeValidationState (type) {
+    if (type === 'String') {
+      return {
+        minLength: '',
+        maxLength: ''
+      }
+    } else if (type === 'Number') {
+      return {
+        min: '',
+        max: ''
+      }
+    } else if (type === 'Date') {
+      return {
+        minLength: '',
+        maxLength: '',
+        regex: ''
+      }
+    } else {
+      return {}
+    }
+  }
+
+  getTypeValidationFields (type) {
+    if (type === 'String') {
       return (
-        <div className='form-group'>
-          <div className='input-group' style={{ padding: '2px', width: '100%' }}>
-            <span className='input-group-addon' style={{ color: '#000000', width: '130px' }}>Minimum Length</span>
-            <input
-              type='number'
-              className='form-control'
-              placeholder='Minimum Length...'
-            />
-          </div>
-          <div className='input-group' style={{ padding: '2px', width: '100%' }}>
-            <span className='input-group-addon' style={{ color: '#000000', width: '130px' }}>Maximum Length</span>
-            <input
-              type='number'
-              className='form-control'
-              placeholder='Maximum Length...'
-            />
-          </div>
-          <div className='input-group' style={{ padding: '2px', width: '100%' }}>
-            <span className='input-group-addon' style={{ color: '#000000', width: '130px' }}>Rule</span>
-            <input
-              type='text'
-              className='form-control'
-              placeholder='Rule...'
-            />
-          </div>
-        </div>
+        <FormGroup>
+          <NamedInput name='Minimum Length' type='number' value={this.state.validation.minLength} onChange={this.updateValidationField.bind(this, 'minLength')} />
+          <NamedInput name='Maximum Length' type='number' value={this.state.validation.maxLength} onChange={this.updateValidationField.bind(this, 'maxLength')} />
+          <NamedInput name='Rule' type='text' value={this.state.validation.regex} onChange={this.updateValidationField.bind(this, 'regex')} />
+        </FormGroup>
       )
-    } else if (this.state.field.type === 'Number') {
+    } else if (type === 'Number') {
       return (
-        <div className='form-group'>
-          <div className='input-group' style={{ padding: '2px' }}>
-            <span className='input-group-addon' style={{ color: '#000000' }}>Minimum</span>
-            <input
-              type='number'
-              className='form-control'
-              placeholder='Minimum...'
-            />
-          </div>
-          <div className='input-group' style={{ padding: '2px' }}>
-            <span className='input-group-addon' style={{ color: '#000000' }}>Maximum</span>
-            <input
-              type='number'
-              className='form-control'
-              placeholder='Maximum...'
-            />
-          </div>
-        </div>
+        <FormGroup>
+          <NamedInput name='Minimum' type='number' value={this.state.validation.min} onChange={this.updateValidationField.bind(this, 'min')} />
+          <NamedInput name='Maximum' type='number' value={this.state.validation.max} onChange={this.updateValidationField.bind(this, 'max')} />
+        </FormGroup>
       )
-    } else if (this.state.field.type === 'Date') {
+    } else if (type === 'Date') {
       return (
-        <div className='form-group'>
-          <div className="input-group date" style={{ padding: '2px' }}>
-            <div className="input-group-addon">
-              Minimum Date
-            </div>
-            <input type="text" className="form-control pull-right" id="mindatepicker" />
-          </div>
-          <div className="input-group date" style={{ padding: '2px' }}>
-            <div className="input-group-addon">
-              Maximum Date
-            </div>
-            <input type="text" className="form-control pull-right" id="maxdatepicker" />
-          </div>
-        </div>
+        <FormGroup>
+          <NamedInput name='Minimum Date' type='text' value={this.state.validation.minDate} onChange={this.updateValidationField.bind(this, 'minDate')} />
+          <NamedInput name='Maximum Date' type='text' value={this.state.validation.maxDate} onChange={this.updateValidationField.bind(this, 'maxDate')} />
+        </FormGroup>
       )
     }
   }
 
   render () {
     const title = (
-      <div className='input-group' style={{ padding: '2px' }}>
-        <span className='input-group-addon' style={{ color: '#000000' }}><b>Field {this.props.index + 1}</b></span>
-        <input
-          type='text'
-          className='form-control'
-          placeholder='Field Name...'
-          value={this.state.field.name}
-          onChange={this.updateField.bind(this, 'name')}
-        />
-      </div>
+      <NamedInput
+        name={<b>Field {this.props.index + 1}</b>}
+        placeholder='Field Name...'
+        type='text'
+        value={this.state.name}
+        onChange={this.updateField.bind(this, 'name')}
+      />
     )
     return (
       <Box
@@ -136,7 +126,7 @@ class CustomField extends React.Component {
         title={title}
       >
         <div className='form-group'>
-          <select className='form-control' value={this.state.field.type} onChange={this.updateField.bind(this, 'type')}>
+          <select className='form-control' value={this.state.type} onChange={this.updateField.bind(this, 'type')}>
             <option value='' disabled>Field Type</option>
             <option>String</option>
             <option>Number</option>
@@ -144,18 +134,15 @@ class CustomField extends React.Component {
             <option>Date</option>
           </select>
         </div>
-        {!['Number', 'String', 'Date'].includes(this.state.field.type) ? '' : this.getTypeValidationFields()}
+        {!['Number', 'String', 'Date'].includes(this.state.type) ? '' : this.getTypeValidationFields(this.state.type)}
         <div className='form-group'>
-          <label>
-            <input
-              type='checkbox'
-              name='iCheck'
-              className='icheckbox_flat-green'
-              ref={(input) => this.requiredCheckbox = input}
-              defaultChecked={this.state.field.required}
-            />
-            <span style={{ position: 'relative', left: '5px', top: '0.14em' }}>Required field</span>
-          </label>
+          <NamedInput
+            name='Required Field?'
+            type='checkbox'
+            className='icheckbox_flat-green'
+            inputRef={(input) => this.requiredCheckbox = input}
+            defaultChecked={this.state.required}
+          />
         </div>
         <button type='button' className='btn btn-danger' onClick={this.delete.bind(this)}>Delete Field</button>
       </Box>

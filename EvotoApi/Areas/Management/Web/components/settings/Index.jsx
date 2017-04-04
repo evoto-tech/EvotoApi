@@ -1,14 +1,13 @@
 import React from 'react'
 import Wrapper from '../parts/Wrapper.jsx'
 import RegisterEnabled from './parts/RegisterEnabled.jsx'
+import TwoFactorEnabled from './parts/TwoFactorEnabled.jsx'
 import CustomFields from './parts/CustomFields.jsx'
+import ClientCustomisation from './parts/ClientCustomisation.jsx'
 
 class SettingsIndex extends React.Component {
   componentDidMount () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_flat-green',
-      radioClass: 'icheckbox_flat-green'
-    })
+
   }
 
   render () {
@@ -18,7 +17,9 @@ class SettingsIndex extends React.Component {
         description='Settings for the evoto client and end users.'
       >
         <RegisterEnabled />
+        <TwoFactorEnabled />
         <CustomFields />
+        <ClientCustomisation />
       </Wrapper>
     )
   }

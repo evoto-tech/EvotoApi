@@ -15,7 +15,7 @@ class Box extends React.Component {
       <div className={`box box-${this.props.type} ${this.props.solid ? 'box-solid' : ''}`}>
         <div className='box-header with-border'>
           {!this.props.title ? '' : (
-            <h3 className='box-title'>{this.props.title}</h3>
+            <h3 className='box-title' style={{ width: '100%' }}>{this.props.title}</h3>
           )}
           {!this.props.subtitle ? '' : (
             <small style={{ marginLeft: '0.5em' }} className='box-subtitle'>{this.props.subtitle}</small>

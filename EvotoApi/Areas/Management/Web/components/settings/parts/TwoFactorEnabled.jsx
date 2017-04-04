@@ -2,9 +2,9 @@ import React from 'react'
 import Box from '../../parts/Box.jsx'
 import NamedInput from '../../parts/form-components/NamedInput.jsx'
 
-class RegisterEnabled extends React.Component {
+class TwoFactorEnabled extends React.Component {
   componentDidMount () {
-    $(this.enableRegistrationCheckbox).iCheck({
+    $(this.enable2FA).iCheck({
       checkboxClass: 'icheckbox_flat-green',
       radioClass: 'icheckbox_flat-green'
     })
@@ -14,15 +14,15 @@ class RegisterEnabled extends React.Component {
     return (
       <Box
         type='success'
-        title='Enable User Registration in Client'
+        title='Enable Two Factor Authentication'
       >
         <form>
           <NamedInput
-            name='Enable user registration through the evoto client'
+            name='Enable Two Factor Authentication for the client'
             type='checkbox'
             className='icheckbox_flat-green'
             spanStyle={{ width: 'auto' }}
-            inputRef={(input) => { this.enableRegistrationCheckbox = input }}
+            inputRef={(input) => { this.enable2FA = input }}
           />
         </form>
       </Box>
@@ -30,4 +30,4 @@ class RegisterEnabled extends React.Component {
   }
 }
 
-export default RegisterEnabled
+export default TwoFactorEnabled
