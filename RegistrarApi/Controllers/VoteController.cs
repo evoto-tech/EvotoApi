@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Blockchain;
 using Blockchain.Models;
@@ -6,6 +7,7 @@ using Common.Exceptions;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
 using Registrar.Database.Interfaces;
+using Registrar.Models;
 using Registrar.Models.Request;
 
 namespace Registrar.Api.Controllers
@@ -77,7 +79,13 @@ namespace Registrar.Api.Controllers
 
                 var txId = await chain.IssueVote(model.WalletId);
 
-                return Ok(new { TxId = txId, RegistrarAddress = blockchain.WalletId });
+                string words;
+                do
+                {
+                    words = string.Join(" ", RandomWordsGenerator.GetRandomWords());
+                } while (await chain.CheckMagicWordsNotOnBlockchain(words, model.WalletId)); 
+
+                return Ok(new {TxId = txId, RegistrarAddress = blockchain.WalletId, Words = words});
             }
             catch (RecordNotFoundException)
             {
@@ -100,11 +108,34 @@ namespace Registrar.Api.Controllers
             }
 
             var keys = RsaTools.LoadKeysFromFile(blockchain);
-            var pub = (RsaKeyParameters) keys.Public;
             return Ok(new
             {
-                Modulus = pub.Modulus.ToString(),
-                Exponent = pub.Exponent.ToString()
+                PublicKey = RsaTools.KeyToString(keys.Public)
+            });
+        }
+
+        [Route("decrypt/{chainString}")]
+        [HttpGet]
+        public async Task<IHttpActionResult> GetDecryptKey(string chainString)
+        {
+            // Check blockchain exists
+            try
+            {
+                var blockchain = await _blockchainStore.GetBlockchain(chainString);
+                if (blockchain.ExpiryDate > DateTime.Now)
+                {
+                    return Unauthorized();
+                }
+            }
+            catch (RecordNotFoundException)
+            {
+                return NotFound();
+            }
+
+            var keys = RsaTools.LoadKeysFromFile(chainString + "-encrypt");
+            return Ok(new
+            {
+                PrivateKey = RsaTools.KeyToString(keys.Private)
             });
         }
     }
