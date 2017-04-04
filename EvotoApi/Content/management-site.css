@@ -41,3 +41,12 @@
 .disabled-datetimepicker .datepicker .datepicker-days thead tr .next {
     visibility: hidden;
 }
+
+/* Form adjustments for checkbox fields */
+.input-group label .input-group-addon {
+    border: 1px solid #d2d6de;
+}
+.input-group label span {
+    display: inline-block;
+    margin-right: 1em;
+}
