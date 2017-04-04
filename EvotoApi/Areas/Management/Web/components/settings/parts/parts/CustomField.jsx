@@ -35,7 +35,7 @@ class CustomField extends React.Component {
   }
 
   componentWillUpdate (nextProps, nextState) {
-    if (this.state.type != nextState.type) {
+    if (this.state.type !== nextState.type) {
       this.setState({ validation: this.getTypeValidationState(nextState.type) })
     }
   }
@@ -140,7 +140,7 @@ class CustomField extends React.Component {
             name='Required Field?'
             type='checkbox'
             className='icheckbox_flat-green'
-            inputRef={(input) => this.requiredCheckbox = input}
+            inputRef={(input) => { this.requiredCheckbox = input }}
             defaultChecked={this.state.required}
           />
         </div>

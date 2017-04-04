@@ -8,9 +8,7 @@ class RegisterEnabled extends React.Component {
         type='success'
         title='Client Customisation'
       >
-        <form>
-
-        </form>
+        <form />
       </Box>
     )
   }

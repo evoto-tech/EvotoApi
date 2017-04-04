@@ -26,10 +26,10 @@ class EditVote extends React.Component {
           loaded={this.state.loaded}
           vote={this.state.vote}
           save={() => {}}
-          disabled={true}
+          disabled
         >
-        {!this.state.vote || !this.state.vote.published ? '' :
-          <Results
+          {!this.state.vote || !this.state.vote.published ? ''
+          : <Results
             loaded={this.state.loaded}
             vote={this.state.vote}
           />
