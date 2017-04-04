@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Net;
 using System.Threading.Tasks;
 using Common.Models;
+using Registrar.Models.Request;
 using Registrar.Models.Response;
 using Management.Models;
 using Microsoft.Ajax.Utilities;
@@ -59,7 +60,7 @@ namespace EvotoApi.Areas.Management.Connections
             throw new Exception("Error retrieving registrar users");
         }
 
-        public static async Task<IList<CustomUserField>> UpdateCustomFields(dynamic model)
+        public static async Task<IList<CustomUserField>> UpdateCustomFields(CreateCustomUserFieldModel model)
         {
             var req = new RestRequest("users/customFields/update");
             req.AddBody(JsonConvert.SerializeObject(model));
@@ -68,8 +69,7 @@ namespace EvotoApi.Areas.Management.Connections
             if (res.StatusCode == HttpStatusCode.OK)
 
             {
-                var fields = JsonConvert.DeserializeObject<IList<CustomUserField>>(res.Content);
-                return fields;
+                return JsonConvert.DeserializeObject<IList<CustomUserField>>(res.Content);
             }
             throw new Exception("Error updating custom field settings");
         }

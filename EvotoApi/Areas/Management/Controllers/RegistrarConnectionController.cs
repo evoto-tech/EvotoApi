@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Http.Results;
 using Common.Models;
 using EvotoApi.Areas.Management.Connections;
+using Registrar.Models.Request;
 using EvotoApi.Areas.ManagementApi.Models.Response;
 
 namespace EvotoApi.Areas.Management.Controllers
@@ -72,15 +73,20 @@ namespace EvotoApi.Areas.Management.Controllers
         [Route("settings/custom-fields")]
         //[Authorize]
         [HttpPost]
-        public async Task<IHttpActionResult> SettingsCustomFields()
+        public async Task<IHttpActionResult> SettingsCustomFields(CreateCustomUserFieldModel model)
         {
             try
             {
-                var fields = await RegistrarConnection.UpdateCustomFields();
+                var fields = await RegistrarConnection.UpdateCustomFields(model);
                 return Json(fields);
             }
             catch (Exception e)
             {
+                // TODO: better error handling
+                if ((int)e.Data["status"] != 400)
+                {
+                    return Json(e.Data["content"]);
+                }
                 return Json(new
                 {
                     errors = e.Message
