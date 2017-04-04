@@ -52,5 +52,19 @@ namespace EvotoApi.Areas.Management.Connections
             }
             throw new Exception("Error retrieving registrar users");
         }
+
+        public static async Task<IList<CustomUserField>> UpdateCustomFields(dynamic model)
+        {
+            var req = new RestRequest("users/customFields/update");
+            req.AddBody(JsonConvert.SerializeObject(model));
+
+            var res = await MakeApiRequest(req);
+            if (res.StatusCode == HttpStatusCode.OK)
+            {
+                var fields = JsonConvert.DeserializeObject<IList<CustomUserField>>(res.Content);
+                return fields;
+            }
+            throw new Exception("Error updating custom field settings");
+        }
     }
 }
