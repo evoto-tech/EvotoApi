@@ -45,5 +45,24 @@ namespace EvotoApi.Areas.Management.Controllers
                 });
             }
         }
+
+        [Route("settings/custom-fields")]
+        //[Authorize]
+        [HttpPost]
+        public async Task<IHttpActionResult> SettingsCustomFields()
+        {
+            try
+            {
+                var fields = await RegistrarConnection.UpdateCustomFields();
+                return Json(fields);
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    errors = e.Message
+                });
+            }
+        }
     }
 }
