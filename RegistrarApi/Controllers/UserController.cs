@@ -78,10 +78,14 @@ namespace Registrar.Api.Controllers
                     field.Name = model.Name;
                     field.Type = model.Type;
                     field.Required = model.Required;
-
-                    field.SetValidationProperties(model.Validation);
-
-                    create.Add(field);
+                    if (field.SetValidationProperties(model.Validation))
+                    {
+                        create.Add(field);
+                    }
+                    else
+                    {
+                        errors.Add($"Invalid Field Valididation for {model.Name}");
+                    }
                 }
                 else
                 {
@@ -102,9 +106,14 @@ namespace Registrar.Api.Controllers
                     field.Name = model.Name;
                     field.Required = model.Required;
 
-                    field.SetValidationProperties(model.Validation);
-
-                    update.Add(field);
+                    if (field.SetValidationProperties(model.Validation))
+                    {
+                        update.Add(field);
+                    }
+                    else
+                    {
+                        errors.Add($"Invalid Field Valididation for {model.Name}");
+                    }
                 }
             }
 
