@@ -38,7 +38,7 @@ namespace EvotoApi
                 "~/Content/icheck/_all.css",
                 "~/Content/icheck/flat.css",
                 "~/Content/icheck/grey.css",
-                "~/Content/icheck/green.css"));
+                "~/Content/icheck/green.css",
                 "~/Content/slider.css"));
 
             // Admin LTE
