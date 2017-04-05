@@ -31,6 +31,11 @@ namespace EvotoApi.Areas.Management.Connections
         public static async Task<bool> CreateBlockchain(ManaVote model)
         {
             var req = new RestRequest("management/createblockchain");
+            req.Method = Method.POST;
+            req.JsonSerializer.ContentType = "application/json; charset=utf-8";
+            req.AddHeader("Accept", "application/json");
+            req.Parameters.Clear();
+            req.AddParameter("application/json", JsonConvert.SerializeObject(model), ParameterType.RequestBody);
             req.AddBody(JsonConvert.SerializeObject(model));
 
             var res = await MakeApiRequest(req);
