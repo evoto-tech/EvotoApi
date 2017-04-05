@@ -75,7 +75,6 @@
     <Compile Include="ApiKeyAuth.cs" />
     <Compile Include="Exceptions\CouldNotSendEmailException.cs" />
     <Compile Include="Exceptions\RecordNotFoundException.cs" />
-    <Compile Include="FormatterConfig.cs" />
     <Compile Include="Models\CanSendEmailModel.cs" />
     <Compile Include="Models\CreateRegiUser.cs" />
     <Compile Include="Models\CustomUserField.cs" />

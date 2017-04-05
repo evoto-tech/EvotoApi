@@ -13,8 +13,6 @@ namespace EvotoApi
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
-            FormatterConfig.Configure(config);
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 
