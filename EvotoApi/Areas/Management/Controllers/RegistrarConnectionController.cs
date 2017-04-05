@@ -9,6 +9,7 @@ using EvotoApi.Areas.Management.Connections;
 using Registrar.Models.Request;
 using EvotoApi.Areas.ManagementApi.Models.Response;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace EvotoApi.Areas.Management.Controllers
 {
@@ -79,7 +80,7 @@ namespace EvotoApi.Areas.Management.Controllers
             try
             {
                 var fields = await RegistrarConnection.UpdateCustomFields(model);
-                return Json(fields);
+                return Ok(fields);
             }
             catch (Exception e)
             {
