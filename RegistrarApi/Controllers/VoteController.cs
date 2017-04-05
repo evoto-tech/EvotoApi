@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Blockchain;
 using Blockchain.Models;
 using Common.Exceptions;
-using Org.BouncyCastle.Crypto.Parameters;
+using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 using Org.BouncyCastle.Math;
 using Registrar.Database.Interfaces;
 using Registrar.Models;
@@ -27,21 +29,32 @@ namespace Registrar.Api.Controllers
         [Route("")]
         [HttpPost]
         [Authorize]
-        public IHttpActionResult GetBlindSignature(GetBlindSignatureModel model)
+        public async Task<IHttpActionResult> GetBlindSignature(GetBlindSignatureModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            // Get active blockchain connection
             MultichainModel chain;
             if (!_multichaind.Connections.TryGetValue(model.Blockchain, out chain))
                 return NotFound();
 
-            // TODO: Check user hasn't had a key signed before
+            // Check user hasn't had a key signed before
+            var voters = await chain.GetVoters();
+            if (voters.Any(v => v.Id == User.Identity.GetUserId<int>()))
+                return Unauthorized();
 
+            // Load key
             var keys = RsaTools.LoadKeysFromFile(model.Blockchain);
 
+            // Blindly sign the token
             var message = new BigInteger(model.BlindedToken);
             var signed = RsaTools.SignBlindedMessage(message, keys.Private);
+
+            // Store the user on the blockchain so they can't have another key
+            var voter = new BlockchainVoterModel {Id = User.Identity.GetUserId<int>()};
+            await chain.WriteToStream(MultiChainTools.ROOT_STREAM_NAME, MultiChainTools.VOTERS_KEY,
+                JsonConvert.SerializeObject(voter));
 
             return Ok(new {Signature = signed.ToString()});
         }
@@ -49,11 +62,18 @@ namespace Registrar.Api.Controllers
         [Route("hasvoted")]
         [HttpGet]
         [Authorize]
-        public IHttpActionResult HasVoted(HasVotedModel model)
+        public async Task<IHttpActionResult> HasVoted(HasVotedModel model)
         {
-            // TODO: Check if the current user has voted before
+            // Get active blockchain connection
+            MultichainModel chain;
+            if (!_multichaind.Connections.TryGetValue(model.Blockchain, out chain))
+                return NotFound();
 
-            return Ok(new {Voted = true});
+            // Check user hasn't had a key signed before
+            var voters = await chain.GetVoters();
+            var voted = voters.Any(v => v.Id == User.Identity.GetUserId<int>());
+
+            return Ok(new {Voted = voted});
         }
 
         [Route("confirm")]
@@ -83,7 +103,7 @@ namespace Registrar.Api.Controllers
                 do
                 {
                     words = string.Join(" ", RandomWordsGenerator.GetRandomWords());
-                } while (await chain.CheckMagicWordsNotOnBlockchain(words, model.WalletId)); 
+                } while (await chain.CheckMagicWordsNotOnBlockchain(words, model.WalletId));
 
                 return Ok(new {TxId = txId, RegistrarAddress = blockchain.WalletId, Words = words});
             }
@@ -123,9 +143,7 @@ namespace Registrar.Api.Controllers
             {
                 var blockchain = await _blockchainStore.GetBlockchain(chainString);
                 if (blockchain.ExpiryDate > DateTime.Now)
-                {
                     return Unauthorized();
-                }
             }
             catch (RecordNotFoundException)
             {
