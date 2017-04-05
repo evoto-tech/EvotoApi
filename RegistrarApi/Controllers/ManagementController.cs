@@ -128,7 +128,7 @@ namespace Registrar.Api.Controllers
 
             var key = RsaTools.LoadKeysFromFile(blockchain.ChainString + "-encrypt");
             var priv = RsaTools.KeyToString(key.Private);
-            var answers = await chain.GetResults(blockchain.WalletId, priv, blockchain.ChainString);
+            var answers = await chain.GetResults(blockchain.WalletId, priv);
 
             // Read the questions from the blockchain
             var questions = await chain.GetQuestions();
