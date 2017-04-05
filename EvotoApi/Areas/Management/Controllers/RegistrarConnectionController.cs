@@ -53,6 +53,9 @@ namespace EvotoApi.Areas.Management.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> Register(CreateRegiUser model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             try
             {
                 var user = await RegistrarConnection.CreateRegistrarUser(model);
@@ -77,6 +80,9 @@ namespace EvotoApi.Areas.Management.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> SettingsCustomFields(IList<CreateCustomUserFieldModel> model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             try
             {
                 var fields = await RegistrarConnection.UpdateCustomFields(model);
