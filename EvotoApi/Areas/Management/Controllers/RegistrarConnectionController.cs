@@ -8,6 +8,7 @@ using Common.Models;
 using EvotoApi.Areas.Management.Connections;
 using Registrar.Models.Request;
 using EvotoApi.Areas.ManagementApi.Models.Response;
+using System.Collections.Generic;
 
 namespace EvotoApi.Areas.Management.Controllers
 {
@@ -73,7 +74,7 @@ namespace EvotoApi.Areas.Management.Controllers
         [Route("settings/custom-fields")]
         //[Authorize]
         [HttpPost]
-        public async Task<IHttpActionResult> SettingsCustomFields(CreateCustomUserFieldModel model)
+        public async Task<IHttpActionResult> SettingsCustomFields(IList<CreateCustomUserFieldModel> model)
         {
             try
             {
@@ -83,7 +84,7 @@ namespace EvotoApi.Areas.Management.Controllers
             catch (Exception e)
             {
                 // TODO: better error handling
-                if ((int)e.Data["status"] != 400)
+                if (e.Data.Contains("status") && (int)e.Data["status"] != 400)
                 {
                     return Json(e.Data["content"]);
                 }
