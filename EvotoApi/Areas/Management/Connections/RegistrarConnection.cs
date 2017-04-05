@@ -10,6 +10,7 @@ using Management.Models;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using RestSharp;
+using System.Diagnostics;
 
 namespace EvotoApi.Areas.Management.Connections
 {
@@ -60,18 +61,31 @@ namespace EvotoApi.Areas.Management.Connections
             throw new Exception("Error retrieving registrar users");
         }
 
-        public static async Task<IList<CustomUserField>> UpdateCustomFields(CreateCustomUserFieldModel model)
+        public static async Task<IList<CustomUserField>> UpdateCustomFields(IList<CreateCustomUserFieldModel> models)
         {
             var req = new RestRequest("users/customFields/update");
-            req.AddBody(JsonConvert.SerializeObject(model));
-
+            req.Method = Method.POST;
+            req.JsonSerializer.ContentType = "application/json; charset=utf-8";
+            req.AddHeader("Accept", "application/json");
+            req.Parameters.Clear();
+            req.AddParameter("application/json", JsonConvert.SerializeObject(models), ParameterType.RequestBody);
             var res = await MakeApiRequest(req);
+            Debug.WriteLine(JsonConvert.SerializeObject(models));
+            try
+            {
+                Debug.WriteLine(JsonConvert.DeserializeObject<IList<CreateCustomUserFieldModel>>(JsonConvert.SerializeObject(models)).ToString());
+            } catch (Exception e)
+            {
+                throw e;
+            }
             if (res.StatusCode == HttpStatusCode.OK)
-
             {
                 return JsonConvert.DeserializeObject<IList<CustomUserField>>(res.Content);
             }
-            throw new Exception("Error updating custom field settings");
+            var exception = new Exception("Error updating custom field settings");
+            exception.Data["status"] = res.StatusCode;
+            exception.Data["content"] = res.Content;
+            throw exception;
         }
 
         public static async Task<SingleRegiUserResponse> CreateRegistrarUser(CreateRegiUser model)
