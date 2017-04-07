@@ -133,7 +133,7 @@
     <value>SELECT * FROM Votes WHERE CreatedBy = @UserId AND Published = @Published</value>
   </data>
   <data name="VoteUpdate" xml:space="preserve">
-    <value>UPDATE Votes SET Name=@Name, Published=@Published, ExpiryDate=@ExpiryDate, Questions=@Questions WHERE Id=@Id</value>
+    <value>UPDATE Votes SET Name=@Name, ChainString=@ChainString, Published=@Published, ExpiryDate=@ExpiryDate, Questions=@Questions WHERE Id=@Id</value>
   </data>
   <data name="LockoutGetByUserId" xml:space="preserve">
     <value>SELECT * FROM Users_Lockout WHERE UserId = @UserId</value>
