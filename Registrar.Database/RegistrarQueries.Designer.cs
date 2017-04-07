@@ -271,7 +271,7 @@ namespace Registrar.Database {
         ///   Looks up a localized string similar to DECLARE @cols AS NVARCHAR(MAX),
         ///    @query  AS NVARCHAR(MAX)
         ///
-        ///SELECT @cols = STUFF((SELECT distinct &apos;,&apos; + name
+        ///SELECT @cols = STUFF((SELECT distinct &apos;, [&apos; + name + &apos;]&apos;
         ///              FROM Users_CustomFields
         ///      FOR XML PATH(&apos;&apos;), TYPE
         ///      ).value(&apos;.&apos;, &apos;NVARCHAR(MAX)&apos;) 
@@ -288,8 +288,7 @@ namespace Registrar.Database {
         ///			cf.Name KeyName
         ///			FROM Users u
         ///			LEFT JOIN Users_CustomValues cv
-        ///			ON cv.UserId = u.Id
-        ///	 [rest of string was truncated]&quot;;.
+        ///			ON cv.UserId = [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UserCreateView {
             get {
