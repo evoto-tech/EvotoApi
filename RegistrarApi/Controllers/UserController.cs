@@ -67,15 +67,32 @@ namespace Registrar.Api.Controllers
             if (models == null)
                 return BadRequest();
 
+            // Read existing fields from database
             var existingFields = await _fieldStore.GetCustomUserFields();
+
+            // Store lists for database interraction
             var update = new List<CustomUserField>();
             var create = new List<CustomUserField>();
+
+            var names = new List<string>();
             var errors = new List<string>();
 
             foreach (var model in models)
             {
                 var validation = new CustomUserValidation(model.Validation);
 
+                // Ensure the field names are unique
+                if (names.Contains(model.Name))
+                {
+                    var errMsg = $"Duplicate Field name: {model.Name}";
+                    // Avoid duplicate errors if more than two fields share a name
+                    if (!errors.Contains(errMsg))
+                        errors.Add(errMsg);
+                }
+                else
+                    names.Add(model.Name);
+
+                // Creating a new field
                 if (model.Id == 0)
                 {
                     var field = CustomUserField.GetFieldForType(model.Type);
@@ -83,14 +100,11 @@ namespace Registrar.Api.Controllers
                     field.Type = model.Type;
                     field.Required = model.Required;
                     if (field.SetValidationProperties(validation))
-                    {
                         create.Add(field);
-                    }
                     else
-                    {
                         errors.Add($"Invalid Field Valididation for {model.Name}");
-                    }
                 }
+                // Edit an existing field
                 else
                 {
                     var field = existingFields.SingleOrDefault(f => f.Id == model.Id);
@@ -111,16 +125,13 @@ namespace Registrar.Api.Controllers
                     field.Required = model.Required;
 
                     if (field.SetValidationProperties(validation))
-                    {
                         update.Add(field);
-                    }
                     else
-                    {
                         errors.Add($"Invalid Field Valididation for {model.Name}");
-                    }
                 }
             }
 
+            // Error reading fields, return invalid
             if (errors.Any())
             {
                 foreach (var error in errors)
@@ -128,6 +139,7 @@ namespace Registrar.Api.Controllers
                 return BadRequest(ModelState);
             }
 
+            // Any fields omitted must have been deleted
             var delete = existingFields.Where(f => !create.Contains(f)).Where(f => !update.Contains(f)).ToList();
 
             // Sanity checks
@@ -144,8 +156,10 @@ namespace Registrar.Api.Controllers
 
             await Task.WhenAll(tasks);
 
+            // Update User View with custom fields (columns)
             await _fieldStore.UpdateUserView();
 
+            // Return the updated fields
             var fields = await _fieldStore.GetCustomUserFields();
             return Ok(fields.Select(f => new SingleCustomUserFieldResponse(f)));
         }
