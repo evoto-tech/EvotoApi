@@ -78,12 +78,10 @@ class CustomFields extends React.Component {
       .then((res) => res.json())
       .then(this.cleanValidationJson)
       .then((data) => {
-        if (typeof(data) === 'string') {
+        if (typeof data === 'string') {
           try {
             data = JSON.parse(data)
-          } catch (e) {
-            data = data
-          }
+          } catch (e) {}
         }
         if (data.Message && data.Message === 'An error has occurred.') {
           this.swalSaveErrorAlert()
