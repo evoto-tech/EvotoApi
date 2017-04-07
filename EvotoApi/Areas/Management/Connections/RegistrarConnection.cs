@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Common.Models;
 using Registrar.Models.Response;
 using Management.Models;
+using EvotoApi.Areas.ManagementApi.Models.Request;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using RestSharp;
@@ -30,6 +31,8 @@ namespace EvotoApi.Areas.Management.Connections
 
         public static async Task<bool> CreateBlockchain(ManaVote model)
         {
+            var publishableVote = new PublishManaVote(model);
+
             var req = new RestRequest("management/createblockchain");
             req.Method = Method.POST;
             req.JsonSerializer.ContentType = "application/json; charset=utf-8";

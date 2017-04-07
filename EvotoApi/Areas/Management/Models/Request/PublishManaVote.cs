@@ -2,12 +2,27 @@
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Management.Models;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using Registrar.Models.Request;
 
 namespace EvotoApi.Areas.ManagementApi.Models.Request
 {
     [DataContract]
-    public class CreateManaVote
+    public class PublishManaVote
     {
+        public PublishManaVote(ManaVote vote)
+        {
+            CreatedBy = vote.CreatedBy;
+            Name = vote.Name;
+            ExpiryDate = vote.ExpiryDate;
+            Published = vote.Published;
+            ChainString = vote.ChainString;
+            Questions = JsonConvert.DeserializeObject<List<CreateBlockchainQuestion>>(vote.Questions);
+            EncryptResults = vote.EncryptResults;
+            BlockSpeed = vote.BlockSpeed;
+        }
+
         [DataMember(Name = "createdBy")]
         [Required]
         public int CreatedBy { get; private set; }
@@ -30,27 +45,12 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
         public string ChainString { get; private set; }
 
         [DataMember(Name = "questions")]
-        public string Questions { get; private set; }
+        public List<CreateBlockchainQuestion> Questions { get; private set; }
 
         [DataMember(Name = "encryptResults")]
         public bool EncryptResults { get; private set; }
 
         [DataMember(Name = "blockSpeed")]
         public int BlockSpeed { get; private set; }
-
-        public ManaVote ToModel()
-        {
-            return new ManaVote()
-            {
-                CreatedBy = CreatedBy,
-                Name = Name,
-                ExpiryDate = ExpiryDate,
-                Published = Published,
-                ChainString = ChainString,
-                Questions = Questions,
-                EncryptResults = EncryptResults,
-                BlockSpeed = BlockSpeed
-            };
-        }
     }
 }
