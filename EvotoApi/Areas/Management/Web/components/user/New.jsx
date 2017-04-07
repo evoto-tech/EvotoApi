@@ -3,7 +3,7 @@ import Wrapper from './parts/Wrapper.jsx'
 import RegisterForm from '../parts/forms/Register.jsx'
 
 class UserNew extends React.Component {
-  register(user, successLink, handleError) {
+  register (user, successLink, handleError) {
     console.log('what', user)
   }
 

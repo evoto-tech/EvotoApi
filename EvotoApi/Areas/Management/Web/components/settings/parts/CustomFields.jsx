@@ -2,7 +2,7 @@ import React from 'react'
 import Box from '../../parts/Box.jsx'
 import LoadableOverlay from '../../parts/LoadableOverlay.jsx'
 import CustomField from './parts/CustomField.jsx'
-import { insert, update, remove } from '../../../lib/state-utils'
+import { update, remove } from '../../../lib/state-utils'
 
 class CustomFields extends React.Component {
   constructor (props) {
