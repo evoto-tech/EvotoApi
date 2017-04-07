@@ -7,6 +7,11 @@ namespace Registrar.Models.Response
     [DataContract]
     public class SingleCustomUserFieldResponse
     {
+        public SingleCustomUserFieldResponse ()
+        {
+
+        }
+
         public SingleCustomUserFieldResponse(CustomUserField field)
         {
             Id = field.Id;
@@ -25,18 +30,18 @@ namespace Registrar.Models.Response
         }
 
         [DataMember(Name = "id")]
-        public int Id { get; }
+        public int Id { get; private set; }
 
         [DataMember(Name = "name")]
-        public string Name { get; }
+        public string Name { get; private set; }
 
         [DataMember(Name = "type")]
-        public string Type { get; }
+        public string Type { get; private set; }
 
         [DataMember(Name = "required")]
-        public bool Required { get; }
+        public bool Required { get; private set; }
 
         [DataMember(Name = "validation")]
-        public IDictionary<string, string> Validation { get; }
+        public IDictionary<string, string> Validation { get; private set; }
     }
 }
