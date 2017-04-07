@@ -77,8 +77,35 @@ namespace EvotoApi.Areas.Management.Controllers
 
         [Route("settings/custom-fields")]
         //[Authorize]
+        [HttpGet]
+        public async Task<IHttpActionResult> SettingsCustomFieldsGet()
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var fields = await RegistrarConnection.GetCustomFields();
+                return Ok(fields);
+            }
+            catch (Exception e)
+            {
+                // TODO: better error handling
+                if (e.Data.Contains("status") && (int)e.Data["status"] != 400)
+                {
+                    return Json(e.Data["content"]);
+                }
+                return Json(new
+                {
+                    errors = e.Message
+                });
+            }
+        }
+
+        [Route("settings/custom-fields")]
+        //[Authorize]
         [HttpPost]
-        public async Task<IHttpActionResult> SettingsCustomFields(IList<CreateCustomUserFieldModel> model)
+        public async Task<IHttpActionResult> SettingsCustomFieldsPost(IList<CreateCustomUserFieldModel> model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

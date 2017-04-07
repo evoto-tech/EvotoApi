@@ -78,13 +78,27 @@ namespace EvotoApi.Areas.Management.Connections
             throw new Exception("Error retrieving registrar users");
         }
 
-        public static async Task<IList<CustomUserField>> UpdateCustomFields(IList<CreateCustomUserFieldModel> models)
+        public static async Task<IList<SingleCustomUserFieldResponse>> GetCustomFields()
+        {
+            var req = CreateRequest("account/customFields", Method.GET);
+            var res = await MakeApiRequest(req);
+
+            if (res.StatusCode == HttpStatusCode.OK)
+                return JsonConvert.DeserializeObject<IList<SingleCustomUserFieldResponse>>(res.Content);
+
+            var exception = new Exception("Error getting custom field settings");
+            exception.Data["status"] = res.StatusCode;
+            exception.Data["content"] = res.Content;
+            throw exception;
+        }
+
+        public static async Task<IList<SingleCustomUserFieldResponse>> UpdateCustomFields(IList<CreateCustomUserFieldModel> models)
         {
             var req = CreateRequest("users/customFields/update", Method.POST, models);
             var res = await MakeApiRequest(req);
 
             if (res.StatusCode == HttpStatusCode.OK)
-                return JsonConvert.DeserializeObject<IList<CustomUserField>>(res.Content);
+                return JsonConvert.DeserializeObject<IList<SingleCustomUserFieldResponse>>(res.Content);
 
             var exception = new Exception("Error updating custom field settings");
             exception.Data["status"] = res.StatusCode;
