@@ -64,6 +64,8 @@ namespace Registrar.Api.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            if (models == null)
+                return BadRequest();
 
             var existingFields = await _fieldStore.GetCustomUserFields();
             var update = new List<CustomUserField>();
@@ -142,7 +144,8 @@ namespace Registrar.Api.Controllers
 
             await _fieldStore.UpdateUserView();
 
-            return Ok();
+            var fields = await _fieldStore.GetCustomUserFields();
+            return Ok(fields.Select(f => new SingleCustomUserFieldResponse(f)));
         }
     }
 }
