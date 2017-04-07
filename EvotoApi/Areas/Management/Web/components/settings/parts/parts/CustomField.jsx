@@ -57,7 +57,11 @@ class CustomField extends React.Component {
 
   updateValidationField (field, e) {
     e.preventDefault()
-    const value = e.target.value
+    let value = e.target.value
+    if (e.target.type === 'number') {
+      value = parseInt(value)
+      if (value === 'NaN') value = 0
+    }
     const validation = Object.assign({}, this.state.validation, { [field]: value })
     this.setState({ validation }, this.onUpdate)
   }
@@ -126,13 +130,16 @@ class CustomField extends React.Component {
         title={title}
       >
         <div className='form-group'>
-          <select className='form-control' value={this.state.type} onChange={this.updateField.bind(this, 'type')}>
+          <select className='form-control' value={this.state.type} onChange={this.updateField.bind(this, 'type')} disabled={this.state.hasOwnProperty('id')}>
             <option value='' disabled>Field Type</option>
             <option>String</option>
             <option>Number</option>
             <option>Email</option>
             <option>Date</option>
           </select>
+          {!this.state.hasOwnProperty('id') ? '' : (
+            <p className='help-block'>The type of an existing field cannot be changed.</p>
+          ) }
         </div>
         {!['Number', 'String', 'Date'].includes(this.state.type) ? '' : this.getTypeValidationFields(this.state.type)}
         <div className='form-group'>

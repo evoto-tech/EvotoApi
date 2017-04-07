@@ -6,7 +6,29 @@ import CustomField from './parts/CustomField.jsx'
 class CustomFields extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { loaded: true, customFields: [ { name: 'what', type: '', required: true, validation: {} } ] }
+    this.state = { loaded: false, customFields: [] }
+  }
+
+  componentDidMount () {
+    fetch(`/regi/settings/custom-fields`, { credentials: 'same-origin' })
+      .then((res) => res.json())
+      .then(this.cleanValidationJson)
+      .then((data) => {
+        this.setState({ customFields: data, loaded: true })
+      })
+      .catch(console.error)
+  }
+
+  swalSaveErrorAlert () {
+    swal({
+      title: 'Error',
+      text: 'There was a problem saving the custom fields. Your changes have not been saved.',
+      type: 'error',
+      confirmButtonColor: '#d73925',
+      confirmButtonText: 'Close',
+      closeOnConfirm: true,
+      allowOutsideClick: true
+    })
   }
 
   addCustomField (e) {
@@ -26,8 +48,48 @@ class CustomFields extends React.Component {
     this.setState({ customFields })
   }
 
+  cleanValidationJson (json) {
+    if (json && Array.isArray(json)) {
+      return json.map((item) => {
+        if (item.validation) {
+          const newItemValidation = Object.assign({}, item.validation)
+          Object.keys(newItemValidation).forEach((field) => {
+            const fieldValue = newItemValidation[field]
+            newItemValidation[field] = fieldValue === null || fieldValue === 'null' || fieldValue === '' ? '' : fieldValue
+          })
+          item.validation = newItemValidation
+        }
+        return item
+      })
+    }
+    return json
+  }
+
   saveCustomFields () {
-    console.log(this.state.customFields)
+    fetch(`/regi/settings/custom-fields`,
+      { method: 'POST',
+        body: JSON.stringify(this.state.customFields),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+      })
+      .then((res) => res.json())
+      .then(this.cleanValidationJson)
+      .then((data) => {
+        if (typeof(data) === 'string') {
+          try {
+            data = JSON.parse(data)
+          } catch (e) {
+            data = data
+          }
+        }
+        if (data.Message && data.Message === 'An error has occurred.') {
+          this.swalSaveErrorAlert()
+        }
+      })
+      .catch(console.error)
   }
 
   render () {
