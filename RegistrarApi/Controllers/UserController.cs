@@ -148,13 +148,21 @@ namespace Registrar.Api.Controllers
             if (update.Count + delete.Count != existingFields.Count)
                 return InternalServerError();
 
-            // Here goes
-            var tasks = new List<Task>();
-            tasks.AddRange(create.Select(c => _fieldStore.CreateCustomUserField(c)).ToList());
-            tasks.AddRange(update.Select(u => _fieldStore.UpdateCustomUserField(u)).ToList());
-            tasks.AddRange(delete.Select(d => _fieldStore.DeleteCustomUserField(d)).ToList());
+            // Run synchronously to avoid any uniqueness conflicts and race conditions
+            foreach (var d in delete)
+            {
+                await _fieldStore.DeleteCustomUserField(d);
+            }
 
-            await Task.WhenAll(tasks);
+            foreach (var u in update)
+            {
+                await _fieldStore.UpdateCustomUserField(u);
+            }
+
+            foreach (var c in create)
+            {
+                await _fieldStore.CreateCustomUserField(c);
+            }
 
             // Update User View with custom fields (columns)
             await _fieldStore.UpdateUserView();
