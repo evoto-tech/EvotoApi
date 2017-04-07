@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Common;
 using Common.Exceptions;
-using Common.Models;
 using Registrar.Database.Interfaces;
+using Registrar.Models;
 using Registrar.Models.Request;
 using Registrar.Models.Response;
 
@@ -74,13 +74,15 @@ namespace Registrar.Api.Controllers
 
             foreach (var model in models)
             {
+                var validation = new CustomUserValidation(model.Validation);
+
                 if (model.Id == 0)
                 {
                     var field = CustomUserField.GetFieldForType(model.Type);
                     field.Name = model.Name;
                     field.Type = model.Type;
                     field.Required = model.Required;
-                    if (field.SetValidationProperties(model.Validation))
+                    if (field.SetValidationProperties(validation))
                     {
                         create.Add(field);
                     }
@@ -108,7 +110,7 @@ namespace Registrar.Api.Controllers
                     field.Name = model.Name;
                     field.Required = model.Required;
 
-                    if (field.SetValidationProperties(model.Validation))
+                    if (field.SetValidationProperties(validation))
                     {
                         update.Add(field);
                     }

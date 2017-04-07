@@ -21,11 +21,11 @@ namespace Registrar.Models.Response
 
             var props = field.GetValidationProperties();
             var propTypes = props.GetType().GetProperties();
-            Validation = new Dictionary<string, string>();
+            Validation = new Dictionary<string, object>();
             foreach (var prop in propTypes)
             {
                 var name = char.ToLowerInvariant(prop.Name[0]) + prop.Name.Substring(1);
-                Validation.Add(name, (string) (prop.GetValue(props) ?? "null"));
+                Validation.Add(name, prop.GetValue(props));
             }
         }
 
@@ -42,6 +42,6 @@ namespace Registrar.Models.Response
         public bool Required { get; private set; }
 
         [DataMember(Name = "validation")]
-        public IDictionary<string, string> Validation { get; private set; }
+        public IDictionary<string, object> Validation { get; private set; }
     }
 }
