@@ -8,7 +8,6 @@ namespace Registrar.Models.Request
     public class CreateCustomUserFieldModel
     {
         [DataMember(Name = "id")]
-        [Required]
         public int Id { get; private set; }
 
         [DataMember(Name = "name")]
