@@ -38,7 +38,7 @@ namespace EvotoApi.Areas.Management.Connections
             req.JsonSerializer.ContentType = "application/json; charset=utf-8";
             req.AddHeader("Accept", "application/json");
             req.Parameters.Clear();
-            req.AddParameter("application/json", JsonConvert.SerializeObject(model), ParameterType.RequestBody);
+            req.AddParameter("application/json", JsonConvert.SerializeObject(publishableVote), ParameterType.RequestBody);
             req.AddBody(JsonConvert.SerializeObject(model));
 
             var res = await MakeApiRequest(req);
