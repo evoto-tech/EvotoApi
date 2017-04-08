@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using Common.Models;
 
 namespace Registrar.Models.Request
 {
@@ -11,6 +10,7 @@ namespace Registrar.Models.Request
         public int Id { get; private set; }
 
         [DataMember(Name = "name")]
+        [RegularExpression(@"^[A-Za-z0-9-_\s]+$")]
         [Required]
         public string Name { get; private set; }
 

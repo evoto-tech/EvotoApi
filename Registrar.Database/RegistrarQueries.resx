@@ -190,7 +190,7 @@
     <value>DECLARE @cols AS NVARCHAR(MAX),
     @query  AS NVARCHAR(MAX)
 
-SELECT @cols = STUFF((SELECT distinct ',' + name
+SELECT @cols = STUFF((SELECT distinct ', [' + name + ']'
               FROM Users_CustomFields
       FOR XML PATH(''), TYPE
       ).value('.', 'NVARCHAR(MAX)') 

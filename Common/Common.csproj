@@ -69,15 +69,9 @@
     <Compile Include="Exceptions\RecordNotFoundException.cs" />
     <Compile Include="Models\CanSendEmailModel.cs" />
     <Compile Include="Models\CreateRegiUser.cs" />
-    <Compile Include="Models\CustomUserField.cs" />
-    <Compile Include="Models\CustomUserValue.cs" />
-    <Compile Include="Models\DbCustomUserField.cs" />
-    <Compile Include="Models\DbCustomUserValueIn.cs" />
-    <Compile Include="Models\DbCustomUserValueOut.cs" />
     <Compile Include="Models\DbRefreshToken.cs" />
     <Compile Include="Models\RefreshToken.cs" />
     <Compile Include="Models\DbUserToken.cs" />
-    <Compile Include="Models\RegiUser.cs" />
     <Compile Include="Models\UserToken.cs" />
     <Compile Include="SqlStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
