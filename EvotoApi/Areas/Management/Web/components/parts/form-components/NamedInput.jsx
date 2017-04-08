@@ -13,7 +13,7 @@ const propTypes = {
 class NamedInput extends React.Component {
   render () {
     const inputGroupStyle = Object.assign({}, { padding: '2px', width: '100%' }, this.props.inputGroupStyle)
-    const spanStyle = Object.assign({}, { color: '#000000', width: '130px' }, this.props.spanStyle)
+    const spanStyle = Object.assign({}, { color: '#000000', width: '130px', userSelect: 'none' }, this.props.spanStyle)
     const inputStyle = Object.assign({}, { width: '100%' }, this.props.inputStyle)
     const span = (
       <span className='input-group-addon' style={spanStyle}>
