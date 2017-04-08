@@ -5,6 +5,9 @@ using System.Web;
 using System.Web.Http;
 using Common;
 using Common.Exceptions;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Registrar.Api.Auth;
 using Registrar.Database.Interfaces;
 using Registrar.Models;
 using Registrar.Models.Request;
@@ -139,6 +142,7 @@ namespace Registrar.Api.Controllers
                     else
                         errors.Add($"Invalid Field Valididation for {model.Name}");
                 }
+            }
 
             // Error reading fields, return invalid
             if (errors.Any())
