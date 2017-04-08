@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using EvotoApi.Areas.Management.Connections;
 using Registrar.Models.Request;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace EvotoApi.Areas.Management.Controllers
 {
@@ -46,6 +48,9 @@ namespace EvotoApi.Areas.Management.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> Register(CreateRegiUser model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             try
             {
                 var user = await RegistrarConnection.CreateRegistrarUser(model);
@@ -56,6 +61,60 @@ namespace EvotoApi.Areas.Management.Controllers
                 // TODO: better error handling
                 if ((int) e.Data["status"] != 400)
                     return Json(e.Data["content"]);
+                return Json(new
+                {
+                    errors = e.Message
+                });
+            }
+        }
+
+        [Route("settings/custom-fields")]
+        //[Authorize]
+        [HttpGet]
+        public async Task<IHttpActionResult> SettingsCustomFieldsGet()
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var fields = await RegistrarConnection.GetCustomFields();
+                return Ok(fields);
+            }
+            catch (Exception e)
+            {
+                // TODO: better error handling
+                if (e.Data.Contains("status") && (int)e.Data["status"] != 400)
+                {
+                    return Json(e.Data["content"]);
+                }
+                return Json(new
+                {
+                    errors = e.Message
+                });
+            }
+        }
+
+        [Route("settings/custom-fields")]
+        //[Authorize]
+        [HttpPost]
+        public async Task<IHttpActionResult> SettingsCustomFieldsPost(IList<CreateCustomUserFieldModel> model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var fields = await RegistrarConnection.UpdateCustomFields(model);
+                return Ok(fields);
+            }
+            catch (Exception e)
+            {
+                // TODO: better error handling
+                if (e.Data.Contains("status") && (int)e.Data["status"] != 400)
+                {
+                    return Json(e.Data["content"]);
+                }
                 return Json(new
                 {
                     errors = e.Message
