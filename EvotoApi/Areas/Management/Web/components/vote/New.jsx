@@ -34,7 +34,7 @@ class NewVote extends React.Component {
       published: nonEmptyVote ? props.vote.published : false,
       questions: nonEmptyVote ? (JSON.parse(props.vote.questions) || []) : [],
       loaded: props.hasOwnProperty('loaded') ? props.loaded : true,
-      encrypted: nonEmptyVote ? props.vote.encrypted : false,
+      encrypted: nonEmptyVote ? props.vote.encrypted : true,
       blockSpeed: nonEmptyVote ? props.vote.blockSpeed : 30
     }
   }
@@ -80,7 +80,7 @@ class NewVote extends React.Component {
   }
 
   handleEncryptedChange (e) {
-    this.setState({ encrypted: e.target.value })
+    this.setState({ encrypted: e.target.checked })
   }
 
   handleBlockSpeedChange (val) {
@@ -292,7 +292,7 @@ class NewVote extends React.Component {
                     <input
                       type='checkbox'
                       id='encryptResults'
-                      value={this.state.encrypted}
+                      checked={this.state.encrypted}
                       onChange={this.handleEncryptedChange.bind(this)}
                       disabled={this.props.disabled}
                     />
