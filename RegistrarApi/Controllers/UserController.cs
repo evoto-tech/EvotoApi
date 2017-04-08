@@ -34,7 +34,6 @@ namespace Registrar.Api.Controllers
             => _userManager ?? (_userManager = HttpContext.Current.GetOwinContext().Get<RegiUserManager>());
 
         [HttpGet]
-        [Route("list")]
         [ApiKeyAuth]
         public async Task<IHttpActionResult> List()
         {
@@ -44,7 +43,7 @@ namespace Registrar.Api.Controllers
         }
 
         [HttpGet]
-        [Route("details/{userId:int}")]
+        [Route("{userId:int}")]
         [ApiKeyAuth]
         public async Task<IHttpActionResult> Details(int userId)
         {
@@ -60,8 +59,11 @@ namespace Registrar.Api.Controllers
         [HttpGet]
         [Route("email")]
         [ApiKeyAuth]
-        public async Task<IHttpActionResult> Details([FromBody] string email)
+        public async Task<IHttpActionResult> Details(string email)
         {
+            if (string.IsNullOrWhiteSpace(email))
+                return NotFound();
+
             var info = await UserManager.FindByEmailAsync(email);
             if (info == null)
                 return NotFound();
@@ -202,7 +204,7 @@ namespace Registrar.Api.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:int}")]
         [ApiKeyAuth]
         public async Task<IHttpActionResult> Delete(int id)
         {
@@ -236,7 +238,27 @@ namespace Registrar.Api.Controllers
             var updated = await UserManager.UpdateAsync(user);
             if (!updated.Succeeded)
             {
-                AddErrors(passwordValid);
+                AddErrors(updated);
+                return BadRequest(ModelState);
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("{id:int}/confirmEmail")]
+        [ApiKeyAuth]
+        public async Task<IHttpActionResult> ConfirmEmail(int id)
+        {
+            var user = await UserManager.FindByIdAsync(id);
+            if (user == null)
+                return NotFound();
+
+            user.EmailConfirmed = true;
+            var updated = await UserManager.UpdateAsync(user);
+            if (!updated.Succeeded)
+            {
+                AddErrors(updated);
                 return BadRequest(ModelState);
             }
 
