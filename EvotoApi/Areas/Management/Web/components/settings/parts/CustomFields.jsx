@@ -91,6 +91,7 @@ class CustomFields extends React.Component {
   }
 
   render () {
+    const overlay = (<LoadableOverlay loaded={this.state.loaded} />)
     const footer = (
       <div className='btn-group'>
         <button type='button' className='btn btn-success' onClick={this.addCustomField.bind(this)}>Add New Custom Field</button>
@@ -102,9 +103,9 @@ class CustomFields extends React.Component {
         type='success'
         title='Custom Fields'
         subtitle='Other fields required for client user accounts'
+        overlay={overlay}
         footer={footer}
       >
-        <LoadableOverlay loaded={this.state.loaded} />
         {this.state.customFields.map((f, i) => (
           <CustomField
             field={f}
