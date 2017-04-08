@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Results;
-using Common.Models;
 using EvotoApi.Areas.Management.Connections;
-using EvotoApi.Areas.ManagementApi.Models.Response;
+using Registrar.Models.Request;
 
 namespace EvotoApi.Areas.Management.Controllers
 {
@@ -59,9 +55,7 @@ namespace EvotoApi.Areas.Management.Controllers
             {
                 // TODO: better error handling
                 if ((int) e.Data["status"] != 400)
-                {
                     return Json(e.Data["content"]);
-                }
                 return Json(new
                 {
                     errors = e.Message

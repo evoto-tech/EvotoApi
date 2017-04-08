@@ -142,6 +142,15 @@ namespace Registrar.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM Users_CustomValues WHERE UserId = @UserId.
+        /// </summary>
+        internal static string CustomUserValueDeleteAllForUser {
+            get {
+                return ResourceManager.GetString("CustomUserValueDeleteAllForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to INSERT INTO Users_CustomValues (UserId, CustomFieldId, Value) VALUES (@UserId, @CustomFieldId, @Value);.
         /// </summary>
         internal static string CustomUserValueInsert {

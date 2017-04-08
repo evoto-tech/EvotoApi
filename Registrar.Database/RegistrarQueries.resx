@@ -243,4 +243,7 @@ EXECUTE(@query)</value>
   <data name="UserUpdate" xml:space="preserve">
     <value>UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash, EmailConfirmed = @EmailConfirmed WHERE Id = @Id</value>
   </data>
+  <data name="CustomUserValueDeleteAllForUser" xml:space="preserve">
+    <value>DELETE FROM Users_CustomValues WHERE UserId = @UserId</value>
+  </data>
 </root>

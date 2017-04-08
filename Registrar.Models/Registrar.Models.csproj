@@ -112,6 +112,8 @@
     <Compile Include="Request\ConfirmEmailModel.cs" />
     <Compile Include="Request\CreateBlockchain.cs" />
     <Compile Include="Request\CreateCustomUserFieldModel.cs" />
+    <Compile Include="Request\ChangePasswordModel.cs" />
+    <Compile Include="Request\CreateRegiUser.cs" />
     <Compile Include="Request\ForgotRegiPassword.cs" />
     <Compile Include="Request\GetBlindSignatureModel.cs" />
     <Compile Include="Request\HasVotedModel.cs" />

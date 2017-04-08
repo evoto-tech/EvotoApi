@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Net;
 using System.Threading.Tasks;
-using Common.Models;
 using Registrar.Models.Response;
 using Management.Models;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
+using Registrar.Models.Request;
 using RestSharp;
 
 namespace EvotoApi.Areas.Management.Connections
