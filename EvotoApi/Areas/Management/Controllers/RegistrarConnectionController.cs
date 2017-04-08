@@ -128,5 +128,42 @@ namespace EvotoApi.Areas.Management.Controllers
                 });
             }
         }
+
+        [Route("settings/list")]
+        //[Authorize]
+        [HttpGet]
+        public async Task<IHttpActionResult> ListSettings()
+        {
+            try
+            {
+                var settings = await RegistrarConnection.ListRegistrarSettings();
+                return Json(settings);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", e);
+                return BadRequest();
+            }
+        }
+
+        [Route("settings")]
+        //[Authorize]
+        [HttpPost]
+        public async Task<IHttpActionResult> UpdateSetting(UpdateRegiSetting model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var setting = await RegistrarConnection.UpdateRegistrarSettings(model);
+                return Json(setting);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", e);
+                return BadRequest();
+            }
+        }
     }
 }
