@@ -11,9 +11,6 @@ namespace Registrar.Database.Migrations
                 .WithColumn("Name").AsString(255).PrimaryKey().NotNullable()
                 .WithColumn("Value").AsString(255).NotNullable();
 
-            Create.PrimaryKey("PK_Settings").OnTable("Settings")
-                .Columns("Name");
-
             Insert.IntoTable("Settings")
                 .Row(
                     new
