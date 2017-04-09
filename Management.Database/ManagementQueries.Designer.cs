@@ -250,7 +250,7 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UPDATE Votes SET Name=@Name, Published=@Published, ExpiryDate=@ExpiryDate, Questions=@Questions WHERE Id=@Id.
+        ///   Looks up a localized string similar to UPDATE Votes SET Name=@Name, ChainString=@ChainString, Published=@Published, ExpiryDate=@ExpiryDate, Questions=@Questions WHERE Id=@Id.
         /// </summary>
         internal static string VoteUpdate {
             get {

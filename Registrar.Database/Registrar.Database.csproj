@@ -61,11 +61,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IRegiUserFieldsStore.cs" />
+    <Compile Include="Interfaces\IRegiSettingStore.cs" />
     <Compile Include="Interfaces\IRegiUserStore.cs" />
     <Compile Include="Interfaces\IRegiUserTokenStore.cs" />
     <Compile Include="Migrations\M002CreateRefreshTokenTable.cs" />
     <Compile Include="Migrations\M001CreateLockoutTable.cs" />
     <Compile Include="Migrations\M000CreateUserTable.cs" />
+    <Compile Include="Migrations\M014CreateSettingsTableWithRegistrationDefault.cs" />
     <Compile Include="Migrations\M013UpdateBlockchainTableAddEncryptKey.cs" />
     <Compile Include="Migrations\M011UpdateCustomUserFieldsWithTypeAndRequired.cs" />
     <Compile Include="Migrations\M012CreateUsersView.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="Models\DbCustomUserValueIn.cs" />
     <Compile Include="Models\DbCustomUserValueOut.cs" />
     <Compile Include="Models\RegiDbBlockchain.cs" />
+    <Compile Include="Models\RegiDbSetting.cs" />
     <Compile Include="Models\RegiDbUserLockout.cs" />
     <Compile Include="Models\RegiDbUser.cs" />
     <Compile Include="RegistrarQueries.Designer.cs">
@@ -94,6 +97,7 @@
     <Compile Include="Interfaces\IRegiBlockchainStore.cs" />
     <Compile Include="Stores\RegiSqlBlockchainStore.cs" />
     <Compile Include="Stores\RegiSqlUserFieldsStore.cs" />
+    <Compile Include="Stores\RegiSqlSettingStore.cs" />
     <Compile Include="Stores\RegiSqlUserTokenStore.cs" />
     <Compile Include="Stores\RegiSqlRefreshTokenStore.cs" />
     <Compile Include="Stores\RegiUserLockoutStore.cs" />

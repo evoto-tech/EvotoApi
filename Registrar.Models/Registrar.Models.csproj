@@ -114,6 +114,7 @@
     <Compile Include="RegiUser.cs" />
     <Compile Include="RegiUserLockout.cs" />
     <Compile Include="Request\ConfirmEmailModel.cs" />
+    <Compile Include="Request\UpdateRegiSetting.cs" />
     <Compile Include="Request\CreateBlockchain.cs" />
     <Compile Include="Request\CreateCustomUserFieldModel.cs" />
     <Compile Include="Request\ChangePasswordModel.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Request\VerifyRegiUser.cs" />
     <Compile Include="Response\SingleBlockchainResponse.cs" />
     <Compile Include="Response\SingleCustomUserFieldResponse.cs" />
+    <Compile Include="Response\SingleRegiSettingResponse.cs" />
     <Compile Include="Response\SingleRegiUserResponse.cs" />
   </ItemGroup>
   <ItemGroup>

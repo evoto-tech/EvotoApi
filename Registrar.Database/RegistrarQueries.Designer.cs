@@ -268,6 +268,33 @@ namespace Registrar.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Settings WHERE Name = @Name LIMIT 1.
+        /// </summary>
+        internal static string SettingGet {
+            get {
+                return ResourceManager.GetString("SettingGet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM Settings.
+        /// </summary>
+        internal static string SettingGetAll {
+            get {
+                return ResourceManager.GetString("SettingGetAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE Settings SET Value = @Value WHERE Name = @Name.
+        /// </summary>
+        internal static string SettingUpdate {
+            get {
+                return ResourceManager.GetString("SettingUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM UsersView WHERE Email = @Email.
         /// </summary>
         internal static string UserByEmail {

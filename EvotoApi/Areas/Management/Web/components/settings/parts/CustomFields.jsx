@@ -2,6 +2,7 @@ import React from 'react'
 import Box from '../../parts/Box.jsx'
 import LoadableOverlay from '../../parts/LoadableOverlay.jsx'
 import CustomField from './parts/CustomField.jsx'
+import { update, remove } from '../../../lib/state-utils'
 
 class CustomFields extends React.Component {
   constructor (props) {
@@ -33,19 +34,15 @@ class CustomFields extends React.Component {
 
   addCustomField (e) {
     e.preventDefault()
-    this.setState({ customFields: [].concat(this.state.customFields).concat([ { name: 'New Field', type: '', required: true, validation: {} } ]) })
+    this.setState({ customFields: update(this.state.customFields, { name: 'New Field', type: '', required: true, validation: {} }) })
   }
 
   updateCustomField (index, field) {
-    const customFields = [].concat(this.state.customFields)
-    customFields[index] = field
-    this.setState({ customFields })
+    this.setState({ customFields: update(this.state.customFields, index, field) })
   }
 
   deleteCustomField (index) {
-    const customFields = [].concat(this.state.customFields)
-    customFields.splice(index, 1)
-    this.setState({ customFields })
+    this.setState({ customFields: remove(this.state.customFields, index) })
   }
 
   cleanValidationJson (json) {
@@ -91,6 +88,7 @@ class CustomFields extends React.Component {
   }
 
   render () {
+    const overlay = (<LoadableOverlay loaded={this.state.loaded} />)
     const footer = (
       <div className='btn-group'>
         <button type='button' className='btn btn-success' onClick={this.addCustomField.bind(this)}>Add New Custom Field</button>
@@ -102,9 +100,9 @@ class CustomFields extends React.Component {
         type='success'
         title='Custom Fields'
         subtitle='Other fields required for client user accounts'
+        overlay={overlay}
         footer={footer}
       >
-        <LoadableOverlay loaded={this.state.loaded} />
         {this.state.customFields.map((f, i) => (
           <CustomField
             field={f}

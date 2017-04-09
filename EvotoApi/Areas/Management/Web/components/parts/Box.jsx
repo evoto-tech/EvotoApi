@@ -1,15 +1,6 @@
 import React from 'react'
 
 class Box extends React.Component {
-  propTypes: {
-    type: React.PropTypes.string,
-    title: React.PropTypes.string,
-    subtitle: React.PropTypes.string,
-    solid: React.PropTypes.bool,
-    children: React.PropTypes.node,
-    footer: React.PropTypes.node
-  }
-
   render () {
     return (
       <div className={`box box-${this.props.type} ${this.props.solid ? 'box-solid' : ''}`}>
@@ -26,6 +17,7 @@ class Box extends React.Component {
             {this.props.children}
           </div>
         )}
+        {!this.props.overlay ? '' : this.props.overlay}
         {!this.props.footer ? '' : (
           <div className='box-footer'>
             {this.props.footer}
@@ -34,6 +26,16 @@ class Box extends React.Component {
       </div>
     )
   }
+}
+
+Box.propTypes = {
+  type: React.PropTypes.string,
+  title: React.PropTypes.string,
+  subtitle: React.PropTypes.string,
+  solid: React.PropTypes.bool,
+  children: React.PropTypes.node,
+  footer: React.PropTypes.node,
+  overlay: React.PropTypes.node
 }
 
 export default Box

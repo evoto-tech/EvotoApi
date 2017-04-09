@@ -1,8 +1,9 @@
 import React from 'react'
 import { withRouter, Link } from 'react-router'
+import Slider from 'react-rangeslider'
 import Question from './parts/Question.jsx'
 import LoadableOverlay from '../parts/LoadableOverlay.jsx'
-import Slider from 'react-rangeslider'
+import { insert, update, remove } from '../../lib/state-utils'
 
 class NewVote extends React.Component {
   constructor (props) {
@@ -28,11 +29,12 @@ class NewVote extends React.Component {
     return {
       user: nonEmptyVote ? { id: props.vote.createdBy } : { id: 2 },
       name: nonEmptyVote ? props.vote.name : '',
+      chainString: nonEmptyVote ? (props.vote.chainString || '') : '',
       expiryDate: nonEmptyVote ? props.vote.expiryDate : '',
       published: nonEmptyVote ? props.vote.published : false,
       questions: nonEmptyVote ? (JSON.parse(props.vote.questions) || []) : [],
       loaded: props.hasOwnProperty('loaded') ? props.loaded : true,
-      encrypted: nonEmptyVote ? props.vote.encrypted : false,
+      encrypted: nonEmptyVote ? props.vote.encrypted : true,
       blockSpeed: nonEmptyVote ? props.vote.blockSpeed : 30
     }
   }
@@ -62,7 +64,15 @@ class NewVote extends React.Component {
   }
 
   handleNameChange (e) {
-    this.setState({ name: e.target.value })
+    const update = { name: e.target.value }
+    if (this.state.name === this.state.chainString) {
+      update.chainString = update.name
+    }
+    this.setState(update)
+  }
+
+  handleChainStringChange (e) {
+    this.setState({ chainString: e.target.value })
   }
 
   handleDateTimeChange (e) {
@@ -70,7 +80,7 @@ class NewVote extends React.Component {
   }
 
   handleEncryptedChange (e) {
-    this.setState({ encrypted: e.target.value })
+    this.setState({ encrypted: e.target.checked })
   }
 
   handleBlockSpeedChange (val) {
@@ -98,6 +108,7 @@ class NewVote extends React.Component {
     return ({
       createdBy: this.state.user.id,
       name: this.state.name,
+      chainString: this.state.chainString,
       expiryDate: this.state.expiryDate,
       published: this.state.published,
       questions: JSON.stringify(this.state.questions),
@@ -202,24 +213,15 @@ class NewVote extends React.Component {
   }
 
   addQuestion () {
-    let questions = this.state.questions
-    questions.push({
-      question: '',
-      options: []
-    })
-    this.setState({ questions })
+    this.setState({ questions: insert(this.state.questions, { question: '', options: [] }) })
   }
 
   updateQuestion (index, question) {
-    let questions = [].concat(this.state.questions)
-    questions[index] = question
-    this.setState({ questions })
+    this.setState({ questions: update(this.state.questions, index, question) })
   }
 
   deleteQuestion (index) {
-    let questions = [].concat(this.state.questions)
-    questions.splice(index, 1)
-    this.setState({ questions })
+    this.setState({ questions: remove(this.state.questions, index) })
   }
 
   render () {
@@ -257,6 +259,19 @@ class NewVote extends React.Component {
                   />
                   <span className='help-block'>{this.state.errors.name}</span>
                 </div>
+                <div className={this.state.errors.chainString ? 'form-group has-error' : 'form-group'}>
+                  <label htmlFor='chainString'>Blockchain Name</label>
+                  <input
+                    type='text'
+                    className='form-control'
+                    id='chainString'
+                    placeholder='Enter blockchain name'
+                    value={this.state.chainString}
+                    onChange={this.handleChainStringChange.bind(this)}
+                    disabled={this.props.disabled}
+                  />
+                  <span className='help-block'>{this.state.errors.chainString}</span>
+                </div>
                 <div className={this.state.errors.expiryDate ? 'form-group has-error' : 'form-group'}>
                   <label>End Date</label>
                   <div style={{ overflow: 'hidden' }}>
@@ -277,7 +292,7 @@ class NewVote extends React.Component {
                     <input
                       type='checkbox'
                       id='encryptResults'
-                      value={this.state.encrypted}
+                      checked={this.state.encrypted}
                       onChange={this.handleEncryptedChange.bind(this)}
                       disabled={this.props.disabled}
                     />

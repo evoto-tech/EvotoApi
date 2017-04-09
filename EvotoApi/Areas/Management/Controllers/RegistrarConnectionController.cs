@@ -6,6 +6,7 @@ using System.Web.Http.Controllers;
 using EvotoApi.Areas.Management.Connections;
 using Management.Models.Exceptions;
 using Registrar.Models.Request;
+using System;
 
 namespace EvotoApi.Areas.Management.Controllers
 {
@@ -155,6 +156,39 @@ namespace EvotoApi.Areas.Management.Controllers
             catch (RegistrarConnectionException e)
             {
                 return BadRequest(e.Message);
+            }
+        }
+
+        [Route("settings/list")]
+        [HttpGet]
+        public async Task<IHttpActionResult> ListSettings()
+        {
+            try
+            {
+                var settings = await RegistrarConnection.ListRegistrarSettings();
+                return Ok(settings);
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
+        }
+
+        [Route("settings")]
+        [HttpPost]
+        public async Task<IHttpActionResult> UpdateSetting(UpdateRegiSetting model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var setting = await RegistrarConnection.UpdateRegistrarSettings(model);
+                return Ok(setting);
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
             }
         }
     }

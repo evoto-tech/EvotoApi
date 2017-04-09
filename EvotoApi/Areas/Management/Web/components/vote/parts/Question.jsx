@@ -1,5 +1,6 @@
 import React from 'react'
-import Option from './Option.jsx'
+import Answer from './Answer.jsx'
+import { insert, update, remove } from '../../../lib/state-utils'
 
 class Question extends React.Component {
   constructor (props) {
@@ -18,7 +19,7 @@ class Question extends React.Component {
   stateFromProps (props) {
     return {
       question: props.question.question || '',
-      options: props.question.options || [],
+      answers: props.question.answers || [],
       info: props.question.info || ''
     }
   }
@@ -35,30 +36,20 @@ class Question extends React.Component {
     this.props.onChange(this.state)
   }
 
-  addOption () {
-    let options = [].concat(this.state.options)
-    options.push({ option: '', info: '' })
-    this.setState({ options }, this.onChange)
+  addAnswer () {
+    this.setState({ answers: insert(this.state.answers, { answer: '', info: '' }) }, this.onChange)
   }
 
-  deleteOption (index) {
-    let options = [].concat(this.state.options)
-    options.splice(index, 1)
-    this.setState({ options }, this.onChange)
+  deleteAnswer (index) {
+    this.setState({ answers: remove(this.state.answers, index) }, this.onChange)
   }
 
-  updateQuestion (e) {
-    this.setState({ question: e.target.value }, this.onChange)
+  updateAnswer (index, answer) {
+    this.setState({ answers: update(this.state.answers, index, answer) }, this.onChange)
   }
 
-  updateInfo (e) {
-    this.setState({ info: e.target.value }, this.onChange)
-  }
-
-  updateOption (index, option) {
-    let options = [].concat(this.state.options)
-    options[index] = option
-    this.setState({ options }, this.onChange)
+  updateField (field, e) {
+    this.setState({ [field]: e.target.value }, this.onChange)
   }
 
   render () {
@@ -73,7 +64,7 @@ class Question extends React.Component {
                 className='form-control'
                 placeholder='Question...'
                 value={this.state.question}
-                onChange={this.updateQuestion.bind(this)}
+                onChange={this.updateField.bind(this, 'question')}
                 disabled={this.props.disabled}
               />
             </div>
@@ -87,20 +78,20 @@ class Question extends React.Component {
               rows='2'
               placeholder='Information...'
               style={{ resize: 'vertical' }}
-              onChange={this.updateInfo.bind(this)}
+              onChange={this.updateField.bind(this, 'info')}
               value={this.state.info}
               disabled={this.props.disabled}
               />
           </div>
           <div className='form-group'>
             <label>Options</label>
-            {this.state.options.map((option, i) => (
-              <Option
+            {this.state.answers.map((answer, i) => (
+              <Answer
                 key={i}
                 id={i}
-                option={option}
-                onDelete={this.deleteOption.bind(this)}
-                onChange={this.updateOption.bind(this, i)}
+                answer={answer}
+                onDelete={this.deleteAnswer.bind(this)}
+                onChange={this.updateAnswer.bind(this, i)}
                 disabled={this.props.disabled}
                 />
             ))}
@@ -108,7 +99,7 @@ class Question extends React.Component {
           {this.props.disabled ? '' : (
             <div className='btn-group'>
               <button type='button' className='btn btn-danger' onClick={this.delete.bind(this)}>Delete Question</button>
-              <button type='button' className='btn btn-success' onClick={this.addOption.bind(this)}>Add Option</button>
+              <button type='button' className='btn btn-success' onClick={this.addAnswer.bind(this)}>Add Option</button>
             </div>
           )}
         </div>

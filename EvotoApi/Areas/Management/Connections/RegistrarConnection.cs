@@ -4,11 +4,13 @@ using System.Net;
 using System.Threading.Tasks;
 using Management.Models;
 using Management.Models.Exceptions;
+using EvotoApi.Areas.ManagementApi.Models.Request;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using Registrar.Models.Request;
 using Registrar.Models.Response;
 using RestSharp;
+using System;
 
 namespace EvotoApi.Areas.Management.Connections
 {
@@ -46,7 +48,8 @@ namespace EvotoApi.Areas.Management.Connections
 
         public static async Task<bool> CreateBlockchain(ManaVote model)
         {
-            var req = CreateRequest("management/createblockchain", Method.GET, model);
+            var publishableVote = new PublishManaVote(model);
+            var req = CreateRequest("management/createblockchain", Method.POST, publishableVote);
             var res = await MakeApiRequest(req);
 
             return res.StatusCode == HttpStatusCode.OK;
@@ -136,6 +139,32 @@ namespace EvotoApi.Areas.Management.Connections
 
             if (res.StatusCode != HttpStatusCode.OK)
                 throw new RegistrarConnectionException("Could not delete user");
+        }
+
+        public static async Task<IList<SingleRegiSettingResponse>> ListRegistrarSettings()
+        {
+            var req = CreateRequest("/settings/list", Method.GET);
+            req.JsonSerializer.ContentType = "application/json; charset=utf-8";
+            req.AddHeader("Accept", "application/json");
+            var res = await MakeApiRequest(req);
+
+            if (res.StatusCode == HttpStatusCode.OK)
+                return JsonConvert.DeserializeObject<IList<SingleRegiSettingResponse>>(res.Content);
+
+            throw new Exception("Error listing registrar settings");
+        }
+
+        public static async Task<SingleRegiSettingResponse> UpdateRegistrarSettings(UpdateRegiSetting model)
+        {
+            var req = CreateRequest("/settings", Method.POST, model);
+            req.JsonSerializer.ContentType = "application/json; charset=utf-8";
+            req.AddHeader("Accept", "application/json");
+            var res = await MakeApiRequest(req);
+
+            if (res.StatusCode == HttpStatusCode.OK)
+                return JsonConvert.DeserializeObject<SingleRegiSettingResponse>(res.Content);
+
+            throw new Exception("Error updating registrar settings");
         }
     }
 }

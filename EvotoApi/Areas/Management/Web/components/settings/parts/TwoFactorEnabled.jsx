@@ -1,6 +1,7 @@
 import React from 'react'
 import Box from '../../parts/Box.jsx'
 import NamedInput from '../../parts/form-components/NamedInput.jsx'
+import LabelledOverlay from '../../parts/LabelledOverlay.jsx'
 
 class TwoFactorEnabled extends React.Component {
   componentDidMount () {
@@ -11,10 +12,16 @@ class TwoFactorEnabled extends React.Component {
   }
 
   render () {
+    const overlay = (
+      <LabelledOverlay
+        label='Work in progress'
+      />
+    )
     return (
       <Box
         type='success'
         title='Enable Two Factor Authentication'
+        overlay={overlay}
       >
         <form>
           <NamedInput
