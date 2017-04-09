@@ -137,12 +137,11 @@ namespace EvotoApi.Areas.Management.Controllers
             try
             {
                 var settings = await RegistrarConnection.ListRegistrarSettings();
-                return Json(settings);
+                return Ok(settings);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                ModelState.AddModelError("error", e);
-                return BadRequest();
+                return InternalServerError();
             }
         }
 
@@ -157,12 +156,11 @@ namespace EvotoApi.Areas.Management.Controllers
             try
             {
                 var setting = await RegistrarConnection.UpdateRegistrarSettings(model);
-                return Json(setting);
+                return Ok(setting);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                ModelState.AddModelError("error", e);
-                return BadRequest();
+                return InternalServerError();
             }
         }
     }

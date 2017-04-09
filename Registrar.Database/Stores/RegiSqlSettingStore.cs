@@ -5,8 +5,8 @@ using Common;
 using Common.Exceptions;
 using Dapper;
 using Registrar.Database.Interfaces;
+using Registrar.Database.Models;
 using Registrar.Models.Request;
-using Registrar.Models.Response;
 using System.Collections.Generic;
 
 namespace Registrar.Database.Stores
@@ -17,14 +17,14 @@ namespace Registrar.Database.Stores
         {
         }
 
-        public async Task<SingleRegiSettingResponse> UpdateSetting(UpdateRegiSetting setting)
+        public async Task<RegiDbSetting> UpdateSetting(UpdateRegiSetting setting)
         {
             try
             {
                 using (var connection = await GetConnectionAsync())
                 {
                     await connection.ExecuteAsync(RegistrarQueries.SettingUpdate, setting);
-                    return new SingleRegiSettingResponse(setting);
+                    return new RegiDbSetting(setting);
                 }
             }
             catch (Exception e)
@@ -38,7 +38,7 @@ namespace Registrar.Database.Stores
             }
         }
 
-        public async Task<SingleRegiSettingResponse> GetSetting(string settingName)
+        public async Task<RegiDbSetting> GetSetting(string settingName)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace Registrar.Database.Stores
                     if (!result.Any())
                         throw new RecordNotFoundException();
 
-                    return new SingleRegiSettingResponse(result.First());
+                    return new RegiDbSetting(result.First());
                 }
             }
             catch (Exception e)
@@ -63,7 +63,7 @@ namespace Registrar.Database.Stores
             }
         }
 
-        public async Task<IList<SingleRegiSettingResponse>> ListSettings()
+        public async Task<IList<RegiDbSetting>> ListSettings()
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Registrar.Database.Stores
                     if (!result.Any())
                         throw new RecordNotFoundException();
 
-                    return result.Select((v) => new SingleRegiSettingResponse(v)).ToList();
+                    return result.Select((v) => new RegiDbSetting(v)).ToList();
                 }
             }
             catch (Exception e)

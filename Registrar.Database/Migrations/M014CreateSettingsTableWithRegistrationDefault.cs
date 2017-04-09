@@ -8,8 +8,7 @@ namespace Registrar.Database.Migrations
         public override void Up()
         {
             Create.Table("Settings")
-                .WithColumn("Id").AsInt32().Identity().NotNullable()
-                .WithColumn("Name").AsString(255).Unique().NotNullable()
+                .WithColumn("Name").AsString(255).PrimaryKey().NotNullable()
                 .WithColumn("Value").AsString(255).NotNullable();
 
             Create.PrimaryKey("PK_Settings").OnTable("Settings")

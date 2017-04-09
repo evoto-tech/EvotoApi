@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
+using System.Linq;
 using Common;
 using Common.Exceptions;
 using Registrar.Database.Interfaces;
 using Registrar.Models.Request;
+using Registrar.Models.Response;
 
 namespace Registrar.Api.Controllers
 {
@@ -25,7 +27,8 @@ namespace Registrar.Api.Controllers
             try
             {
                 var updatedSetting = await _store.UpdateSetting(setting);
-                return Json(updatedSetting);
+                var res = new SingleRegiSettingResponse(updatedSetting);
+                return Ok(updatedSetting);
             }
             catch (RecordNotFoundException)
             {
@@ -41,7 +44,8 @@ namespace Registrar.Api.Controllers
             try
             {
                 var settings = await _store.ListSettings();
-                return Json(settings);
+                var res = settings.Select((v) => new SingleRegiSettingResponse(v));
+                return Ok(settings);
             }
             catch (RecordNotFoundException)
             {

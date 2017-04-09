@@ -12,7 +12,7 @@ namespace Registrar.Models.Request
         [Required]
         public string Name { get; private set; }
 
-        [DataMember(Name="Value")]
+        [DataMember(Name="value")]
         [Required]
         public string Value { get; private set; }
     }
