@@ -46,6 +46,10 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -57,12 +61,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IRegiUserFieldsStore.cs" />
+    <Compile Include="Interfaces\IRegiSettingStore.cs" />
     <Compile Include="Interfaces\IRegiUserStore.cs" />
     <Compile Include="Interfaces\IRegiUserTokenStore.cs" />
     <Compile Include="Migrations\M002CreateRefreshTokenTable.cs" />
     <Compile Include="Migrations\M001CreateLockoutTable.cs" />
     <Compile Include="Migrations\M000CreateUserTable.cs" />
-    <Compile Include="Migrations\M012UpdateBlockchainTableAddEncryptKey.cs" />
+    <Compile Include="Migrations\M014CreateSettingsTableWithRegistrationDefault.cs" />
+    <Compile Include="Migrations\M013UpdateBlockchainTableAddEncryptKey.cs" />
     <Compile Include="Migrations\M011UpdateCustomUserFieldsWithTypeAndRequired.cs" />
     <Compile Include="Migrations\M012CreateUsersView.cs" />
     <Compile Include="Migrations\M010CreateCustomUserFields.cs" />
@@ -73,7 +79,11 @@
     <Compile Include="Migrations\M005UpdateBlockchainTableAgain.cs" />
     <Compile Include="Migrations\M004UpdateBlockchainTable.cs" />
     <Compile Include="Migrations\M003CreateBlockchainTable.cs" />
+    <Compile Include="Models\DbCustomUserField.cs" />
+    <Compile Include="Models\DbCustomUserValueIn.cs" />
+    <Compile Include="Models\DbCustomUserValueOut.cs" />
     <Compile Include="Models\RegiDbBlockchain.cs" />
+    <Compile Include="Models\RegiDbSetting.cs" />
     <Compile Include="Models\RegiDbUserLockout.cs" />
     <Compile Include="Models\RegiDbUser.cs" />
     <Compile Include="RegistrarQueries.Designer.cs">
@@ -87,6 +97,7 @@
     <Compile Include="Interfaces\IRegiBlockchainStore.cs" />
     <Compile Include="Stores\RegiSqlBlockchainStore.cs" />
     <Compile Include="Stores\RegiSqlUserFieldsStore.cs" />
+    <Compile Include="Stores\RegiSqlSettingStore.cs" />
     <Compile Include="Stores\RegiSqlUserTokenStore.cs" />
     <Compile Include="Stores\RegiSqlRefreshTokenStore.cs" />
     <Compile Include="Stores\RegiUserLockoutStore.cs" />

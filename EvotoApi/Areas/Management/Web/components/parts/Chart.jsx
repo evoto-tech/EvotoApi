@@ -25,7 +25,9 @@ class Chart extends React.Component {
   componentDidUpdate () {
     let chart = this.state.chart
     let data = this.props.data
-    data.datasets.forEach((dataset, i) => { chart.data.datasets[i].data = dataset.data })
+    data.datasets.forEach((dataset, i) => {
+      chart.data.datasets[i].data = dataset.data
+    })
     chart.data.labels = data.labels
     chart.update()
   }

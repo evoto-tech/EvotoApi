@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Common;
 using Common.Exceptions;
-using Common.Models;
 using Registrar.Database.Interfaces;
+using Registrar.Models;
 using Registrar.Models.Request;
 using Registrar.Models.Response;
 
@@ -64,25 +64,47 @@ namespace Registrar.Api.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            if (models == null)
+                return BadRequest();
 
+            // Read existing fields from database
             var existingFields = await _fieldStore.GetCustomUserFields();
+
+            // Store lists for database interraction
             var update = new List<CustomUserField>();
             var create = new List<CustomUserField>();
+
+            var names = new List<string>();
             var errors = new List<string>();
 
             foreach (var model in models)
             {
+                var validation = new CustomUserValidation(model.Validation);
+
+                // Ensure the field names are unique
+                if (names.Contains(model.Name))
+                {
+                    var errMsg = $"Duplicate Field name: {model.Name}";
+                    // Avoid duplicate errors if more than two fields share a name
+                    if (!errors.Contains(errMsg))
+                        errors.Add(errMsg);
+                }
+                else
+                    names.Add(model.Name);
+
+                // Creating a new field
                 if (model.Id == 0)
                 {
                     var field = CustomUserField.GetFieldForType(model.Type);
                     field.Name = model.Name;
                     field.Type = model.Type;
                     field.Required = model.Required;
-
-                    field.SetValidationProperties(model.Validation);
-
-                    create.Add(field);
+                    if (field.SetValidationProperties(validation))
+                        create.Add(field);
+                    else
+                        errors.Add($"Invalid Field Valididation for {model.Name}");
                 }
+                // Edit an existing field
                 else
                 {
                     var field = existingFields.SingleOrDefault(f => f.Id == model.Id);
@@ -102,12 +124,14 @@ namespace Registrar.Api.Controllers
                     field.Name = model.Name;
                     field.Required = model.Required;
 
-                    field.SetValidationProperties(model.Validation);
-
-                    update.Add(field);
+                    if (field.SetValidationProperties(validation))
+                        update.Add(field);
+                    else
+                        errors.Add($"Invalid Field Valididation for {model.Name}");
                 }
             }
 
+            // Error reading fields, return invalid
             if (errors.Any())
             {
                 foreach (var error in errors)
@@ -115,6 +139,7 @@ namespace Registrar.Api.Controllers
                 return BadRequest(ModelState);
             }
 
+            // Any fields omitted must have been deleted
             var delete = existingFields.Where(f => !create.Contains(f)).Where(f => !update.Contains(f)).ToList();
 
             // Sanity checks
@@ -123,17 +148,28 @@ namespace Registrar.Api.Controllers
             if (update.Count + delete.Count != existingFields.Count)
                 return InternalServerError();
 
-            // Here goes
-            var tasks = new List<Task>();
-            tasks.AddRange(create.Select(c => _fieldStore.CreateCustomUserField(c)).ToList());
-            tasks.AddRange(update.Select(u => _fieldStore.UpdateCustomUserField(u)).ToList());
-            tasks.AddRange(delete.Select(d => _fieldStore.DeleteCustomUserField(d)).ToList());
+            // Run synchronously to avoid any uniqueness conflicts and race conditions
+            foreach (var d in delete)
+            {
+                await _fieldStore.DeleteCustomUserField(d);
+            }
 
-            await Task.WhenAll(tasks);
+            foreach (var u in update)
+            {
+                await _fieldStore.UpdateCustomUserField(u);
+            }
 
+            foreach (var c in create)
+            {
+                await _fieldStore.CreateCustomUserField(c);
+            }
+
+            // Update User View with custom fields (columns)
             await _fieldStore.UpdateUserView();
 
-            return Ok();
+            // Return the updated fields
+            var fields = await _fieldStore.GetCustomUserFields();
+            return Ok(fields.Select(f => new SingleCustomUserFieldResponse(f)));
         }
     }
 }

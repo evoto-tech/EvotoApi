@@ -209,6 +209,7 @@
     <Compile Include="Auth\RegiRefreshTokenProvider.cs" />
     <Compile Include="Auth\RegiSignInManager.cs" />
     <Compile Include="Auth\RegiUserManager.cs" />
+    <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\VoteController.cs" />
