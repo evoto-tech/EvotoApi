@@ -76,7 +76,7 @@ class VoteList extends React.Component {
         return (
           <tr key={i}>
             <td>{i + 1}.</td>
-            <td><Link to={`/vote/${vote.id}`}>{vote.name}</Link></td>
+            <td><Link to={vote.published ? `/vote/${vote.id}` : `/vote/${vote.id}/edit`}>{vote.name}</Link></td>
             <td>{formatDateString(vote.creationDate)}</td>
             <td>{formatDateString(vote.expiryDate)}</td>
             <td><span className={'badge ' + (vote.published ? 'bg-green' : 'bg-red')}>{vote.published ? 'Published' : 'Draft'}</span></td>

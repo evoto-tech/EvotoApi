@@ -24,7 +24,7 @@ namespace Registrar.Api.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> GetVotes()
         {
-            var votes = await _blockchainStore.GetCurrentBlockchains();
+            var votes = await _blockchainStore.GetAllBlockchains();
 
             var response = new List<SingleBlockchainResponse>();
             foreach (var vote in votes)

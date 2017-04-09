@@ -17,13 +17,13 @@ namespace Registrar.Database.Stores
         {
         }
 
-        public List<RegiBlockchain> GetAllBlockchains()
+        public async Task<List<RegiBlockchain>> GetAllBlockchains()
         {
             try
             {
-                using (var connection = GetConnection())
+                using (var connection = await GetConnectionAsync())
                 {
-                    var rows = connection.Query(RegistrarQueries.BlockchainGetAll);
+                    var rows = await connection.QueryAsync(RegistrarQueries.BlockchainGetAll);
                     return rows.Select(r => new RegiDbBlockchain(r).ToBlockchain()).ToList();
                 }
             }

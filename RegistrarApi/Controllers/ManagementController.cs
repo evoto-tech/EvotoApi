@@ -54,7 +54,7 @@ namespace Registrar.Api.Controllers
             await MultiChainUtilHandler.CreateBlockchain(model.ChainString);
 
             // Find a Port to run multichaind on
-            var blockchains = _blockchainStore.GetAllBlockchains();
+            var blockchains = await _blockchainStore.GetAllBlockchains();
 
             int port;
             while (true)

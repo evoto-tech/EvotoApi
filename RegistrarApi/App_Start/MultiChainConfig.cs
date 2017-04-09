@@ -14,10 +14,11 @@ namespace Registrar.Api
         {
             var handler = NinjectWebCommon.Kernel.Get<MultiChainHandler>();
             var blockchainStore = NinjectWebCommon.Kernel.Get<IRegiBlockchainStore>();
-            var blockchains = blockchainStore.GetAllBlockchains();
+            var blockchainsTask = blockchainStore.GetAllBlockchains();
+            blockchainsTask.Wait();
 
             Task.WaitAll(
-                blockchains.Select(
+                blockchainsTask.Result.Select(
                         blockchain =>
                             // We're the host/master node, so local port = remote port
                                 handler.Connect(IPAddress.Loopback.ToString(), blockchain.ChainString, blockchain.Port,
