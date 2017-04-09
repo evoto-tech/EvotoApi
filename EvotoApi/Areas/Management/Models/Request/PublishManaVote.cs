@@ -21,6 +21,7 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
             Questions = JsonConvert.DeserializeObject<List<CreateBlockchainQuestion>>(vote.Questions);
             EncryptResults = vote.EncryptResults;
             BlockSpeed = vote.BlockSpeed;
+            Published = vote.Published;
         }
 
         [DataMember(Name = "createdBy")]
@@ -52,5 +53,8 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
 
         [DataMember(Name = "blockSpeed")]
         public int BlockSpeed { get; private set; }
+
+        [DataMember(Name = "publishedDate")]
+        public DateTime? publishedDate { get; private set; }
     }
 }

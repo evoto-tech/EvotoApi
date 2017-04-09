@@ -205,7 +205,7 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString, Questions, EncryptResults, BlockSpeed) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString, @Questions, @EncryptResults, @BlockSpeed).
+        ///   Looks up a localized string similar to INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString, Questions, EncryptResults, BlockSpeed, PublishedDate) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString, @Questions, @EncryptResults, @BlockSpeed, @PublishedDate).
         /// </summary>
         internal static string VoteCreate {
             get {
@@ -232,7 +232,7 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId.
+        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId ORDER BY CreationDate DESC.
         /// </summary>
         internal static string VotesGetByUser {
             get {
@@ -241,7 +241,7 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId AND Published = @Published.
+        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId AND Published = @Published  ORDER BY CreatedDate DESC.
         /// </summary>
         internal static string VotesGetByUserAndPublished {
             get {
@@ -250,7 +250,7 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UPDATE Votes SET Name=@Name, ChainString=@ChainString, Published=@Published, ExpiryDate=@ExpiryDate, Questions=@Questions WHERE Id=@Id.
+        ///   Looks up a localized string similar to UPDATE Votes SET Name=@Name, ChainString=@ChainString, Published=@Published, ExpiryDate=@ExpiryDate, Questions=@Questions, PublishedDate = @PublishedDate WHERE Id=@Id.
         /// </summary>
         internal static string VoteUpdate {
             get {

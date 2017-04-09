@@ -32,6 +32,7 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         {
             if (vote.Published)
             {
+                vote.PublishedDate = DateTime.Now;
                 var created = await RegistrarConnection.CreateBlockchain(vote);
                 if (created)
                 {
@@ -42,6 +43,7 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
                     try
                     {
                         vote.Published = false;
+                        vote.PublishedDate = null;
                         await _store.UpdateVote(vote);
                     }
                     catch (Exception e)

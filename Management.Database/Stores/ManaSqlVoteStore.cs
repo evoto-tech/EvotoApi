@@ -67,7 +67,7 @@ namespace Management.Database.Stores
                 using (var connection = await GetConnectionAsync())
                 {
                     var dbModel = new ManaDbVote(vote);
-                    await connection.ExecuteAsync(ManagementQueries.VoteCreate, dbModel);
+                    var result = await connection.ExecuteAsync(ManagementQueries.VoteCreate, dbModel);
 
                     return vote;
                 }

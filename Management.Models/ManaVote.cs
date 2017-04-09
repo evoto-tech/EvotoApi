@@ -14,5 +14,6 @@ namespace Management.Models
         public string Questions { get; set; }
         public bool EncryptResults { get; set; }
         public int BlockSpeed { get; set; }
+        public DateTime? PublishedDate { get; set; }
     }
 }

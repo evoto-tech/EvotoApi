@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="VoteCreate" xml:space="preserve">
-    <value>INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString, Questions, EncryptResults, BlockSpeed) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString, @Questions, @EncryptResults, @BlockSpeed)</value>
+    <value>INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString, Questions, EncryptResults, BlockSpeed, PublishedDate) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString, @Questions, @EncryptResults, @BlockSpeed, @PublishedDate)</value>
   </data>
   <data name="VoteDelete" xml:space="preserve">
     <value>DELETE FROM Votes WHERE Id=@Id</value>
@@ -127,13 +127,13 @@
     <value>SELECT * FROM Votes WHERE Id = @Id</value>
   </data>
   <data name="VotesGetByUser" xml:space="preserve">
-    <value>SELECT * FROM Votes WHERE CreatedBy = @UserId</value>
+    <value>SELECT * FROM Votes WHERE CreatedBy = @UserId ORDER BY CreationDate DESC</value>
   </data>
   <data name="VotesGetByUserAndPublished" xml:space="preserve">
-    <value>SELECT * FROM Votes WHERE CreatedBy = @UserId AND Published = @Published</value>
+    <value>SELECT * FROM Votes WHERE CreatedBy = @UserId AND Published = @Published  ORDER BY CreatedDate DESC</value>
   </data>
   <data name="VoteUpdate" xml:space="preserve">
-    <value>UPDATE Votes SET Name=@Name, ChainString=@ChainString, Published=@Published, ExpiryDate=@ExpiryDate, Questions=@Questions WHERE Id=@Id</value>
+    <value>UPDATE Votes SET Name=@Name, ChainString=@ChainString, Published=@Published, ExpiryDate=@ExpiryDate, Questions=@Questions, PublishedDate = @PublishedDate WHERE Id=@Id</value>
   </data>
   <data name="LockoutGetByUserId" xml:space="preserve">
     <value>SELECT * FROM Users_Lockout WHERE UserId = @UserId</value>
