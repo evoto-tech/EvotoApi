@@ -16,13 +16,20 @@ namespace Registrar.Api.Auth
         {
         }
 
+        private static T Get<T>()
+        {
+            return (T) DependencyResolver.Current.GetService(typeof(T));
+        }
+
         public static RegiUserManager Create(IdentityFactoryOptions<RegiUserManager> options,
             IOwinContext context)
         {
-            var userStore = (IRegiUserStore) DependencyResolver.Current.GetService(typeof(IRegiUserStore));
-            var lockoutStore =
-                (IRegiUserLockoutStore) DependencyResolver.Current.GetService(typeof(IRegiUserLockoutStore));
-            var store = new RegiAuthUserStore(userStore, lockoutStore);
+            var userStore = Get<IRegiUserStore>();
+            var lockoutStore = Get<IRegiUserLockoutStore>();
+            var fieldStore = Get<IRegiUserFieldsStore>();
+            var tokenStore = Get<IRegiRefreshTokenStore>();
+
+            var store = new RegiAuthUserStore(userStore, lockoutStore, fieldStore, tokenStore);
             var manager = new RegiUserManager(store);
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<RegiAuthUser, int>(manager)

@@ -115,6 +115,25 @@ namespace Registrar.Database.Stores
             }
         }
 
+        public async Task DeleteValuesForUser(RegiUser user)
+        {
+            try
+            {
+                using (var connection = await GetConnectionAsync())
+                {
+                    await
+                        connection.ExecuteAsync(RegistrarQueries.CustomUserValueDeleteAllForUser, new {UserId = user.Id});
+                }
+            }
+            catch (Exception)
+            {
+#if DEBUG
+                throw;
+#endif
+                throw new Exception("Could not delete custom user values");
+            }
+        }
+
         public async Task UpdateUserView()
         {
             try

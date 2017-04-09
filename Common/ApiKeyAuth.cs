@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
@@ -18,7 +14,7 @@ namespace Common
                 context.Request.RequestUri.Query);
 
             var key = queryString.Get("key");
-            return key != null && IsValidKey(key);
+            return (key != null) && IsValidKey(key);
         }
 
         private static bool IsValidKey(string key)

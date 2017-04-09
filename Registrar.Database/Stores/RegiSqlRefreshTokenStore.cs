@@ -32,7 +32,7 @@ namespace Registrar.Database.Stores
 #endif
                 if (e is RecordNotFoundException)
                     throw;
-                throw new Exception("Could not delete Regi User");
+                throw new Exception("Could not create Refresh Token");
             }
         }
 
@@ -53,7 +53,7 @@ namespace Registrar.Database.Stores
 #endif
                 if (e is RecordNotFoundException)
                     throw;
-                throw new Exception("Could not delete Regi User");
+                throw new Exception("Could not update Refresh Token");
             }
         }
 
@@ -80,7 +80,7 @@ namespace Registrar.Database.Stores
 #endif
                 if (e is RecordNotFoundException)
                     throw;
-                throw new Exception("Could not delete Regi User");
+                throw new Exception("Could not get Refresh Token for user");
             }
         }
 
@@ -107,7 +107,7 @@ namespace Registrar.Database.Stores
 #endif
                 if (e is RecordNotFoundException)
                     throw;
-                throw new Exception("Could not delete Regi User");
+                throw new Exception("Could not get Refresh Token");
             }
         }
 
@@ -127,7 +127,27 @@ namespace Registrar.Database.Stores
 #endif
                 if (e is RecordNotFoundException)
                     throw;
-                throw new Exception("Could not delete Regi User");
+                throw new Exception("Could not delete Refresh Token");
+            }
+        }
+
+        public async Task DeleteTokensForUser(int userId)
+        {
+            try
+            {
+                using (var connection = await GetConnectionAsync())
+                {
+                    await connection.ExecuteAsync(RegistrarQueries.RefreshTokenDeleteAllForUser, new { UserId = userId });
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                throw;
+#endif
+                if (e is RecordNotFoundException)
+                    throw;
+                throw new Exception("Could not delete Refresh Tokens for user");
             }
         }
     }
