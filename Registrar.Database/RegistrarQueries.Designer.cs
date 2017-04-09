@@ -160,6 +160,15 @@ namespace Registrar.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM Users_Lockout WHERE UserId = @UserId.
+        /// </summary>
+        internal static string LockoutDeleteInfoForUser {
+            get {
+                return ResourceManager.GetString("LockoutDeleteInfoForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM Users_Lockout WHERE UserId = @UserId.
         /// </summary>
         internal static string LockoutGetByUserId {
@@ -219,6 +228,15 @@ namespace Registrar.Database {
         internal static string RefreshTokenDelete {
             get {
                 return ResourceManager.GetString("RefreshTokenDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM RefreshTokens WHERE UserId = @UserId.
+        /// </summary>
+        internal static string RefreshTokenDeleteAllForUser {
+            get {
+                return ResourceManager.GetString("RefreshTokenDeleteAllForUser", resourceCulture);
             }
         }
         

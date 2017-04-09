@@ -1,18 +1,32 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 using EvotoApi.Areas.Management.Connections;
+using Management.Models.Exceptions;
 using Registrar.Models.Request;
-using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace EvotoApi.Areas.Management.Controllers
 {
+    public class Authorize2 : AuthorizeAttribute
+    {
+        public override void OnAuthorization(HttpActionContext actionContext)
+        {
+            base.OnAuthorization(actionContext);
+        }
+
+        public override Task OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+        {
+            return base.OnAuthorizationAsync(actionContext, cancellationToken);
+        }
+    }
+
     [RoutePrefix("regi")]
+    [Authorize2]
     public class RegistrarConnectionController : ApiController
     {
         [Route("users/list")]
-        //[Authorize]
         [HttpGet]
         public async Task<IHttpActionResult> List()
         {
@@ -21,14 +35,13 @@ namespace EvotoApi.Areas.Management.Controllers
                 var users = await RegistrarConnection.GetRegistrarUsers();
                 return Ok(users);
             }
-            catch (Exception e)
+            catch (RegistrarConnectionException e)
             {
                 return BadRequest(e.Message);
             }
         }
 
         [Route("users/detail/{userId:int}")]
-        //[Authorize]
         [HttpGet]
         public async Task<IHttpActionResult> Details(int userId)
         {
@@ -37,14 +50,13 @@ namespace EvotoApi.Areas.Management.Controllers
                 var user = await RegistrarConnection.GetRegistrarUser(userId);
                 return Ok(user);
             }
-            catch (Exception e)
+            catch (RegistrarConnectionException e)
             {
                 return BadRequest(e.Message);
             }
         }
 
         [Route("account/register")]
-        //[Authorize]
         [HttpPost]
         public async Task<IHttpActionResult> Register(CreateRegiUser model)
         {
@@ -56,20 +68,13 @@ namespace EvotoApi.Areas.Management.Controllers
                 var user = await RegistrarConnection.CreateRegistrarUser(model);
                 return Ok(user);
             }
-            catch (Exception e)
+            catch (RegistrarConnectionException e)
             {
-                // TODO: better error handling
-                if ((int) e.Data["status"] != 400)
-                    return Json(e.Data["content"]);
-                return Json(new
-                {
-                    errors = e.Message
-                });
+                return BadRequest(e.Message);
             }
         }
 
         [Route("settings/custom-fields")]
-        //[Authorize]
         [HttpGet]
         public async Task<IHttpActionResult> SettingsCustomFieldsGet()
         {
@@ -81,22 +86,13 @@ namespace EvotoApi.Areas.Management.Controllers
                 var fields = await RegistrarConnection.GetCustomFields();
                 return Ok(fields);
             }
-            catch (Exception e)
+            catch (RegistrarConnectionException e)
             {
-                // TODO: better error handling
-                if (e.Data.Contains("status") && (int)e.Data["status"] != 400)
-                {
-                    return Json(e.Data["content"]);
-                }
-                return Json(new
-                {
-                    errors = e.Message
-                });
+                return BadRequest(e.Message);
             }
         }
 
         [Route("settings/custom-fields")]
-        //[Authorize]
         [HttpPost]
         public async Task<IHttpActionResult> SettingsCustomFieldsPost(IList<CreateCustomUserFieldModel> model)
         {
@@ -108,17 +104,57 @@ namespace EvotoApi.Areas.Management.Controllers
                 var fields = await RegistrarConnection.UpdateCustomFields(model);
                 return Ok(fields);
             }
-            catch (Exception e)
+            catch (RegistrarConnectionException e)
             {
-                // TODO: better error handling
-                if (e.Data.Contains("status") && (int)e.Data["status"] != 400)
-                {
-                    return Json(e.Data["content"]);
-                }
-                return Json(new
-                {
-                    errors = e.Message
-                });
+                return BadRequest(e.Message);
+            }
+        }
+
+        [Route("users/confirmEmail/{id:int}")]
+        [HttpPost]
+        public async Task<IHttpActionResult> ConfirmEmail(int id)
+        {
+            try
+            {
+                await RegistrarConnection.SetEmailConfirmed(id);
+                return Ok();
+            }
+            catch (RegistrarConnectionException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [Route("users/changePassword")]
+        [HttpPost]
+        public async Task<IHttpActionResult> ChangePassword(ChangePasswordModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                await RegistrarConnection.ChangePassword(model);
+                return Ok();
+            }
+            catch (RegistrarConnectionException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [Route("users/{id:int}")]
+        [HttpDelete]
+        public async Task<IHttpActionResult> DeleteUser(int id)
+        {
+            try
+            {
+                await RegistrarConnection.DeleteUser(id);
+                return Ok();
+            }
+            catch (RegistrarConnectionException e)
+            {
+                return BadRequest(e.Message);
             }
         }
     }

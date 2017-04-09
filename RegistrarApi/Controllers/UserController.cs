@@ -244,7 +244,6 @@ namespace Registrar.Api.Controllers
         public async Task<IHttpActionResult> Delete(int id)
         {
             var user = await UserManager.FindByIdAsync(id);
-            await _fieldStore.DeleteValuesForUser(user);
             await UserManager.DeleteAsync(user);
 
             return Ok();

@@ -10,5 +10,6 @@ namespace Registrar.Database.Interfaces
         Task UpdateUserAttempts(RegiUserLockout userInfo);
         Task InsertUserTime(RegiUserLockout userInfo);
         Task UpdateUserTime(RegiUserLockout userInfo);
+        Task DeleteInfoForUser(int userId);
     }
 }

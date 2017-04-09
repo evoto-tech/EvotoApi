@@ -8,11 +8,11 @@ namespace Registrar.Models.Request
     {
         [DataMember(Name = "userId")]
         [Required]
-        public int UserId { get; private set; }
+        public int UserId { get; set; }
 
         [DataMember(Name = "password")]
         [DataType(DataType.Password)]
         [Required]
-        public string Password { get; private set; }
+        public string Password { get; set; }
     }
 }

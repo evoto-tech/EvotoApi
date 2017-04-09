@@ -10,5 +10,6 @@ namespace Registrar.Database.Interfaces
         Task<RefreshToken> GetRefreshTokenForUser(int userId);
         Task<RefreshToken> GetRefreshToken(string token);
         Task DeleteRefreshToken(string token);
+        Task DeleteTokensForUser(int userId);
     }
 }

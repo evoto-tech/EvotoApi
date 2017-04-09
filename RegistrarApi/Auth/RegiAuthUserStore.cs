@@ -10,13 +10,18 @@ namespace Registrar.Api.Auth
     public class RegiAuthUserStore : IUserPasswordStore<RegiAuthUser, int>,
         IUserEmailStore<RegiAuthUser, int>, IUserLockoutStore<RegiAuthUser, int>, IUserTwoFactorStore<RegiAuthUser, int>
     {
+        private readonly IRegiUserFieldsStore _fieldStore;
         private readonly IRegiUserLockoutStore _lockoutStore;
         private readonly IRegiUserStore _store;
+        private readonly IRegiRefreshTokenStore _tokenStore;
 
-        public RegiAuthUserStore(IRegiUserStore store, IRegiUserLockoutStore lockoutStore)
+        public RegiAuthUserStore(IRegiUserStore store, IRegiUserLockoutStore lockoutStore,
+            IRegiUserFieldsStore fieldStore, IRegiRefreshTokenStore tokenStore)
         {
             _store = store;
             _lockoutStore = lockoutStore;
+            _fieldStore = fieldStore;
+            _tokenStore = tokenStore;
         }
 
         public void Dispose()
@@ -181,7 +186,13 @@ namespace Registrar.Api.Auth
 
         public async Task DeleteAsync(RegiAuthUser user)
         {
-            await _store.DeleteUser(Convert.ToInt32(user.Id));
+            // Delete user foreign values
+            await _fieldStore.DeleteValuesForUser(user);
+            await _lockoutStore.DeleteInfoForUser(user.Id);
+            await _tokenStore.DeleteTokensForUser(user.Id);
+
+            // Delete main record
+            await _store.DeleteUser(user.Id);
         }
 
         public async Task<RegiAuthUser> FindByIdAsync(int userId)

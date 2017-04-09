@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Net;
 using System.Threading.Tasks;
-using Registrar.Models.Response;
 using Management.Models;
+using Management.Models.Exceptions;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using Registrar.Models.Request;
+using Registrar.Models.Response;
 using RestSharp;
-using System.Diagnostics;
 
 namespace EvotoApi.Areas.Management.Connections
 {
@@ -37,12 +36,10 @@ namespace EvotoApi.Areas.Management.Connections
                 request.AddQueryParameter("key", ConfigurationManager.AppSettings.Get("ApiKeys"));
 
             if (data != null)
-            {
                 request.AddParameter(
                     "application/json",
                     JsonConvert.SerializeObject(data),
                     ParameterType.RequestBody);
-            }
 
             return request;
         }
@@ -58,23 +55,25 @@ namespace EvotoApi.Areas.Management.Connections
         public static async Task<IEnumerable<SingleRegiUserResponse>> GetRegistrarUsers()
         {
             // TODO: Put in resource dictionary
-            var req = CreateRequest("/users/list", Method.GET);
+            var req = CreateRequest("/users", Method.GET);
             var res = await MakeApiRequest(req);
+
             if (res.StatusCode == HttpStatusCode.OK)
                 return JsonConvert.DeserializeObject<IEnumerable<SingleRegiUserResponse>>(res.Content);
-            throw new Exception("Error retrieving registrar users");
+
+            throw new RegistrarConnectionException("Error retrieving registrar users");
         }
 
         public static async Task<SingleRegiUserResponse> GetRegistrarUser(int id)
         {
             // TODO: Put in resource dictionary
-            var req = CreateRequest("/users/details/" + id, Method.GET);
+            var req = CreateRequest("/users/" + id, Method.GET);
             var res = await MakeApiRequest(req);
+
             if (res.StatusCode == HttpStatusCode.OK)
-            {
                 return JsonConvert.DeserializeObject<SingleRegiUserResponse>(res.Content);
-            }
-            throw new Exception("Error retrieving registrar users");
+
+            throw new RegistrarConnectionException("Error retrieving registrar users");
         }
 
         public static async Task<IList<SingleCustomUserFieldResponse>> GetCustomFields()
@@ -85,13 +84,11 @@ namespace EvotoApi.Areas.Management.Connections
             if (res.StatusCode == HttpStatusCode.OK)
                 return JsonConvert.DeserializeObject<IList<SingleCustomUserFieldResponse>>(res.Content);
 
-            var exception = new Exception("Error getting custom field settings");
-            exception.Data["status"] = res.StatusCode;
-            exception.Data["content"] = res.Content;
-            throw exception;
+            throw new RegistrarConnectionException("Error getting custom field settings");
         }
 
-        public static async Task<IList<SingleCustomUserFieldResponse>> UpdateCustomFields(IList<CreateCustomUserFieldModel> models)
+        public static async Task<IList<SingleCustomUserFieldResponse>> UpdateCustomFields(
+            IList<CreateCustomUserFieldModel> models)
         {
             var req = CreateRequest("users/customFields/update", Method.POST, models);
             var res = await MakeApiRequest(req);
@@ -99,25 +96,46 @@ namespace EvotoApi.Areas.Management.Connections
             if (res.StatusCode == HttpStatusCode.OK)
                 return JsonConvert.DeserializeObject<IList<SingleCustomUserFieldResponse>>(res.Content);
 
-            var exception = new Exception("Error updating custom field settings");
-            exception.Data["status"] = res.StatusCode;
-            exception.Data["content"] = res.Content;
-            throw exception;
+            throw new RegistrarConnectionException("Error updating custom field settings");
         }
 
         public static async Task<SingleRegiUserResponse> CreateRegistrarUser(CreateRegiUser model)
         {
             // TODO: Put in resource dictionary
-            var req = CreateRequest("/account/register", Method.POST, model);
+            var req = CreateRequest("/users/create", Method.POST, model);
             var res = await MakeApiRequest(req);
 
             if (res.StatusCode == HttpStatusCode.OK)
                 return JsonConvert.DeserializeObject<SingleRegiUserResponse>(res.Content);
 
-            var exception = new Exception("Error registering registrar user");
-            exception.Data["status"] = res.StatusCode;
-            exception.Data["content"] = res.Content;
-            throw exception;
+            throw new RegistrarConnectionException("Error registering registrar user");
+        }
+
+        public static async Task SetEmailConfirmed(int id)
+        {
+            var req = CreateRequest($"/users/{id}/confirmEmail", Method.POST);
+            var res = await MakeApiRequest(req);
+
+            if (res.StatusCode != HttpStatusCode.OK)
+                throw new RegistrarConnectionException("Could not confirm email");
+        }
+
+        public static async Task ChangePassword(ChangePasswordModel model)
+        {
+            var req = CreateRequest("/users/changePassword", Method.POST, model);
+            var res = await MakeApiRequest(req);
+
+            if (res.StatusCode != HttpStatusCode.OK)
+                throw new RegistrarConnectionException("Could not change password");
+        }
+
+        public static async Task DeleteUser(int id)
+        {
+            var req = CreateRequest($"/users/{id}", Method.DELETE);
+            var res = await MakeApiRequest(req);
+
+            if (res.StatusCode != HttpStatusCode.OK)
+                throw new RegistrarConnectionException("Could not delete user");
         }
     }
 }

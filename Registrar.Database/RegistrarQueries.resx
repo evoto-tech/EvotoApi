@@ -246,4 +246,10 @@ EXECUTE(@query)</value>
   <data name="CustomUserValueDeleteAllForUser" xml:space="preserve">
     <value>DELETE FROM Users_CustomValues WHERE UserId = @UserId</value>
   </data>
+  <data name="LockoutDeleteInfoForUser" xml:space="preserve">
+    <value>DELETE FROM Users_Lockout WHERE UserId = @UserId</value>
+  </data>
+  <data name="RefreshTokenDeleteAllForUser" xml:space="preserve">
+    <value>DELETE FROM RefreshTokens WHERE UserId = @UserId</value>
+  </data>
 </root>
