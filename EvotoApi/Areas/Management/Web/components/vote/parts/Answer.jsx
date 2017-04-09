@@ -1,6 +1,6 @@
 import React from 'react'
 
-class Option extends React.Component {
+class Answer extends React.Component {
   constructor (props) {
     super(props)
     this.state = Object.assign({}, this.stateFromProps(props))
@@ -8,7 +8,7 @@ class Option extends React.Component {
 
   propTypes: {
     id: React.PropTypes.number,
-    option: React.PropTypes.object,
+    answer: React.PropTypes.object,
     onDelete: React.PropTypes.func,
     onChange: React.PropTypes.func,
     disabled: React.PropTypes.bool
@@ -16,8 +16,8 @@ class Option extends React.Component {
 
   stateFromProps (props) {
     return {
-      option: props.option.option || '',
-      info: props.option.info || ''
+      answer: props.answer.answer || '',
+      info: props.answer.info || ''
     }
   }
 
@@ -33,12 +33,8 @@ class Option extends React.Component {
     this.props.onChange(this.state)
   }
 
-  updateOption (e) {
-    this.setState({ option: e.target.value }, this.onChange)
-  }
-
-  updateInfo (e) {
-    this.setState({ info: e.target.value }, this.onChange)
+  updateField (field, e) {
+    this.setState({ [field]: e.target.value }, this.onChange)
   }
 
   render () {
@@ -51,8 +47,8 @@ class Option extends React.Component {
             type='text'
             className='form-control'
             placeholder='Option...'
-            value={this.state.option}
-            onChange={this.updateOption.bind(this)}
+            value={this.state.answer}
+            onChange={this.updateField.bind(this, 'answer')}
           />
           {this.props.disabled ? '' : (
             <span className='input-group-btn'>
@@ -68,7 +64,7 @@ class Option extends React.Component {
             rows='2'
             placeholder='Information...'
             style={{ resize: 'vertical', borderTop: 'none' }}
-            onChange={this.updateInfo.bind(this)}
+            onChange={this.updateField.bind(this, 'info')}
             value={this.state.info}
             disabled={this.props.disabled}
           />
@@ -78,4 +74,4 @@ class Option extends React.Component {
   }
 }
 
-export default Option
+export default Answer

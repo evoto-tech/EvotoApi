@@ -2,6 +2,7 @@ import React from 'react'
 import Box from '../../parts/Box.jsx'
 import LoadableOverlay from '../../parts/LoadableOverlay.jsx'
 import CustomField from './parts/CustomField.jsx'
+import { update, remove } from '../../../lib/state-utils'
 
 class CustomFields extends React.Component {
   constructor (props) {
@@ -33,19 +34,15 @@ class CustomFields extends React.Component {
 
   addCustomField (e) {
     e.preventDefault()
-    this.setState({ customFields: [].concat(this.state.customFields).concat([ { name: 'New Field', type: '', required: true, validation: {} } ]) })
+    this.setState({ customFields: update(this.state.customFields, { name: 'New Field', type: '', required: true, validation: {} }) })
   }
 
   updateCustomField (index, field) {
-    const customFields = [].concat(this.state.customFields)
-    customFields[index] = field
-    this.setState({ customFields })
+    this.setState({ customFields: update(this.state.customFields, index, field) })
   }
 
   deleteCustomField (index) {
-    const customFields = [].concat(this.state.customFields)
-    customFields.splice(index, 1)
-    this.setState({ customFields })
+    this.setState({ customFields: remove(this.state.customFields, index) })
   }
 
   cleanValidationJson (json) {

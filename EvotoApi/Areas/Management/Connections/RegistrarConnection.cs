@@ -7,6 +7,7 @@ using Common.Models;
 using Registrar.Models.Request;
 using Registrar.Models.Response;
 using Management.Models;
+using EvotoApi.Areas.ManagementApi.Models.Request;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using RestSharp;
@@ -50,7 +51,8 @@ namespace EvotoApi.Areas.Management.Connections
 
         public static async Task<bool> CreateBlockchain(ManaVote model)
         {
-            var req = CreateRequest("management/createblockchain", Method.GET, model);
+            var publishableVote = new PublishManaVote(model);
+            var req = CreateRequest("management/createblockchain", Method.POST, publishableVote);
             var res = await MakeApiRequest(req);
 
             return res.StatusCode == HttpStatusCode.OK;

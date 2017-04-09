@@ -8,40 +8,40 @@ namespace Registrar.Models.Request
     [DataContract]
     public class CreateBlockchain
     {
-        [DataMember]
+        [DataMember(Name="name")]
         [Required]
         public string Name { get; private set; }
 
-        [DataMember]
+        [DataMember(Name = "expiryDate")]
         [Required]
         public DateTime ExpiryDate { get; private set; }
 
-        [DataMember]
+        [DataMember(Name = "chainString")]
         [Required]
         public string ChainString { get; private set; }
 
-        [DataMember]
+        [DataMember(Name = "info")]
         public string Info { get; private set; }
 
-        [DataMember]
+        [DataMember(Name = "questions")]
         [Required]
         public List<CreateBlockchainQuestion> Questions { get; private set; }
 
-        [DataMember]
+        [DataMember(Name = "blockSpeed")]
         public int BlockSpeed { get; private set; }
 
-        [DataMember]
+        [DataMember(Name = "encrypted")]
         public bool Encrypted { get; private set; }
     }
 
     [DataContract]
     public class CreateBlockchainQuestion
     {
-        [DataMember]
+        [DataMember(Name = "question")]
         [Required]
         public string Question { get; private set; }
 
-        [DataMember]
+        [DataMember(Name = "info")]
         public string Info { get; private set; }
 
         [DataMember]
@@ -52,11 +52,11 @@ namespace Registrar.Models.Request
     [DataContract]
     public class CreateBlockchainAnswer
     {
-        [DataMember]
+        [DataMember(Name = "answer")]
         [Required]
         public string Answer { get; private set; }
 
-        [DataMember]
+        [DataMember(Name = "info")]
         public string Info { get; private set; }
     }
 }
