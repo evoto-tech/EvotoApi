@@ -17,7 +17,7 @@ namespace EvotoApi.Areas.Management.Controllers
     public class RegistrarConnectionController : ApiController
     {
         [Route("users/list")]
-        //[Authorize]
+        // TODO: [Authorize]
         [HttpGet]
         public async Task<IHttpActionResult> List()
         {
@@ -33,7 +33,7 @@ namespace EvotoApi.Areas.Management.Controllers
         }
 
         [Route("users/detail/{userId:int}")]
-        //[Authorize]
+        // TODO: [Authorize]
         [HttpGet]
         public async Task<IHttpActionResult> Details(int userId)
         {
@@ -49,7 +49,7 @@ namespace EvotoApi.Areas.Management.Controllers
         }
 
         [Route("account/register")]
-        //[Authorize]
+        // TODO: [Authorize]
         [HttpPost]
         public async Task<IHttpActionResult> Register(CreateRegiUser model)
         {
@@ -76,7 +76,7 @@ namespace EvotoApi.Areas.Management.Controllers
         }
 
         [Route("settings/custom-fields")]
-        //[Authorize]
+        // TODO: [Authorize]
         [HttpGet]
         public async Task<IHttpActionResult> SettingsCustomFieldsGet()
         {
@@ -103,7 +103,7 @@ namespace EvotoApi.Areas.Management.Controllers
         }
 
         [Route("settings/custom-fields")]
-        //[Authorize]
+        // TODO: [Authorize]
         [HttpPost]
         public async Task<IHttpActionResult> SettingsCustomFieldsPost(IList<CreateCustomUserFieldModel> model)
         {
@@ -130,7 +130,7 @@ namespace EvotoApi.Areas.Management.Controllers
         }
 
         [Route("settings/list")]
-        //[Authorize]
+        // TODO: [Authorize]
         [HttpGet]
         public async Task<IHttpActionResult> ListSettings()
         {
@@ -147,7 +147,7 @@ namespace EvotoApi.Areas.Management.Controllers
         }
 
         [Route("settings")]
-        //[Authorize]
+        // TODO: [Authorize]
         [HttpPost]
         public async Task<IHttpActionResult> UpdateSetting(UpdateRegiSetting model)
         {
