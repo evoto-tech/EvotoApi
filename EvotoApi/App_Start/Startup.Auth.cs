@@ -23,11 +23,6 @@ namespace EvotoApi
             app.CreatePerOwinContext<ManaUserManager>(ManaUserManager.Create);
             app.CreatePerOwinContext<ManaSignInManager>(ManaSignInManager.Create);
 
-            //OAuthBearerOptions =
-            //    new OAuthBearerAuthenticationOptions();
-            //app.UseOAuthBearerAuthentication(OAuthBearerOptions);
-
-
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
@@ -39,7 +34,7 @@ namespace EvotoApi
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ManaUserManager, ManaAuthUser, int>(
                         TimeSpan.FromMinutes(30),
                         (manager, user) => user.GenerateUserIdentityAsync(manager),
-                        (user) => user.GetUserId<int>())
+                        user => user.GetUserId<int>())
                 }
             });
         }
