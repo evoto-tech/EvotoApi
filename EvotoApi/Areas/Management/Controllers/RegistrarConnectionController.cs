@@ -6,7 +6,10 @@ using System.Web.Http;
 using System.Web.Http.Results;
 using Common.Models;
 using EvotoApi.Areas.Management.Connections;
+using Registrar.Models.Request;
 using EvotoApi.Areas.ManagementApi.Models.Response;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace EvotoApi.Areas.Management.Controllers
 {
@@ -14,7 +17,7 @@ namespace EvotoApi.Areas.Management.Controllers
     public class RegistrarConnectionController : ApiController
     {
         [Route("users/list")]
-        //[Authorize]
+        // TODO: [Authorize]
         [HttpGet]
         public async Task<IHttpActionResult> List()
         {
@@ -30,7 +33,7 @@ namespace EvotoApi.Areas.Management.Controllers
         }
 
         [Route("users/detail/{userId:int}")]
-        //[Authorize]
+        // TODO: [Authorize]
         [HttpGet]
         public async Task<IHttpActionResult> Details(int userId)
         {
@@ -46,10 +49,13 @@ namespace EvotoApi.Areas.Management.Controllers
         }
 
         [Route("account/register")]
-        //[Authorize]
+        // TODO: [Authorize]
         [HttpPost]
         public async Task<IHttpActionResult> Register(CreateRegiUser model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             try
             {
                 var user = await RegistrarConnection.CreateRegistrarUser(model);
@@ -66,6 +72,95 @@ namespace EvotoApi.Areas.Management.Controllers
                 {
                     errors = e.Message
                 });
+            }
+        }
+
+        [Route("settings/custom-fields")]
+        // TODO: [Authorize]
+        [HttpGet]
+        public async Task<IHttpActionResult> SettingsCustomFieldsGet()
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var fields = await RegistrarConnection.GetCustomFields();
+                return Ok(fields);
+            }
+            catch (Exception e)
+            {
+                // TODO: better error handling
+                if (e.Data.Contains("status") && (int)e.Data["status"] != 400)
+                {
+                    return Json(e.Data["content"]);
+                }
+                return Json(new
+                {
+                    errors = e.Message
+                });
+            }
+        }
+
+        [Route("settings/custom-fields")]
+        // TODO: [Authorize]
+        [HttpPost]
+        public async Task<IHttpActionResult> SettingsCustomFieldsPost(IList<CreateCustomUserFieldModel> model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var fields = await RegistrarConnection.UpdateCustomFields(model);
+                return Ok(fields);
+            }
+            catch (Exception e)
+            {
+                // TODO: better error handling
+                if (e.Data.Contains("status") && (int)e.Data["status"] != 400)
+                {
+                    return Json(e.Data["content"]);
+                }
+                return Json(new
+                {
+                    errors = e.Message
+                });
+            }
+        }
+
+        [Route("settings/list")]
+        // TODO: [Authorize]
+        [HttpGet]
+        public async Task<IHttpActionResult> ListSettings()
+        {
+            try
+            {
+                var settings = await RegistrarConnection.ListRegistrarSettings();
+                return Ok(settings);
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
+        }
+
+        [Route("settings")]
+        // TODO: [Authorize]
+        [HttpPost]
+        public async Task<IHttpActionResult> UpdateSetting(UpdateRegiSetting model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var setting = await RegistrarConnection.UpdateRegistrarSettings(model);
+                return Ok(setting);
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
             }
         }
     }

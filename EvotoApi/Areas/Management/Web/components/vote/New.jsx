@@ -70,11 +70,11 @@ class NewVote extends React.Component {
   }
 
   handleEncryptedChange (e) {
-      this.setState({ encrypted: e.target.value })
+    this.setState({ encrypted: e.target.value })
   }
 
   handleBlockSpeedChange (val) {
-      this.setState({ blockSpeed: val })
+    this.setState({ blockSpeed: val })
   }
 
   isValid () {
@@ -273,13 +273,13 @@ class NewVote extends React.Component {
                   <span className='help-block'>{this.state.errors.expiryDate}</span>
                 </div>
                 <div className={this.state.errors.encrypted ? 'form-group has-error' : 'form-group'}>
-                  <div className="checkbox">
+                  <div className='checkbox'>
                     <input
-                        type='checkbox'
-                        id='encryptResults'
-                        value={this.state.encrypted}
-                        onChange={this.handleEncryptedChange.bind(this)}
-                        disabled={this.props.disabled}
+                      type='checkbox'
+                      id='encryptResults'
+                      value={this.state.encrypted}
+                      onChange={this.handleEncryptedChange.bind(this)}
+                      disabled={this.props.disabled}
                     />
                     <label htmlFor='encryptResults'>Encrypt Results?</label>
                     <span className='help-block'>{this.state.errors.name}</span>
@@ -288,18 +288,18 @@ class NewVote extends React.Component {
                 <div className={this.state.errors.blockSpeed ? 'form-group has-error' : 'form-group'}>
                   <label htmlFor='blockSpeed'>Block Speed</label>
                   <div className='value'>{this.state.blockSpeed}</div>
-                  {(!this.props.disabled) ?
-                  <Slider
-                        id="blockSpeed"
-                        value={this.state.blockSpeed}
-                        onChange={this.handleBlockSpeedChange.bind(this)}
-                        step={5}
-                        min={5}
-                        max={110}
-                        labels={{5:"Fast, Larger, More secure", 100:"Slow, Smaller, Less secure"}}
-                        disabled={this.props.disabled}
+                  {(!this.props.disabled)
+                    ? <Slider
+                      id='blockSpeed'
+                      value={this.state.blockSpeed}
+                      onChange={this.handleBlockSpeedChange.bind(this)}
+                      step={5}
+                      min={5}
+                      max={110}
+                      labels={{5: 'Fast, Larger, More secure', 100: 'Slow, Smaller, Less secure'}}
+                      disabled={this.props.disabled}
                   />
-                  :""}
+                  : ''}
                   <span className='help-block'>{this.state.errors.name}</span>
                 </div>
                 <div className={this.state.errors.questions ? 'form-group has-error' : 'form-group'}>
