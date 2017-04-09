@@ -243,4 +243,13 @@ EXECUTE(@query)</value>
   <data name="UserUpdate" xml:space="preserve">
     <value>UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash, EmailConfirmed = @EmailConfirmed WHERE Id = @Id</value>
   </data>
+  <data name="SettingGet" xml:space="preserve">
+    <value>SELECT * FROM Settings WHERE Name = @Name LIMIT 1</value>
+  </data>
+  <data name="SettingUpdate" xml:space="preserve">
+    <value>UPDATE Settings SET Value = @Value WHERE Name = @Name</value>
+  </data>
+  <data name="SettingGetAll" xml:space="preserve">
+    <value>SELECT * FROM Settings</value>
+  </data>
 </root>

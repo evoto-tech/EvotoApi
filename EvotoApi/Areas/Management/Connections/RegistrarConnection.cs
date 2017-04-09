@@ -120,5 +120,31 @@ namespace EvotoApi.Areas.Management.Connections
             exception.Data["content"] = res.Content;
             throw exception;
         }
+
+        public static async Task<IList<SingleRegiSettingResponse>> ListRegistrarSettings()
+        {
+            var req = CreateRequest("/settings/list", Method.GET);
+            req.JsonSerializer.ContentType = "application/json; charset=utf-8";
+            req.AddHeader("Accept", "application/json");
+            var res = await MakeApiRequest(req);
+
+            if (res.StatusCode == HttpStatusCode.OK)
+                return JsonConvert.DeserializeObject<IList<SingleRegiSettingResponse>>(res.Content);
+
+            throw new Exception("Error listing registrar settings");
+        }
+
+        public static async Task<SingleRegiSettingResponse> UpdateRegistrarSettings(UpdateRegiSetting model)
+        {
+            var req = CreateRequest("/settings", Method.POST, model);
+            req.JsonSerializer.ContentType = "application/json; charset=utf-8";
+            req.AddHeader("Accept", "application/json");
+            var res = await MakeApiRequest(req);
+
+            if (res.StatusCode == HttpStatusCode.OK)
+                return JsonConvert.DeserializeObject<SingleRegiSettingResponse>(res.Content);
+
+            throw new Exception("Error updating registrar settings");
+        }
     }
 }
