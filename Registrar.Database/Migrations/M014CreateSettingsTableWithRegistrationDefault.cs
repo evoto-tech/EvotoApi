@@ -1,4 +1,5 @@
-﻿using FluentMigrator;
+﻿using Common;
+using FluentMigrator;
 
 namespace Registrar.Database.Migrations
 {
@@ -15,8 +16,8 @@ namespace Registrar.Database.Migrations
                 .Row(
                     new
                     {
-                        Name = "User Registration",
-                        Value = "true"
+                        Name = RegiSettings.REGISTER_ENABLED,
+                        Value = RegiSettings.REGISTER_ENABLED_DEFAULT
                     });
         }
 
