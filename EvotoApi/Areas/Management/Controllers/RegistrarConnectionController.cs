@@ -191,5 +191,21 @@ namespace EvotoApi.Areas.Management.Controllers
                 return InternalServerError();
             }
         }
+
+        [Route("results")]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> Results(string blockchainName)
+        {
+            try
+            {
+                var results = await RegistrarConnection.GetResults(blockchainName);
+                return Ok(results);
+            }
+            catch (Exception e)
+            {
+                return InternalServerError();
+            }
+        }
     }
 }

@@ -11,6 +11,7 @@ using Registrar.Models.Request;
 using Registrar.Models.Response;
 using RestSharp;
 using System;
+using Registrar.Models;
 
 namespace EvotoApi.Areas.Management.Connections
 {
@@ -165,6 +166,19 @@ namespace EvotoApi.Areas.Management.Connections
                 return JsonConvert.DeserializeObject<SingleRegiSettingResponse>(res.Content);
 
             throw new Exception("Error updating registrar settings");
+        }
+
+        public static async Task<object> GetResults(string blockchainName)
+        {
+            var req = CreateRequest("/management/results", Method.GET);
+            req.AddQueryParameter("blockchainName", blockchainName);
+            req.AddHeader("Accept", "application/json");
+            var res = await MakeApiRequest(req);
+
+            if (res.StatusCode == HttpStatusCode.OK)
+                return JsonConvert.DeserializeObject(res.Content);
+
+            throw new Exception("Error getting blockchain results");
         }
     }
 }
