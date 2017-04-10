@@ -2,16 +2,14 @@
 using System.Configuration;
 using System.Net;
 using System.Threading.Tasks;
+using EvotoApi.Areas.ManagementApi.Models.Request;
 using Management.Models;
 using Management.Models.Exceptions;
-using EvotoApi.Areas.ManagementApi.Models.Request;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using Registrar.Models.Request;
 using Registrar.Models.Response;
 using RestSharp;
-using System;
-using Registrar.Models;
 
 namespace EvotoApi.Areas.Management.Connections
 {
@@ -152,7 +150,7 @@ namespace EvotoApi.Areas.Management.Connections
             if (res.StatusCode == HttpStatusCode.OK)
                 return JsonConvert.DeserializeObject<IList<SingleRegiSettingResponse>>(res.Content);
 
-            throw new Exception("Error listing registrar settings");
+            throw new RegistrarConnectionException("Error listing registrar settings");
         }
 
         public static async Task<SingleRegiSettingResponse> UpdateRegistrarSettings(UpdateRegiSetting model)
@@ -165,7 +163,7 @@ namespace EvotoApi.Areas.Management.Connections
             if (res.StatusCode == HttpStatusCode.OK)
                 return JsonConvert.DeserializeObject<SingleRegiSettingResponse>(res.Content);
 
-            throw new Exception("Error updating registrar settings");
+            throw new RegistrarConnectionException("Error updating registrar settings");
         }
 
         public static async Task<object> GetResults(string blockchainName)
@@ -176,9 +174,9 @@ namespace EvotoApi.Areas.Management.Connections
             var res = await MakeApiRequest(req);
 
             if (res.StatusCode == HttpStatusCode.OK)
-                return JsonConvert.DeserializeObject<BlockchainQuestionResultsResponse>(res.Content);
+                return JsonConvert.DeserializeObject<IEnumerable<BlockchainQuestionResultsResponse>>(res.Content);
 
-            throw new Exception("Error getting blockchain results");
+            throw new RegistrarConnectionException("Error getting blockchain results");
         }
     }
 }
