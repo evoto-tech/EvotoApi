@@ -65,6 +65,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ManagementQueries.resx</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\M007AddPublishedDateToVote.cs" />
     <Compile Include="Migrations\M006IncreaseVoteQuestionFieldLength.cs" />
     <Compile Include="Migrations\M005AddEncryptAndBlockSpeed.cs" />
     <Compile Include="Migrations\M004AddQuestionsField.cs" />

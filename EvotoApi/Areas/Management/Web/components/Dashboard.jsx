@@ -1,4 +1,5 @@
 import React from 'react'
+import formatDate from '../lib/format-date-string'
 
 class Dashboard extends React.Component {
   constructor (props) {
@@ -22,24 +23,37 @@ class Dashboard extends React.Component {
   getCurrentVotes () {
     return this.state.votes
       .filter((vote) => {
-        return vote.published && moment().isBetween(moment(vote.creationDate), moment(vote.expiryDate))
+        return vote.published && moment().isBetween(moment(vote.publishedDate), moment(vote.expiryDate))
       })
+  }
+
+  getDaysPercentage (daysOfVote, daysUntilExpiry) {
+    let daysPercentage = ((daysOfVote - daysUntilExpiry) / daysOfVote) * 100
+    if (isNaN(daysPercentage)) daysPercentage = 0
+    daysPercentage = (daysPercentage < 0 ? 0 : daysPercentage)
+    daysPercentage = (daysPercentage > 100 ? 100 : daysPercentage)
+    return daysPercentage
   }
 
   getCurrentVotesInfoBoxes (currentVotes) {
     return currentVotes.length > 0 ? (
       currentVotes.map((vote, i) => {
+        const publishedDate = vote.publishedDate ? moment(vote.publishedDate) : moment()
+        const expiryDate = moment(vote.expiryDate)
+        const daysOfVote = expiryDate.diff(publishedDate, 'days')
+        const daysUntilExpiry = expiryDate.diff(moment(), 'days')
+        const daysPercentage = this.getDaysPercentage(daysOfVote, daysUntilExpiry)
         return (
           <div className='info-box bg-green' key={i}>
             <span className='info-box-icon'><i className='fa fa-check' /></span>
             <div className='info-box-content'>
               <span className='info-box-text'>{vote.name}</span>
-              <span className='info-box-number'># votes used</span>
+              <span className='info-box-number'>{formatDate(vote.publishedDate)} until {formatDate(vote.expiryDate)}</span>
               <div className='progress'>
-                <div className='progress-bar' style={{ width: '70%' }} />
+                <div className='progress-bar' style={{ width: `${daysPercentage}%` }} />
               </div>
               <span className='progress-description'>
-                {moment(vote.expiryDate).diff(moment(), 'days')} days left
+                <b>{daysUntilExpiry} days left</b>
               </span>
             </div>
           </div>

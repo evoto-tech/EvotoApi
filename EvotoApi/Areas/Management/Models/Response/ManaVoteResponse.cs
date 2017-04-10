@@ -19,6 +19,7 @@ namespace EvotoApi.Areas.ManagementApi.Models.Response
             Questions = vote.Questions;
             EncryptResults = vote.EncryptResults;
             BlockSpeed = vote.BlockSpeed;
+            PublishedDate = vote.PublishedDate;
         }
 
         [DataMember(Name = "id")]
@@ -50,6 +51,9 @@ namespace EvotoApi.Areas.ManagementApi.Models.Response
 
         [DataMember(Name = "blockSpeed")]
         public int BlockSpeed { get; }
+
+        [DataMember(Name = "publishedDate")]
+        public DateTime? PublishedDate { get; }
 
     }
 }
