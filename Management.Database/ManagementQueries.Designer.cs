@@ -10,8 +10,8 @@
 
 namespace Management.Database {
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -23,15 +23,15 @@ namespace Management.Database {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class ManagementQueries {
-        
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal ManagementQueries() {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -45,7 +45,7 @@ namespace Management.Database {
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -59,7 +59,7 @@ namespace Management.Database {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM Users_Lockout WHERE UserId = @UserId.
         /// </summary>
@@ -68,7 +68,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("LockoutGetByUserId", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to INSERT INTO Users_Lockout (UserId, Attempts) VALUES (@UserId, @Attempts).
         /// </summary>
@@ -77,7 +77,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("LockoutInsertAttempts", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to INSERT INTO Users_Lockout (UserId, LockEnd) VALUES (@UserId, @LockEnd).
         /// </summary>
@@ -86,7 +86,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("LockoutInsertTime", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to UPDATE Users_Lockout SET Attempts = @Attempts WHERE UserId = @UserId.
         /// </summary>
@@ -95,7 +95,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("LockoutUpdateAttempts", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to UPDATE Users_Lockout SET LockEnd = @LockEnd WHERE UserId = @UserId.
         /// </summary>
@@ -104,7 +104,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("LockoutUpdateTime", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to INSERT INTO RefreshTokens (UserId, Token, Ticket, Issued, Expires) VALUES (@UserId, @Token, @Ticket, @Issued, @Expires).
         /// </summary>
@@ -113,7 +113,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("RefreshTokenCreate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to DELETE FROM RefreshTokens WHERE Token = @Token.
         /// </summary>
@@ -122,7 +122,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("RefreshTokenDelete", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM RefreshTokens WHERE Token = @Token.
         /// </summary>
@@ -131,7 +131,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("RefreshTokenSelect", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM RefreshTokens WHERE UserId = @UserId.
         /// </summary>
@@ -140,7 +140,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("RefreshTokenSelectForUser", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to UPDATE RefreshTokens SET Token = @Token, Ticket = @Ticket, Issued = @Issued, Expires = @Expires WHERE UserId = @UserId.
         /// </summary>
@@ -149,7 +149,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("RefreshTokenUpdate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to INSERT INTO Users (Email, PasswordHash) VALUES (@Email, @PasswordHash).
         /// </summary>
@@ -158,7 +158,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("UserCreate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to DELETE FROM Users WHERE Id = @Id.
         /// </summary>
@@ -167,7 +167,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("UserDeleteById", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM Users.
         /// </summary>
@@ -176,7 +176,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("UserGetAll", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM Users WHERE Email LIKE @Email.
         /// </summary>
@@ -185,7 +185,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("UserGetByEmail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM Users WHERE Id = @Id.
         /// </summary>
@@ -194,7 +194,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("UserGetById", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash, EncryptResults = @EncryptResults, BlockSpeed = @BlockSpeed WHERE Id = @Id.
         /// </summary>
@@ -203,7 +203,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("UserUpdate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString, Questions, EncryptResults, BlockSpeed, PublishedDate) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString, @Questions, @EncryptResults, @BlockSpeed, @PublishedDate).
         /// </summary>
@@ -212,7 +212,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("VoteCreate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to DELETE FROM Votes WHERE Id=@Id.
         /// </summary>
@@ -221,7 +221,7 @@ namespace Management.Database {
                 return ResourceManager.GetString("VoteDelete", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM Votes WHERE Id = @Id.
         /// </summary>
@@ -230,25 +230,25 @@ namespace Management.Database {
                 return ResourceManager.GetString("VoteGetById", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId ORDER BY CreationDate DESC.
+        ///   Looks up a localized string similar to SELECT * FROM Votes ORDER BY CreationDate DESC.
         /// </summary>
-        internal static string VotesGetByUser {
+        internal static string VotesGetAll {
             get {
-                return ResourceManager.GetString("VotesGetByUser", resourceCulture);
+                return ResourceManager.GetString("VotesGetAll", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId AND Published = @Published  ORDER BY CreatedDate DESC.
+        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE Published = @Published ORDER BY CreationDate DESC.
         /// </summary>
-        internal static string VotesGetByUserAndPublished {
+        internal static string VotesGetByPublished {
             get {
-                return ResourceManager.GetString("VotesGetByUserAndPublished", resourceCulture);
+                return ResourceManager.GetString("VotesGetByPublished", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to UPDATE Votes SET Name=@Name, ChainString=@ChainString, Published=@Published, ExpiryDate=@ExpiryDate, Questions=@Questions, PublishedDate = @PublishedDate WHERE Id=@Id.
         /// </summary>

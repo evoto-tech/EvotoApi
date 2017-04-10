@@ -23,15 +23,14 @@ namespace EvotoApi
             app.CreatePerOwinContext<ManaUserManager>(ManaUserManager.Create);
             app.CreatePerOwinContext<ManaSignInManager>(ManaSignInManager.Create);
 
-            //OAuthBearerOptions =
-            //    new OAuthBearerAuthenticationOptions();
-            //app.UseOAuthBearerAuthentication(OAuthBearerOptions);
-
-
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/manage/login"),
+                SlidingExpiration = true,
+                CookieHttpOnly = true,
+                AuthenticationMode = Microsoft.Owin.Security.AuthenticationMode.Active,
+                ExpireTimeSpan = TimeSpan.FromMinutes(30),
                 Provider = new CookieAuthenticationProvider
                 {
                     // Enables the application to validate the security stamp when the user logs in.
@@ -39,7 +38,7 @@ namespace EvotoApi
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ManaUserManager, ManaAuthUser, int>(
                         TimeSpan.FromMinutes(30),
                         (manager, user) => user.GenerateUserIdentityAsync(manager),
-                        (user) => user.GetUserId<int>())
+                        user => user.GetUserId<int>())
                 }
             });
         }

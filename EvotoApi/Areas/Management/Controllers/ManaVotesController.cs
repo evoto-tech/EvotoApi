@@ -1,24 +1,19 @@
 ﻿using System;
-using System.Configuration;
-using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Common;
 using Common.Exceptions;
 using EvotoApi.Areas.Management.Connections;
-using EvotoApi.Areas.ManagementApi.Models;
 using EvotoApi.Areas.ManagementApi.Models.Request;
 using EvotoApi.Areas.ManagementApi.Models.Response;
 using Management.Database.Interfaces;
 using Management.Models;
-using Newtonsoft.Json;
-using RestSharp;
+using Microsoft.AspNet.Identity;
 
 namespace EvotoApi.Areas.ManagementApi.Controllers
 {
     [RoutePrefix("mana/vote")]
+    [Authorize]
     public class ManaVotesController : ApiController
     {
         private readonly IManaVoteStore _store;
@@ -60,7 +55,7 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         }
 
         /// <summary>
-        /// Get a vote by its id, needs authorize to be added
+        /// Get a vote by its id
         /// </summary>
         [HttpGet]
         [Route("{voteId:int}")]
@@ -79,15 +74,15 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         }
 
         /// <summary>
-        /// Get list of all votes for user, needs authorize to be added
+        /// Get list of all votes for the current user
         /// </summary>
         [HttpGet]
-        [Route("list/user/{userId:int}")]
-        public async Task<IHttpActionResult> UserList(int userId)
+        [Route("list")]
+        public async Task<IHttpActionResult> List()
         {
             try
             {
-                var votes = await _store.GetAllUserVotes(userId);
+                var votes = await _store.GetAllVotes();
                 var response = votes.Select((v) => new ManaVoteResponse(v)).ToList();
                 return Json(response);
             }
@@ -98,15 +93,15 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         }
 
         /// <summary>
-        /// Get list of votes for user based on published, needs authorize to be added
+        /// Get list of votes for the current user based on published
         /// </summary>
         [HttpGet]
-        [Route("list/user/{userId:int}/{published:bool}")]
-        public async Task<IHttpActionResult> UserList(int userId, bool published)
+        [Route("list/{published:bool}")]
+        public async Task<IHttpActionResult> List(bool published)
         {
             try
             {
-                var votes = await _store.GetUserVotes(userId, published);
+                var votes = await _store.GetVotes(published);
                 var response = votes.Select((v) => new ManaVoteResponse(v)).ToList();
                 return Json(response);
             }
@@ -117,12 +112,13 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         }
 
         /// <summary>
-        /// Create a vote, needs authorize to be added
+        /// Create a vote
         /// </summary>
         [HttpPost]
         [Route("create")]
         public async Task<IHttpActionResult> VoteCreate(CreateManaVote model)
         {
+            model.CreatedBy = User.Identity.GetUserId<int>();
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -149,12 +145,13 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         }
 
         /// <summary>
-        /// Edit a vote, needs authorize to be added
+        /// Edit a vote
         /// </summary>
         [HttpPatch]
         [Route("{voteId:int}/edit")]
         public async Task<IHttpActionResult> VoteEdit(int voteId, CreateManaVote model)
         {
+            model.CreatedBy = User.Identity.GetUserId<int>();
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -185,7 +182,7 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         }
 
         /// <summary>
-        /// Delete a vote, needs authorize to be added
+        /// Delete a vote
         /// </summary>
         [HttpDelete]
         [Route("{voteId:int}/delete")]

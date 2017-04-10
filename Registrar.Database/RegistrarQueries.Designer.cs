@@ -142,11 +142,29 @@ namespace Registrar.Database {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM Users_CustomValues WHERE UserId = @UserId.
+        /// </summary>
+        internal static string CustomUserValueDeleteAllForUser {
+            get {
+                return ResourceManager.GetString("CustomUserValueDeleteAllForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to INSERT INTO Users_CustomValues (UserId, CustomFieldId, Value) VALUES (@UserId, @CustomFieldId, @Value);.
         /// </summary>
         internal static string CustomUserValueInsert {
             get {
                 return ResourceManager.GetString("CustomUserValueInsert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM Users_Lockout WHERE UserId = @UserId.
+        /// </summary>
+        internal static string LockoutDeleteInfoForUser {
+            get {
+                return ResourceManager.GetString("LockoutDeleteInfoForUser", resourceCulture);
             }
         }
         
@@ -210,6 +228,15 @@ namespace Registrar.Database {
         internal static string RefreshTokenDelete {
             get {
                 return ResourceManager.GetString("RefreshTokenDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM RefreshTokens WHERE UserId = @UserId.
+        /// </summary>
+        internal static string RefreshTokenDeleteAllForUser {
+            get {
+                return ResourceManager.GetString("RefreshTokenDeleteAllForUser", resourceCulture);
             }
         }
         

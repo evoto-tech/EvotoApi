@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
-namespace Common.Models
+namespace Registrar.Models.Request
 {
     [DataContract]
     public class CreateRegiUser

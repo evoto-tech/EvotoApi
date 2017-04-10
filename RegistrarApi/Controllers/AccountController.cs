@@ -315,7 +315,7 @@ namespace Registrar.Api.Controllers
         /// <param name="customFields">Supplied User Field Values</param>
         /// <param name="fields">Defined Custom User Fields</param>
         /// <returns>List of errors. Empty if valid</returns>
-        private static List<string> ValidateCustomUserFields(IList<CreateRegiUserCustomField> customFields,
+        public static List<string> ValidateCustomUserFields(IList<CreateRegiUserCustomField> customFields,
             IEnumerable<CustomUserField> fields)
         {
             var errors = new List<string>();

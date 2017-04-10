@@ -10,7 +10,7 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
     {
         [DataMember(Name = "createdBy")]
         [Required]
-        public int CreatedBy { get; private set; }
+        public int CreatedBy { get; set; }
 
         [DataMember(Name = "name")]
         [MinLength(2)]
