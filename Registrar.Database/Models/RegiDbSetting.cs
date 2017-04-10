@@ -13,5 +13,14 @@ namespace Registrar.Database.Models
         public string Name { get; }
 
         public string Value { get; }
+
+        public RegiSetting ToModel()
+        {
+            return new RegiSetting
+            {
+                Name = Name,
+                Value = Value
+            };
+        }
     }
 }

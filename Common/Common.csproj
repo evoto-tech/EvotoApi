@@ -72,6 +72,7 @@
     <Compile Include="Models\RefreshToken.cs" />
     <Compile Include="Models\DbUserToken.cs" />
     <Compile Include="Models\UserToken.cs" />
+    <Compile Include="RegiSettings.cs" />
     <Compile Include="SqlStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Common;
@@ -6,8 +7,8 @@ using Common.Exceptions;
 using Dapper;
 using Registrar.Database.Interfaces;
 using Registrar.Database.Models;
+using Registrar.Models;
 using Registrar.Models.Request;
-using System.Collections.Generic;
 
 namespace Registrar.Database.Stores
 {
@@ -17,14 +18,14 @@ namespace Registrar.Database.Stores
         {
         }
 
-        public async Task<RegiDbSetting> UpdateSetting(UpdateRegiSetting setting)
+        public async Task<RegiSetting> UpdateSetting(UpdateRegiSetting setting)
         {
             try
             {
                 using (var connection = await GetConnectionAsync())
                 {
                     await connection.ExecuteAsync(RegistrarQueries.SettingUpdate, setting);
-                    return new RegiDbSetting(setting);
+                    return new RegiDbSetting(setting).ToModel();
                 }
             }
             catch (Exception e)
@@ -38,18 +39,18 @@ namespace Registrar.Database.Stores
             }
         }
 
-        public async Task<RegiDbSetting> GetSetting(string settingName)
+        public async Task<RegiSetting> GetSetting(string settingName)
         {
             try
             {
                 using (var connection = await GetConnectionAsync())
                 {
-                    var result = await connection.QueryAsync(RegistrarQueries.SettingGet, new { Name = settingName });
+                    var result = await connection.QueryAsync(RegistrarQueries.SettingGet, new {Name = settingName});
 
                     if (!result.Any())
                         throw new RecordNotFoundException();
 
-                    return new RegiDbSetting(result.First());
+                    return new RegiDbSetting(result.First()).ToModel();
                 }
             }
             catch (Exception e)
@@ -63,7 +64,7 @@ namespace Registrar.Database.Stores
             }
         }
 
-        public async Task<IList<RegiDbSetting>> ListSettings()
+        public async Task<IList<RegiSetting>> ListSettings()
         {
             try
             {
@@ -74,7 +75,7 @@ namespace Registrar.Database.Stores
                     if (!result.Any())
                         throw new RecordNotFoundException();
 
-                    return result.Select((v) => new RegiDbSetting(v)).ToList();
+                    return result.Select(v => new RegiDbSetting(v).ToModel()).ToList();
                 }
             }
             catch (Exception e)
