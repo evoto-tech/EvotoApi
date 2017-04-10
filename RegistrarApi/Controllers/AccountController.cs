@@ -5,8 +5,8 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using Common;
 using Common.Exceptions;
-using Common.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Registrar.Api.Auth;
@@ -21,12 +21,14 @@ namespace Registrar.Api.Controllers
     public class AccountController : ApiController
     {
         private readonly IRegiUserFieldsStore _fieldsStore;
+        private readonly IRegiSettingStore _settingStore;
         private RegiSignInManager _signInManager;
         private RegiUserManager _userManager;
 
-        public AccountController(IRegiUserFieldsStore fieldsStore)
+        public AccountController(IRegiUserFieldsStore fieldsStore, IRegiSettingStore settingStore)
         {
             _fieldsStore = fieldsStore;
+            _settingStore = settingStore;
         }
 
         public RegiSignInManager SignInManager
@@ -78,6 +80,10 @@ namespace Registrar.Api.Controllers
         [Route("register")]
         public async Task<IHttpActionResult> Register(CreateRegiUser model)
         {
+            var canRegister = await GetRegisterEnabled();
+            if (!canRegister)
+                return BadRequest("registration disabled");
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -289,6 +295,14 @@ namespace Registrar.Api.Controllers
             return Ok(fields.Select(f => new SingleCustomUserFieldResponse(f)));
         }
 
+        [HttpGet]
+        [Route("canRegister")]
+        public async Task<IHttpActionResult> CanRegister()
+        {
+            var canRegister = await GetRegisterEnabled();
+            return Ok(new CanRegisterResponse(canRegister));
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -368,6 +382,19 @@ namespace Registrar.Api.Controllers
         {
             foreach (var error in errors)
                 ModelState.AddModelError("", error);
+        }
+
+        private async Task<bool> GetRegisterEnabled()
+        {
+            try
+            {
+                var registerSetting = await _settingStore.GetSetting(RegiSettings.REGISTER_ENABLED);
+                return registerSetting.GetBoolValue();
+            }
+            catch (Exception)
+            {
+                return RegiSettings.REGISTER_ENABLED_DEFAULT;
+            }
         }
 
         #endregion

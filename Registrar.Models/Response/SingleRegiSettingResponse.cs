@@ -1,26 +1,14 @@
 ﻿using System.Runtime.Serialization;
-using Registrar.Models.Request;
 
 namespace Registrar.Models.Response
 {
     [DataContract]
     public class SingleRegiSettingResponse
     {
-        public SingleRegiSettingResponse () {}
-
-        public SingleRegiSettingResponse(UpdateRegiSetting setting)
+        public SingleRegiSettingResponse(RegiSetting setting)
         {
-            if (setting == null)
-                return;
-
             Name = setting.Name;
             Value = setting.Value;
-        }
-
-        public SingleRegiSettingResponse(dynamic record)
-        {
-            Name = record.Name;
-            Value = record.Value;
         }
 
         [DataMember(Name = "name")]
