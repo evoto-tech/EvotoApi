@@ -27,7 +27,6 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         {
             if (vote.Published)
             {
-                vote.PublishedDate = DateTime.Now;
                 var created = await RegistrarConnection.CreateBlockchain(vote);
                 if (created)
                 {
@@ -126,6 +125,7 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
 
             try
             {
+                if (voteModel.Published) voteModel.PublishedDate = DateTime.Now;
                 var vote = await _store.CreateVote(voteModel);
                 var response = new ManaVoteResponse(vote);
                 var publishStateValid = await CheckAndPublish(vote);
@@ -151,7 +151,7 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         [Route("{voteId:int}/edit")]
         public async Task<IHttpActionResult> VoteEdit(int voteId, CreateManaVote model)
         {
-            model.CreatedBy = User.Identity.GetUserId<int>();
+            if (model.Published) model.PublishedDate = DateTime.Now;
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 

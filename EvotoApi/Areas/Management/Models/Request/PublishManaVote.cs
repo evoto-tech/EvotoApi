@@ -22,6 +22,7 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
             EncryptResults = vote.EncryptResults;
             BlockSpeed = vote.BlockSpeed;
             Published = vote.Published;
+            publishedDate = vote.PublishedDate;
         }
 
         [DataMember(Name = "createdBy")]

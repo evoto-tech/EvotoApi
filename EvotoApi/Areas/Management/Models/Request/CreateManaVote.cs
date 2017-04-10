@@ -38,6 +38,9 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
         [DataMember(Name = "blockSpeed")]
         public int BlockSpeed { get; private set; }
 
+        [DataMember(Name = "publishedDate")]
+        public DateTime? PublishedDate { get; set; }
+
         public ManaVote ToModel()
         {
             return new ManaVote()
@@ -49,7 +52,8 @@ namespace EvotoApi.Areas.ManagementApi.Models.Request
                 ChainString = ChainString,
                 Questions = Questions,
                 EncryptResults = EncryptResults,
-                BlockSpeed = BlockSpeed
+                BlockSpeed = BlockSpeed,
+                PublishedDate = PublishedDate
             };
         }
     }
