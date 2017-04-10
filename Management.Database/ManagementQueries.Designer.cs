@@ -232,20 +232,20 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId ORDER BY CreationDate DESC.
+        ///   Looks up a localized string similar to SELECT * FROM Votes ORDER BY CreationDate DESC.
         /// </summary>
-        internal static string VotesGetByUser {
+        internal static string VotesGetAll {
             get {
-                return ResourceManager.GetString("VotesGetByUser", resourceCulture);
+                return ResourceManager.GetString("VotesGetAll", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId AND Published = @Published ORDER BY CreationDate DESC.
+        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE Published = @Published ORDER BY CreationDate DESC.
         /// </summary>
-        internal static string VotesGetByUserAndPublished {
+        internal static string VotesGetByPublished {
             get {
-                return ResourceManager.GetString("VotesGetByUserAndPublished", resourceCulture);
+                return ResourceManager.GetString("VotesGetByPublished", resourceCulture);
             }
         }
         

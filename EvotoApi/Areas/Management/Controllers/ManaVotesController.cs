@@ -8,27 +8,12 @@ using EvotoApi.Areas.ManagementApi.Models.Request;
 using EvotoApi.Areas.ManagementApi.Models.Response;
 using Management.Database.Interfaces;
 using Management.Models;
-using System.Web.Http.Controllers;
-using System.Threading;
 using Microsoft.AspNet.Identity;
 
 namespace EvotoApi.Areas.ManagementApi.Controllers
 {
-    public class Authorize2 : AuthorizeAttribute
-    {
-        public override void OnAuthorization(HttpActionContext actionContext)
-        {
-            base.OnAuthorization(actionContext);
-        }
-
-        public override Task OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
-        {
-            return base.OnAuthorizationAsync(actionContext, cancellationToken);
-        }
-    }
-
     [RoutePrefix("mana/vote")]
-    [Authorize2]
+    [Authorize]
     public class ManaVotesController : ApiController
     {
         private readonly IManaVoteStore _store;
@@ -91,12 +76,11 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         /// </summary>
         [HttpGet]
         [Route("list")]
-        public async Task<IHttpActionResult> UserList()
+        public async Task<IHttpActionResult> List()
         {
-            var userId = User.Identity.GetUserId<int>();
             try
             {
-                var votes = await _store.GetAllUserVotes(userId);
+                var votes = await _store.GetAllVotes();
                 var response = votes.Select((v) => new ManaVoteResponse(v)).ToList();
                 return Json(response);
             }
@@ -111,12 +95,11 @@ namespace EvotoApi.Areas.ManagementApi.Controllers
         /// </summary>
         [HttpGet]
         [Route("list/{published:bool}")]
-        public async Task<IHttpActionResult> UserList(bool published)
+        public async Task<IHttpActionResult> List(bool published)
         {
-            var userId = User.Identity.GetUserId<int>();
             try
             {
-                var votes = await _store.GetUserVotes(userId, published);
+                var votes = await _store.GetVotes(published);
                 var response = votes.Select((v) => new ManaVoteResponse(v)).ToList();
                 return Json(response);
             }
