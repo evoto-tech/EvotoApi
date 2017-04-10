@@ -126,8 +126,13 @@ namespace Registrar.Api.Controllers
             if (!_multichaind.Connections.TryGetValue(blockchain.ChainString, out chain))
                 return NotFound();
 
-            var key = RsaTools.LoadKeysFromFile(blockchain.ChainString + "-encrypt");
-            var priv = RsaTools.KeyToString(key.Private);
+            var priv = "";
+            if (!string.IsNullOrWhiteSpace(blockchain.EncryptKey))
+            {
+                var key = RsaTools.LoadKeysFromFile(blockchain.ChainString + "-encrypt");
+                priv = RsaTools.KeyToString(key.Private);
+            }
+
             var answers = await chain.GetResults(blockchain.WalletId, priv);
 
             // Read the questions from the blockchain
