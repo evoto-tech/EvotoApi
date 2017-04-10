@@ -35,7 +35,8 @@ class NewVote extends React.Component {
       questions: nonEmptyVote ? (JSON.parse(props.vote.questions) || []) : [],
       loaded: props.hasOwnProperty('loaded') ? props.loaded : true,
       encrypted: nonEmptyVote ? props.vote.encrypted : true,
-      blockSpeed: nonEmptyVote ? props.vote.blockSpeed : 30
+      blockSpeed: nonEmptyVote ? props.vote.blockSpeed : 30,
+      publishedDate: nonEmptyVote ? props.vote.publishedDate : null
     }
   }
 
@@ -54,12 +55,20 @@ class NewVote extends React.Component {
 
   loadExpiryDateTimePicker () {
     const expiryDate = this.state.expiryDate
+    const publishedDate = this.state.publishedDate
     $(function () {
       $('#expiryDate').datetimepicker({
         inline: true,
         sideBySide: true
       })
       if (expiryDate) $('#expiryDate').data('DateTimePicker').date(moment(expiryDate))
+      if (publishedDate) {
+        $('#publishedDate').datetimepicker({
+          inline: true,
+          sideBySide: true
+        })
+        if (publishedDate) $('#publishedDate').data('DateTimePicker').date(moment(publishedDate))
+      }
     })
   }
 
@@ -272,6 +281,22 @@ class NewVote extends React.Component {
                   />
                   <span className='help-block'>{this.state.errors.chainString}</span>
                 </div>
+                {!this.state.published ? '' : (
+                  <div className='form-group'>
+                    <label>Published Date</label>
+                    <div style={{ overflow: 'hidden' }}>
+                      <div className='form-group'>
+                        <div className='row'>
+                          <div className='col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4'>
+                            <div id='publishedDate' className='disabled-datetimepicker'>
+                              <input type='hidden' />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <div className={this.state.errors.expiryDate ? 'form-group has-error' : 'form-group'}>
                   <label>End Date</label>
                   <div style={{ overflow: 'hidden' }}>
