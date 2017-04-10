@@ -232,7 +232,7 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId.
+        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId ORDER BY CreationDate DESC.
         /// </summary>
         internal static string VotesGetByUser {
             get {
@@ -241,7 +241,7 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId AND Published = @Published.
+        ///   Looks up a localized string similar to SELECT * FROM Votes WHERE CreatedBy = @UserId AND Published = @Published ORDER BY CreationDate DESC.
         /// </summary>
         internal static string VotesGetByUserAndPublished {
             get {

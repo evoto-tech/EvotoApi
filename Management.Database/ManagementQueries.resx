@@ -127,10 +127,10 @@
     <value>SELECT * FROM Votes WHERE Id = @Id</value>
   </data>
   <data name="VotesGetByUser" xml:space="preserve">
-    <value>SELECT * FROM Votes WHERE CreatedBy = @UserId</value>
+    <value>SELECT * FROM Votes WHERE CreatedBy = @UserId ORDER BY CreationDate DESC</value>
   </data>
   <data name="VotesGetByUserAndPublished" xml:space="preserve">
-    <value>SELECT * FROM Votes WHERE CreatedBy = @UserId AND Published = @Published</value>
+    <value>SELECT * FROM Votes WHERE CreatedBy = @UserId AND Published = @Published ORDER BY CreationDate DESC</value>
   </data>
   <data name="VoteUpdate" xml:space="preserve">
     <value>UPDATE Votes SET Name=@Name, ChainString=@ChainString, Published=@Published, ExpiryDate=@ExpiryDate, Questions=@Questions WHERE Id=@Id</value>
