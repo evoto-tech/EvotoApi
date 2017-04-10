@@ -17,7 +17,7 @@ namespace Management.Database.Models
             Questions = record.Questions;
             EncryptResults = record.EncryptResults;
             BlockSpeed = record.BlockSpeed;
-            PublishedDate = record.PublishedDate == null ? (DateTime?)null : Convert.ToDateTime(record.PublishedDate);
+            PublishedDate = record.PublishedDate;
         }
 
         public ManaDbVote(ManaVote model)
@@ -35,7 +35,7 @@ namespace Management.Database.Models
             Questions = model.Questions;
             EncryptResults = model.EncryptResults;
             BlockSpeed = model.BlockSpeed;
-            PublishedDate = model.PublishedDate == null ? (DateTime?)null : Convert.ToDateTime(model.PublishedDate);
+            PublishedDate = model.PublishedDate;
         }
 
         public int Id { get; }
