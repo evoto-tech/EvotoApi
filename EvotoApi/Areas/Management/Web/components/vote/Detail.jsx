@@ -12,7 +12,9 @@ class EditVote extends React.Component {
     fetch(`/mana/vote/${this.props.params.id}`, { credentials: 'same-origin' })
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ vote: data, loaded: true })
+        this.setState({ vote: data, loaded: true }, () => {
+          this.results.load(this.state.vote)
+        })
       })
       .catch(console.error)
   }
@@ -28,12 +30,13 @@ class EditVote extends React.Component {
           save={() => {}}
           disabled
         >
-          {!this.state.vote || !this.state.vote.published ? ''
-          : <Results
-            loaded={this.state.loaded}
-            vote={this.state.vote}
-          />
-        }
+          {!this.state.vote || !this.state.vote.published ? '' :
+            <Results
+              loaded={this.state.loaded}
+              vote={this.state.vote}
+              ref={(results) => { this.results = results }}
+            />
+          }
         </NewVote>
       </div>
     )
