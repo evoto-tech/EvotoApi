@@ -6,7 +6,8 @@ namespace Registrar.Models.Response
     [DataContract]
     public class BlockchainQuestionResultsResponse
     {
-        public BlockchainQuestionResultsResponse(int number, string question, Dictionary<string, int> answers)
+        public BlockchainQuestionResultsResponse(
+            int number, string question, IDictionary<string, int> answers)
         {
             Number = number;
             Question = question;
