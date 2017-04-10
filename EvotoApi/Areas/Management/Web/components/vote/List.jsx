@@ -14,7 +14,7 @@ class VoteList extends React.Component {
   }
 
   fetchVotes () {
-    fetch('/mana/vote/list/user/2', { credentials: 'same-origin' })
+    fetch('/mana/vote/list', { credentials: 'same-origin' })
       .then((res) => res.json())
       .then((data) => {
         this.setState({ votes: data, loaded: true })

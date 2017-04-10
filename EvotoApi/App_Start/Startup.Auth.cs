@@ -27,6 +27,10 @@ namespace EvotoApi
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/manage/login"),
+                SlidingExpiration = true,
+                CookieHttpOnly = true,
+                AuthenticationMode = Microsoft.Owin.Security.AuthenticationMode.Active,
+                ExpireTimeSpan = TimeSpan.FromMinutes(30),
                 Provider = new CookieAuthenticationProvider
                 {
                     // Enables the application to validate the security stamp when the user logs in.
