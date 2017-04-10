@@ -168,9 +168,9 @@ namespace EvotoApi.Areas.Management.Controllers
                 var settings = await RegistrarConnection.ListRegistrarSettings();
                 return Ok(settings);
             }
-            catch (Exception)
+            catch (RegistrarConnectionException e)
             {
-                return InternalServerError();
+                return BadRequest(e.Message);
             }
         }
 
@@ -186,9 +186,25 @@ namespace EvotoApi.Areas.Management.Controllers
                 var setting = await RegistrarConnection.UpdateRegistrarSettings(model);
                 return Ok(setting);
             }
-            catch (Exception)
+            catch (RegistrarConnectionException e)
             {
-                return InternalServerError();
+                return BadRequest(e.Message);
+            }
+        }
+
+        [Route("results")]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> Results(string blockchainName)
+        {
+            try
+            {
+                var results = await RegistrarConnection.GetResults(blockchainName);
+                return Ok(results);
+            }
+            catch (RegistrarConnectionException e)
+            {
+                return BadRequest(e.Message);
             }
         }
     }
