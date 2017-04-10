@@ -176,7 +176,7 @@ namespace EvotoApi.Areas.Management.Connections
             var res = await MakeApiRequest(req);
 
             if (res.StatusCode == HttpStatusCode.OK)
-                return JsonConvert.DeserializeObject(res.Content);
+                return JsonConvert.DeserializeObject<BlockchainQuestionResultsResponse>(res.Content);
 
             throw new Exception("Error getting blockchain results");
         }
