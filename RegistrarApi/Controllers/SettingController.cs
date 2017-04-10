@@ -28,7 +28,7 @@ namespace Registrar.Api.Controllers
             {
                 var updatedSetting = await _store.UpdateSetting(setting);
                 var res = new SingleRegiSettingResponse(updatedSetting);
-                return Ok(updatedSetting);
+                return Ok(res);
             }
             catch (RecordNotFoundException)
             {
@@ -44,8 +44,8 @@ namespace Registrar.Api.Controllers
             try
             {
                 var settings = await _store.ListSettings();
-                var res = settings.Select((v) => new SingleRegiSettingResponse(v));
-                return Ok(settings);
+                var res = settings.Select(v => new SingleRegiSettingResponse(v));
+                return Ok(res);
             }
             catch (RecordNotFoundException)
             {
