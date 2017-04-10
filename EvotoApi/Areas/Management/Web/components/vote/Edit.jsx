@@ -18,13 +18,14 @@ class EditVote extends React.Component {
   }
 
   save (vote, postSave, showErrors) {
-    fetch(`/mana/vote/${this.state.vote.id}/edit`
-      , { method: 'PATCH',
+    fetch(`/mana/vote/${this.state.vote.id}/edit`,
+      { method: 'PATCH',
         body: JSON.stringify(vote),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-        }
+        },
+        credentials: 'same-origin'
       })
       .then((data) => {
         return data.json()
