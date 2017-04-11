@@ -75,14 +75,13 @@ namespace Management.Database.Stores
             }
         }
 
-        public async Task<int> DeleteVote(int voteId)
+        public async Task DeleteVote(int voteId)
         {
             try
             {
                 using (var connection = await GetConnectionAsync())
                 {
-                    var result = await connection.ExecuteAsync(ManagementQueries.VoteDelete, new {Id = voteId});
-                    return result;
+                    await connection.ExecuteAsync(ManagementQueries.VoteDelete, new {Id = voteId});
                 }
             }
             catch (Exception e)

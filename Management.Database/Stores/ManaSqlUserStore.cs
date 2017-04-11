@@ -26,7 +26,7 @@ namespace Management.Database.Stores
                     var result = await connection.QueryAsync(ManagementQueries.UserGetAll);
 
                     if (!result.Any())
-                        return Enumerable.Empty<ManaUser>();
+                        return new List<ManaUser>(0);
 
                     var users = result.Select(v => new ManaDbUser(v).ToUser());
                     return users;
