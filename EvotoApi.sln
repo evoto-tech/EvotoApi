@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvotoApi", "EvotoApi\EvotoApi.csproj", "{D5826079-8615-4F57-B85E-6A3AD1E9F3C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Api", "EvotoApi\Management.Api.csproj", "{D5826079-8615-4F57-B85E-6A3AD1E9F3C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Models", "Management.Models\Management.Models.csproj", "{FB39716F-EE20-4D7C-91C5-D93A67001920}"
 EndProject

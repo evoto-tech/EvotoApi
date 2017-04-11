@@ -34,8 +34,14 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,9 +55,20 @@
     <Compile Include="ManaUser.cs" />
     <Compile Include="ManaVote.cs" />
     <Compile Include="ManaUserLockout.cs" />
+    <Compile Include="Request\CreateManaVote.cs" />
+    <Compile Include="Request\LoginManaUser.cs" />
+    <Compile Include="Request\PublishManaVote.cs" />
+    <Compile Include="Response\ManaVoteResponse.cs" />
+    <Compile Include="Response\SingleManaUserResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Registrar.Models\Registrar.Models.csproj">
+      <Project>{15222185-51fc-49ca-b2a3-b301eb608fac}</Project>
+      <Name>Registrar.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

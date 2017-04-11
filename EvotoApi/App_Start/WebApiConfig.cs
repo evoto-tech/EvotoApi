@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using System.Web.Mvc;
 
 namespace EvotoApi
 {
@@ -10,9 +11,21 @@ namespace EvotoApi
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                "DefaultApi",
-                "api/{controller}/{id}",
-                new {id = RouteParameter.Optional}
+                "Management_default",
+                "management/{controller}/{action}",
+                new {action = UrlParameter.Optional}
+            );
+
+            config.Routes.MapHttpRoute(
+                "Management_react_login",
+                "manage/login",
+                new {controller = "React", action = "Login"}
+            );
+
+            config.Routes.MapHttpRoute(
+                "Management_react",
+                "manage/{*uri}",
+                new {controller = "React", action = "Index"}
             );
         }
     }
