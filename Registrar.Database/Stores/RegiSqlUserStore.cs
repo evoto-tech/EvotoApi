@@ -7,6 +7,7 @@ using Common.Exceptions;
 using Dapper;
 using Registrar.Database.Interfaces;
 using Registrar.Database.Models;
+using Registrar.Models;
 
 namespace Registrar.Database.Stores
 {

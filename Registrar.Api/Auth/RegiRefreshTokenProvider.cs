@@ -8,6 +8,7 @@ using Common.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security.Infrastructure;
 using Registrar.Database.Interfaces;
+using Registrar.Models;
 
 namespace Registrar.Api.Auth
 {

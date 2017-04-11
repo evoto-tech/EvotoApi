@@ -1,4 +1,5 @@
 ﻿using System;
+using Registrar.Models;
 
 namespace Common.Models
 {

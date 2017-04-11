@@ -65,13 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiKeyAuth.cs" />
-    <Compile Include="Exceptions\CouldNotSendEmailException.cs" />
     <Compile Include="Exceptions\RecordNotFoundException.cs" />
-    <Compile Include="Models\CanSendEmailModel.cs" />
-    <Compile Include="Models\DbRefreshToken.cs" />
-    <Compile Include="Models\RefreshToken.cs" />
-    <Compile Include="Models\DbUserToken.cs" />
-    <Compile Include="Models\UserToken.cs" />
     <Compile Include="RegiSettings.cs" />
     <Compile Include="SqlStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Models
+namespace Registrar.Models
 {
     public class RefreshToken
     {

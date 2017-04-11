@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Common.Exceptions;
-using Common.Models;
 using Microsoft.AspNet.Identity;
 using Registrar.Database.Interfaces;
+using Registrar.Models;
 
 namespace Registrar.Api.Auth
 {

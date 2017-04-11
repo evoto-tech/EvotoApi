@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Registrar.Database.Models;
+using Registrar.Models;
 
 namespace Registrar.Api.Auth
 {

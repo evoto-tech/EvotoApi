@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Common.Exceptions;
 using Microsoft.AspNet.Identity;
+using Registrar.Models.Exceptions;
 using RestSharp;
 using RestSharp.Authenticators;
 

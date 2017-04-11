@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Exceptions
+namespace Registrar.Models.Exceptions
 {
     public class CouldNotSendEmailException : Exception
     {

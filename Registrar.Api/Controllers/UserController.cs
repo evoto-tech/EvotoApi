@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Registrar.Api.Auth;
 using Registrar.Database.Interfaces;
 using Registrar.Models;
+using Registrar.Models.Exceptions;
 using Registrar.Models.Request;
 using Registrar.Models.Response;
 

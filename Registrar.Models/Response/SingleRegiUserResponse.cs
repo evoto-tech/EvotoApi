@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using Registrar.Database.Models;
 
 namespace Registrar.Models.Response
 {

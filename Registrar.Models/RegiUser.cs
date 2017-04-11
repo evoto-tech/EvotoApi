@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNet.Identity;
-using Registrar.Models;
 
-namespace Registrar.Database.Models
+namespace Registrar.Models
 {
     public class RegiUser : IUser<int>
     {
