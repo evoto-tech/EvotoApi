@@ -35,11 +35,11 @@ namespace EvotoApi
                 "~/Content/skins/skin-green-light.css",
                 "~/Content/sweetalert.css",
                 "~/Content/management-site.css",
-                "~/Content/icheck/_all.css",
-                "~/Content/icheck/flat.css",
-                "~/Content/icheck/grey.css",
-                "~/Content/icheck/green.css",
-                "~/Content/slider.css"));
+                "~/Content/slider.css")
+                .Include("~/Content/icheck/_all.css", new CssRewriteUrlTransform())
+                .Include("~/Content/icheck/flat.css", new CssRewriteUrlTransform())
+                .Include("~/Content/icheck/grey.css", new CssRewriteUrlTransform())
+                .Include("~/Content/icheck/green.css", new CssRewriteUrlTransform()));
 
             // Admin LTE
             bundles.Add(new ScriptBundle("~/bundles/adminlte").Include("~/Scripts/adminlte.js"));
