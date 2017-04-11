@@ -67,7 +67,6 @@ namespace EvotoApi.Connections
 
         public static async Task<SingleRegiUserResponse> GetRegistrarUser(int id)
         {
-            // TODO: Put in resource dictionary
             var req = CreateRequest(string.Format(RegistrarUris.getUserById, id), Method.GET);
             var res = await MakeApiRequest(req);
 
