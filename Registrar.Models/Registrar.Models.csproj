@@ -123,7 +123,6 @@
     <Compile Include="Request\CreateRegiUser.cs" />
     <Compile Include="Request\ForgotRegiPassword.cs" />
     <Compile Include="Request\GetBlindSignatureModel.cs" />
-    <Compile Include="Request\HasVotedModel.cs" />
     <Compile Include="Request\IssueCurrencyModel.cs" />
     <Compile Include="Request\LoginRegiUser.cs" />
     <Compile Include="Request\RegiCode.cs" />
