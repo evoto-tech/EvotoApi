@@ -64,7 +64,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get current Blockchains");
@@ -86,7 +85,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get Blockchain");

@@ -145,8 +145,6 @@ namespace Registrar.Api.Controllers
                 // Setup response dictionary, answer -> num votes
                 var options = question.Answers.ToDictionary(a => a.Answer, a => 0);
                 foreach (var answer in answers)
-                {
-                    // Look for the answer number matching our question
                     foreach (var questionAnswer in answer.Answers.Where(a => a.Question == question.Number))
                     {
                         // In case we have anything unusual going on
@@ -158,7 +156,6 @@ namespace Registrar.Api.Controllers
                         }
                         options[questionAnswer.Answer]++;
                     }
-                }
 
                 return new BlockchainQuestionResultsResponse(
                     question.Number,

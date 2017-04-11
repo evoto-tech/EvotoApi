@@ -41,26 +41,15 @@ namespace Registrar.Api.Auth
             return token.Token;
         }
 
-        public async Task<UserToken> GetToken(string purpose, RegiAuthUser user)
-        {
-            try
-            {
-                return await _store.GetRefreshTokenForUser(purpose, user.Id);
-            }
-            catch (RecordNotFoundException)
-            {
-                return null;
-            }
-        }
-
-        public async Task<bool> ValidateAsync(string purpose, string providedToken, UserManager<RegiAuthUser, int> manager,
+        public async Task<bool> ValidateAsync(string purpose, string providedToken,
+            UserManager<RegiAuthUser, int> manager,
             RegiAuthUser user)
         {
             try
             {
                 var token = await _store.GetRefreshTokenForUser(purpose, user.Id);
 
-                if (!token.Expired && providedToken == token.Token)
+                if (!token.Expired && (providedToken == token.Token))
                 {
                     await _store.DeleteUserToken(token);
                     return true;
@@ -82,6 +71,18 @@ namespace Registrar.Api.Auth
             if (manager == null)
                 throw new ArgumentNullException();
             return Task.FromResult(manager.SupportsUserPassword);
+        }
+
+        public async Task<UserToken> GetToken(string purpose, RegiAuthUser user)
+        {
+            try
+            {
+                return await _store.GetRefreshTokenForUser(purpose, user.Id);
+            }
+            catch (RecordNotFoundException)
+            {
+                return null;
+            }
         }
 
         private static UserToken CreateToken(string purpose, int userId)

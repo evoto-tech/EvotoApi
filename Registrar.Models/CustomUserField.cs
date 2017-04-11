@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -107,18 +106,14 @@ namespace Registrar.Models
                 return true;
 
             DateTime date;
-            if (props.MaxDate != null && !string.IsNullOrWhiteSpace(props.MaxDate.ToString()))
-            {
+            if ((props.MaxDate != null) && !string.IsNullOrWhiteSpace(props.MaxDate.ToString()))
                 if (DateTime.TryParse(props.MaxDate.ToString(), out date))
                     MaxDate = date;
                 else return false;
-            }
-            if (props.MinDate != null && !string.IsNullOrWhiteSpace(props.MinDate.ToString()))
-            {
+            if ((props.MinDate != null) && !string.IsNullOrWhiteSpace(props.MinDate.ToString()))
                 if (DateTime.TryParse(props.MinDate.ToString(), out date))
                     MinDate = date;
                 else return false;
-            }
 
             return true;
         }
@@ -225,18 +220,14 @@ namespace Registrar.Models
                 return true;
 
             double num;
-            if (props.Max != null && string.IsNullOrWhiteSpace(props.Max.ToString()))
-            {
+            if ((props.Max != null) && string.IsNullOrWhiteSpace(props.Max.ToString()))
                 if (double.TryParse(props.Max.ToString(), out num))
                     Max = num;
                 else return false;
-            }
-            if (props.Min != null && string.IsNullOrWhiteSpace(props.Min.ToString()))
-            {
+            if ((props.Min != null) && string.IsNullOrWhiteSpace(props.Min.ToString()))
                 if (double.TryParse(props.Min.ToString(), out num))
                     Min = num;
                 else return false;
-            }
 
             return true;
         }
@@ -306,30 +297,24 @@ namespace Registrar.Models
                 return true;
 
             int i;
-            if (props.MaxLength != null && !string.IsNullOrWhiteSpace(props.MaxLength.ToString()))
-            {
+            if ((props.MaxLength != null) && !string.IsNullOrWhiteSpace(props.MaxLength.ToString()))
                 if (int.TryParse(props.MaxLength.ToString(), out i))
                     MaxLength = i;
                 else return false;
-            }
-            if (props.MinLength != null && !string.IsNullOrWhiteSpace(props.MinLength.ToString()))
-            {
+            if ((props.MinLength != null) && !string.IsNullOrWhiteSpace(props.MinLength.ToString()))
                 if (int.TryParse(props.MinLength.ToString(), out i))
                     MinLength = i;
                 else return false;
-            }
 
             // Min > Max is invalid
-            if (MinLength.HasValue && MaxLength.HasValue && MinLength.Value > MaxLength.Value)
+            if (MinLength.HasValue && MaxLength.HasValue && (MinLength.Value > MaxLength.Value))
                 return false;
 
             try
             {
-                if (props.Regex != null && string.IsNullOrWhiteSpace(props.Regex.ToString()))
-                {
+                if ((props.Regex != null) && string.IsNullOrWhiteSpace(props.Regex.ToString()))
                     if (!string.IsNullOrWhiteSpace(props.Regex.ToString()))
                         Regex = new Regex(props.Regex.ToString());
-                }
             }
             catch (ArgumentException)
             {

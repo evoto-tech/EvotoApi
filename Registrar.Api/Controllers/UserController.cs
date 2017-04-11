@@ -163,19 +163,13 @@ namespace Registrar.Api.Controllers
 
             // Run synchronously to avoid any uniqueness conflicts and race conditions
             foreach (var d in delete)
-            {
                 await _fieldStore.DeleteCustomUserField(d);
-            }
 
             foreach (var u in update)
-            {
                 await _fieldStore.UpdateCustomUserField(u);
-            }
 
             foreach (var c in create)
-            {
                 await _fieldStore.CreateCustomUserField(c);
-            }
 
             // Update User View with custom fields (columns)
             await _fieldStore.UpdateUserView();

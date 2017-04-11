@@ -8,7 +8,7 @@ namespace Registrar.Models.Request
     [DataContract]
     public class CreateBlockchain
     {
-        [DataMember(Name="name")]
+        [DataMember(Name = "name")]
         [Required]
         public string Name { get; private set; }
 

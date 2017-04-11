@@ -53,6 +53,5 @@ namespace Management.Models.Response
 
         [DataMember(Name = "publishedDate")]
         public DateTime? PublishedDate { get; }
-
-    }
+      }
 }

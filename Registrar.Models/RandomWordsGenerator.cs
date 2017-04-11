@@ -7,12 +7,6 @@ namespace Registrar.Models
     {
         private static readonly Random _random = new Random();
 
-        public static IEnumerable<string> GetRandomWords(int count = 2)
-        {
-            for (var w = 0; w < count; w++)
-                yield return WORDS[_random.Next(0, WORDS.Count)];
-        }
-
         #region Words
 
         private static readonly List<string> WORDS = new List<string>
@@ -1969,5 +1963,11 @@ namespace Registrar.Models
         };
 
         #endregion
+
+        public static IEnumerable<string> GetRandomWords(int count = 2)
+        {
+            for (var w = 0; w < count; w++)
+                yield return WORDS[_random.Next(0, WORDS.Count)];
+        }
     }
 }

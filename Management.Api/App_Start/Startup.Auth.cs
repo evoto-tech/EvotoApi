@@ -3,6 +3,7 @@ using EvotoApi.Auth;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
@@ -29,7 +30,7 @@ namespace EvotoApi
                 LoginPath = new PathString("/manage/login"),
                 SlidingExpiration = true,
                 CookieHttpOnly = true,
-                AuthenticationMode = Microsoft.Owin.Security.AuthenticationMode.Active,
+                AuthenticationMode = AuthenticationMode.Active,
                 ExpireTimeSpan = TimeSpan.FromMinutes(30),
                 Provider = new CookieAuthenticationProvider
                 {

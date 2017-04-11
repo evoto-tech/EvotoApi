@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
-using Common.Models;
 using Microsoft.AspNet.Identity;
 using Registrar.Database.Models;
 

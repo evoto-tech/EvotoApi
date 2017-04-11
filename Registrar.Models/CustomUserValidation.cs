@@ -5,6 +5,8 @@ namespace Registrar.Models
 {
     public sealed class CustomUserValidation : DynamicObject
     {
+        public delegate object Getter(dynamic target);
+
         private readonly dynamic _val;
 
         public CustomUserValidation(dynamic val)
@@ -20,7 +22,5 @@ namespace Registrar.Models
             result = _val.TryGetValue(key, out value) ? value?.ToString() : null;
             return true;
         }
-
-        public delegate object Getter(dynamic target);
     }
 }

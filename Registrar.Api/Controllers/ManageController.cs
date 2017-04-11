@@ -65,7 +65,8 @@ namespace Registrar.Api.Controllers
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
+                BrowserRemembered =
+                    await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
             };
             return View(model);
         }
@@ -111,7 +112,10 @@ namespace Registrar.Api.Controllers
             if (!ModelState.IsValid)
                 return View(model);
             // Generate the token and send it
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(Convert.ToInt32(User.Identity.GetUserId()), model.Number);
+            var code =
+                await
+                    UserManager.GenerateChangePhoneNumberTokenAsync(Convert.ToInt32(User.Identity.GetUserId()),
+                        model.Number);
             if (UserManager.SmsService != null)
             {
                 var message = new IdentityMessage
@@ -154,7 +158,10 @@ namespace Registrar.Api.Controllers
         // GET: /Manage/VerifyPhoneNumber
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(Convert.ToInt32(User.Identity.GetUserId()), phoneNumber);
+            var code =
+                await
+                    UserManager.GenerateChangePhoneNumberTokenAsync(Convert.ToInt32(User.Identity.GetUserId()),
+                        phoneNumber);
             // Send an SMS through the SMS provider to verify the phone number
             return phoneNumber == null
                 ? View("Error")
@@ -170,7 +177,9 @@ namespace Registrar.Api.Controllers
             if (!ModelState.IsValid)
                 return View(model);
             var result =
-                await UserManager.ChangePhoneNumberAsync(Convert.ToInt32(User.Identity.GetUserId()), model.PhoneNumber, model.Code);
+                await
+                    UserManager.ChangePhoneNumberAsync(Convert.ToInt32(User.Identity.GetUserId()), model.PhoneNumber,
+                        model.Code);
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(Convert.ToInt32(User.Identity.GetUserId()));
@@ -214,7 +223,9 @@ namespace Registrar.Api.Controllers
             if (!ModelState.IsValid)
                 return View(model);
             var result =
-                await UserManager.ChangePasswordAsync(Convert.ToInt32(User.Identity.GetUserId()), model.OldPassword, model.NewPassword);
+                await
+                    UserManager.ChangePasswordAsync(Convert.ToInt32(User.Identity.GetUserId()), model.OldPassword,
+                        model.NewPassword);
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(Convert.ToInt32(User.Identity.GetUserId()));

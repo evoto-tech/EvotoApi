@@ -54,7 +54,8 @@ namespace EvotoApi.Auth
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
                 manager.UserTokenProvider =
-                    new DataProtectorTokenProvider<ManaAuthUser, int>(dataProtectionProvider.Create("ASP.NET Evoto Management Identity"));
+                    new DataProtectorTokenProvider<ManaAuthUser, int>(
+                        dataProtectionProvider.Create("ASP.NET Evoto Management Identity"));
             return manager;
         }
     }

@@ -55,7 +55,7 @@ namespace Registrar.Api.Auth
                     var user = await UserManager.FindByNameAsync(context.UserName);
 
                     // Ensure email is verified
-                    if (user == null || !await UserManager.IsEmailConfirmedAsync(user.Id))
+                    if ((user == null) || !await UserManager.IsEmailConfirmedAsync(user.Id))
                     {
                         context.SetError("invalid_grant", "Unconfirmed Email.");
                         return;

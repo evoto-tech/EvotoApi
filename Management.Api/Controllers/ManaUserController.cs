@@ -17,7 +17,7 @@ namespace EvotoApi.Controllers
         }
 
         /// <summary>
-        /// Get a list of management users
+        ///     Get a list of management users
         /// </summary>
         [HttpGet]
         [Authorize]
@@ -25,7 +25,7 @@ namespace EvotoApi.Controllers
         public async Task<IHttpActionResult> UserList()
         {
             var users = await _store.GetUsers();
-            var response = users.Select((v) => new SingleManaUserResponse(v)).ToList();
+            var response = users.Select(v => new SingleManaUserResponse(v)).ToList();
             return Json(response);
         }
     }

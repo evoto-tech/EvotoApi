@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
-using System.Linq;
 using Common;
 using Common.Exceptions;
 using Registrar.Database.Interfaces;

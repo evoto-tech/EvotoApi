@@ -29,13 +29,13 @@ namespace EvotoApi
 
             // Management CSS Bundle
             bundles.Add(new StyleBundle("~/bundles/css/management").Include(
-                "~/Content/bootstrap.css",
-                "~/Content/bootstrap-datetimepicker.css",
-                "~/Content/AdminLTE.css",
-                "~/Content/skins/skin-green-light.css",
-                "~/Content/sweetalert.css",
-                "~/Content/management-site.css",
-                "~/Content/slider.css")
+                    "~/Content/bootstrap.css",
+                    "~/Content/bootstrap-datetimepicker.css",
+                    "~/Content/AdminLTE.css",
+                    "~/Content/skins/skin-green-light.css",
+                    "~/Content/sweetalert.css",
+                    "~/Content/management-site.css",
+                    "~/Content/slider.css")
                 .Include("~/Content/icheck/_all.css", new CssRewriteUrlTransform())
                 .Include("~/Content/icheck/flat.css", new CssRewriteUrlTransform())
                 .Include("~/Content/icheck/grey.css", new CssRewriteUrlTransform())

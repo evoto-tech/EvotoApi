@@ -12,9 +12,9 @@ namespace Registrar.Database.Models
 
         public bool EmailConfirmed { get; set; }
 
-        public int Id { get; set; }
-
         public IList<CustomUserValue> CustomFields { get; set; }
+
+        public int Id { get; set; }
 
         public string UserName
         {

@@ -33,9 +33,7 @@ namespace Registrar.Api.Auth
             var res = await client.ExecuteTaskAsync(request);
 
             if (res.StatusCode != HttpStatusCode.OK)
-            {
                 throw new CouldNotSendEmailException();
-            }
         }
     }
 }
