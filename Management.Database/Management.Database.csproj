@@ -59,12 +59,12 @@
     <Compile Include="Interfaces\IManaVoteStore.cs" />
     <Compile Include="Interfaces\IManaUserLockoutStore.cs" />
     <Compile Include="Interfaces\IManaUserStore.cs" />
-    <Compile Include="Interfaces\IManaRefreshTokenStore.cs" />
     <Compile Include="ManagementQueries.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ManagementQueries.resx</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\M003CreateRefreshTokenTable.cs" />
     <Compile Include="Migrations\M007AddPublishedDateToVote.cs" />
     <Compile Include="Migrations\M006IncreaseVoteQuestionFieldLength.cs" />
     <Compile Include="Migrations\M005AddEncryptAndBlockSpeed.cs" />
@@ -72,7 +72,6 @@
     <Compile Include="Migrations\M002CreateAuthThings.cs" />
     <Compile Include="Migrations\M001ChangeVoteTableStateFieldToPublished.cs" />
     <Compile Include="Migrations\M000CreateVoteTable.cs" />
-    <Compile Include="Migrations\M003CreateRefreshTokenTable.cs" />
     <Compile Include="Models\ManaDbVote.cs" />
     <Compile Include="Models\ManaDbUser.cs" />
     <Compile Include="Models\ManaDbUserLockout.cs" />
@@ -80,7 +79,6 @@
     <Compile Include="Stores\ManaSqlVoteStore.cs" />
     <Compile Include="Stores\ManaSqlUserStore.cs" />
     <Compile Include="Stores\ManaUserLockoutStore.cs" />
-    <Compile Include="Stores\ManaSqlRefreshTokenStore.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

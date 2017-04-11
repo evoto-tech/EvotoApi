@@ -50,7 +50,6 @@ namespace EvotoApi.Auth
                 BodyFormat = "Your security code is {0}"
             });
 
-            manager.EmailService = new EmailService();
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
                 manager.UserTokenProvider =
