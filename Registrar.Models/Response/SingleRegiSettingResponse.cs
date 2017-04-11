@@ -5,6 +5,11 @@ namespace Registrar.Models.Response
     [DataContract]
     public class SingleRegiSettingResponse
     {
+        public SingleRegiSettingResponse()
+        {
+
+        }
+
         public SingleRegiSettingResponse(RegiSetting setting)
         {
             Name = setting.Name;
