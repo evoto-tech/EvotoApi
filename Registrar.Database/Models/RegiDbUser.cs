@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common.Models;
+using Registrar.Models;
 
 namespace Registrar.Database.Models
 {
@@ -21,7 +21,7 @@ namespace Registrar.Database.Models
             CustomFields =
                 rowDict.Where(
                         kv => builtInTypes.All(t => !t.Name.Equals(kv.Key, StringComparison.InvariantCultureIgnoreCase)))
-                    .Select(kv => new DbCustomUserValueOut { Name = kv.Key, Value = (string) kv.Value})
+                    .Select(kv => new DbCustomUserValueOut {Name = kv.Key, Value = (string) kv.Value})
                     .ToList();
         }
 

@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Common.Models;
 
 namespace Registrar.Models.Response
 {
     [DataContract]
     public class SingleCustomUserFieldResponse
     {
-        public SingleCustomUserFieldResponse ()
+        public SingleCustomUserFieldResponse()
         {
-
         }
 
         public SingleCustomUserFieldResponse(CustomUserField field)

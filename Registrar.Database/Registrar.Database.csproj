@@ -82,6 +82,8 @@
     <Compile Include="Models\DbCustomUserField.cs" />
     <Compile Include="Models\DbCustomUserValueIn.cs" />
     <Compile Include="Models\DbCustomUserValueOut.cs" />
+    <Compile Include="Models\DbRefreshToken.cs" />
+    <Compile Include="Models\DbUserToken.cs" />
     <Compile Include="Models\RegiDbBlockchain.cs" />
     <Compile Include="Models\RegiDbSetting.cs" />
     <Compile Include="Models\RegiDbUserLockout.cs" />

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNet.Identity;
-using Registrar.Models;
 
-namespace Registrar.Database.Models
+namespace Registrar.Models
 {
     public class RegiUser : IUser<int>
     {
@@ -12,9 +11,9 @@ namespace Registrar.Database.Models
 
         public bool EmailConfirmed { get; set; }
 
-        public int Id { get; set; }
-
         public IList<CustomUserValue> CustomFields { get; set; }
+
+        public int Id { get; set; }
 
         public string UserName
         {

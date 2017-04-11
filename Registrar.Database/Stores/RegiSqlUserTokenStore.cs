@@ -6,6 +6,7 @@ using Common.Exceptions;
 using Common.Models;
 using Dapper;
 using Registrar.Database.Interfaces;
+using Registrar.Models;
 
 namespace Registrar.Database.Stores
 {
@@ -27,9 +28,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not create user token");
@@ -56,9 +54,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get user token");
@@ -78,9 +73,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not delete user token");
@@ -99,9 +91,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not update refresh token");

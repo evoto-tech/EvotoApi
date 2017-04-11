@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Common;
 using Common.Exceptions;
-using Common.Models;
 using Dapper;
 using Registrar.Database.Interfaces;
 using Registrar.Database.Models;
+using Registrar.Models;
 
 namespace Registrar.Database.Stores
 {
@@ -15,31 +15,6 @@ namespace Registrar.Database.Stores
     {
         public RegiSqlUserStore(string connectionString) : base(connectionString)
         {
-        }
-
-        private async Task<IEnumerable<RegiUser>> GetUserByQuery(string query, object parameters = null)
-        {
-            try
-            {
-                using (var connection = await GetConnectionAsync())
-                {
-                    var result = await connection.QueryAsync(query, parameters);
-
-                    if (!result.Any())
-                        throw new RecordNotFoundException();
-
-                    return result.Select((v) => new RegiDbUser(v).ToUser());
-                }
-            }
-            catch (Exception e)
-            {
-#if DEBUG
-                throw;
-#endif
-                if (e is RecordNotFoundException)
-                    throw;
-                throw new Exception("Could not get Regi User");
-            }
         }
 
         public async Task<IEnumerable<RegiUser>> GetUsers()
@@ -80,9 +55,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get create Regi User");
@@ -100,9 +72,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not delete Regi User");
@@ -120,12 +89,31 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not update Regi User");
+            }
+        }
+
+        private async Task<IEnumerable<RegiUser>> GetUserByQuery(string query, object parameters = null)
+        {
+            try
+            {
+                using (var connection = await GetConnectionAsync())
+                {
+                    var result = await connection.QueryAsync(query, parameters);
+
+                    if (!result.Any())
+                        throw new RecordNotFoundException();
+
+                    return result.Select(v => new RegiDbUser(v).ToUser());
+                }
+            }
+            catch (Exception e)
+            {
+                if (e is RecordNotFoundException)
+                    throw;
+                throw new Exception("Could not get Regi User");
             }
         }
     }

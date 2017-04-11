@@ -28,18 +28,15 @@ namespace Management.Database.Stores
                     if (!result.Any())
                         return Enumerable.Empty<ManaUser>();
 
-                    var users = result.Select((v) => new ManaDbUser(v).ToUser());
+                    var users = result.Select(v => new ManaDbUser(v).ToUser());
                     return users;
                 }
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 throw new Exception("Could not get Mana User");
             }
-        } 
+        }
 
         public async Task<ManaUser> GetUserById(int id)
         {
@@ -58,9 +55,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get Mana User");
@@ -84,9 +78,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get Mana User");
@@ -107,9 +98,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get create Mana User");
@@ -127,9 +115,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not delete Mana User");
@@ -147,9 +132,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not delete Mana User");

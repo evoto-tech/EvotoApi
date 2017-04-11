@@ -6,6 +6,7 @@ using Common.Exceptions;
 using Common.Models;
 using Dapper;
 using Registrar.Database.Interfaces;
+using Registrar.Models;
 
 namespace Registrar.Database.Stores
 {
@@ -27,9 +28,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not create Refresh Token");
@@ -48,9 +46,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not update Refresh Token");
@@ -75,9 +70,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get Refresh Token for user");
@@ -102,9 +94,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get Refresh Token");
@@ -122,9 +111,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not delete Refresh Token");
@@ -137,14 +123,11 @@ namespace Registrar.Database.Stores
             {
                 using (var connection = await GetConnectionAsync())
                 {
-                    await connection.ExecuteAsync(RegistrarQueries.RefreshTokenDeleteAllForUser, new { UserId = userId });
+                    await connection.ExecuteAsync(RegistrarQueries.RefreshTokenDeleteAllForUser, new {UserId = userId});
                 }
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not delete Refresh Tokens for user");

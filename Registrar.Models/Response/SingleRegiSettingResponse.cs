@@ -7,7 +7,6 @@ namespace Registrar.Models.Response
     {
         public SingleRegiSettingResponse()
         {
-
         }
 
         public SingleRegiSettingResponse(RegiSetting setting)

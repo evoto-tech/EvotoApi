@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Common.Models;
 using Registrar.Database.Models;
+using Registrar.Models;
 
 namespace Registrar.Database.Interfaces
 {

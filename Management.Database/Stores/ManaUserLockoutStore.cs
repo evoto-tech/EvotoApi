@@ -22,7 +22,8 @@ namespace Management.Database.Stores
             {
                 using (var connection = await GetConnectionAsync())
                 {
-                    var result = await connection.QueryAsync(ManagementQueries.LockoutGetByUserId, new {UserId = userId});
+                    var result =
+                        await connection.QueryAsync(ManagementQueries.LockoutGetByUserId, new {UserId = userId});
 
                     if (!result.Any())
                         throw new RecordNotFoundException();
@@ -33,9 +34,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get Mana User");
@@ -55,9 +53,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not delete Mana User");
@@ -77,9 +72,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not delete Mana User");
@@ -97,9 +89,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not delete Mana User");
@@ -117,9 +106,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not delete Mana User");

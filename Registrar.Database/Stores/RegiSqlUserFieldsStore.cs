@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Common;
-using Common.Models;
 using Dapper;
 using Registrar.Database.Interfaces;
 using Registrar.Database.Models;
@@ -29,9 +28,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception)
             {
-#if DEBUG
-                throw;
-#endif
                 throw new Exception("Could not get Custom User Fields");
             }
         }
@@ -48,9 +44,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception)
             {
-#if DEBUG
-                throw;
-#endif
                 throw new Exception("Could not create custom user field");
             }
         }
@@ -70,9 +63,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception)
             {
-#if DEBUG
-                throw;
-#endif
                 throw new Exception("Could not delete custom user field");
             }
         }
@@ -89,9 +79,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception)
             {
-#if DEBUG
-                throw;
-#endif
                 throw new Exception("Could not delete custom user field");
             }
         }
@@ -108,9 +95,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception)
             {
-#if DEBUG
-                throw;
-#endif
                 throw new Exception("Could not insert custom user value");
             }
         }
@@ -127,9 +111,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception)
             {
-#if DEBUG
-                throw;
-#endif
                 throw new Exception("Could not delete custom user values");
             }
         }
@@ -148,9 +129,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception)
             {
-#if DEBUG
-                throw;
-#endif
                 throw new Exception("Could not update user view");
             }
         }

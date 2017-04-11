@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using Registrar.Models.Request;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Registrar.Models;
+using Registrar.Models.Request;
 
 namespace Registrar.Database.Interfaces
 {

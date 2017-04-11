@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Management.Models.Exceptions
 {
     public class RegistrarConnectionException : Exception
