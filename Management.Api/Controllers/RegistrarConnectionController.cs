@@ -167,7 +167,7 @@ namespace EvotoApi.Controllers
 
             try
             {
-                var setting = await RegistrarConnection.UpdateRegistrarSettings(model);
+                var setting = await RegistrarConnection.UpdateRegistrarSetting(model);
                 return Ok(setting);
             }
             catch (RegistrarConnectionException e)
