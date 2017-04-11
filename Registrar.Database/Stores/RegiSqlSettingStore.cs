@@ -30,9 +30,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not update Regi setting");
@@ -55,9 +52,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get Regi setting");
@@ -80,9 +74,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get Regi settings");

@@ -17,59 +17,9 @@ namespace Management.Database.Stores
         {
         }
 
-        private async Task<IEnumerable<ManaVote>> GetVoteByQuery(string query)
-        {
-            try
-            {
-                using (var connection = await GetConnectionAsync())
-                {
-                    var result = await connection.QueryAsync(query);
-
-                    if (!result.Any())
-                        throw new RecordNotFoundException();
-
-                    return result.Select((v) => new ManaDbVote(v).ToVote());
-                }
-            }
-            catch (Exception e)
-            {
-#if DEBUG
-                throw;
-#endif
-                if (e is RecordNotFoundException)
-                    throw;
-                throw new Exception("Could not get Mana Vote");
-            }
-        }
-
-        private async Task<IEnumerable<ManaVote>> GetVoteByQuery(string query, object parameters)
-        {
-            try
-            {
-                using (var connection = await GetConnectionAsync())
-                {
-                    var result = await connection.QueryAsync(query, parameters);
-
-                    if (!result.Any())
-                        throw new RecordNotFoundException();
-
-                    return result.Select((v) => new ManaDbVote(v).ToVote());
-                }
-            }
-            catch (Exception e)
-            {
-#if DEBUG
-                throw;
-#endif
-                if (e is RecordNotFoundException)
-                    throw;
-                throw new Exception("Could not get Mana Vote");
-            }
-        }
-
         public async Task<ManaVote> GetVoteById(int id)
         {
-            var vote = await GetVoteByQuery(ManagementQueries.VoteGetById, new { Id = id });
+            var vote = await GetVoteByQuery(ManagementQueries.VoteGetById, new {Id = id});
             return vote.First();
         }
 
@@ -81,7 +31,7 @@ namespace Management.Database.Stores
 
         public async Task<IEnumerable<ManaVote>> GetVotes(bool published)
         {
-            var vote = await GetVoteByQuery(ManagementQueries.VotesGetByPublished, new { Published = published });
+            var vote = await GetVoteByQuery(ManagementQueries.VotesGetByPublished, new {Published = published});
             return vote;
         }
 
@@ -99,9 +49,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get create Mana Vote");
@@ -122,9 +69,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get create Mana Vote");
@@ -137,18 +81,59 @@ namespace Management.Database.Stores
             {
                 using (var connection = await GetConnectionAsync())
                 {
-                    var result = await connection.ExecuteAsync(ManagementQueries.VoteDelete, new { Id = voteId });
+                    var result = await connection.ExecuteAsync(ManagementQueries.VoteDelete, new {Id = voteId});
                     return result;
                 }
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get create Mana Vote");
+            }
+        }
+
+        private async Task<IEnumerable<ManaVote>> GetVoteByQuery(string query)
+        {
+            try
+            {
+                using (var connection = await GetConnectionAsync())
+                {
+                    var result = await connection.QueryAsync(query);
+
+                    if (!result.Any())
+                        throw new RecordNotFoundException();
+
+                    return result.Select(v => new ManaDbVote(v).ToVote());
+                }
+            }
+            catch (Exception e)
+            {
+                if (e is RecordNotFoundException)
+                    throw;
+                throw new Exception("Could not get Mana Vote");
+            }
+        }
+
+        private async Task<IEnumerable<ManaVote>> GetVoteByQuery(string query, object parameters)
+        {
+            try
+            {
+                using (var connection = await GetConnectionAsync())
+                {
+                    var result = await connection.QueryAsync(query, parameters);
+
+                    if (!result.Any())
+                        throw new RecordNotFoundException();
+
+                    return result.Select(v => new ManaDbVote(v).ToVote());
+                }
+            }
+            catch (Exception e)
+            {
+                if (e is RecordNotFoundException)
+                    throw;
+                throw new Exception("Could not get Mana Vote");
             }
         }
     }

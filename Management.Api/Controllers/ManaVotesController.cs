@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using Common.Exceptions;
 using EvotoApi.Connections;
 using Management.Database.Interfaces;
@@ -29,32 +30,24 @@ namespace EvotoApi.Controllers
             {
                 var created = await RegistrarConnection.CreateBlockchain(vote);
                 if (created)
-                {
                     return true;
-                }
-                else
+                try
                 {
-                    try
-                    {
-                        vote.Published = false;
-                        vote.PublishedDate = null;
-                        await _store.UpdateVote(vote);
-                    }
-                    catch (Exception e)
-                    {
-                        return false;
-                    }
+                    vote.Published = false;
+                    vote.PublishedDate = null;
+                    await _store.UpdateVote(vote);
+                }
+                catch (Exception e)
+                {
                     return false;
                 }
+                return false;
             }
-            else
-            {
-                return true;
-            }
+            return true;
         }
 
         /// <summary>
-        /// Get a vote by its id
+        ///     Get a vote by its id
         /// </summary>
         [HttpGet]
         [Route("{voteId:int}")]
@@ -73,7 +66,7 @@ namespace EvotoApi.Controllers
         }
 
         /// <summary>
-        /// Get list of all votes for the current user
+        ///     Get list of all votes for the current user
         /// </summary>
         [HttpGet]
         [Route("list")]
@@ -82,26 +75,7 @@ namespace EvotoApi.Controllers
             try
             {
                 var votes = await _store.GetAllVotes();
-                var response = votes.Select((v) => new ManaVoteResponse(v)).ToList();
-                return Json(response);
-            }
-            catch (RecordNotFoundException)
-            {
-                return Json(new object[] { });
-            }
-        }
-
-        /// <summary>
-        /// Get list of votes for the current user based on published
-        /// </summary>
-        [HttpGet]
-        [Route("list/{published:bool}")]
-        public async Task<IHttpActionResult> List(bool published)
-        {
-            try
-            {
-                var votes = await _store.GetVotes(published);
-                var response = votes.Select((v) => new ManaVoteResponse(v)).ToList();
+                var response = votes.Select(v => new ManaVoteResponse(v)).ToList();
                 return Json(response);
             }
             catch (RecordNotFoundException)
@@ -111,7 +85,26 @@ namespace EvotoApi.Controllers
         }
 
         /// <summary>
-        /// Create a vote
+        ///     Get list of votes for the current user based on published
+        /// </summary>
+        [HttpGet]
+        [Route("list/{published:bool}")]
+        public async Task<IHttpActionResult> List(bool published)
+        {
+            try
+            {
+                var votes = await _store.GetVotes(published);
+                var response = votes.Select(v => new ManaVoteResponse(v)).ToList();
+                return Json(response);
+            }
+            catch (RecordNotFoundException)
+            {
+                return Json(new object[] {});
+            }
+        }
+
+        /// <summary>
+        ///     Create a vote
         /// </summary>
         [HttpPost]
         [Route("create")]
@@ -129,23 +122,21 @@ namespace EvotoApi.Controllers
                 var vote = await _store.CreateVote(voteModel);
                 var response = new ManaVoteResponse(vote);
                 var publishStateValid = await CheckAndPublish(vote);
-                if (!publishStateValid) return Json(new
-                {
-                    errors = "Your changes have been saved but there was an issue publishing this vote."
-                });
+                if (!publishStateValid)
+                    return Json(new
+                    {
+                        errors = "Your changes have been saved but there was an issue publishing this vote."
+                    });
                 return Json(response);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-#if DEBUG
-                throw;
-#endif
                 return InternalServerError();
             }
         }
 
         /// <summary>
-        /// Edit a vote
+        ///     Edit a vote
         /// </summary>
         [HttpPatch]
         [Route("{voteId:int}/edit")]
@@ -162,27 +153,25 @@ namespace EvotoApi.Controllers
                 var updatedVote = await _store.UpdateVote(voteModel);
                 var response = new ManaVoteResponse(updatedVote);
                 var publishStateValid = await CheckAndPublish(updatedVote);
-                if (!publishStateValid) return Json(new
-                {
-                    errors = "Your changes have been saved but there was an issue publishing this vote."
-                });
+                if (!publishStateValid)
+                    return Json(new
+                    {
+                        errors = "Your changes have been saved but there was an issue publishing this vote."
+                    });
                 return Json(response);
             }
             catch (RecordNotFoundException)
             {
                 return NotFound();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-#if DEBUG
-                throw;
-#endif
                 return InternalServerError();
             }
         }
 
         /// <summary>
-        /// Delete a vote
+        ///     Delete a vote
         /// </summary>
         [HttpDelete]
         [Route("{voteId:int}/delete")]
@@ -196,21 +185,15 @@ namespace EvotoApi.Controllers
                     var affectedRows = await _store.DeleteVote(voteId);
                     return Json(affectedRows);
                 }
-                else
-                {
-                    return new System.Web.Http.Results.BadRequestErrorMessageResult(
-                        "Published votes cannot be deleted", this);
-                }
+                return new BadRequestErrorMessageResult(
+                    "Published votes cannot be deleted", this);
             }
             catch (RecordNotFoundException)
             {
                 return NotFound();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-#if DEBUG
-                throw;
-#endif
                 return InternalServerError();
             }
         }

@@ -29,9 +29,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception)
             {
-#if DEBUG
-                throw;
-#endif
                 throw new Exception("Could not get all Blockchains");
             }
         }
@@ -49,9 +46,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not create Blockchain");
@@ -70,9 +64,7 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
+
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get current Blockchains");
@@ -94,9 +86,7 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
+
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get Blockchain");

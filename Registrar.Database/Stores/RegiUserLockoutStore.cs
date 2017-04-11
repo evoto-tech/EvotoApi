@@ -33,9 +33,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not get User Lockout Info");
@@ -55,9 +52,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not Update User Lockout Info");
@@ -75,9 +69,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not Delete User Lockout Info");
@@ -97,9 +88,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not Update User Lockout Info Attempts");
@@ -117,9 +105,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not Insert User Lockout Time");
@@ -137,9 +122,6 @@ namespace Registrar.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not Insert User Lockout Attempts");

@@ -27,9 +27,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not delete Regi User");
@@ -48,9 +45,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not delete Regi User");
@@ -75,9 +69,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not delete Regi User");
@@ -102,9 +93,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not delete Regi User");
@@ -122,9 +110,6 @@ namespace Management.Database.Stores
             }
             catch (Exception e)
             {
-#if DEBUG
-                throw;
-#endif
                 if (e is RecordNotFoundException)
                     throw;
                 throw new Exception("Could not delete Regi User");
