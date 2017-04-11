@@ -79,10 +79,6 @@ namespace EvotoApi
             kernel.Bind<IManaUserLockoutStore>()
                 .To<ManaUserLockoutStore>()
                 .WithConstructorArgument("connectionString", m);
-
-            kernel.Bind<IManaRefreshTokenStore>()
-                .To<ManaSqlRefreshTokenStore>()
-                .WithConstructorArgument("connectionString", m);
         }
     }
 }
