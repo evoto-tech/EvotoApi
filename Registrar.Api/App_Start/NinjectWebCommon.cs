@@ -67,7 +67,6 @@ namespace Registrar.Api
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IBindingRoot kernel)
         {
-            //var m = ConfigurationManager.ConnectionStrings["ManagementConnectionString"].ConnectionString;
             var r = ConfigurationManager.ConnectionStrings["RegistrarConnectionString"].ConnectionString;
 
             kernel.Bind<IRegiUserStore>()
