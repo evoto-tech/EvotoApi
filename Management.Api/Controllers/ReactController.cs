@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿
+using System.Web.Mvc;
 
 namespace EvotoApi.Controllers
 {
@@ -10,7 +11,6 @@ namespace EvotoApi.Controllers
             return View();
         }
 
-        [AllowAnonymous]
         public ActionResult Login()
         {
             return View("Index");
