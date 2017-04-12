@@ -179,11 +179,11 @@ namespace EvotoApi.Controllers
         [Route("results")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IHttpActionResult> Results(string blockchainName)
+        public async Task<IHttpActionResult> Results(string chainString)
         {
             try
             {
-                var results = await RegistrarConnection.GetResults(blockchainName);
+                var results = await RegistrarConnection.GetResults(chainString);
                 return Ok(results);
             }
             catch (RegistrarConnectionException e)

@@ -51,6 +51,17 @@ namespace Registrar.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            // Check we're not going to have a ChainString collision
+            try
+            {
+                await _blockchainStore.GetBlockchainByChainString(model.ChainString);
+                return BadRequest("A Blockchain already exists with the same name as this!");
+            }
+            catch (RecordNotFoundException)
+            {
+                // This is good
+            }
+
             // multichain-util create {model.ChainString}
             await MultiChainUtilHandler.CreateBlockchain(model.ChainString);
 
@@ -110,13 +121,13 @@ namespace Registrar.Api.Controllers
 
         [Route("results")]
         [HttpGet]
-        public async Task<IHttpActionResult> Results(string blockchainName)
+        public async Task<IHttpActionResult> Results(string chainString)
         {
             RegiBlockchain blockchain;
             try
             {
                 // Get blockchain info. Ensure exists and is connected to
-                blockchain = await _blockchainStore.GetBlockchain(blockchainName);
+                blockchain = await _blockchainStore.GetBlockchainByChainString(chainString);
             }
             catch (RecordNotFoundException)
             {

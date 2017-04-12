@@ -166,7 +166,7 @@ namespace EvotoApi.Connections
         public static async Task<object> GetResults(string blockchainName)
         {
             var req = CreateRequest(RegistrarUris.getResults, Method.GET);
-            req.AddQueryParameter("blockchainName", blockchainName);
+            req.AddQueryParameter("chainString", blockchainName);
             req.AddHeader("Accept", "application/json");
             var res = await MakeApiRequest(req);
 
