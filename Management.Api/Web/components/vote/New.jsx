@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { withRouter, Link } from 'react-router'
 import Slider from 'react-rangeslider'
 import Question from './parts/Question.jsx'
@@ -9,15 +10,6 @@ class NewVote extends React.Component {
   constructor (props) {
     super(props)
     this.state = Object.assign({}, this.stateFromProps(props), { errors: {} })
-  }
-
-  propTypes: {
-    vote: React.PropTypes.object,
-    loaded: React.PropTypes.bool,
-    title: React.PropTypes.string,
-    description: React.PropTypes.string,
-    save: React.PropTypes.func,
-    disabled: React.PropTypes.bool
   }
 
   contextTypes: {
@@ -399,6 +391,15 @@ class NewVote extends React.Component {
       </div>
     )
   }
+}
+
+NewVote.propTypes = {
+  vote: PropTypes.object,
+  loaded: PropTypes.bool,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  save: PropTypes.func,
+  disabled: PropTypes.bool
 }
 
 export default withRouter(NewVote)

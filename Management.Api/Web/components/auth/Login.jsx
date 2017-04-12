@@ -1,5 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router'
+import PropTypes from 'prop-types'
 
 class Login extends React.Component {
   constructor (props) {
@@ -11,10 +12,6 @@ class Login extends React.Component {
       error: '',
       errorMessages: []
     }
-  }
-
-  propTypes: {
-    successLink: React.PropTypes.string
   }
 
   checkReady () {
@@ -149,6 +146,10 @@ class Login extends React.Component {
       </div>
     )
   }
+}
+
+Login.propTypes = {
+  successLink: React.PropTypes.string
 }
 
 export default withRouter(Login)

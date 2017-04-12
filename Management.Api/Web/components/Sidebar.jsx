@@ -1,11 +1,8 @@
 import React from 'react'
 import {Link, IndexLink} from 'react-router'
+import PropTypes from 'prop-types'
 
 class Sidebar extends React.Component {
-  propTypes: {
-    user: React.PropTypes.object
-  }
-
   render () {
     const userImage = this.props.user && this.props.user.picture ? (
       <div className='pull-left image'>
@@ -45,7 +42,7 @@ class Sidebar extends React.Component {
 }
 
 Sidebar.propTypes = {
-
+  user: PropTypes.object
 }
 
 export default Sidebar

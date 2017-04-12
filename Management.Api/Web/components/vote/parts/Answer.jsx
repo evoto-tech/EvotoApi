@@ -1,17 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 class Answer extends React.Component {
   constructor (props) {
     super(props)
     this.state = Object.assign({}, this.stateFromProps(props))
-  }
-
-  propTypes: {
-    id: React.PropTypes.number,
-    answer: React.PropTypes.object,
-    onDelete: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    disabled: React.PropTypes.bool
   }
 
   stateFromProps (props) {
@@ -72,6 +65,14 @@ class Answer extends React.Component {
       </div>
     )
   }
+}
+
+Answer.propTypes = {
+  id: PropTypes.number,
+  answer: PropTypes.object,
+  onDelete: PropTypes.func,
+  onChange: PropTypes.func,
+  disabled: PropTypes.bool
 }
 
 export default Answer
