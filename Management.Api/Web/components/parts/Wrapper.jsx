@@ -1,12 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 class Wrapper extends React.Component {
-  propTypes: {
-    title: React.PropTypes.string.isRequired,
-    description: React.PropTypes.string.isRequired,
-    breadcrumbs: React.PropTypes.node
-  }
-
   render () {
     let title = this.props.title || ''
     let description = this.props.description || ''
@@ -24,6 +19,12 @@ class Wrapper extends React.Component {
       </div>
     )
   }
+}
+
+Wrapper.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  breadcrumbs: PropTypes.node
 }
 
 export default Wrapper

@@ -1,13 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const propTypes = {
-  name: React.PropTypes.node,
-  placeholder: React.PropTypes.string,
-  type: React.PropTypes.string,
-  inputGroupStyle: React.PropTypes.object,
-  spanStyle: React.PropTypes.object,
-  inputStyle: React.PropTypes.object,
-  inputRef: React.PropTypes.func
+  name: PropTypes.node,
+  placeholder: PropTypes.string,
+  type: PropTypes.string,
+  inputGroupStyle: PropTypes.object,
+  spanStyle: PropTypes.object,
+  inputStyle: PropTypes.object,
+  inputRef: PropTypes.func
 }
 
 class NamedInput extends React.Component {

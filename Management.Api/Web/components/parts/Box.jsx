@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 class Box extends React.Component {
   render () {
@@ -29,13 +30,13 @@ class Box extends React.Component {
 }
 
 Box.propTypes = {
-  type: React.PropTypes.string,
-  title: React.PropTypes.node,
-  subtitle: React.PropTypes.string,
-  solid: React.PropTypes.bool,
-  children: React.PropTypes.node,
-  footer: React.PropTypes.node,
-  overlay: React.PropTypes.node
+  type: PropTypes.string,
+  title: PropTypes.node,
+  subtitle: PropTypes.string,
+  solid: PropTypes.bool,
+  children: PropTypes.node,
+  footer: PropTypes.node,
+  overlay: PropTypes.node
 }
 
 export default Box

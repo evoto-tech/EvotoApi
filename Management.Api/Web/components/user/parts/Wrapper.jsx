@@ -1,13 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router'
+import PropTypes from 'prop-types'
 import Wrapper from '../../parts/Wrapper.jsx'
 
 class UserWrapper extends React.Component {
-  propTypes: {
-    title: React.PropTypes.string.isRequired,
-    description: React.PropTypes.string.isRequired
-  }
-
   render () {
     let title = this.props.title || ''
     let description = this.props.description || ''
@@ -19,6 +15,11 @@ class UserWrapper extends React.Component {
       </Wrapper>
     )
   }
+}
+
+UserWrapper.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired
 }
 
 export default UserWrapper

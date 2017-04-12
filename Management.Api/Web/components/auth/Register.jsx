@@ -1,13 +1,9 @@
 import React from 'react'
 import { withRouter } from 'react-router'
+import PropTypes from 'prop-types'
 import RegisterForm from '../parts/forms/Register.jsx'
 
 class Register extends React.Component {
-  propTypes: {
-    successLink: React.PropTypes.string,
-    buttonText: React.PropTypes.string
-  }
-
   register (user, successLink, handleError) {
     fetch('/api/Account/Register',
       { method: 'POST',
@@ -51,6 +47,11 @@ class Register extends React.Component {
       />
     )
   }
+}
+
+Register.propTypes = {
+  successLink: PropTypes.string,
+  buttonText: PropTypes.string
 }
 
 export default withRouter(Register)

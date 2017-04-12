@@ -1,15 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Chartjs from 'chart.js'
 
 class Chart extends React.Component {
-  propTypes: {
-    type: React.PropTypes.string,
-    data: React.PropTypes.object,
-    options: React.PropTypes.object,
-    height: React.PropTypes.number,
-    width: React.PropTypes.number
-  }
-
   componentDidMount () {
     let chartCanvas = this.refs.chart
 
@@ -37,6 +30,14 @@ class Chart extends React.Component {
       <canvas ref={'chart'} height={this.props.height} width={this.props.width} />
     )
   }
+}
+
+Chart.propTypes = {
+  type: PropTypes.string,
+  data: PropTypes.object,
+  options: PropTypes.object,
+  height: PropTypes.number,
+  width: PropTypes.number
 }
 
 export default Chart

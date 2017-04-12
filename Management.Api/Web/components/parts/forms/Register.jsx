@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 class RegisterForm extends React.Component {
   constructor (props) {
@@ -14,12 +15,6 @@ class RegisterForm extends React.Component {
       error: '',
       errorMessages: []
     }
-  }
-
-  propTypes: {
-    successLink: React.PropTypes.string,
-    buttonText: React.PropTypes.string,
-    onProcess: React.PropTypes.func.isRequired
   }
 
   checkReady () {
@@ -185,6 +180,12 @@ class RegisterForm extends React.Component {
       </div>
     )
   }
+}
+
+RegisterForm.propTypes = {
+  successLink: PropTypes.string,
+  buttonText: PropTypes.string,
+  onProcess: PropTypes.func.isRequired
 }
 
 export default RegisterForm

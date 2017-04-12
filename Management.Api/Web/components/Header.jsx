@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link, IndexLink} from 'react-router'
+import PropTypes from 'prop-types'
 import Session from '../lib/session'
 
 class Header extends React.Component {
@@ -9,12 +10,7 @@ class Header extends React.Component {
   }
 
   contextTypes: {
-        router: React.PropTypes.func.isRequired
-    }
-
-  propTypes: {
-      loggedIn: React.PropTypes.bool.isRequired,
-      username: React.PropTypes.string.isRequired
+    router: React.PropTypes.func.isRequired
   }
 
   onLogout (e) {
@@ -64,6 +60,11 @@ class Header extends React.Component {
       </header>
     )
   }
+}
+
+Header.propTypes = {
+  loggedIn: React.PropTypes.bool.isRequired,
+  username: React.PropTypes.string.isRequired
 }
 
 export default Header

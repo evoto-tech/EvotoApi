@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Answer from './Answer.jsx'
 import { insert, update, remove } from '../../../lib/state-utils'
 
@@ -6,14 +7,6 @@ class Question extends React.Component {
   constructor (props) {
     super(props)
     this.state = Object.assign({}, this.stateFromProps(props))
-  }
-
-  propTypes: {
-    id: React.PropTypes.number,
-    question: React.PropTypes.object,
-    onDelete: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    disabled: React.PropTypes.bool
   }
 
   stateFromProps (props) {
@@ -106,6 +99,14 @@ class Question extends React.Component {
       </div>
     )
   }
+}
+
+Question.propTypes = {
+  id: React.PropTypes.number,
+  question: React.PropTypes.object,
+  onDelete: React.PropTypes.func,
+  onChange: React.PropTypes.func,
+  disabled: React.PropTypes.bool
 }
 
 export default Question
