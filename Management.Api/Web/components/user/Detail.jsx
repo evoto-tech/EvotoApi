@@ -20,15 +20,23 @@ class UserDetail extends React.Component {
   render () {
     let title = 'Details'
     let description = 'User details'
+    let user = this.state.user
+    let customFields = user.customFields
     return (
       <Wrapper title={title} description={description}>
-        <div className='box'>
+        <div className='box box-success'>
           <LoadableOverlay loaded={this.state.loaded} />
           <div className='box-header with-border'>
             <h3 className='box-title'>User Details</h3>
           </div>
           <div className='box-body'>
-            Email: {this.state.user.email}
+            <div className='form-group'><b>Email:</b> {user.email}</div>
+            <div className='form-group'><b>Confirmed Email:</b> <span className={'badge ' + (user.emailConfirmed ? 'bg-green' : 'bg-red')}>{user.emailConfirmed ? 'Confirmed' : 'Unconfirmed'}</span></div>
+            {customFields && Object.keys(customFields).length > 0 ? (
+              Object.keys(customFields).map((field, i) => (
+                <div className='form-group' key={i}><b>{field}:</b> {customFields[field]}</div>
+              ))
+            ) : ''}
           </div>
         </div>
       </Wrapper>
