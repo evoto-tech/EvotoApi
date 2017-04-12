@@ -15,7 +15,8 @@ class Register extends React.Component {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-        }
+        },
+        credentials: 'same-origin'
       })
       .then((response) => {
         if (response.ok && response.status === 200) {

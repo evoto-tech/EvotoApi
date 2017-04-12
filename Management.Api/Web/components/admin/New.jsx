@@ -3,10 +3,6 @@ import Wrapper from './parts/Wrapper.jsx'
 import Register from '../auth/Register.jsx'
 
 class AdminNew extends React.Component {
-  propTypes: {
-
-  }
-
   render () {
     return (
       <Wrapper

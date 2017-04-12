@@ -30,7 +30,7 @@ class Box extends React.Component {
 
 Box.propTypes = {
   type: React.PropTypes.string,
-  title: React.PropTypes.string,
+  title: React.PropTypes.node,
   subtitle: React.PropTypes.string,
   solid: React.PropTypes.bool,
   children: React.PropTypes.node,
