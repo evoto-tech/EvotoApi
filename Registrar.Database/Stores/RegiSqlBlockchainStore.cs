@@ -70,13 +70,14 @@ namespace Registrar.Database.Stores
             }
         }
 
-        public async Task<RegiBlockchain> GetBlockchain(string name)
+        public async Task<RegiBlockchain> GetBlockchainByChainString(string chainString)
         {
             try
             {
                 using (var connection = await GetConnectionAsync())
                 {
-                    var rows = await connection.QueryAsync(RegistrarQueries.BlockchainByName, new {Name = name});
+                    var rows =
+                        await connection.QueryAsync(RegistrarQueries.BlockchainByName, new {ChainString = chainString});
                     if (!rows.Any())
                         throw new RecordNotFoundException();
 

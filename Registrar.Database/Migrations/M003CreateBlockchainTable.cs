@@ -8,9 +8,9 @@ namespace Registrar.Database.Migrations
         public override void Up()
         {
             Create.Table("Blockchains")
-                .WithColumn("Name").AsString().PrimaryKey()
+                .WithColumn("Name").AsString()
                 .WithColumn("ExpiryDate").AsDateTime()
-                .WithColumn("ChainString").AsString().Unique();
+                .WithColumn("ChainString").AsString().PrimaryKey();
         }
 
         public override void Down()

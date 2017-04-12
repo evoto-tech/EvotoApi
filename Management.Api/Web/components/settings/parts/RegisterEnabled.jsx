@@ -44,7 +44,8 @@ class RegisterEnabled extends React.Component {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-        }
+        },
+        credentials: 'same-origin'
       })
       .then((data) => {
         if (data.status !== 200) {
@@ -77,7 +78,7 @@ class RegisterEnabled extends React.Component {
     )
     return (
       <Box
-        type='success'
+        type={this.state.message !== 'There was a problem saving.' ? 'success' : 'danger'}
         title='Enable User Registration in Client'
         overlay={overlay}
         footer={footer}

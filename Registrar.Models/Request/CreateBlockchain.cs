@@ -17,6 +17,7 @@ namespace Registrar.Models.Request
         public DateTime ExpiryDate { get; private set; }
 
         [DataMember(Name = "chainString")]
+        [RegularExpression("^[a-zA-Z][a-zA-Z0-9]+$")]
         [Required]
         public string ChainString { get; private set; }
 

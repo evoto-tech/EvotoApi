@@ -48,7 +48,7 @@ namespace EvotoApi.Connections
         public static async Task<bool> CreateBlockchain(ManaVote model)
         {
             var publishableVote = new PublishManaVote(model);
-            var req = CreateRequest("management/createblockchain", Method.POST, publishableVote);
+            var req = CreateRequest(RegistrarUris.createBlockchain, Method.POST, publishableVote);
             var res = await MakeApiRequest(req);
 
             return res.StatusCode == HttpStatusCode.OK;
@@ -56,8 +56,7 @@ namespace EvotoApi.Connections
 
         public static async Task<IEnumerable<SingleRegiUserResponse>> GetRegistrarUsers()
         {
-            // TODO: Put in resource dictionary
-            var req = CreateRequest("/users", Method.GET);
+            var req = CreateRequest(RegistrarUris.getUsers, Method.GET);
             var res = await MakeApiRequest(req);
 
             if (res.StatusCode == HttpStatusCode.OK)
@@ -68,8 +67,7 @@ namespace EvotoApi.Connections
 
         public static async Task<SingleRegiUserResponse> GetRegistrarUser(int id)
         {
-            // TODO: Put in resource dictionary
-            var req = CreateRequest("/users/" + id, Method.GET);
+            var req = CreateRequest(string.Format(RegistrarUris.getUserById, id), Method.GET);
             var res = await MakeApiRequest(req);
 
             if (res.StatusCode == HttpStatusCode.OK)
@@ -80,7 +78,7 @@ namespace EvotoApi.Connections
 
         public static async Task<IList<SingleCustomUserFieldResponse>> GetCustomFields()
         {
-            var req = CreateRequest("account/customFields", Method.GET);
+            var req = CreateRequest(RegistrarUris.getCustomFields, Method.GET);
             var res = await MakeApiRequest(req);
 
             if (res.StatusCode == HttpStatusCode.OK)
@@ -92,7 +90,7 @@ namespace EvotoApi.Connections
         public static async Task<IList<SingleCustomUserFieldResponse>> UpdateCustomFields(
             IList<CreateCustomUserFieldModel> models)
         {
-            var req = CreateRequest("users/customFields/update", Method.POST, models);
+            var req = CreateRequest(RegistrarUris.updateCustomFields, Method.POST, models);
             var res = await MakeApiRequest(req);
 
             if (res.StatusCode == HttpStatusCode.OK)
@@ -103,8 +101,7 @@ namespace EvotoApi.Connections
 
         public static async Task<SingleRegiUserResponse> CreateRegistrarUser(CreateRegiUser model)
         {
-            // TODO: Put in resource dictionary
-            var req = CreateRequest("/users/create", Method.POST, model);
+            var req = CreateRequest(RegistrarUris.createUser, Method.POST, model);
             var res = await MakeApiRequest(req);
 
             if (res.StatusCode == HttpStatusCode.OK)
@@ -115,7 +112,7 @@ namespace EvotoApi.Connections
 
         public static async Task SetEmailConfirmed(int id)
         {
-            var req = CreateRequest($"/users/{id}/confirmEmail", Method.POST);
+            var req = CreateRequest(string.Format(RegistrarUris.setEmailConfirmed, id), Method.POST);
             var res = await MakeApiRequest(req);
 
             if (res.StatusCode != HttpStatusCode.OK)
@@ -124,7 +121,7 @@ namespace EvotoApi.Connections
 
         public static async Task ChangePassword(ChangePasswordModel model)
         {
-            var req = CreateRequest("/users/changePassword", Method.POST, model);
+            var req = CreateRequest(RegistrarUris.changePassword, Method.POST, model);
             var res = await MakeApiRequest(req);
 
             if (res.StatusCode != HttpStatusCode.OK)
@@ -133,7 +130,7 @@ namespace EvotoApi.Connections
 
         public static async Task DeleteUser(int id)
         {
-            var req = CreateRequest($"/users/{id}", Method.DELETE);
+            var req = CreateRequest(RegistrarUris.deleteUser, Method.DELETE);
             var res = await MakeApiRequest(req);
 
             if (res.StatusCode != HttpStatusCode.OK)
@@ -142,7 +139,7 @@ namespace EvotoApi.Connections
 
         public static async Task<IList<SingleRegiSettingResponse>> ListRegistrarSettings()
         {
-            var req = CreateRequest("/settings/list", Method.GET);
+            var req = CreateRequest(RegistrarUris.listSettings, Method.GET);
             req.JsonSerializer.ContentType = "application/json; charset=utf-8";
             req.AddHeader("Accept", "application/json");
             var res = await MakeApiRequest(req);
@@ -153,9 +150,9 @@ namespace EvotoApi.Connections
             throw new RegistrarConnectionException("Error listing registrar settings");
         }
 
-        public static async Task<SingleRegiSettingResponse> UpdateRegistrarSettings(UpdateRegiSetting model)
+        public static async Task<SingleRegiSettingResponse> UpdateRegistrarSetting(UpdateRegiSetting model)
         {
-            var req = CreateRequest("/settings", Method.POST, model);
+            var req = CreateRequest(RegistrarUris.updateSetting, Method.POST, model);
             req.JsonSerializer.ContentType = "application/json; charset=utf-8";
             req.AddHeader("Accept", "application/json");
             var res = await MakeApiRequest(req);
@@ -168,8 +165,8 @@ namespace EvotoApi.Connections
 
         public static async Task<object> GetResults(string blockchainName)
         {
-            var req = CreateRequest("/management/results", Method.GET);
-            req.AddQueryParameter("blockchainName", blockchainName);
+            var req = CreateRequest(RegistrarUris.getResults, Method.GET);
+            req.AddQueryParameter("chainString", blockchainName);
             req.AddHeader("Accept", "application/json");
             var res = await MakeApiRequest(req);
 

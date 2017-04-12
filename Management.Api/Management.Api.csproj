@@ -241,6 +241,11 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Connections\RegistrarConnection.cs" />
+    <Compile Include="Connections\RegistrarUris.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RegistrarUris.resx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\ManaUserController.cs" />
     <Compile Include="Controllers\RegistrarConnectionController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
@@ -341,7 +346,12 @@
     <Content Include="Content\Site.css" />
     <Content Include="User.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Connections\RegistrarUris.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RegistrarUris.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
       <SubType>Designer</SubType>

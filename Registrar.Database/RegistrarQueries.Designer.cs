@@ -61,7 +61,7 @@ namespace Registrar.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM Blockchains WHERE Name = Name.
+        ///   Looks up a localized string similar to SELECT * FROM Blockchains WHERE ChainString = @ChainString.
         /// </summary>
         internal static string BlockchainByName {
             get {

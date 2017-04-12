@@ -59,14 +59,14 @@ namespace Registrar.Api.Controllers
             return Ok(new {Signature = signed.ToString()});
         }
 
-        [Route("hasvoted/{blockchain}")]
+        [Route("hasvoted/{chainString}")]
         [HttpGet]
         [Authorize]
-        public async Task<IHttpActionResult> HasVoted(string blockchain)
+        public async Task<IHttpActionResult> HasVoted(string chainString)
         {
             // Get active blockchain connection
             MultichainModel chain;
-            if (!_multichaind.Connections.TryGetValue(blockchain, out chain))
+            if (!_multichaind.Connections.TryGetValue(chainString, out chain))
                 return NotFound();
 
             // Check user hasn't had a key signed before
@@ -85,7 +85,7 @@ namespace Registrar.Api.Controllers
 
             try
             {
-                var blockchain = await _blockchainStore.GetBlockchain(model.Blockchain);
+                var blockchain = await _blockchainStore.GetBlockchainByChainString(model.Blockchain);
 
                 var keys = RsaTools.LoadKeysFromFile(blockchain.ChainString);
 
@@ -113,21 +113,21 @@ namespace Registrar.Api.Controllers
             }
         }
 
-        [Route("key/{blockchain}")]
+        [Route("key/{chainString}")]
         [HttpGet]
-        public async Task<IHttpActionResult> GetPublicKey(string blockchain)
+        public async Task<IHttpActionResult> GetPublicKey(string chainString)
         {
             // Check blockchain exists
             try
             {
-                await _blockchainStore.GetBlockchain(blockchain);
+                await _blockchainStore.GetBlockchainByChainString(chainString);
             }
             catch (RecordNotFoundException)
             {
                 return NotFound();
             }
 
-            var keys = RsaTools.LoadKeysFromFile(blockchain);
+            var keys = RsaTools.LoadKeysFromFile(chainString);
             return Ok(new
             {
                 PublicKey = RsaTools.KeyToString(keys.Public)
@@ -141,7 +141,7 @@ namespace Registrar.Api.Controllers
             // Check blockchain exists
             try
             {
-                var blockchain = await _blockchainStore.GetBlockchain(chainString);
+                var blockchain = await _blockchainStore.GetBlockchainByChainString(chainString);
                 if (blockchain.ExpiryDate > DateTime.Now)
                     return Unauthorized();
             }

@@ -33,6 +33,7 @@ namespace Registrar.Api.Controllers
         public RegiUserManager UserManager
             => _userManager ?? (_userManager = HttpContext.Current.GetOwinContext().Get<RegiUserManager>());
 
+        [Route("")]
         [HttpGet]
         [ApiKeyAuth]
         public async Task<IHttpActionResult> List()
@@ -178,6 +179,7 @@ namespace Registrar.Api.Controllers
             return Ok();
         }
 
+        [Route("")]
         [HttpPost]
         [ApiKeyAuth]
         public async Task<IHttpActionResult> Create(CreateRegiUser model)

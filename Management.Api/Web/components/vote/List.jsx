@@ -53,7 +53,7 @@ class VoteList extends React.Component {
 
   performDelete (vote) {
     fetch(`/mana/vote/${vote.id}/delete`
-      , { method: 'DELETE' })
+      , { method: 'DELETE', credentials: 'same-origin' })
         .then((res) => res.json())
         .then((data) => {
           if (data === 1) {
@@ -94,7 +94,7 @@ class VoteList extends React.Component {
 
   render () {
     return (
-      <div className='box'>
+      <div className='box box-success'>
         <LoadableOverlay loaded={this.state.loaded} />
         <div className='box-header with-border'>
           <h3 className='box-title'>Votes</h3>
