@@ -67,7 +67,7 @@ class Dashboard extends React.Component {
   render () {
     const currentVotes = this.getCurrentVotes()
     return (
-      <div className='box'>
+      <div className='box box-success'>
         { !this.state.loaded ? (
           <div className='overlay'>
             <i className='fa fa-refresh fa-spin' />

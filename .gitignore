@@ -77,6 +77,6 @@ _[Ss]cripts
 node_modules/
 .vs/
 
-EvotoApi/Scripts/react.js
+Management.Api/Scripts/react.js
 */User.config
 */ApiKey.config

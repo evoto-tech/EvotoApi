@@ -29,9 +29,9 @@ class UserList extends React.Component {
         return (
           <tr key={i}>
             <td>{i + 1}.</td>
-            <td>{user.email}</td>
-            <td><span className={'badge ' + (user.emailConfirmed ? 'bg-green' : 'bg-red')}>{user.emailConfirmed ? 'Verified' : 'Unverified'}</span></td>
+            <td><Link to={`/users/${user.id}`}>{user.email}</Link></td>
             <td>{formatDateString(user.creationDate)}</td>
+            <td><span className={'badge ' + (user.emailConfirmed ? 'bg-green' : 'bg-red')}>{user.emailConfirmed ? 'Confirmed' : 'Unconfirmed'}</span></td>
             <td><Link to={`/users/${user.id}`}><i className='fa fa-edit' /></Link></td>
           </tr>
         )
@@ -48,7 +48,7 @@ class UserList extends React.Component {
     let description = 'User List'
     return (
       <Wrapper title={title} description={description}>
-        <div className='box'>
+        <div className='box box-success'>
           <LoadableOverlay loaded={this.state.loaded} />
           <div className='box-header with-border'>
             <h3 className='box-title'>Users</h3>
@@ -59,7 +59,7 @@ class UserList extends React.Component {
                 <th style={{width: '10px'}}>#</th>
                 <th>Email</th>
                 <th style={{width: '200px'}}>Created on</th>
-                <th style={{width: '200px'}}>Verified</th>
+                <th style={{width: '200px'}}>Confirmed Email</th>
                 <th style={{width: '20px'}} />
               </tr>
                 {this.createUserRows()}
