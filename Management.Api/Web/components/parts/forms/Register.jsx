@@ -123,6 +123,8 @@ class RegisterForm extends React.Component {
               />
           </div>
           <br />
+          {this.props.children}
+          <br />
           <div className='input-group'style={{ width: '100%' }}>
             <span className='fa fa-lock input-group-addon' style={{ width: '40px' }} />
             <input
