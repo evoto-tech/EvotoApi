@@ -59,14 +59,14 @@ namespace Registrar.Api.Controllers
             return Ok(new {Signature = signed.ToString()});
         }
 
-        [Route("hasvoted/{blockchain}")]
+        [Route("hasvoted/{chainString}")]
         [HttpGet]
         [Authorize]
-        public async Task<IHttpActionResult> HasVoted(string blockchain)
+        public async Task<IHttpActionResult> HasVoted(string chainString)
         {
             // Get active blockchain connection
             MultichainModel chain;
-            if (!_multichaind.Connections.TryGetValue(blockchain, out chain))
+            if (!_multichaind.Connections.TryGetValue(chainString, out chain))
                 return NotFound();
 
             // Check user hasn't had a key signed before
@@ -113,7 +113,7 @@ namespace Registrar.Api.Controllers
             }
         }
 
-        [Route("key/{blockchain}")]
+        [Route("key/{chainString}")]
         [HttpGet]
         public async Task<IHttpActionResult> GetPublicKey(string chainString)
         {
