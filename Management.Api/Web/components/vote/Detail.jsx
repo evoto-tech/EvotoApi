@@ -13,7 +13,7 @@ class EditVote extends React.Component {
       .then((res) => res.json())
       .then((data) => {
         this.setState({ vote: data, loaded: true }, () => {
-          this.results.load(this.state.vote)
+          if (this.results) this.results.load(this.state.vote)
         })
       })
       .catch(console.error)
