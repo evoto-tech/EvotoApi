@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter, Link } from 'react-router'
 import Slider from 'react-rangeslider'
+import uppercamelcase from 'uppercamelcase'
 import Question from './parts/Question.jsx'
 import LoadableOverlay from '../parts/LoadableOverlay.jsx'
 import { insert, update, remove } from '../../lib/state-utils'
@@ -66,8 +67,8 @@ class NewVote extends React.Component {
 
   handleNameChange (e) {
     const update = { name: e.target.value }
-    if (this.state.name === this.state.chainString) {
-      update.chainString = update.name
+    if (uppercamelcase(this.state.name) === this.state.chainString) {
+      update.chainString = uppercamelcase(update.name)
     }
     this.setState(update)
   }
