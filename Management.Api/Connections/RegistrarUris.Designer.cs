@@ -79,7 +79,7 @@ namespace EvotoApi.Connections {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to users/create.
+        ///   Looks up a localized string similar to users.
         /// </summary>
         internal static string createUser {
             get {

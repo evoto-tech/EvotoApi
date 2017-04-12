@@ -124,7 +124,7 @@
     <value>management/createblockchain</value>
   </data>
   <data name="createUser" xml:space="preserve">
-    <value>users/create</value>
+    <value>users</value>
   </data>
   <data name="deleteUser" xml:space="preserve">
     <value>users/{0}</value>
