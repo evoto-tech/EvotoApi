@@ -92,23 +92,69 @@ class CustomField extends React.Component {
     if (type === 'String') {
       return (
         <FormGroup>
-          <NamedInput name='Minimum Length' type='number' value={this.state.validation.minLength} onChange={this.updateValidationField.bind(this, 'minLength')} />
-          <NamedInput name='Maximum Length' type='number' value={this.state.validation.maxLength} onChange={this.updateValidationField.bind(this, 'maxLength')} />
-          <NamedInput name='Rule' type='text' value={this.state.validation.regex} onChange={this.updateValidationField.bind(this, 'regex')} />
+          <NamedInput
+            spanStyle={{ width: '140px' }}
+            inputGroupStyle={{ width: '100%' }}
+            name='Minimum Length'
+            type='number'
+            value={this.state.validation.minLength}
+            onChange={this.updateValidationField.bind(this, 'minLength')} />
+          <br />
+          <NamedInput
+            spanStyle={{ width: '140px' }}
+            inputGroupStyle={{ width: '100%' }}
+            name='Maximum Length'
+            type='number'
+            value={this.state.validation.maxLength}
+            onChange={this.updateValidationField.bind(this, 'maxLength')} />
+          <br />
+          <NamedInput
+            spanStyle={{ width: '140px' }}
+            inputGroupStyle={{ width: '100%' }}
+            name='Rule'
+            type='text'
+            value={this.state.validation.regex}
+            onChange={this.updateValidationField.bind(this, 'regex')} />
         </FormGroup>
       )
     } else if (type === 'Number') {
       return (
         <FormGroup>
-          <NamedInput name='Minimum' type='number' value={this.state.validation.min} onChange={this.updateValidationField.bind(this, 'min')} />
-          <NamedInput name='Maximum' type='number' value={this.state.validation.max} onChange={this.updateValidationField.bind(this, 'max')} />
+          <NamedInput
+            spanStyle={{ width: '140px' }}
+            inputGroupStyle={{ width: '100%' }}
+            name='Minimum'
+            type='number'
+            value={this.state.validation.min}
+            onChange={this.updateValidationField.bind(this, 'min')} />
+          <br />
+          <NamedInput
+            spanStyle={{ width: '140px' }}
+            inputGroupStyle={{ width: '100%' }}
+            name='Maximum'
+            type='number'
+            value={this.state.validation.max}
+            onChange={this.updateValidationField.bind(this, 'max')} />
         </FormGroup>
       )
     } else if (type === 'Date') {
       return (
         <FormGroup>
-          <NamedInput name='Minimum Date' type='text' value={this.state.validation.minDate} onChange={this.updateValidationField.bind(this, 'minDate')} />
-          <NamedInput name='Maximum Date' type='text' value={this.state.validation.maxDate} onChange={this.updateValidationField.bind(this, 'maxDate')} />
+          <NamedInput
+            spanStyle={{ width: '140px' }}
+            inputGroupStyle={{ width: '100%' }}
+            name='Minimum Date'
+            type='text'
+            value={this.state.validation.minDate}
+            onChange={this.updateValidationField.bind(this, 'minDate')} />
+          <br />
+          <NamedInput
+            spanStyle={{ width: '140px' }}
+            inputGroupStyle={{ width: '100%' }}
+            name='Maximum Date'
+            type='text'
+            value={this.state.validation.maxDate}
+            onChange={this.updateValidationField.bind(this, 'maxDate')} />
         </FormGroup>
       )
     }
@@ -144,6 +190,7 @@ class CustomField extends React.Component {
         {!['Number', 'String', 'Date'].includes(this.state.type) ? '' : this.getTypeValidationFields(this.state.type)}
         <div className='form-group'>
           <NamedInput
+            spanStyle={{ width: '140px' }}
             name='Required Field?'
             type='checkbox'
             className='icheckbox_flat-green'
