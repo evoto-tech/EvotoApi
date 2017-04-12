@@ -143,7 +143,16 @@ class NewVote extends React.Component {
         },
         credentials: 'same-origin'
       })
-      .then(postSave)
+      .then((data) => {
+        return data.json()
+      })
+      .then((json) => {
+        if (json.errors) {
+          showErrors(json.errors)
+        } else {
+          postSave()
+        }
+      })
       .catch((err) => {
         console.error(err)
       })
