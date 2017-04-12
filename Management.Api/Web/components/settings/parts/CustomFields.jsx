@@ -9,17 +9,34 @@ class CustomFields extends React.Component {
   constructor (props) {
     super(props)
     this.cleanValidationJson = cleanValidationJson
-    this.state = { loaded: false, customFields: [] }
+    this.state = { loaded: false, customFields: [], message: '' }
   }
 
   componentDidMount () {
     fetch(`/regi/settings/custom-fields`, { credentials: 'same-origin' })
-      .then((res) => res.json())
+      .then((data) => {
+        if (data.status !== 200) {
+          this.swalLoadErrorAlert()
+        }
+        return data.json()
+      })
       .then(this.cleanValidationJson)
       .then((data) => {
         this.setState({ customFields: data, loaded: true })
       })
       .catch(console.error)
+  }
+
+  swalLoadErrorAlert () {
+    swal({
+      title: 'Error',
+      text: 'There was a problem loading the custom fields.',
+      type: 'error',
+      confirmButtonColor: '#d73925',
+      confirmButtonText: 'Close',
+      closeOnConfirm: true,
+      allowOutsideClick: true
+    })
   }
 
   swalSaveErrorAlert () {
@@ -57,7 +74,14 @@ class CustomFields extends React.Component {
         },
         credentials: 'same-origin'
       })
-      .then((res) => res.json())
+      .then((data) => {
+        if (data.status !== 200) {
+          this.setState({ message: 'There was a problem saving.' },
+            this.swalSaveErrorAlert.bind(this)
+          )
+        }
+        return data.json()
+      })
       .then(this.cleanValidationJson)
       .then((data) => {
         if (typeof data === 'string') {
@@ -65,11 +89,20 @@ class CustomFields extends React.Component {
             data = JSON.parse(data)
           } catch (e) {}
         }
-        if (data.Message && data.Message === 'An error has occurred.') {
-          this.swalSaveErrorAlert()
+        if (data && data.Message && data.Message === 'An error has occurred.') {
+          this.setState({ message: 'There was a problem saving.' },
+            this.swalSaveErrorAlert.bind(this)
+          )
+        } else {
+          this.setState({ message: 'Saved successfully!' })
         }
       })
-      .catch(console.error)
+      .catch((err) => {
+        console.error(err)
+        this.setState({ message: 'There was a problem saving.' },
+          this.swalSaveErrorAlert.bind(this)
+        )
+      })
   }
 
   render () {
@@ -78,11 +111,14 @@ class CustomFields extends React.Component {
       <div className='btn-group'>
         <button type='button' className='btn btn-success' onClick={this.addCustomField.bind(this)}>Add New Custom Field</button>
         <button type='button' className='btn btn-success' onClick={this.saveCustomFields.bind(this)}>Save Fields</button>
+        <span className='help-block' style={{ display: 'inline-block', marginLeft: '1em' }}>
+          {this.state.message}
+        </span>
       </div>
     )
     return (
       <Box
-        type='success'
+        type={this.state.message !== 'There was a problem saving.' ? 'success' : 'danger'}
         title='Custom Fields'
         subtitle='Other fields required for client user accounts'
         overlay={overlay}
