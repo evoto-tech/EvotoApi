@@ -3,10 +3,12 @@ import Box from '../../parts/Box.jsx'
 import LoadableOverlay from '../../parts/LoadableOverlay.jsx'
 import CustomField from './parts/CustomField.jsx'
 import { update, remove } from '../../../lib/state-utils'
+import cleanValidationJson from '../../../lib/clean-validation-json'
 
 class CustomFields extends React.Component {
   constructor (props) {
     super(props)
+    this.cleanValidationJson = cleanValidationJson
     this.state = { loaded: false, customFields: [] }
   }
 
@@ -43,23 +45,6 @@ class CustomFields extends React.Component {
 
   deleteCustomField (index) {
     this.setState({ customFields: remove(this.state.customFields, index) })
-  }
-
-  cleanValidationJson (json) {
-    if (json && Array.isArray(json)) {
-      return json.map((item) => {
-        if (item.validation) {
-          const newItemValidation = Object.assign({}, item.validation)
-          Object.keys(newItemValidation).forEach((field) => {
-            const fieldValue = newItemValidation[field]
-            newItemValidation[field] = fieldValue === null || fieldValue === 'null' || fieldValue === '' ? '' : fieldValue
-          })
-          item.validation = newItemValidation
-        }
-        return item
-      })
-    }
-    return json
   }
 
   saveCustomFields () {
