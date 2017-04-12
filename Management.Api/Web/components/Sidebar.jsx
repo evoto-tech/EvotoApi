@@ -29,16 +29,6 @@ class Sidebar extends React.Component {
             </div>
           </div>
 
-          <form action='#' method='get' className='sidebar-form'>
-            <div className='input-group'>
-              <input type='text' name='q' className='form-control' placeholder='Search...' />
-              <span className='input-group-btn'>
-                <button type='submit' name='search' id='search-btn' className='btn btn-flat'><i className='fa fa-search' />
-                </button>
-              </span>
-            </div>
-          </form>
-
           <ul className='sidebar-menu'>
             <li className='header'>MENU</li>
             <li><IndexLink to='/' activeClassName='active'><i className='fa fa-home' /><span>Home</span></IndexLink></li>
