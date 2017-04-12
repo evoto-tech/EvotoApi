@@ -53,7 +53,7 @@ class VoteList extends React.Component {
 
   performDelete (vote) {
     fetch(`/mana/vote/${vote.id}/delete`
-      , { method: 'DELETE' })
+      , { method: 'DELETE', credentials: 'same-origin' })
         .then((res) => res.json())
         .then((data) => {
           if (data === 1) {

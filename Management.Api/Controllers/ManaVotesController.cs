@@ -180,7 +180,7 @@ namespace EvotoApi.Controllers
             try
             {
                 var affectedVote = await _store.GetVoteById(voteId);
-                if (affectedVote.Published)
+                if (!affectedVote.Published)
                 {
                     var affectedRows = await _store.DeleteVote(voteId);
                     return Json(affectedRows);
