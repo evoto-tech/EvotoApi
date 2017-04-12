@@ -26,7 +26,7 @@ namespace EvotoApi.Controllers
         {
             var users = await _store.GetUsers();
             var response = users.Select(v => new SingleManaUserResponse(v)).ToList();
-            return Json(response);
+            return Ok(response);
         }
     }
 }

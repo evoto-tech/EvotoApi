@@ -11,6 +11,6 @@ namespace Management.Database.Interfaces
         Task<IEnumerable<ManaVote>> GetVotes(bool published);
         Task<ManaVote> CreateVote(ManaVote vote);
         Task<ManaVote> UpdateVote(ManaVote vote);
-        Task<int> DeleteVote(int id);
+        Task DeleteVote(int id);
     }
 }

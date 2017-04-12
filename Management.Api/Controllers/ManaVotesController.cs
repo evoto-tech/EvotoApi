@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Results;
 using Common.Exceptions;
 using EvotoApi.Connections;
 using Management.Database.Interfaces;
@@ -26,24 +26,24 @@ namespace EvotoApi.Controllers
 
         private async Task<bool> CheckAndPublish(ManaVote vote)
         {
-            if (vote.Published)
+            if (!vote.Published)
+                return true;
+
+            var created = await RegistrarConnection.CreateBlockchain(vote);
+            if (created)
+                return true;
+
+            try
             {
-                var created = await RegistrarConnection.CreateBlockchain(vote);
-                if (created)
-                    return true;
-                try
-                {
-                    vote.Published = false;
-                    vote.PublishedDate = null;
-                    await _store.UpdateVote(vote);
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
+                vote.Published = false;
+                vote.PublishedDate = null;
+                await _store.UpdateVote(vote);
+            }
+            catch (Exception)
+            {
                 return false;
             }
-            return true;
+            return false;
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace EvotoApi.Controllers
             {
                 var vote = await _store.GetVoteById(voteId);
                 var response = new ManaVoteResponse(vote);
-                return Json(response);
+                return Ok(response);
             }
             catch (RecordNotFoundException)
             {
@@ -76,11 +76,11 @@ namespace EvotoApi.Controllers
             {
                 var votes = await _store.GetAllVotes();
                 var response = votes.Select(v => new ManaVoteResponse(v)).ToList();
-                return Json(response);
+                return Ok(response);
             }
             catch (RecordNotFoundException)
             {
-                return Json(new object[] {});
+                return Ok(new List<ManaVoteResponse>(0));
             }
         }
 
@@ -95,11 +95,11 @@ namespace EvotoApi.Controllers
             {
                 var votes = await _store.GetVotes(published);
                 var response = votes.Select(v => new ManaVoteResponse(v)).ToList();
-                return Json(response);
+                return Ok(response);
             }
             catch (RecordNotFoundException)
             {
-                return Json(new object[] {});
+                return Ok(new List<ManaVoteResponse>(0));
             }
         }
 
@@ -118,16 +118,17 @@ namespace EvotoApi.Controllers
 
             try
             {
-                if (voteModel.Published) voteModel.PublishedDate = DateTime.Now;
+                if (voteModel.Published)
+                    voteModel.PublishedDate = DateTime.Now;
+
                 var vote = await _store.CreateVote(voteModel);
-                var response = new ManaVoteResponse(vote);
+
                 var publishStateValid = await CheckAndPublish(vote);
                 if (!publishStateValid)
-                    return Json(new
-                    {
-                        errors = "Your changes have been saved but there was an issue publishing this vote."
-                    });
-                return Json(response);
+                    return BadRequest("Your changes have been saved but there was an issue publishing this vote.");
+
+                var response = new ManaVoteResponse(vote);
+                return Ok(response);
             }
             catch (Exception)
             {
@@ -151,14 +152,13 @@ namespace EvotoApi.Controllers
             try
             {
                 var updatedVote = await _store.UpdateVote(voteModel);
-                var response = new ManaVoteResponse(updatedVote);
+
                 var publishStateValid = await CheckAndPublish(updatedVote);
                 if (!publishStateValid)
-                    return Json(new
-                    {
-                        errors = "Your changes have been saved but there was an issue publishing this vote."
-                    });
-                return Json(response);
+                    return BadRequest("Your changes have been saved but there was an issue publishing this vote.");
+
+                var response = new ManaVoteResponse(updatedVote);
+                return Ok(response);
             }
             catch (RecordNotFoundException)
             {
@@ -182,11 +182,10 @@ namespace EvotoApi.Controllers
                 var affectedVote = await _store.GetVoteById(voteId);
                 if (!affectedVote.Published)
                 {
-                    var affectedRows = await _store.DeleteVote(voteId);
-                    return Json(affectedRows);
+                    await _store.DeleteVote(voteId);
+                    return Ok();
                 }
-                return new BadRequestErrorMessageResult(
-                    "Published votes cannot be deleted", this);
+                return BadRequest("Published votes cannot be deleted");
             }
             catch (RecordNotFoundException)
             {
