@@ -110,13 +110,13 @@ namespace Registrar.Api.Controllers
 
         [Route("results")]
         [HttpGet]
-        public async Task<IHttpActionResult> Results(string blockchainName)
+        public async Task<IHttpActionResult> Results(string chainString)
         {
             RegiBlockchain blockchain;
             try
             {
                 // Get blockchain info. Ensure exists and is connected to
-                blockchain = await _blockchainStore.GetBlockchain(blockchainName);
+                blockchain = await _blockchainStore.GetBlockchainByChainString(chainString);
             }
             catch (RecordNotFoundException)
             {

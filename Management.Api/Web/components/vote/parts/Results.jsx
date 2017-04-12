@@ -24,7 +24,7 @@ class Option extends React.Component {
 
   fetchResults () {
     if (this.state.loadedVote && this.props.vote) {
-      fetch(`/regi/results?${qs.stringify({ blockchainName: this.props.vote.name })}`,
+      fetch(`/regi/results?${qs.stringify({ chainString: this.props.vote.chainString })}`,
         { credentials: 'same-origin'
         })
         .then((res) => res.json())

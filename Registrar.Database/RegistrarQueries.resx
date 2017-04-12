@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BlockchainByName" xml:space="preserve">
-    <value>SELECT * FROM Blockchains WHERE Name = Name</value>
+    <value>SELECT * FROM Blockchains WHERE ChainString = @ChainString</value>
   </data>
   <data name="BlockchainCreate" xml:space="preserve">
     <value>INSERT INTO Blockchains (Name, ExpiryDate, ChainString, Port, WalletId, Info, EncryptKey) VALUES (@Name, @ExpiryDate, @ChainString, @Port, @WalletId, @Info, @EncryptKey)</value>
