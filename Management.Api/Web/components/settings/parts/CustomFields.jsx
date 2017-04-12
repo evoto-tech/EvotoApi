@@ -2,7 +2,7 @@ import React from 'react'
 import Box from '../../parts/Box.jsx'
 import LoadableOverlay from '../../parts/LoadableOverlay.jsx'
 import CustomField from './parts/CustomField.jsx'
-import { update, remove } from '../../../lib/state-utils'
+import { insert, update, remove } from '../../../lib/state-utils'
 import cleanValidationJson from '../../../lib/clean-validation-json'
 
 class CustomFields extends React.Component {
@@ -36,7 +36,7 @@ class CustomFields extends React.Component {
 
   addCustomField (e) {
     e.preventDefault()
-    this.setState({ customFields: update(this.state.customFields, { name: 'New Field', type: '', required: true, validation: {} }) })
+    this.setState({ customFields: insert(this.state.customFields, { name: 'New Field', type: '', required: true, validation: {} }) })
   }
 
   updateCustomField (index, field) {
