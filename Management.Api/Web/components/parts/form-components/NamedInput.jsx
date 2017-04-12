@@ -11,10 +11,48 @@ const propTypes = {
 }
 
 class NamedInput extends React.Component {
+  baseInputGroupStyle: {
+    padding: '2px', width: '100%'
+  }
+
+  baseSpanStyle: {
+    color: '#000000',
+    width: '130px',
+    userSelect: 'none'
+  }
+
+  baseInputStyle: {
+    width: '100%'
+  }
+
   render () {
-    const inputGroupStyle = Object.assign({}, { padding: '2px', width: '100%' }, this.props.inputGroupStyle)
-    const spanStyle = Object.assign({}, { color: '#000000', width: '130px', userSelect: 'none' }, this.props.spanStyle)
-    const inputStyle = Object.assign({}, { width: '100%' }, this.props.inputStyle)
+    let baseInputGroupStyle = this.baseInputGroupStyle
+    let baseSpanStyle = this.baseSpanStyle
+    let baseInputStyle = this.baseInputStyle
+
+    if (this.props.type === 'date') {
+      baseInputGroupStyle = Object.assign({}, baseInputGroupStyle, {
+        overflow: 'hidden',
+        maxHeight: '34px',
+        width: '100%'
+      })
+      baseSpanStyle = Object.assign({}, baseSpanStyle, {
+        display: 'inline-block',
+        height: '100%',
+        padding: '9px 12px',
+        width: 'auto'
+      })
+      baseInputStyle = Object.assign({}, baseInputStyle, {
+        width: '100%',
+        padding: '5px 10px 0px 10px',
+        position: 'relative',
+        left: '-1px'
+      })
+    }
+
+    const inputGroupStyle = Object.assign({}, baseInputGroupStyle, this.props.inputGroupStyle)
+    const spanStyle = Object.assign({}, baseSpanStyle, this.props.spanStyle)
+    const inputStyle = Object.assign({}, baseInputStyle, this.props.inputStyle)
     const span = (
       <span className='input-group-addon' style={spanStyle}>
         {this.props.name}
