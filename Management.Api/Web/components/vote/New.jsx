@@ -65,20 +65,51 @@ class NewVote extends React.Component {
     })
   }
 
+  validateExpiryDate (state, initialErrors) {
+    const valid = moment(state.expiryDate).isAfter(moment())
+    const errors = Object.assign({}, initialErrors)
+    if (!valid) {
+      errors.expiryDate = 'Please choose a date in the future.'
+    } else {
+      delete errors.expiryDate
+    }
+    return errors
+  }
+
+  validateChainString (state, initialErrors) {
+    const errors = Object.assign({}, initialErrors)
+    if (state.chainString.match(/^[a-zA-Z][a-zA-Z0-9]+$/) === null) {
+      errors.chainString = 'Invalid Blockchain Name, it must be alphanumeric only with no spaces or symbols, and longer than one character.'
+    } else {
+      delete errors.chainString
+    }
+    return errors
+  }
+
+  validateQuestions (state, initialErrors, isPublish) {
+    const errors = Object.assign({}, initialErrors)
+    if (isPublish && state.questions.length < 1) {
+      errors.questions = 'Please have one or more questions before publishing a vote!'
+    } else {
+      delete errors.questions
+    }
+    return errors
+  }
+
   handleNameChange (e) {
     const update = { name: e.target.value }
     if (uppercamelcase(this.state.name) === this.state.chainString) {
       update.chainString = uppercamelcase(update.name)
     }
-    this.setState(update)
+    this.setState(update, this.isValid.bind(this))
   }
 
   handleChainStringChange (e) {
-    this.setState({ chainString: e.target.value })
+    this.setState({ chainString: e.target.value }, this.isValid.bind(this))
   }
 
   handleDateTimeChange (e) {
-    this.setState({ expiryDate: e.date.format() })
+    this.setState({ expiryDate: e.date.format() }, this.isValid.bind(this))
   }
 
   handleEncryptedChange (e) {
@@ -89,25 +120,22 @@ class NewVote extends React.Component {
     this.setState({ blockSpeed: val })
   }
 
-  isValid () {
+  isValid (isPublish) {
     const vote = this.makeVote()
     const expectedKeys = [ 'createdBy', 'expiryDate', 'name', 'chainString' ]
     let errors = {}
-    var valid = expectedKeys.every((k) => {
+    expectedKeys.forEach((k) => {
       let propValid = vote.hasOwnProperty(k) && vote[k] !== ''
-      if (!propValid) errors[k] = (`This is required!`)
+      if (!propValid) {
+        errors[k] = (`This is required!`)
+      }
       return propValid
     })
-
-    if (!errors.chainString) {
-        if(!vote.chainString.match(/^[a-zA-Z][a-zA-Z0-9]+/)) {
-            errors["chainString"] = "Invalid Blockchain Name"
-            valid = false
-        }
-    }
-
+    errors = this.validateExpiryDate(this.state, errors)
+    errors = this.validateChainString(this.state, errors)
+    errors = this.validateQuestions(this.state, errors, isPublish)
     this.setState({ errors })
-    return valid
+    return Object.keys(errors).length === 0
   }
 
   clearErrors () {
@@ -144,7 +172,7 @@ class NewVote extends React.Component {
         },
         credentials: 'same-origin'
       })
-      .then((data) => {
+      .then((res) => {
         if (res.ok) {
             postSave()
         } else {
@@ -175,10 +203,12 @@ class NewVote extends React.Component {
     this.props.router.push('/')
   }
 
-  checkValid (action) {
+  checkValid (action, isPublished = false) {
     this.clearErrors()
-    if (this.isValid()) {
+    if (this.isValid(isPublished)) {
       action()
+    } else {
+      this.showErrors('There were errors, please correct them and try again!')
     }
   }
 
@@ -189,7 +219,7 @@ class NewVote extends React.Component {
   }
 
   savePublish () {
-    this.checkValid(this.swalPublishAlert.bind(this))
+    this.checkValid(this.swalPublishAlert.bind(this), true)
   }
 
   confirmPublish () {
