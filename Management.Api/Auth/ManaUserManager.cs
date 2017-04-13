@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Management.Database.Interfaces;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -41,7 +40,7 @@ namespace EvotoApi.Auth
 
             // Configure user lockout defaults
             manager.UserLockoutEnabledByDefault = true;
-            manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            manager.DefaultAccountLockoutTimeSpan = Startup.AuthLockout;
             manager.MaxFailedAccessAttemptsBeforeLockout = 5;
 
             manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ManaAuthUser, int>

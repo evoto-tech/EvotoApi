@@ -70,7 +70,7 @@ namespace EvotoApi.Auth
 
         public async Task SetLockoutEndDateAsync(ManaAuthUser user, DateTimeOffset lockoutEnd)
         {
-            var info = new ManaUserLockout {LockEnd = lockoutEnd.DateTime, UserId = user.Id};
+            var info = new ManaUserLockout {LockEnd = lockoutEnd.DateTime.ToLocalTime(), UserId = user.Id};
             try
             {
                 await _lockoutStore.UpdateUserTime(info);

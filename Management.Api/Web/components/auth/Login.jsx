@@ -41,6 +41,12 @@ class Login extends React.Component {
       })
     }
 
+    let lockoutError = () => {
+        this.setState({
+            error: 'You have been locked out for too many incorrect login attempts'
+        })
+    }
+
     fetch('/mana/auth/login',
       { method: 'POST',
         credentials: 'same-origin',
@@ -53,7 +59,7 @@ class Login extends React.Component {
       .then((response) => {
         if (response.ok && response.status === 200) {
           // Do nothing
-        } else if (response.status === 401) {
+        } else if (response.status === 403) {
           throw new Error('Those details seem to be wrong! Please try again.')
         } else if (response.status === 400) {
           return response.json()
@@ -63,6 +69,10 @@ class Login extends React.Component {
       }, handleError)
       .then((data) => {
         if (data) {
+          if (data.Message && data.Message === "Locked Out") {
+            return lockoutError()
+          }
+
           let messages = data.ModelState
             ? Object.keys(data.ModelState).reduce((o, k) => data.ModelState[k], [])
             : undefined

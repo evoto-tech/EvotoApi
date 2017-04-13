@@ -14,8 +14,9 @@ namespace EvotoApi
     {
         public static OAuthBearerAuthenticationOptions OAuthBearerOptions { get; private set; }
 
-        // In minutes
-        public static int RefreshTokenTime => 30;
+        public static TimeSpan CookieDuration => TimeSpan.FromMinutes(30);
+
+        public static TimeSpan AuthLockout => TimeSpan.FromMinutes(5);
 
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
@@ -37,7 +38,7 @@ namespace EvotoApi
                     // Enables the application to validate the security stamp when the user logs in.
                     // This is a security feature which is used when you change a password or add an external login to your account.  
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ManaUserManager, ManaAuthUser, int>(
-                        TimeSpan.FromMinutes(30),
+                        CookieDuration,
                         (manager, user) => user.GenerateUserIdentityAsync(manager),
                         user => user.GetUserId<int>())
                 }

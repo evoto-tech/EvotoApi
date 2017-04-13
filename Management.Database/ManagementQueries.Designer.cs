@@ -196,7 +196,7 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash, EncryptResults = @EncryptResults, BlockSpeed = @BlockSpeed WHERE Id = @Id.
+        ///   Looks up a localized string similar to UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash WHERE Id = @Id.
         /// </summary>
         internal static string UserUpdate {
             get {

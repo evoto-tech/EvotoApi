@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using EvotoApi.Auth;
@@ -21,11 +22,10 @@ namespace EvotoApi.Controllers
             var status = await sm.PasswordSignInAsync(model.Email, model.Password, true, true);
 
             if (status == SignInStatus.Success)
-            {
                 return Ok();
-            }
-            // TODO: Handle lockout/2FA
-            return Unauthorized();
+            if (status == SignInStatus.LockedOut)
+                return BadRequest("Locked Out");
+            return StatusCode(HttpStatusCode.Forbidden);
         }
     }
 }
