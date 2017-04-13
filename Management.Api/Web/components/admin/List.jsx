@@ -28,8 +28,6 @@ class AdminList extends React.Component {
           <tr key={i}>
             <td>{i + 1}.</td>
             <td>{admin.email}</td>
-            <td />
-            <td />
           </tr>
         )
       })
@@ -56,8 +54,6 @@ class AdminList extends React.Component {
               <tbody><tr>
                 <th style={{width: '10px'}}>#</th>
                 <th>Email</th>
-                <th style={{width: '200px'}}>Verified</th>
-                <th style={{width: '20px'}} />
               </tr>
                 {this.createAdminRows()}
               </tbody>

@@ -5,7 +5,7 @@ import RegisterForm from '../parts/forms/Register.jsx'
 
 class Register extends React.Component {
   register (user, successLink, handleError) {
-    fetch('/api/Account/Register',
+    fetch('/mana/user',
       { method: 'POST',
         body: JSON.stringify(user),
         headers: {
@@ -16,7 +16,7 @@ class Register extends React.Component {
       })
       .then((response) => {
         if (response.ok && response.status === 200) {
-          // Do nothing
+          console.log('done')
         } else if (response.status === 401) {
           throw new Error('Those details seem to be wrong! Please try again.')
         } else if (response.status === 400) {

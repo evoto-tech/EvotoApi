@@ -5,8 +5,6 @@ class RegisterForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      firstName: '',
-      lastName: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -19,8 +17,6 @@ class RegisterForm extends React.Component {
 
   checkReady () {
     let ready = this.state.matchingPassword &&
-        this.state.firstName !== '' &&
-        this.state.lastName !== '' &&
         this.state.email !== '' &&
         this.state.password !== ''
     this.setState({ ready })
@@ -43,15 +39,12 @@ class RegisterForm extends React.Component {
     e.preventDefault()
     let handleError = (err, errorMessages) => {
       errorMessages = errorMessages || []
-      console.error('Login error', err, errorMessages)
       this.setState({
         error: 'Those details seem to be wrong! Please try again.',
         errorMessages
       })
     }
     let user = {
-      FirstName: this.state.firstName,
-      LastName: this.state.lastName,
       Email: this.state.email,
       Password: this.state.password,
       ConfirmPassword: this.state.confirmPassword
@@ -80,32 +73,6 @@ class RegisterForm extends React.Component {
             )
           }
           <div className='input-group' style={{ width: '100%' }}>
-            <span className='fa fa-user input-group-addon' style={{ width: '40px' }} />
-            <input
-              type='text'
-              ref='firstName'
-              data-field='firstName'
-              className='form-control'
-              placeholder='First Name'
-              value={this.state.firstName}
-              onChange={this.onFieldChange.bind(this)}
-              />
-          </div>
-          <br />
-          <div className='input-group' style={{ width: '100%' }}>
-            <span className='fa fa-user input-group-addon' style={{ width: '40px' }} />
-            <input
-              type='text'
-              ref='lastName'
-              data-field='lastName'
-              className='form-control'
-              placeholder='Last Name'
-              value={this.state.lastName}
-              onChange={this.onFieldChange.bind(this)}
-              />
-          </div>
-          <br />
-          <div className='input-group' style={{ width: '100%' }}>
             <span className='fa fa-envelope input-group-addon' style={{ width: '40px' }} />
             <input
               type='text'
@@ -119,7 +86,7 @@ class RegisterForm extends React.Component {
           </div>
           <br />
           {this.props.children}
-          <br />
+          {this.props.children ? <br /> : ''}
           <div className='input-group'style={{ width: '100%' }}>
             <span className='fa fa-lock input-group-addon' style={{ width: '40px' }} />
             <input
