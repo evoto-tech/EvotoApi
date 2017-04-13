@@ -56,16 +56,8 @@ class VoteList extends React.Component {
       , { method: 'DELETE', credentials: 'same-origin' })
         .then((res) => res.json())
         .then((data) => {
-          if (data === 1) {
-            this.setState({ toDelete: {} }, () => {
-              this.fetchVotes()
-              swal(`${vote.name} has been deleted.`)
-            })
-          } else {
-            this.setState({ toDelete: {}, loaded: true }, () => {
-              console.error('Unexpected result', data)
-            })
-          }
+          this.fetchVotes()
+          swal(`${vote.name} has been deleted.`)
         })
         .catch(console.error)
   }

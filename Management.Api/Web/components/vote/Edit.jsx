@@ -27,14 +27,14 @@ class EditVote extends React.Component {
         },
         credentials: 'same-origin'
       })
-      .then((data) => {
-        return data.json()
-      })
-      .then((json) => {
-        if (json.errors) {
-          showErrors(json.errors)
+      .then((res) => {
+        if (res.ok) {
+            postSave()
         } else {
-          postSave()
+            res.json()
+            .then(function(err) {
+                showErrors(err)
+            })
         }
       })
       .catch((err) => {
