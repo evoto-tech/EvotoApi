@@ -65,13 +65,20 @@ class VoteList extends React.Component {
   createVoteRows () {
     return this.state.votes.length > 0 ? (
       this.state.votes.map((vote, i) => {
+        let state = vote.published ? 'Published' : 'Draft'
+        if (state === 'Published' && moment(vote.expiryDate).isBefore(moment())) state = 'Finished'
+        const badgeClasses = {
+          Draft: 'bg-red',
+          Published: 'bg-green',
+          Finished: 'bg-grey'
+        }
         return (
           <tr key={i}>
             <td>{i + 1}.</td>
             <td><Link to={vote.published ? `/vote/${vote.id}` : `/vote/${vote.id}/edit`}>{vote.name}</Link></td>
             <td>{formatDateString(vote.creationDate)}</td>
             <td>{formatDateString(vote.expiryDate)}</td>
-            <td><span className={'badge ' + (vote.published ? 'bg-green' : 'bg-red')}>{vote.published ? 'Published' : 'Draft'}</span></td>
+            <td><span className={'badge ' + (badgeClasses[state])}>{state}</span></td>
             <td>{!vote.published ? <Link to={`/vote/${vote.id}/edit`}><i className='fa fa-edit' /></Link> : ''}</td>
             <td>{!vote.published ? <div onClick={this.handleDelete.bind(this, vote)}><i className='fa fa-trash' /></div> : ''}</td>
           </tr>
