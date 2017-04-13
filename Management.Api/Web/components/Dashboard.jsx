@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import formatDate from '../lib/format-date-string'
 
@@ -45,19 +46,21 @@ class Dashboard extends React.Component {
         const daysUntilExpiry = expiryDate.diff(moment(), 'days')
         const daysPercentage = this.getDaysPercentage(daysOfVote, daysUntilExpiry)
         return (
-          <div className='info-box bg-green' key={i}>
-            <span className='info-box-icon'><i className='fa fa-check' /></span>
-            <div className='info-box-content'>
-              <span className='info-box-text'>{vote.name}</span>
-              <span className='info-box-number'>{formatDate(vote.publishedDate)} until {formatDate(vote.expiryDate)}</span>
-              <div className='progress'>
-                <div className='progress-bar' style={{ width: `${daysPercentage}%` }} />
+          <Link to={`/vote/${vote.id}`} key={i}>
+            <div className='info-box bg-green'>
+              <span className='info-box-icon'><i className='fa fa-check' /></span>
+              <div className='info-box-content'>
+                <span className='info-box-text'>{vote.name}</span>
+                <span className='info-box-number'>{formatDate(vote.publishedDate)} until {formatDate(vote.expiryDate)}</span>
+                <div className='progress'>
+                  <div className='progress-bar' style={{ width: `${daysPercentage}%` }} />
+                </div>
+                <span className='progress-description'>
+                  <b>{daysUntilExpiry} days left</b>
+                </span>
               </div>
-              <span className='progress-description'>
-                <b>{daysUntilExpiry} days left</b>
-              </span>
             </div>
-          </div>
+          </Link>
         )
       })
     ) : (
