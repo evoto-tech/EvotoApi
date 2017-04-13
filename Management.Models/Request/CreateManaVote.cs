@@ -26,6 +26,7 @@ namespace Management.Models.Request
         public DateTime ExpiryDate { get; private set; }
 
         [DataMember(Name = "chainString")]
+        [RegularExpression("^[a-zA-Z][a-zA-Z0-9]+$")]
         public string ChainString { get; private set; }
 
         [DataMember(Name = "questions")]

@@ -27,7 +27,7 @@ class NewVote extends React.Component {
       published: nonEmptyVote ? props.vote.published : false,
       questions: nonEmptyVote ? (JSON.parse(props.vote.questions) || []) : [],
       loaded: props.hasOwnProperty('loaded') ? props.loaded : true,
-      encrypted: nonEmptyVote ? props.vote.encrypted : true,
+      encryptResults: nonEmptyVote ? props.vote.encryptResults : true,
       blockSpeed: nonEmptyVote ? props.vote.blockSpeed : 30,
       publishedDate: nonEmptyVote ? props.vote.publishedDate : null
     }
@@ -82,7 +82,7 @@ class NewVote extends React.Component {
   }
 
   handleEncryptedChange (e) {
-    this.setState({ encrypted: e.target.checked })
+    this.setState({ encryptResults: e.target.checked })
   }
 
   handleBlockSpeedChange (val) {
@@ -91,13 +91,21 @@ class NewVote extends React.Component {
 
   isValid () {
     const vote = this.makeVote()
-    const expectedKeys = [ 'createdBy', 'expiryDate', 'name' ]
+    const expectedKeys = [ 'createdBy', 'expiryDate', 'name', 'chainString' ]
     let errors = {}
-    const valid = expectedKeys.every((k) => {
+    var valid = expectedKeys.every((k) => {
       let propValid = vote.hasOwnProperty(k) && vote[k] !== ''
       if (!propValid) errors[k] = (`This is required!`)
       return propValid
     })
+
+    if (!errors.chainString) {
+        if(!vote.chainString.match(/^[a-zA-Z][a-zA-Z0-9]+/)) {
+            errors["chainString"] = "Invalid Blockchain Name"
+            valid = false
+        }
+    }
+
     this.setState({ errors })
     return valid
   }
@@ -114,7 +122,7 @@ class NewVote extends React.Component {
       expiryDate: this.state.expiryDate,
       published: this.state.published,
       questions: JSON.stringify(this.state.questions),
-      encrypted: this.state.encrypted,
+      encryptResults: this.state.encryptResults,
       blockSpeed: this.state.blockSpeed
     })
   }
@@ -137,13 +145,13 @@ class NewVote extends React.Component {
         credentials: 'same-origin'
       })
       .then((data) => {
-        return data.json()
-      })
-      .then((json) => {
-        if (json.errors) {
-          showErrors(json.errors)
+        if (res.ok) {
+            postSave()
         } else {
-          postSave()
+            res.json()
+            .then(function(err) {
+                showErrors(err)
+            })
         }
       })
       .catch((err) => {
@@ -152,7 +160,7 @@ class NewVote extends React.Component {
   }
 
   showErrors (errors) {
-    let errorMessage = (typeof (errors) === 'string') ? errors : errors.join('\n')
+    let errorMessage = (typeof (errors) === 'string') ? errors : errors.Message
     swal({
       title: 'Errors',
       text: errorMessage,
@@ -314,17 +322,17 @@ class NewVote extends React.Component {
                   </div>
                   <span className='help-block'>{this.state.errors.expiryDate}</span>
                 </div>
-                <div className={this.state.errors.encrypted ? 'form-group has-error' : 'form-group'}>
+                <div className={this.state.errors.encryptResults ? 'form-group has-error' : 'form-group'}>
                   <div className='checkbox'>
                     <input
                       type='checkbox'
                       id='encryptResults'
-                      checked={this.state.encrypted}
+                      checked={this.state.encryptResults}
                       onChange={this.handleEncryptedChange.bind(this)}
                       disabled={this.props.disabled}
                     />
                     <label htmlFor='encryptResults'>Encrypt Results?</label>
-                    <span className='help-block'>{this.state.errors.name}</span>
+                    <span className='help-block'>{this.state.errors.encryptResults}</span>
                   </div>
                 </div>
                 <div className={this.state.errors.blockSpeed ? 'form-group has-error' : 'form-group'}>
@@ -342,7 +350,7 @@ class NewVote extends React.Component {
                       disabled={this.props.disabled}
                   />
                   : ''}
-                  <span className='help-block'>{this.state.errors.name}</span>
+                  <span className='help-block'>{this.state.errors.blockSpeed}</span>
                 </div>
                 <div className={this.state.errors.questions ? 'form-group has-error' : 'form-group'}>
                   <label>Questions</label>
