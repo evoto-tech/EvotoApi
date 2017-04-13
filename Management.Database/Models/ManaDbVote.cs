@@ -18,6 +18,7 @@ namespace Management.Database.Models
             EncryptResults = record.EncryptResults;
             BlockSpeed = record.BlockSpeed;
             PublishedDate = record.PublishedDate;
+            Info = record.Info;
         }
 
         public ManaDbVote(ManaVote model)
@@ -36,6 +37,7 @@ namespace Management.Database.Models
             EncryptResults = model.EncryptResults;
             BlockSpeed = model.BlockSpeed;
             PublishedDate = model.PublishedDate;
+            Info = model.Info;
         }
 
         public int Id { get; }
@@ -49,6 +51,7 @@ namespace Management.Database.Models
         public bool EncryptResults { get; }
         public int BlockSpeed { get; }
         public DateTime? PublishedDate { get; }
+        public string Info { get; }
 
         public ManaVote ToVote()
         {
@@ -64,7 +67,8 @@ namespace Management.Database.Models
                 Questions = Questions,
                 EncryptResults = EncryptResults,
                 BlockSpeed = BlockSpeed,
-                PublishedDate = PublishedDate
+                PublishedDate = PublishedDate,
+                Info = Info
             };
         }
     }

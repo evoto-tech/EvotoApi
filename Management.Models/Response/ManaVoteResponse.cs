@@ -19,6 +19,7 @@ namespace Management.Models.Response
             EncryptResults = vote.EncryptResults;
             BlockSpeed = vote.BlockSpeed;
             PublishedDate = vote.PublishedDate;
+            Info = vote.Info;
         }
 
         [DataMember(Name = "id")]
@@ -53,5 +54,8 @@ namespace Management.Models.Response
 
         [DataMember(Name = "publishedDate")]
         public DateTime? PublishedDate { get; }
-      }
+
+        [DataMember(Name = "info")]
+        public string Info { get; }
+    }
 }

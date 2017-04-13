@@ -21,7 +21,8 @@ namespace Management.Models.Request
             EncryptResults = vote.EncryptResults;
             BlockSpeed = vote.BlockSpeed;
             Published = vote.Published;
-            publishedDate = vote.PublishedDate;
+            PublishedDate = vote.PublishedDate;
+            Info = vote.Info;
         }
 
         [DataMember(Name = "createdBy")]
@@ -55,6 +56,9 @@ namespace Management.Models.Request
         public int BlockSpeed { get; private set; }
 
         [DataMember(Name = "publishedDate")]
-        public DateTime? publishedDate { get; private set; }
+        public DateTime? PublishedDate { get; private set; }
+
+        [DataMember(Name = "info")]
+        public string Info { get; private set; }
     }
 }
