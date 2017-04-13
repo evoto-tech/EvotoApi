@@ -45,6 +45,17 @@ class Dashboard extends React.Component {
         const daysOfVote = expiryDate.diff(publishedDate, 'days')
         const daysUntilExpiry = expiryDate.diff(moment(), 'days')
         const daysPercentage = this.getDaysPercentage(daysOfVote, daysUntilExpiry)
+        const progressDescription = {
+          value: daysUntilExpiry,
+          unit: 'days'
+        }
+        if (daysUntilExpiry === 0) {
+          progressDescription.value = expiryDate.diff(moment(), 'hours')
+          progressDescription.unit = 'hours'
+        }
+        if (progressDescription.value === 1) {
+          progressDescription.unit = progressDescription.unit.slice(0, -1)
+        }
         return (
           <Link to={`/vote/${vote.id}`} key={i}>
             <div className='info-box bg-green'>
@@ -56,7 +67,7 @@ class Dashboard extends React.Component {
                   <div className='progress-bar' style={{ width: `${daysPercentage}%` }} />
                 </div>
                 <span className='progress-description'>
-                  <b>{daysUntilExpiry} days left</b>
+                  <b>{progressDescription.value} {progressDescription.unit} left</b>
                 </span>
               </div>
             </div>
