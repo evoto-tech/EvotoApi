@@ -163,7 +163,7 @@
     <value>SELECT * FROM Users WHERE Id = @Id</value>
   </data>
   <data name="UserUpdate" xml:space="preserve">
-    <value>UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash, EncryptResults = @EncryptResults, BlockSpeed = @BlockSpeed WHERE Id = @Id</value>
+    <value>UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash WHERE Id = @Id</value>
   </data>
   <data name="RefreshTokenCreate" xml:space="preserve">
     <value>INSERT INTO RefreshTokens (UserId, Token, Ticket, Issued, Expires) VALUES (@UserId, @Token, @Ticket, @Issued, @Expires)</value>

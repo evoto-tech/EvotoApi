@@ -76,7 +76,7 @@ namespace Registrar.Api.Auth
 
         public async Task SetLockoutEndDateAsync(RegiAuthUser user, DateTimeOffset lockoutEnd)
         {
-            var info = new RegiUserLockout {LockEnd = lockoutEnd.DateTime, UserId = user.Id};
+            var info = new RegiUserLockout {LockEnd = lockoutEnd.DateTime.ToLocalTime(), UserId = user.Id};
             try
             {
                 await _lockoutStore.UpdateUserTime(info);

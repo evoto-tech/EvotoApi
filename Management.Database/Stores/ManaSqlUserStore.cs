@@ -134,7 +134,7 @@ namespace Management.Database.Stores
             {
                 if (e is RecordNotFoundException)
                     throw;
-                throw new Exception("Could not delete Mana User");
+                throw new Exception("Could not update Mana User");
             }
         }
     }

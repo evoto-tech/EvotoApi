@@ -36,7 +36,7 @@ namespace Management.Database.Stores
             {
                 if (e is RecordNotFoundException)
                     throw;
-                throw new Exception("Could not get Mana User");
+                throw new Exception("Could not get User Lockout Token");
             }
         }
 
@@ -55,7 +55,7 @@ namespace Management.Database.Stores
             {
                 if (e is RecordNotFoundException)
                     throw;
-                throw new Exception("Could not delete Mana User");
+                throw new Exception("Could not update User Lockout Token Time");
             }
         }
 
@@ -74,7 +74,7 @@ namespace Management.Database.Stores
             {
                 if (e is RecordNotFoundException)
                     throw;
-                throw new Exception("Could not delete Mana User");
+                throw new Exception("Could not Update User Lockout Token Attempts");
             }
         }
 
@@ -91,7 +91,7 @@ namespace Management.Database.Stores
             {
                 if (e is RecordNotFoundException)
                     throw;
-                throw new Exception("Could not delete Mana User");
+                throw new Exception("Could not insert User Lockout Time");
             }
         }
 
@@ -108,7 +108,7 @@ namespace Management.Database.Stores
             {
                 if (e is RecordNotFoundException)
                     throw;
-                throw new Exception("Could not delete Mana User");
+                throw new Exception("Could insert User Lockout Attempts");
             }
         }
     }
