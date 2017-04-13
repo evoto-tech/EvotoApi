@@ -1,4 +1,5 @@
 ﻿using System;
+using Common;
 
 namespace Registrar.Models
 {
@@ -13,6 +14,8 @@ namespace Registrar.Models
         public string Info { get; set; }
 
         public int Port { get; set; }
+
+        public string Host => RegiSettings.BLOCKCHAIN_HOST;
 
         public string WalletId { get; set; }
 

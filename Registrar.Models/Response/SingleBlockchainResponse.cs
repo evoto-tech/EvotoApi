@@ -13,6 +13,7 @@ namespace Registrar.Models.Response
             ChainString = blockchain.ChainString;
             Info = blockchain.Info;
             Port = blockchain.Port;
+            Host = blockchain.Host;
             WalletId = blockchain.WalletId;
             Blocks = blocks;
             EncryptKey = blockchain.EncryptKey;
@@ -32,6 +33,9 @@ namespace Registrar.Models.Response
 
         [DataMember(Name = "port")]
         public int Port { get; }
+
+        [DataMember(Name = "host")]
+        public string Host { get; }
 
         [DataMember(Name = "walletId")]
         public string WalletId { get; }
