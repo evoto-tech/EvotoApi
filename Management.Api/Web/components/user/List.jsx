@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router'
 import Wrapper from './parts/Wrapper.jsx'
 import LoadableOverlay from '../parts/LoadableOverlay.jsx'
-import formatDateString from '../../lib/format-date-string'
 
 class UserList extends React.Component {
   constructor (props) {
@@ -30,7 +29,6 @@ class UserList extends React.Component {
           <tr key={i}>
             <td>{i + 1}.</td>
             <td><Link to={`/users/${user.id}`}>{user.email}</Link></td>
-            <td>{formatDateString(user.creationDate)}</td>
             <td><span className={'badge ' + (user.emailConfirmed ? 'bg-green' : 'bg-red')}>{user.emailConfirmed ? 'Confirmed' : 'Unconfirmed'}</span></td>
             <td><Link to={`/users/${user.id}`}><i className='fa fa-edit' /></Link></td>
           </tr>
@@ -58,7 +56,6 @@ class UserList extends React.Component {
               <tbody><tr>
                 <th style={{width: '10px'}}>#</th>
                 <th>Email</th>
-                <th style={{width: '200px'}}>Created on</th>
                 <th style={{width: '200px'}}>Confirmed Email</th>
                 <th style={{width: '20px'}} />
               </tr>
