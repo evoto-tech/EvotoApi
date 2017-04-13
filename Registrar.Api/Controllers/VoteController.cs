@@ -53,8 +53,7 @@ namespace Registrar.Api.Controllers
 
             // Store the user on the blockchain so they can't have another key
             var voter = new BlockchainVoterModel {Id = User.Identity.GetUserId<int>()};
-            await chain.WriteToStream(MultiChainTools.ROOT_STREAM_NAME, MultiChainTools.VOTERS_KEY,
-                JsonConvert.SerializeObject(voter));
+            await chain.WriteToStream(MultiChainTools.ROOT_STREAM_NAME, MultiChainTools.VOTERS_KEY, voter);
 
             return Ok(new {Signature = signed.ToString()});
         }
