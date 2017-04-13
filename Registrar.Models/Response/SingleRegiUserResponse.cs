@@ -14,6 +14,7 @@ namespace Registrar.Models.Response
 
             Id = user.Id;
             Email = user.Email;
+            EmailConfirmed = user.EmailConfirmed;
 
             CustomFields = user.CustomFields.ToDictionary(cf => cf.Name, cf => cf.Value);
         }
