@@ -40,25 +40,32 @@ class Option extends React.Component {
       <div className='box box-success'>
         <LoadableOverlay loaded={this.state.loaded && this.state.loadedVote} />
         <div className='box-header with-border'>
-          <h3 className='box-title'>Vote Results <small>{this.state.results.length} Questions</small></h3>
+          <h3 className='box-title'>Vote Results <small>{this.state.results.length} Question{this.state.results.length === 1 ? '' : 's'}</small></h3>
         </div>
         <div className='box-body'>
           {this.state.results.map((question, i) => {
-            const colors = Please.make_color(
-              { format: 'hex',
-                colors_returned: (Object.keys(question.Results).length || 0)
-              })
+            const questionText = question.Question || question.question
+            const results = question.Results || question.results
+            let colors = []
+            if (results) {
+              colors = Please.make_color(
+                { format: 'hex',
+                  colors_returned: (Object.keys(results).length || 0)
+                })
+            }
             return (
               <div key={i}>
-                <h5>Results for '{question.Question}'</h5>
-                <Chart type='pie' data={{
-                  labels: Object.keys(question.Results),
-                  datasets: [
-                    {
-                      data: Object.keys(question.Results).map((k) => question.Results[k]),
-                      backgroundColor: colors
-                    }]
-                }} options={{}} height={40} />
+                <h5 style={{ fontWeight: 'bold' }}>Results for '{questionText}'</h5>
+                {!results ? <p>No results to show!</p> : (
+                  <Chart type='pie' data={{
+                    labels: Object.keys(results),
+                    datasets: [
+                      {
+                        data: Object.keys(results).map((k) => results[k]),
+                        backgroundColor: colors
+                      }]
+                  }} options={{}} height={40} />
+                )}
               </div>
             )
           })}
