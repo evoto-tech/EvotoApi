@@ -70,8 +70,7 @@ class Login extends React.Component {
       .then((data) => {
         if (data) {
           if (data.Message && data.Message === "Locked Out") {
-            lockoutError()
-            return
+            return lockoutError()
           }
 
           let messages = data.ModelState
