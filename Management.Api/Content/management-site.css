@@ -50,3 +50,12 @@
     display: inline-block;
     margin-right: 1em;
 }
+
+/* Range slider adjustments */
+.rangeslider {
+    margin: 10px 0 50px 0 !important;
+}
+
+.rangeslider__label-list .rangeslider__label {
+    top: 30px !important;
+}
