@@ -37,14 +37,6 @@ namespace EvotoApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            var errors = new List<string>();
-
-            if (errors.Any())
-            {
-                AddErrors(errors);
-                return BadRequest(ModelState);
-            }
             
             var user = new ManaAuthUser { Email = model.Email };
             var result = await UserManager.CreateAsync(user, model.Password);
