@@ -14,7 +14,7 @@ class AdminNew extends React.Component {
             <h3 className='box-title'>New Administrator Details</h3>
           </div>
           <div className='box-body'>
-            <Register successLink='/manage/users/list' buttonText='Create New' />
+            <Register successLink='/admins' buttonText='Create New' />
           </div>
         </div>
       </Wrapper>
