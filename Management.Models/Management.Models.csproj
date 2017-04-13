@@ -55,6 +55,7 @@
     <Compile Include="ManaUser.cs" />
     <Compile Include="ManaVote.cs" />
     <Compile Include="ManaUserLockout.cs" />
+    <Compile Include="Request\CreateManaUser.cs" />
     <Compile Include="Request\CreateManaVote.cs" />
     <Compile Include="Request\LoginManaUser.cs" />
     <Compile Include="Request\PublishManaVote.cs" />
