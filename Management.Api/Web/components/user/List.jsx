@@ -30,7 +30,7 @@ class UserList extends React.Component {
             <td>{i + 1}.</td>
             <td><Link to={`/users/${user.id}`}>{user.email}</Link></td>
             <td><span className={'badge ' + (user.emailConfirmed ? 'bg-green' : 'bg-red')}>{user.emailConfirmed ? 'Confirmed' : 'Unconfirmed'}</span></td>
-            <td><Link to={`/users/${user.id}`}><i className='fa fa-edit' /></Link></td>
+            <td><Link to={`/users/${user.id}`}><i className='fa fa-info' /></Link></td>
           </tr>
         )
       })
