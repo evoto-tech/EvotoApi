@@ -205,7 +205,7 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString, Questions, EncryptResults, BlockSpeed, PublishedDate) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString, @Questions, @EncryptResults, @BlockSpeed, @PublishedDate).
+        ///   Looks up a localized string similar to INSERT INTO Votes (CreatedBy, Name, Published, ExpiryDate, ChainString, Questions, EncryptResults, BlockSpeed, PublishedDate, Info) VALUES (@CreatedBy, @Name, @Published, @ExpiryDate, @ChainString, @Questions, @EncryptResults, @BlockSpeed, @PublishedDate, @Info).
         /// </summary>
         internal static string VoteCreate {
             get {
@@ -250,7 +250,7 @@ namespace Management.Database {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UPDATE Votes SET Name=@Name, ChainString=@ChainString, Published=@Published, ExpiryDate=@ExpiryDate, Questions=@Questions, PublishedDate = @PublishedDate, EncryptResults = @EncryptResults, BlockSpeed = @BlockSpeed WHERE Id=@Id.
+        ///   Looks up a localized string similar to UPDATE Votes SET Name=@Name, ChainString=@ChainString, Published=@Published, ExpiryDate=@ExpiryDate, Questions=@Questions, PublishedDate = @PublishedDate, EncryptResults = @EncryptResults, BlockSpeed = @BlockSpeed, Info = @Info WHERE Id=@Id.
         /// </summary>
         internal static string VoteUpdate {
             get {

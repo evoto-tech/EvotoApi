@@ -22,6 +22,7 @@ class NewVote extends React.Component {
     return {
       user: nonEmptyVote ? { id: props.vote.createdBy } : { id: 2 },
       name: nonEmptyVote ? props.vote.name : '',
+      info: nonEmptyVote ? (props.vote.info === null ? '' : props.vote.info) : '',
       chainString: nonEmptyVote ? (props.vote.chainString || '') : '',
       expiryDate: nonEmptyVote ? props.vote.expiryDate : '',
       published: nonEmptyVote ? props.vote.published : false,
@@ -104,6 +105,10 @@ class NewVote extends React.Component {
     this.setState(update, this.isValid.bind(this))
   }
 
+  handleInfoChange (e) {
+    this.setState({ info: e.target.value })
+  }
+
   handleChainStringChange (e) {
     this.setState({ chainString: e.target.value }, this.isValid.bind(this))
   }
@@ -147,6 +152,7 @@ class NewVote extends React.Component {
       createdBy: this.state.user.id,
       name: this.state.name,
       chainString: this.state.chainString,
+      info: this.state.info,
       expiryDate: this.state.expiryDate,
       published: this.state.published,
       questions: JSON.stringify(this.state.questions),
@@ -320,6 +326,18 @@ class NewVote extends React.Component {
                     disabled={this.props.disabled}
                   />
                   <span className='help-block'>{this.state.errors.chainString}</span>
+                </div>
+                <div className='form-group'>
+                  <label>Information</label>
+                  <textarea
+                    className='form-control'
+                    rows='2'
+                    placeholder='Information...'
+                    style={{ resize: 'vertical' }}
+                    onChange={this.handleInfoChange.bind(this)}
+                    value={this.state.info}
+                    disabled={this.props.disabled}
+                    />
                 </div>
                 {!this.state.published ? '' : (
                   <div className='form-group'>

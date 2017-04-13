@@ -41,6 +41,9 @@ namespace Management.Models.Request
         [DataMember(Name = "publishedDate")]
         public DateTime? PublishedDate { get; set; }
 
+        [DataMember(Name = "info")]
+        public string Info { get; set; }
+
         public ManaVote ToModel()
         {
             return new ManaVote
@@ -53,7 +56,8 @@ namespace Management.Models.Request
                 Questions = Questions,
                 EncryptResults = EncryptResults,
                 BlockSpeed = BlockSpeed,
-                PublishedDate = PublishedDate
+                PublishedDate = PublishedDate,
+                Info = Info
             };
         }
     }
