@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -133,6 +134,10 @@ namespace Registrar.Api.Controllers
             {
                 return NotFound();
             }
+
+            // Don't allow results if the blockchain is encrypted and not yet ended
+            if (!string.IsNullOrWhiteSpace(blockchain.EncryptKey) && (blockchain.ExpiryDate > DateTime.UtcNow))
+                return Unauthorized();
 
             MultichainModel chain;
             if (!_multichaind.Connections.TryGetValue(blockchain.ChainString, out chain))
