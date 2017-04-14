@@ -21,6 +21,7 @@ The Manament Website (which doesn't have a catchy nickname) is the administrator
 The first step in building, as with many projects, is to clone this repository. Additionally, two submodules are required, detailed below. These can be cloned recursively.
 
     git clone https://github.com/evoto-tech/EvotoApi.git
+    cd EvotoApi
     git submodule update --init --recursive
     
 The following files must be created on the filesystem to build the project. These are omitted from the repository for security reasons.
