@@ -144,7 +144,7 @@ class CustomField extends React.Component {
             spanStyle={{ width: '140px' }}
             inputGroupStyle={{ width: '100%' }}
             name='Minimum Date'
-            type='text'
+            type='date'
             value={this.state.validation.minDate}
             onChange={this.updateValidationField.bind(this, 'minDate')} />
           <br />
@@ -152,7 +152,7 @@ class CustomField extends React.Component {
             spanStyle={{ width: '140px' }}
             inputGroupStyle={{ width: '100%' }}
             name='Maximum Date'
-            type='text'
+            type='date'
             value={this.state.validation.maxDate}
             onChange={this.updateValidationField.bind(this, 'maxDate')} />
         </FormGroup>
