@@ -119,7 +119,7 @@ namespace EvotoApi.Controllers
             try
             {
                 if (voteModel.Published)
-                    voteModel.PublishedDate = DateTime.Now;
+                    voteModel.PublishedDate = DateTime.UtcNow;
 
                 var vote = await _store.CreateVote(voteModel);
 
@@ -143,7 +143,8 @@ namespace EvotoApi.Controllers
         [Route("{voteId:int}/edit")]
         public async Task<IHttpActionResult> VoteEdit(int voteId, CreateManaVote model)
         {
-            if (model.Published) model.PublishedDate = DateTime.Now;
+            if (model.Published)
+                model.PublishedDate = DateTime.UtcNow;
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
