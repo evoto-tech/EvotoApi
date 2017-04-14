@@ -10,6 +10,6 @@ namespace Registrar.Models
         public DateTime Issued { get; set; }
         public DateTime Expires { get; set; }
 
-        public bool IsExpired => Expires <= DateTime.Now;
+        public bool IsExpired => Expires <= DateTime.UtcNow;
     }
 }

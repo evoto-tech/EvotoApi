@@ -89,11 +89,11 @@ namespace Registrar.Api.Auth
         {
             return new UserToken
             {
-                Expires = DateTime.Now.Add(Startup.UserTokenTime),
+                Expires = DateTime.UtcNow.Add(Startup.UserTokenTime),
                 UserId = userId,
                 Purpose = purpose,
                 Token = Guid.NewGuid().ToString("n").Substring(0, 10),
-                Created = DateTime.Now
+                Created = DateTime.UtcNow
             };
         }
     }
