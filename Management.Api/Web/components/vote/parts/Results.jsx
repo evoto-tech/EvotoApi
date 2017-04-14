@@ -46,7 +46,7 @@ class Option extends React.Component {
     return (
       <div key={i}>
         <h5 style={{ fontWeight: 'bold' }}>{question.number} - {questionText}</h5>
-        {!results || number === 0 ? <p>No results to show!</p> : this.formatChart(results)}
+        {!results || numberOfVotes === 0 ? <p>No results to show!</p> : this.formatChart(results)}
       </div>
     )
   }
