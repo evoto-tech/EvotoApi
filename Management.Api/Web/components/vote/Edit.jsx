@@ -29,16 +29,14 @@ class EditVote extends React.Component {
       })
       .then((res) => {
         if (res.ok) {
-            postSave()
+          postSave()
         } else {
-            res.json()
-            .then(function(err) {
-                showErrors(err)
-            })
+          res.json().then(showErrors)
         }
       })
       .catch((err) => {
         console.error(err)
+        showErrors('There was a problem saving, your changes have not been saved.')
       })
   }
 
