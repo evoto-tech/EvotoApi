@@ -52,14 +52,30 @@ class VoteList extends React.Component {
   }
 
   performDelete (vote) {
-    fetch(`/mana/vote/${vote.id}/delete`
-      , { method: 'DELETE', credentials: 'same-origin' })
-        .then((res) => res.json())
-        .then((data) => {
-          this.fetchVotes()
+    const errorAlert = swal.bind(null, {
+            title: 'Error',
+            text: 'There was a problem deleting the vote, please try again.',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            allowOutsideClick: true,
+          })
+    fetch(`/mana/vote/${vote.id}/delete`,
+      { method: 'DELETE',
+        credentials: 'same-origin'
+      })
+      .then((res) => {
+        this.fetchVotes()
+        if (res.ok) {
           swal(`${vote.name} has been deleted.`)
-        })
-        .catch(console.error)
+        } else {
+          errorAlert()
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+        errorAlert()
+      })
   }
 
   createVoteRows () {
