@@ -35,6 +35,39 @@ class Option extends React.Component {
     }
   }
 
+  formatQuestions () {
+    return this.state.results.map(this.formatQuestion.bind(this))
+  }
+
+  formatQuestion (question, i) {
+    const questionText = question.question
+    const results = question.answers
+    const numberOfVotes = Object.keys(results).reduce((total, key) => total += results[key], 0)
+    return (
+      <div key={i}>
+        <h5 style={{ fontWeight: 'bold' }}>{question.number} - {questionText}</h5>
+        {!results || number === 0 ? <p>No results to show!</p> : this.formatChart(results)}
+      </div>
+    )
+  }
+
+  formatChart (results) {
+    const colors = Please.make_color(
+        { format: 'hex',
+          colors_returned: (Object.keys(results).length || 0)
+        })
+    return (
+      <Chart type='pie' data={{
+        labels: Object.keys(results),
+        datasets: [
+          {
+            data: Object.keys(results).map((k) => results[k]),
+            backgroundColor: colors
+          }]
+      }} options={{}} height={40} />
+    )
+  }
+
   render () {
     return (
       <div className='box box-success'>
@@ -43,32 +76,7 @@ class Option extends React.Component {
           <h3 className='box-title'>Vote Results <small>{this.state.results.length} Question{this.state.results.length === 1 ? '' : 's'}</small></h3>
         </div>
         <div className='box-body'>
-          {this.state.results.map((question, i) => {
-            const questionText = question.Question || question.question
-            const results = question.Results || question.results
-            let colors = []
-            if (results) {
-              colors = Please.make_color(
-                { format: 'hex',
-                  colors_returned: (Object.keys(results).length || 0)
-                })
-            }
-            return (
-              <div key={i}>
-                <h5 style={{ fontWeight: 'bold' }}>Results for '{questionText}'</h5>
-                {!results ? <p>No results to show!</p> : (
-                  <Chart type='pie' data={{
-                    labels: Object.keys(results),
-                    datasets: [
-                      {
-                        data: Object.keys(results).map((k) => results[k]),
-                        backgroundColor: colors
-                      }]
-                  }} options={{}} height={40} />
-                )}
-              </div>
-            )
-          })}
+          {this.formatQuestions()}
         </div>
       </div>
     )
