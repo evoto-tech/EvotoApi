@@ -53,7 +53,7 @@ class CustomFields extends React.Component {
 
   addCustomField (e) {
     e.preventDefault()
-    this.setState({ customFields: insert(this.state.customFields, { name: 'New Field', type: '', required: true, validation: {} }) })
+    this.setState({ customFields: insert(this.state.customFields, { name: '', type: '', required: true, validation: {} }) })
   }
 
   updateCustomField (index, field) {
