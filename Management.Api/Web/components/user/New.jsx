@@ -91,8 +91,9 @@ class UserNew extends React.Component {
   }
 
   render () {
-    let title = 'New User'
-    let description = 'New User'
+    const title = 'New User'
+    const description = 'New User'
+    const customFields = this.renderCustomFields()
     return (
       <Wrapper title={title} description={description}>
         <div className='box box-success'>
@@ -105,9 +106,7 @@ class UserNew extends React.Component {
               successLink='/users'
               buttonText='Create New User'
             >
-              <div>
-                {this.renderCustomFields()}
-              </div>
+              {customFields ? <div>{customFields}</div> : ''}
             </RegisterForm>
           </div>
         </div>
