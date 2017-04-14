@@ -3,6 +3,7 @@ import React from 'react'
 import Please from 'pleasejs'
 import LoadableOverlay from '../../parts/LoadableOverlay.jsx'
 import Chart from '../../parts/Chart.jsx'
+import formatDateString from '../../../lib/format-date-string'
 
 class Option extends React.Component {
   constructor (props) {
@@ -14,7 +15,8 @@ class Option extends React.Component {
     return {
       loaded: this.state ? (this.state.loaded || false) : false,
       loadedVote: props.loaded || false,
-      results: this.state ? (this.state.results || []) : []
+      results: this.state ? (this.state.results || []) : [],
+      error: this.state ? (this.state.error || '') : '',
     }
   }
 
@@ -29,10 +31,25 @@ class Option extends React.Component {
         })
         .then((res) => res.json())
         .then((data) => {
-          this.setState({ results: data, loaded: true })
+          if (data.Message) {
+            this.setState({ error: data.Message, loaded: true })
+          } else {
+            this.setState({ results: data, loaded: true })
+          }
         })
-        .catch(console.error)
+        .catch((err) => {
+          console.error(err)
+          this.setState({ error: 'There was an error retrieving the results, please try again.' })
+        })
     }
+  }
+
+  formatError () {
+    const error = this.state.error
+    if (error === 'Encrypted results') {
+      return `The results for this vote are still encrypted, results will be available after ${formatDateString(this.props.vote.expiryDate)}`
+    }
+    return error
   }
 
   formatQuestions () {
@@ -76,7 +93,7 @@ class Option extends React.Component {
           <h3 className='box-title'>Vote Results <small>{this.state.results.length} Question{this.state.results.length === 1 ? '' : 's'}</small></h3>
         </div>
         <div className='box-body'>
-          {this.formatQuestions()}
+          {this.state.error === '' ? this.formatQuestions() : this.formatError()}
         </div>
       </div>
     )
