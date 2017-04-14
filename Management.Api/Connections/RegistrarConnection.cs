@@ -172,6 +172,8 @@ namespace EvotoApi.Connections
 
             if (res.StatusCode == HttpStatusCode.OK)
                 return JsonConvert.DeserializeObject<IEnumerable<BlockchainQuestionResultsResponse>>(res.Content);
+            else if (res.StatusCode == HttpStatusCode.Unauthorized)
+                throw new RegistrarConnectionException("Encrypted results");
 
             throw new RegistrarConnectionException("Error getting blockchain results");
         }
