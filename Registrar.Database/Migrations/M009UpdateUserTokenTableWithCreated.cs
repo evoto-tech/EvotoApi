@@ -8,7 +8,7 @@ namespace Registrar.Database.Migrations
     {
         public override void Up()
         {
-            Create.Column("Created").OnTable("Users_Tokens").AsDateTime().WithDefaultValue(DateTime.Now);
+            Create.Column("Created").OnTable("Users_Tokens").AsDateTime().WithDefaultValue(DateTime.UtcNow);
         }
 
         public override void Down()

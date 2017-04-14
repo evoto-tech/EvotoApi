@@ -29,7 +29,7 @@ namespace Registrar.Api.Auth
             var refreshToken = Guid.NewGuid().ToString("n");
             var storeToken = HashToken(refreshToken);
 
-            context.Ticket.Properties.IssuedUtc = DateTime.Now;
+            context.Ticket.Properties.IssuedUtc = DateTime.UtcNow;
             context.Ticket.Properties.ExpiresUtc = expires;
 
             var token = new RefreshToken
@@ -37,7 +37,7 @@ namespace Registrar.Api.Auth
                 UserId = userId,
                 Token = storeToken,
                 Ticket = context.SerializeTicket(),
-                Issued = DateTime.Now,
+                Issued = DateTime.UtcNow,
                 Expires = expires
             };
 

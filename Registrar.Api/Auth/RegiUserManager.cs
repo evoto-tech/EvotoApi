@@ -79,7 +79,7 @@ namespace Registrar.Api.Auth
                 return new CanSendEmailModel(true, TimeSpan.Zero);
 
             // Time since the email was sent
-            var delay = DateTime.Now - token.Created;
+            var delay = DateTime.UtcNow - token.Created;
             // Ensure the minimum time has passed
             var canSend = delay > Startup.EmailDelay;
 

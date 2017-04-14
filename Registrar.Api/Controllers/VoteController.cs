@@ -141,7 +141,7 @@ namespace Registrar.Api.Controllers
             try
             {
                 var blockchain = await _blockchainStore.GetBlockchainByChainString(chainString);
-                if (blockchain.ExpiryDate > DateTime.Now)
+                if (blockchain.ExpiryDate > DateTime.UtcNow)
                     return Unauthorized();
             }
             catch (RecordNotFoundException)

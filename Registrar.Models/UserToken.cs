@@ -14,6 +14,6 @@ namespace Registrar.Models
 
         public DateTime Expires { get; set; }
 
-        public bool Expired => Expires < DateTime.Now;
+        public bool Expired => Expires < DateTime.UtcNow;
     }
 }
