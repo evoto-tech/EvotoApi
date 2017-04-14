@@ -45,7 +45,7 @@ Great. Now to create our databases, we can run our simple migration script .bat 
 
 Finally, we must install our npm packages to build the web front-end. By default, Visual Studio is setup to build the JavaScript project before it builds the solution, however installing all of the modules each time in addition is time consuming and unecessary.
 
-`cd Management.Api/Web && npm build`
+`cd Management.Api/Web && npm install`
 
 Now build the solution in Visual Studio, and you're ready to go!
 
