@@ -51,14 +51,7 @@ namespace EvotoApi.Connections
             var req = CreateRequest(RegistrarUris.createBlockchain, Method.POST, publishableVote);
             var res = await MakeApiRequest(req);
 
-            if (res.StatusCode == HttpStatusCode.OK)
-            {
-                return true;
-            }
-            else
-            {
-                throw new RegistrarConnectionException(res.Content);
-            }
+            return res.StatusCode == HttpStatusCode.OK;
         }
 
         public static async Task<IEnumerable<SingleRegiUserResponse>> GetRegistrarUsers()

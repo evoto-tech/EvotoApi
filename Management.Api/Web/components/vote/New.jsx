@@ -164,8 +164,8 @@ class NewVote extends React.Component {
   saveVote () {
     const vote = this.makeVote()
     this.props.save
-      ? this.props.save(vote, this.postSave.bind(this), this.showErrors.bind(this))
-      : this.save(vote, this.postSave.bind(this), this.showErrors.bind(this))
+      ? this.props.save(vote, this.postSave.bind(this), this.showErrors)
+      : this.save(vote, this.postSave.bind(this), this.showErrors)
   }
 
   save (vote, postSave) {
@@ -182,7 +182,7 @@ class NewVote extends React.Component {
         if (res.ok) {
           postSave()
         } else {
-          res.json().then(this.showErrors.bind(this))
+          res.json().then(showErrors)
         }
       })
       .catch((err) => {
@@ -191,23 +191,8 @@ class NewVote extends React.Component {
       })
   }
 
-  extractError (errors) {
-    if (typeof errors === 'string') return errors
-    if (errors.Message) {
-      try {
-        const message = JSON.parse(errors.Message)
-        if (message.Message && typeof message.Message === 'string' && message.Message !== 'The request is invalid.') {
-          return message.Message
-        }
-      } catch (e) {
-        return 'Something went wrong, please try again.'
-      }
-    }
-    return 'Something went wrong, please try again.'
-  }
-
   showErrors (errors) {
-    let errorMessage = this.extractError(errors)
+    let errorMessage = (typeof (errors) === 'string') ? errors : errors.Message
     swal({
       title: 'Errors',
       text: errorMessage,
@@ -256,6 +241,7 @@ class NewVote extends React.Component {
       confirmButtonColor: '#DD6B55',
       confirmButtonText: 'Publish',
       closeOnConfirm: false,
+      allowOutsideClick: true,
       showLoaderOnConfirm: true
     },
     () => {
