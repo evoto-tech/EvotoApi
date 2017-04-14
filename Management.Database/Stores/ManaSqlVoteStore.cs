@@ -71,7 +71,7 @@ namespace Management.Database.Stores
             {
                 if (e is RecordNotFoundException)
                     throw;
-                throw new Exception("Could not get create Mana Vote");
+                throw new Exception("Could not get update Mana Vote");
             }
         }
 
