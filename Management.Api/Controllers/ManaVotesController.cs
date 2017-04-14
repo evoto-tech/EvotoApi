@@ -116,24 +116,17 @@ namespace EvotoApi.Controllers
 
             var voteModel = model.ToModel();
 
-            try
-            {
-                if (voteModel.Published)
-                    voteModel.PublishedDate = DateTime.UtcNow;
+            if (voteModel.Published)
+                voteModel.PublishedDate = DateTime.UtcNow;
 
-                var vote = await _store.CreateVote(voteModel);
+            var vote = await _store.CreateVote(voteModel);
 
-                var publishStateValid = await CheckAndPublish(vote);
-                if (!publishStateValid)
-                    return BadRequest("Your changes have been saved but there was an issue publishing this vote.");
+            var publishStateValid = await CheckAndPublish(vote);
+            if (!publishStateValid)
+                return BadRequest("Your changes have been saved but there was an issue publishing this vote.");
 
-                var response = new ManaVoteResponse(vote);
-                return Ok(response);
-            }
-            catch (Exception)
-            {
-                return InternalServerError();
-            }
+            var response = new ManaVoteResponse(vote);
+            return Ok(response);
         }
 
         /// <summary>
@@ -165,10 +158,6 @@ namespace EvotoApi.Controllers
             {
                 return NotFound();
             }
-            catch (Exception)
-            {
-                return InternalServerError();
-            }
         }
 
         /// <summary>
@@ -191,10 +180,6 @@ namespace EvotoApi.Controllers
             catch (RecordNotFoundException)
             {
                 return NotFound();
-            }
-            catch (Exception)
-            {
-                return InternalServerError();
             }
         }
     }

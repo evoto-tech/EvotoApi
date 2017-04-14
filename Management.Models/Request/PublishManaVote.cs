@@ -49,7 +49,7 @@ namespace Management.Models.Request
         [DataMember(Name = "questions")]
         public List<CreateBlockchainQuestion> Questions { get; private set; }
 
-        [DataMember(Name = "encryptResults")]
+        [DataMember(Name = "encrypted")]
         public bool EncryptResults { get; private set; }
 
         [DataMember(Name = "blockSpeed")]
