@@ -180,16 +180,14 @@ class NewVote extends React.Component {
       })
       .then((res) => {
         if (res.ok) {
-            postSave()
+          postSave()
         } else {
-            res.json()
-            .then(function(err) {
-                showErrors(err)
-            })
+          res.json().then(showErrors)
         }
       })
       .catch((err) => {
         console.error(err)
+        showErrors('There was a problem saving, your changes have not been saved.')
       })
   }
 
@@ -301,7 +299,7 @@ class NewVote extends React.Component {
             </div>
             <form role='form'>
               <div className='box-body'>
-                <div className={this.state.errors.name ? 'form-group has-error' : 'form-group'}>
+                <div className={!this.props.disabled && this.state.errors.name ? 'form-group has-error' : 'form-group'}>
                   <label htmlFor='voteName'>Name</label>
                   <input
                     type='text'
@@ -312,9 +310,9 @@ class NewVote extends React.Component {
                     onChange={this.handleNameChange.bind(this)}
                     disabled={this.props.disabled}
                   />
-                  <span className='help-block'>{this.state.errors.name}</span>
+                  {this.props.disabled ? '' : (<span className='help-block'>{this.state.errors.name}</span>)}
                 </div>
-                <div className={this.state.errors.chainString ? 'form-group has-error' : 'form-group'}>
+                <div className={!this.props.disabled && this.state.errors.chainString ? 'form-group has-error' : 'form-group'}>
                   <label htmlFor='chainString'>Blockchain Name</label>
                   <input
                     type='text'
@@ -325,7 +323,7 @@ class NewVote extends React.Component {
                     onChange={this.handleChainStringChange.bind(this)}
                     disabled={this.props.disabled}
                   />
-                  <span className='help-block'>{this.state.errors.chainString}</span>
+                  {this.props.disabled ? '' : (<span className='help-block'>{this.state.errors.chainString}</span>)}
                 </div>
                 <div className='form-group'>
                   <label>Information</label>
@@ -355,7 +353,7 @@ class NewVote extends React.Component {
                     </div>
                   </div>
                 )}
-                <div className={this.state.errors.expiryDate ? 'form-group has-error' : 'form-group'}>
+                <div className={!this.props.disabled && this.state.errors.expiryDate ? 'form-group has-error' : 'form-group'}>
                   <label>End Date</label>
                   <div style={{ overflow: 'hidden' }}>
                     <div className='form-group'>
@@ -368,9 +366,9 @@ class NewVote extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <span className='help-block'>{this.state.errors.expiryDate}</span>
+                  {this.props.disabled ? '' : (<span className='help-block'>{this.state.errors.expiryDate}</span>)}
                 </div>
-                <div className={this.state.errors.encryptResults ? 'form-group has-error' : 'form-group'}>
+                <div className={!this.props.disabled && this.state.errors.encryptResults ? 'form-group has-error' : 'form-group'}>
                   <div className='checkbox'>
                     <input
                       type='checkbox'
@@ -380,10 +378,10 @@ class NewVote extends React.Component {
                       disabled={this.props.disabled}
                     />
                     <label htmlFor='encryptResults'>Encrypt Results?</label>
-                    <span className='help-block'>{this.state.errors.encryptResults}</span>
+                    {this.props.disabled ? '' : (<span className='help-block'>{this.state.errors.encryptResults}</span>)}
                   </div>
                 </div>
-                <div className={this.state.errors.blockSpeed ? 'form-group has-error' : 'form-group'}>
+                <div className={!this.props.disabled && this.state.errors.blockSpeed ? 'form-group has-error' : 'form-group'}>
                   <label htmlFor='blockSpeed'>Block Time</label>
                   <div className='value'>{this.state.blockSpeed} seconds</div>
                   {(!this.props.disabled)
@@ -398,7 +396,7 @@ class NewVote extends React.Component {
                       disabled={this.props.disabled}
                   />
                   : ''}
-                  <span className='help-block'>{this.state.errors.blockSpeed}</span>
+                  {!this.props.disabled && this.props.disabled ? '' : (<span className='help-block'>{this.state.errors.blockSpeed}</span>)}
                 </div>
                 <div className={this.state.errors.questions ? 'form-group has-error' : 'form-group'}>
                   <label>Questions</label>
@@ -421,7 +419,7 @@ class NewVote extends React.Component {
                   {this.props.disabled ? '' : (
                     <button type='button' className='btn btn-success' onClick={this.addQuestion.bind(this)}>New Question</button>
                   )}
-                  <span className='help-block'>{this.state.errors.questions}</span>
+                  {this.props.disabled ? '' : (<span className='help-block'>{this.state.errors.questions}</span>)}
                 </div>
               </div>
               {!this.props.disabled || (this.props.disabled && this.props.vote.published) ? '' : (
