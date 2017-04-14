@@ -384,8 +384,8 @@ class NewVote extends React.Component {
                   </div>
                 </div>
                 <div className={this.state.errors.blockSpeed ? 'form-group has-error' : 'form-group'}>
-                  <label htmlFor='blockSpeed'>Block Speed</label>
-                  <div className='value'>{this.state.blockSpeed}</div>
+                  <label htmlFor='blockSpeed'>Block Time</label>
+                  <div className='value'>{this.state.blockSpeed} seconds</div>
                   {(!this.props.disabled)
                     ? <Slider
                       id='blockSpeed'
