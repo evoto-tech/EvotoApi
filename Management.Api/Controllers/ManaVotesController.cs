@@ -10,6 +10,8 @@ using Management.Models;
 using Management.Models.Request;
 using Management.Models.Response;
 using Microsoft.AspNet.Identity;
+using Management.Models.Exceptions;
+using Newtonsoft.Json;
 
 namespace EvotoApi.Controllers
 {
@@ -28,20 +30,24 @@ namespace EvotoApi.Controllers
         {
             if (!vote.Published)
                 return true;
-
-            var created = await RegistrarConnection.CreateBlockchain(vote);
-            if (created)
-                return true;
-
             try
             {
-                vote.Published = false;
-                vote.PublishedDate = null;
-                await _store.UpdateVote(vote);
-            }
-            catch (Exception)
+                var created = await RegistrarConnection.CreateBlockchain(vote);
+                if (created)
+                    return true;
+            } catch (RegistrarConnectionException e)
             {
-                return false;
+                try
+                {
+                    vote.Published = false;
+                    vote.PublishedDate = null;
+                    await _store.UpdateVote(vote);
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+                throw e;
             }
             return false;
         }
@@ -120,10 +126,22 @@ namespace EvotoApi.Controllers
                 voteModel.PublishedDate = DateTime.UtcNow;
 
             var vote = await _store.CreateVote(voteModel);
-
-            var publishStateValid = await CheckAndPublish(vote);
-            if (!publishStateValid)
-                return BadRequest("Your changes have been saved but there was an issue publishing this vote.");
+            try
+            {
+                var publishStateValid = await CheckAndPublish(vote);
+                if (!publishStateValid)
+                    return BadRequest("There was an issue saving this vote.");
+            } catch (RegistrarConnectionException e)
+            {
+                try
+                {
+                    var json = JsonConvert.DeserializeObject(e.Message);
+                    return BadRequest(json.ToString());
+                } catch
+                {
+                    return BadRequest("There was an issue saving this vote.");
+                }
+            }
 
             var response = new ManaVoteResponse(vote);
             return Ok(response);
@@ -146,10 +164,24 @@ namespace EvotoApi.Controllers
             try
             {
                 var updatedVote = await _store.UpdateVote(voteModel);
-
-                var publishStateValid = await CheckAndPublish(updatedVote);
-                if (!publishStateValid)
-                    return BadRequest("Your changes have been saved but there was an issue publishing this vote.");
+                try
+                {
+                    var publishStateValid = await CheckAndPublish(updatedVote);
+                    if (!publishStateValid)
+                        return BadRequest("There was an issue saving this vote.");
+                }
+                catch (RegistrarConnectionException e)
+                {
+                    try
+                    {
+                        var json = JsonConvert.DeserializeObject(e.Message);
+                        return BadRequest(json.ToString());
+                    }
+                    catch
+                    {
+                        return BadRequest("There was an issue saving this vote.");
+                    }
+                }
 
                 var response = new ManaVoteResponse(updatedVote);
                 return Ok(response);
